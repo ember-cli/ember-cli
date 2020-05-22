@@ -379,15 +379,55 @@ describe('Acceptance: ember new', function () {
       expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
     }
 
-    function checkPackageJson(fixtureName) {
+    function checkFileWithEmberCLIVersionReplacement(fixtureName, fileName) {
       let currentVersion = require('../../package').version;
-      let fixturePath = path.join(__dirname, '../fixtures', fixtureName, 'package.json');
+      let fixturePath = path.join(__dirname, '../fixtures', fixtureName, fileName);
       let fixtureContents = fs
         .readFileSync(fixturePath, { encoding: 'utf-8' })
         .replace('<%= emberCLIVersion %>', currentVersion);
 
-      expect(file('package.json')).to.equal(fixtureContents);
+      expect(file(fileName)).to.equal(fixtureContents);
     }
+
+    it('app defaults', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git']);
+
+      let namespace = 'app';
+      let fixturePath = `${namespace}/defaults`;
+
+      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
+        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+      });
+
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
+
+      // option independent, but piggy-backing on an existing generate for speed
+      checkEslintConfig(namespace);
+    });
+
+    it('addon defaults', async function () {
+      await ember(['addon', 'foo', '--skip-npm', '--skip-bower', '--skip-git']);
+
+      let namespace = 'addon';
+      let fixturePath = `${namespace}/defaults`;
+
+      [
+        'config/ember-try.js',
+        'tests/dummy/app/templates/application.hbs',
+        '.travis.yml',
+        'README.md',
+        'CONTRIBUTING.md',
+      ].forEach((filePath) => {
+        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+      });
+
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+
+      // option independent, but piggy-backing on an existing generate for speed
+      checkEslintConfig(namespace);
+    });
 
     it('app + npm + !welcome', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--no-welcome']);
@@ -399,7 +439,8 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkPackageJson(fixturePath);
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
 
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
@@ -414,7 +455,8 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkPackageJson(fixturePath);
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
     });
 
     it('addon + yarn + welcome', async function () {
@@ -432,29 +474,8 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkPackageJson(fixturePath);
-    });
-
-    it('addon + npm + !welcome', async function () {
-      await ember(['addon', 'foo', '--skip-npm', '--skip-bower', '--skip-git']);
-
-      let namespace = 'addon';
-      let fixturePath = `${namespace}/npm`;
-
-      [
-        'config/ember-try.js',
-        'tests/dummy/app/templates/application.hbs',
-        '.travis.yml',
-        'README.md',
-        'CONTRIBUTING.md',
-      ].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
-      });
-
-      checkPackageJson(fixturePath);
-
-      // option independent, but piggy-backing on an existing generate for speed
-      checkEslintConfig(namespace);
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
     });
   });
 

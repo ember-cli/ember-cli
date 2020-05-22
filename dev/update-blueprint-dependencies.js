@@ -40,10 +40,11 @@ const OPTIONS = nopt({
 const PACKAGE_FILES = [
   'blueprints/app/files/package.json',
   'blueprints/addon/additional-dev-dependencies.json',
+  'tests/fixtures/app/defaults/package.json',
   'tests/fixtures/app/npm/package.json',
   'tests/fixtures/app/yarn/package.json',
+  'tests/fixtures/addon/defaults/package.json',
   'tests/fixtures/addon/yarn/package.json',
-  'tests/fixtures/addon/npm/package.json',
 ];
 
 function shouldCheckDependency(dependency) {
