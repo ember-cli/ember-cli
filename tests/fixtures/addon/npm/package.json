@@ -8,6 +8,18 @@
   "repository": "",
   "license": "MIT",
   "author": "",
+  "files": [
+    "addon/**/!(.gitkeep)",
+    "addon-test-support",
+    "app/**/!(.gitkeep)",
+    "blueprints",
+    "config/**/!(ember-try.js)",
+    "lib",
+    "public",
+    "test-support",
+    "vendor/**/!(.gitkeep)",
+    "index.js"
+  ],
   "directories": {
     "doc": "doc",
     "test": "tests"
