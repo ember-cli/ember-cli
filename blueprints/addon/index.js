@@ -132,6 +132,18 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
 
+    let hasOptions = options.welcome || options.yarn;
+    let blueprintOptions = '';
+    if (hasOptions) {
+      let indent = `\n            `;
+      let outdent = `\n          `;
+
+      blueprintOptions =
+        indent +
+        [options.welcome && '"--welcome"', options.yarn && '"--yarn"'].filter(Boolean).join(',\n            ') +
+        outdent;
+    }
+
     return {
       name,
       modulePrefix: name,
@@ -143,6 +155,7 @@ module.exports = {
       yarn: options.yarn,
       welcome: options.welcome,
       blueprint: 'addon',
+      blueprintOptions,
     };
   },
 
