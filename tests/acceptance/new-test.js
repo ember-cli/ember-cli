@@ -102,6 +102,44 @@ describe('Acceptance: ember new', function () {
     expect(file('app/templates/application.hbs')).to.contain('Welcome to Ember');
   });
 
+  // ember new foo --lang
+  // -------------------------------
+  // Good: Correct Usage
+  it('ember new foo --lang=(valid code): no message + set `lang` in index.html', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--lang=en-US']);
+    expect(file('app/index.html')).to.contain('<html lang="en-US">');
+  });
+
+  // Edge Case: both valid code AND programming language abbreviation, possible misuse
+  it('ember new foo --lang=(valid code + programming language abbreviation): emit warning + set `lang` in index.html', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--lang=css']);
+    expect(file('app/index.html')).to.contain('<html lang="css">');
+  });
+
+  // Misuse: possibly an attempt to set app programming language
+  it('ember new foo --lang=(programming language): emit warning + do not set `lang` in index.html', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--lang=JavaScript']);
+    expect(file('app/index.html')).to.contain('<html>');
+  });
+
+  // Misuse: possibly an attempt to set app programming language
+  it('ember new foo --lang=(programming language abbreviation): emit warning + do not set `lang` in index.html', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--lang=JS']);
+    expect(file('app/index.html')).to.contain('<html>');
+  });
+
+  // Misuse: possibly an attempt to set app programming language
+  it('ember new foo --lang=(programming language file extension): emit warning + do not set `lang` in index.html', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--lang=.js']);
+    expect(file('app/index.html')).to.contain('<html>');
+  });
+
+  // Misuse: Invalid Country Code
+  it('ember new foo --lang=(invalid code): emit warning + do not set `lang` in index.html', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--lang=en-UK']);
+    expect(file('app/index.html')).to.contain('<html>');
+  });
+
   it('ember new npm blueprint with old version', async function () {
     await ember(['new', 'foo', '--blueprint', '@glimmer/blueprint@0.6.4', '--skip-npm', '--skip-bower']);
 
@@ -434,6 +472,9 @@ describe('Acceptance: ember new', function () {
 
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
+
+      // ember new without --lang flag (default) has no lang attribute in index.html
+      expect(file('app/index.html')).to.contain('<html>');
     });
 
     it('addon defaults', async function () {
@@ -457,6 +498,9 @@ describe('Acceptance: ember new', function () {
 
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
+
+      // ember addon without --lang flag (default) has no lang attribute in dummy index.html
+      expect(file('tests/dummy/app/index.html')).to.contain('<html>');
     });
 
     it('app + npm + !welcome', async function () {
