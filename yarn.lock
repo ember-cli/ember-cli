@@ -6613,10 +6613,10 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-testdouble@^3.15.0, testdouble@^3.2.6:
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.15.0.tgz#4670d24307d276c950bcac9d6de58fc8d69937eb"
-  integrity sha512-ua9j1mi7sFsvAa0kWt4vJ52Ld8QwxcxSMlQo7LLVdZ7lynem7BsPYYHK/12ck9g3/Yf2xEIQJv6fTiqVv8xouQ==
+testdouble@^3.16.0, testdouble@^3.2.6:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.0.tgz#aa52a6d7510c88143e8b38882012418c6541bd69"
+  integrity sha512-IGC1I/UaVBHlILSvldEUzf+csYv2O6uQngist4oKNATKbve5mSrTxrR6qkcquh/G+/vuLIyUtqJ5/bPANYjkjA==
   dependencies:
     lodash "^4.17.15"
     quibble "^0.6.3"
