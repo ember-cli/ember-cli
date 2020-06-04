@@ -1,5 +1,25 @@
 # ember-cli Changelog
 
+
+## v3.19.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.19.0-beta.1...v3.19.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.19.0-beta.1...v3.19.0-beta.2)
+
+#### Changelog
+
+- [#9205](https://github.com/ember-cli/ember-cli/pull/9205) Pass options to middleware [@mrloop](https://github.com/mrloop)
+- [#9209](https://github.com/ember-cli/ember-cli/pull/9209) Create small development script to update blueprint dependencies. [@rwjblue](https://github.com/rwjblue)
+- [#9212](https://github.com/ember-cli/ember-cli/pull/9212) Ensure that the captured exit is released. [@rwjblue](https://github.com/rwjblue)
+- [#9218](https://github.com/ember-cli/ember-cli/pull/9218) Update eslint to 7.0.0. [@rwjblue](https://github.com/rwjblue)
+- [#9219](https://github.com/ember-cli/ember-cli/pull/9219) Add ability to pass `--filter` to `dev/update-blueprint-dependencies.js` [@rwjblue](https://github.com/rwjblue)
+- [#9240](https://github.com/ember-cli/ember-cli/pull/9240) Ensure `ember serve` property waits for the serve task. [@rwjblue](https://github.com/rwjblue)
+- [#9242](https://github.com/ember-cli/ember-cli/pull/9242) Move travis configuration from trusty to xenial [@Gaurav0](https://github.com/Gaurav0)
+
+Thank you to all who took the time to contribute!
+
 ## v3.19.0-beta.1
 
 #### Blueprint Changes
