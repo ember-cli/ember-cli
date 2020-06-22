@@ -1,8 +1,0 @@
-#!/bin/sh
-
-git clean -fdx && \
-yarn install && \
-npm pack && \
-npm uninstall -g ember-cli && \
-npm i -g ./ember-cli-*.tgz && \
-du -sh ./ember-cli-*.tgz
