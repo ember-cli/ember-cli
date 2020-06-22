@@ -1,15 +1,15 @@
 # ember-cli Changelog
 
-
-## v3.19.0-beta.2
+## v3.19.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.19.0-beta.1...v3.19.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.19.0-beta.1...v3.19.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.18.0...v3.19.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.19.0...v3.19.0)
 
 #### Changelog
 
+- [#9239](https://github.com/ember-cli/ember-cli/pull/9239) Update app / addon dependencies to latest. [@rwjblue](https://github.com/rwjblue)
 - [#9205](https://github.com/ember-cli/ember-cli/pull/9205) Pass options to middleware [@mrloop](https://github.com/mrloop)
 - [#9209](https://github.com/ember-cli/ember-cli/pull/9209) Create small development script to update blueprint dependencies. [@rwjblue](https://github.com/rwjblue)
 - [#9212](https://github.com/ember-cli/ember-cli/pull/9212) Ensure that the captured exit is released. [@rwjblue](https://github.com/rwjblue)
@@ -17,18 +17,6 @@
 - [#9219](https://github.com/ember-cli/ember-cli/pull/9219) Add ability to pass `--filter` to `dev/update-blueprint-dependencies.js` [@rwjblue](https://github.com/rwjblue)
 - [#9240](https://github.com/ember-cli/ember-cli/pull/9240) Ensure `ember serve` property waits for the serve task. [@rwjblue](https://github.com/rwjblue)
 - [#9242](https://github.com/ember-cli/ember-cli/pull/9242) Move travis configuration from trusty to xenial [@Gaurav0](https://github.com/Gaurav0)
-
-Thank you to all who took the time to contribute!
-
-## v3.19.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.18.0...v3.19.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.18.0...v3.19.0-beta.1)
-
-#### Changelog
-
 - [#7538](https://github.com/ember-cli/ember-cli/pull/7538) Fix `configPath` caching [@kanongil](https://github.com/kanongil)
 - [#8258](https://github.com/ember-cli/ember-cli/pull/8258) Tweak `isDevelopingAddon` error message [@stefanpenner](https://github.com/stefanpenner)
 - [#8813](https://github.com/ember-cli/ember-cli/pull/8813) Update NPM version check to avoid double `npm install` when using `npm@5.7.1` or higher. [@deepan83](https://github.com/deepan83)
@@ -43,8 +31,6 @@ Thank you to all who took the time to contribute!
 - [#9158](https://github.com/ember-cli/ember-cli/pull/9158) Convert clean-remove to async/await syntax [@locks](https://github.com/locks)
 - [#9163](https://github.com/ember-cli/ember-cli/pull/9163) Convert in-option-generate-test to async/await syntax [@locks](https://github.com/locks)
 - [#9183](https://github.com/ember-cli/ember-cli/pull/9183) Ensure processed addon styles are not doubly-included in vendor.css [@bantic](https://github.com/bantic)
-
-Thank you to all who took the time to contribute!
 
 ## v3.18.0
 
