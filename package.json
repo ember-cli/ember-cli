@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "3.19.0-beta.2",
+  "version": "3.19.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -16,15 +16,15 @@
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ember-cli/ember-cli.git"
+  },
   "license": "MIT",
   "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
   "main": "lib/cli/index.js",
   "bin": {
     "ember": "./bin/ember"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ember-cli/ember-cli.git"
   },
   "scripts": {
     "docs": "yuidoc",
@@ -150,6 +150,7 @@
     "nyc": "^15.1.0",
     "prettier": "2.0.5",
     "rimraf": "^3.0.2",
+    "release-it": "^13.0.2",
     "strip-ansi": "^6.0.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.16.0",
@@ -162,8 +163,24 @@
   "engines": {
     "node": "10.* || >= 12"
   },
-  "trackingCode": "UA-49225444-1",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "greenkeeper": {
     "ignore": []
-  }
+  },
+  "release-it": {
+    "hooks": {
+      "after:release": "node ./dev/update-output-repos.js"
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "draft": true,
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
+  },
+  "trackingCode": "UA-49225444-1"
 }

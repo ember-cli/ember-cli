@@ -16,9 +16,10 @@
 
 const { Octokit } = require('@octokit/rest');
 const semver = require('semver');
+const gitRepoInfo = require('git-repo-info');
 
 let currentVersion = `v${require('../package').version}`;
-let branch = process.argv[2] || 'master';
+let branch = process.argv[2] || gitRepoInfo().branch;
 let nextVersion = process.argv[3];
 if (nextVersion === undefined) {
   if (branch === 'master') {
@@ -29,6 +30,10 @@ if (nextVersion === undefined) {
     nextVersion = semver.inc(currentVersion, 'prerelease', 'beta');
   } else if (branch === 'release') {
     nextVersion = semver.inc(currentVersion, 'patch');
+  } else {
+    console.error('Cannot detect branch, please specify on the command line');
+    process.exitCode = 1;
+    return;
   }
 }
 if (nextVersion[0] !== 'v') {
