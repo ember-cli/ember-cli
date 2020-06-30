@@ -78,6 +78,7 @@ jobs:
         feature-flag:
           - ENABLE_ALL_EXPERIMENTS
           - PACKAGER
+          - EMBROIDER
 
     steps:
       - uses: actions/checkout@v2

@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 
+const { isExperimentEnabled } = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -23,6 +24,9 @@ describe('Acceptance: brocfile-smoke-test', function () {
   this.timeout(500000);
 
   before(function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      this.skip();
+    }
     return createTestTargets(appName);
   });
 
