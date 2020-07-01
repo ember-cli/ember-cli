@@ -150,7 +150,7 @@
     "nyc": "^15.1.0",
     "prettier": "2.0.5",
     "rimraf": "^3.0.2",
-    "release-it": "^13.0.2",
+    "release-it": "^13.6.4",
     "strip-ansi": "^6.0.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.16.0",
