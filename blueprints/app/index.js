@@ -2,6 +2,7 @@
 
 const stringUtil = require('ember-cli-string-utils');
 const chalk = require('chalk');
+const { isExperimentEnabled } = require('../../lib/experiments');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
@@ -42,6 +43,7 @@ module.exports = {
       welcome: options.welcome,
       blueprint: 'app',
       blueprintOptions,
+      embroider: isExperimentEnabled('EMBROIDER'),
     };
   },
 
