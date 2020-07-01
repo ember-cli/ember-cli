@@ -5425,7 +5425,7 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mkdirp@0.5.5, mkdirp@^0.5.0, mkdirp@^0.5.1:
+mkdirp@0.5.5, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@^0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
@@ -7610,14 +7610,14 @@ tree-sync@^1.2.2:
     quick-temp "^0.1.5"
     walk-sync "^0.3.3"
 
-tree-sync@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/tree-sync/-/tree-sync-2.0.0.tgz#e51456731d5ac93b92f9a1d58dd383f76f0f2f39"
-  integrity sha512-AzeJnbmJjGVfWMTJ0T152fv8NDTbQc9ERY4nEs7Lmxd94Xah2bUS56+CcoTh6FB8qn2KjBMjC0mLNc731aVBqw==
+tree-sync@^2.0.0, tree-sync@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tree-sync/-/tree-sync-2.1.0.tgz#31cbbd41f2936f5390b61e8c9d7cb27e75a212fe"
+  integrity sha512-OLWW+Nd99NOM53aZ8ilT/YpEiOo6mXD3F4/wLbARqybSZ3Jb8IxHK5UGVbZaae0wtXAyQshVV+SeqVBik+Fbmw==
   dependencies:
-    debug "^2.2.0"
-    fs-tree-diff "^0.5.6"
-    mkdirp "^0.5.1"
+    debug "^4.1.1"
+    fs-tree-diff "^2.0.1"
+    mkdirp "^0.5.5"
     quick-temp "^0.1.5"
     walk-sync "^0.3.3"
 
