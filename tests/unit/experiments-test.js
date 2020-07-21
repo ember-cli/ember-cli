@@ -31,7 +31,7 @@ describe('experiments', function () {
       // reset all experiment flags for these tests, they will be restored in
       // afterEach
       delete process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS;
-      delete process.env.EMBER_CLI_PACKAGER;
+      delete process.env.EMBER_CLI_EMBROIDER;
 
       warnings = [];
       console.warn = (warning) => warnings.push(warning);
@@ -46,14 +46,15 @@ describe('experiments', function () {
     it('should return true for all experiments when `EMBER_CLI_ENABLE_ALL_EXPERIMENTS` is set', function () {
       process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS = true;
 
-      expect(isExperimentEnabled('PACKAGER')).to.be.true;
+      expect(isExperimentEnabled('EMBROIDER')).to.be.true;
 
       expect(warnings).to.deep.equal([]);
     });
 
-    it('setting an already disabled feature to false does not enable it', function () {
-      process.env.EMBER_CLI_PACKAGER = 'false';
-      expect(isExperimentEnabled('PACKAGER')).to.be.false;
+    it('should return true when an experiment is enabled via environment variable', function () {
+      process.env.EMBER_CLI_EMBROIDER = 'true';
+
+      expect(isExperimentEnabled('EMBROIDER')).to.be.true;
 
       expect(warnings).to.deep.equal([]);
     });
