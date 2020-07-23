@@ -115,7 +115,10 @@ describe('NpmTask', function () {
 
       td.when(task.yarn(['--version'])).thenReject(error);
 
-      return expect(task.checkYarn()).to.be.rejectedWith('yarn not found');
+      return expect(task.checkYarn()).to.be.rejectedWith(
+        SilentError,
+        /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
+      );
     });
 
     it('rejects when an unknown error is thrown', function () {
@@ -149,14 +152,12 @@ describe('NpmTask', function () {
       return expect(task.findPackageManager()).to.be.rejected;
     });
 
-    it('resolves when yarn.lock file and yarn were found and sets useYarn = true', function () {
+    it('resolves when yarn.lock file and yarn were found', function () {
       td.when(task.hasYarnLock()).thenReturn(true);
       td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
 
       expect(task.useYarn).to.be.undefined;
-      return expect(task.findPackageManager()).to.be.fulfilled.then(() => {
-        expect(task.useYarn).to.be.true;
-      });
+      return expect(task.findPackageManager()).to.eventually.have.property('yarnVersion', '1.22.0');
     });
 
     it('resolves when yarn.lock file was found, yarn was not found and npm is compatible', function () {
@@ -189,12 +190,17 @@ describe('NpmTask', function () {
     it('rejects with SilentError when yarn is requested but not found', function () {
       task.useYarn = true;
 
-      let error = new Error('yarn not found');
-      error.code = 'ENOENT';
+      let error = new SilentError(
+        'Ember CLI is now using yarn, but was not able to find it.\n' +
+          'Please install yarn using the instructions at https://classic.yarnpkg.com/en/docs/install'
+      );
 
       td.when(task.checkYarn()).thenReject(error);
 
-      return expect(task.findPackageManager()).to.be.rejectedWith(SilentError, /Yarn could not be found/);
+      return expect(task.findPackageManager()).to.be.rejectedWith(
+        SilentError,
+        /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
+      );
     });
 
     it('rejects when yarn is requested and yarn check errors', function () {
