@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v3.21.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.20.0...v3.21.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.20.0...v3.21.0-beta.1)
+
+#### Changelog
+
+- [#9289](https://github.com/ember-cli/ember-cli/pull/9289) Update blueprint dependencies / devDependencies [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.20.0
 
 #### Blueprint Changes
