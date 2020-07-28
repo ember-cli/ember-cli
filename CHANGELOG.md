@@ -1,5 +1,46 @@
 # ember-cli Changelog
 
+## v3.21.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.20.0...v3.21.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.20.0...v3.21.0-beta.1)
+
+#### Changelog
+
+- [#9289](https://github.com/ember-cli/ember-cli/pull/9289) Update blueprint dependencies / devDependencies [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+## v3.20.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.19.0...v3.20.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.19.0...v3.20.0)
+
+#### Changelog
+
+- [#9211](https://github.com/ember-cli/ember-cli/pull/9211) bugfix: processAppMiddlewares - check server middleware files [@lifeart](https://github.com/lifeart)
+- [#9215](https://github.com/ember-cli/ember-cli/pull/9215) Handle unexpected errors in development mode proxy [@houfeng0923](https://github.com/houfeng0923)
+- [#9238](https://github.com/ember-cli/ember-cli/pull/9238) Add config/ember-cli-update.json to app and addon blueprints. [@rwjblue](https://github.com/rwjblue)
+- [#9262](https://github.com/ember-cli/ember-cli/pull/9262) Refactor release process. [@rwjblue](https://github.com/rwjblue)
+- [#9264](https://github.com/ember-cli/ember-cli/pull/9264) refactor: use Boolean constructor to cast variable in config/targets.js blueprint [@bmish](https://github.com/bmish)
+- [032e9a8851af869c7e0cf5ef8c3d930ade38b6c1](https://github.com/ember-cli/ember-cli/commit/032e9a8851af869c7e0cf5ef8c3d930ade38b6c1) Merge branch 'master' into default-blueprint-absolute-imports [@dfreeman](https://github.com/dfreeman)
+- [#9273](https://github.com/ember-cli/ember-cli/pull/9273) Avoid relative imports in the default blueprint [@dfreeman](https://github.com/dfreeman)
+- [#9277](https://github.com/ember-cli/ember-cli/pull/9277) Allow `ember install` to work with Yarn v2 [@caassandra](https://github.com/caassandra)
+- [#9280](https://github.com/ember-cli/ember-cli/pull/9280) Remove `ember-default` ember-try scenario [@mehulkar](https://github.com/mehulkar)
+- [#9281](https://github.com/ember-cli/ember-cli/pull/9281) Update blueprint dependencies to latest versions. [@rwjblue](https://github.com/rwjblue)
+- [#9282](https://github.com/ember-cli/ember-cli/pull/9282) Deprecate `PACKAGER` experiment. [@rwjblue](https://github.com/rwjblue)
+- [#9283](https://github.com/ember-cli/ember-cli/pull/9283) Remove macOS from CI matrix for slow/acceptance tests. [@rwjblue](https://github.com/rwjblue)
+- [#9284](https://github.com/ember-cli/ember-cli/pull/9284) Drop support for Node 13. [@rwjblue](https://github.com/rwjblue)
+- [56461f26a9b81833f424bf1a23c7ce502d35a43b](https://github.com/ember-cli/ember-cli/commit/56461f26a9b81833f424bf1a23c7ce502d35a43b) Merge branch 'master' into master [@caassandra](https://github.com/caassandra)
+- [#9286](https://github.com/ember-cli/ember-cli/pull/9286) Remove unused `lib/utilities/symbol.js` [@IzzatN](https://github.com/IzzatN)
+- [#9287](https://github.com/ember-cli/ember-cli/pull/9287) Remove redundant guard in `Addon.prototype.moduleName` [@IzzatN](https://github.com/IzzatN)
+
+Thank you to all who took the time to contribute!
+
 ## v3.19.0
 
 #### Blueprint Changes
