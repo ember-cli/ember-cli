@@ -3980,16 +3980,7 @@ http-errors@~1.7.2:
   resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.10.tgz#92c9c1374c35085f75db359ec56cc257cbb93fa4"
   integrity sha1-ksnBN0w1CF912zWexWzCV8u5P6Q=
 
-http-proxy@^1.13.1:
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.18.0.tgz#dbe55f63e75a347db7f3d99974f2692a314a6a3a"
-  integrity sha512-84I2iJM/n1d4Hdgc6y2+qY5mDaz2PUVjlg9znE9byl+q0uC3DeByqBGReQu5tpLK0TAqTIXScRUV+dg7+bUPpQ==
-  dependencies:
-    eventemitter3 "^4.0.0"
-    follow-redirects "^1.0.0"
-    requires-port "^1.0.0"
-
-http-proxy@^1.18.1:
+http-proxy@^1.13.1, http-proxy@^1.18.1:
   version "1.18.1"
   resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.18.1.tgz#401541f0534884bbf95260334e72f88ee3976549"
   integrity sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==
@@ -7266,10 +7257,10 @@ testdouble@^3.2.6:
     stringify-object-es5 "^2.5.0"
     theredoc "^1.0.0"
 
-testem@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/testem/-/testem-3.1.0.tgz#d27ec0b5593706c5cb005d8829b5abd329c86c16"
-  integrity sha512-wmPMqwocl9sU7kk32+fRpYFQVwL2XO6PszYF3IPIi6exw3zXb879Ulw4NQrkybdNtTS8yj9yv2lEuvYgpulbaw==
+testem@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/testem/-/testem-3.2.0.tgz#9924481f6a3b23e350fa77bb251c64d801c4c9a7"
+  integrity sha512-FkFzNRCIzCxjbNSTxIQSC2tWn1Q2MTR/GTxusSw6uZA4byEQ7wc86TKutNnoCyZ5XIaD9wo4q+dmlK0GUEqFVA==
   dependencies:
     backbone "^1.1.2"
     bluebird "^3.4.6"
