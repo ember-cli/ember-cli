@@ -9,7 +9,7 @@
   dependencies:
     "@babel/highlight" "^7.10.4"
 
-"@babel/core@^7.10.2", "@babel/core@^7.11.0", "@babel/core@^7.3.4", "@babel/core@^7.7.5":
+"@babel/core@^7.11.0", "@babel/core@^7.3.4", "@babel/core@^7.7.5":
   version "7.11.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.11.0.tgz#73b9c33f1658506887f767c26dae07798b30df76"
   integrity sha512-mkLq8nwaXmDtFmRkQ8ED/eA2CnVw4zr7dCztKalZXBvdK5EeNUAesrrwUqjQEzFgomJssayzB0aqlOsP1vGLqg==
@@ -157,7 +157,7 @@
     "@babel/helper-plugin-utils" "^7.10.4"
     babel-plugin-dynamic-import-node "^2.3.3"
 
-"@babel/polyfill@^7.10.1":
+"@babel/polyfill@^7.10.4":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.10.4.tgz#915e5bfe61490ac0199008e35ca9d7d151a8e45a"
   integrity sha512-8BYcnVqQ5kMD2HXoHInBH7H1b/uP3KdnwCYXOqFnXqguOyuu443WXusbIUbWEfY3Z0Txk0M1uG/8YuAMhNl6zg==
@@ -1144,13 +1144,13 @@ broccoli-amd-funnel@^2.0.1:
     broccoli-plugin "^1.3.0"
     symlink-or-copy "^1.2.0"
 
-broccoli-babel-transpiler@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/broccoli-babel-transpiler/-/broccoli-babel-transpiler-7.6.0.tgz#819e6d228b8aa3b4f3b6dfc4b546c13dd304b462"
-  integrity sha512-VjqIl4qe3zEkGjsPA2jgw/jakjfLjw2IpQ62d4f1kArZyMW/cQ6o54VD0Cd6cai4J08nb4WPLu4cr4Z62vr5uw==
+broccoli-babel-transpiler@^7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/broccoli-babel-transpiler/-/broccoli-babel-transpiler-7.7.0.tgz#271d401e713bfd338d5ef0435d3c4c68f6eddd2a"
+  integrity sha512-U8Cmnv0/AcQKehiIVi6UDzqq3jqhAEbY9CvOW5vdeNRmYhFpK6bXPmVczS/nUz5g4KsPc/FdnC3zbU6yVf4e7w==
   dependencies:
-    "@babel/core" "^7.10.2"
-    "@babel/polyfill" "^7.10.1"
+    "@babel/core" "^7.11.0"
+    "@babel/polyfill" "^7.10.4"
     broccoli-funnel "^2.0.2"
     broccoli-merge-trees "^3.0.2"
     broccoli-persistent-filter "^2.2.1"
