@@ -76,7 +76,7 @@
     "ember-cli-string-utils": "^1.1.0",
     "ember-source-channel-url": "^2.0.1",
     "ensure-posix-path": "^1.1.1",
-    "execa": "^1.0.0",
+    "execa": "^4.0.3",
     "exit": "^0.1.2",
     "express": "^4.17.1",
     "filesize": "^6.1.0",
