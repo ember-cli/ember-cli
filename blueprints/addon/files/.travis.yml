@@ -62,9 +62,6 @@ jobs:
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-
-install:
-  - yarn install --non-interactive
 <% } %>
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
