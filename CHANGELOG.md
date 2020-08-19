@@ -1,12 +1,84 @@
 # ember-cli Changelog
 
-
-## v3.18.0-beta.1
+## v3.21.0-beta.1
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.17.0...v3.18.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.17.0...v3.18.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.20.0...v3.21.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.20.0...v3.21.0-beta.1)
+
+#### Changelog
+
+- [#9289](https://github.com/ember-cli/ember-cli/pull/9289) Update blueprint dependencies / devDependencies [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+## v3.20.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.19.0...v3.20.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.19.0...v3.20.0)
+
+#### Changelog
+
+- [#9211](https://github.com/ember-cli/ember-cli/pull/9211) bugfix: processAppMiddlewares - check server middleware files [@lifeart](https://github.com/lifeart)
+- [#9215](https://github.com/ember-cli/ember-cli/pull/9215) Handle unexpected errors in development mode proxy [@houfeng0923](https://github.com/houfeng0923)
+- [#9238](https://github.com/ember-cli/ember-cli/pull/9238) Add config/ember-cli-update.json to app and addon blueprints. [@rwjblue](https://github.com/rwjblue)
+- [#9262](https://github.com/ember-cli/ember-cli/pull/9262) Refactor release process. [@rwjblue](https://github.com/rwjblue)
+- [#9264](https://github.com/ember-cli/ember-cli/pull/9264) refactor: use Boolean constructor to cast variable in config/targets.js blueprint [@bmish](https://github.com/bmish)
+- [032e9a8851af869c7e0cf5ef8c3d930ade38b6c1](https://github.com/ember-cli/ember-cli/commit/032e9a8851af869c7e0cf5ef8c3d930ade38b6c1) Merge branch 'master' into default-blueprint-absolute-imports [@dfreeman](https://github.com/dfreeman)
+- [#9273](https://github.com/ember-cli/ember-cli/pull/9273) Avoid relative imports in the default blueprint [@dfreeman](https://github.com/dfreeman)
+- [#9277](https://github.com/ember-cli/ember-cli/pull/9277) Allow `ember install` to work with Yarn v2 [@caassandra](https://github.com/caassandra)
+- [#9280](https://github.com/ember-cli/ember-cli/pull/9280) Remove `ember-default` ember-try scenario [@mehulkar](https://github.com/mehulkar)
+- [#9281](https://github.com/ember-cli/ember-cli/pull/9281) Update blueprint dependencies to latest versions. [@rwjblue](https://github.com/rwjblue)
+- [#9282](https://github.com/ember-cli/ember-cli/pull/9282) Deprecate `PACKAGER` experiment. [@rwjblue](https://github.com/rwjblue)
+- [#9283](https://github.com/ember-cli/ember-cli/pull/9283) Remove macOS from CI matrix for slow/acceptance tests. [@rwjblue](https://github.com/rwjblue)
+- [#9284](https://github.com/ember-cli/ember-cli/pull/9284) Drop support for Node 13. [@rwjblue](https://github.com/rwjblue)
+- [56461f26a9b81833f424bf1a23c7ce502d35a43b](https://github.com/ember-cli/ember-cli/commit/56461f26a9b81833f424bf1a23c7ce502d35a43b) Merge branch 'master' into master [@caassandra](https://github.com/caassandra)
+- [#9286](https://github.com/ember-cli/ember-cli/pull/9286) Remove unused `lib/utilities/symbol.js` [@IzzatN](https://github.com/IzzatN)
+- [#9287](https://github.com/ember-cli/ember-cli/pull/9287) Remove redundant guard in `Addon.prototype.moduleName` [@IzzatN](https://github.com/IzzatN)
+
+Thank you to all who took the time to contribute!
+
+## v3.19.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.18.0...v3.19.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.19.0...v3.19.0)
+
+#### Changelog
+
+- [#9239](https://github.com/ember-cli/ember-cli/pull/9239) Update app / addon dependencies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#9205](https://github.com/ember-cli/ember-cli/pull/9205) Pass options to middleware [@mrloop](https://github.com/mrloop)
+- [#9209](https://github.com/ember-cli/ember-cli/pull/9209) Create small development script to update blueprint dependencies. [@rwjblue](https://github.com/rwjblue)
+- [#9212](https://github.com/ember-cli/ember-cli/pull/9212) Ensure that the captured exit is released. [@rwjblue](https://github.com/rwjblue)
+- [#9218](https://github.com/ember-cli/ember-cli/pull/9218) Update eslint to 7.0.0. [@rwjblue](https://github.com/rwjblue)
+- [#9219](https://github.com/ember-cli/ember-cli/pull/9219) Add ability to pass `--filter` to `dev/update-blueprint-dependencies.js` [@rwjblue](https://github.com/rwjblue)
+- [#9240](https://github.com/ember-cli/ember-cli/pull/9240) Ensure `ember serve` property waits for the serve task. [@rwjblue](https://github.com/rwjblue)
+- [#9242](https://github.com/ember-cli/ember-cli/pull/9242) Move travis configuration from trusty to xenial [@Gaurav0](https://github.com/Gaurav0)
+- [#7538](https://github.com/ember-cli/ember-cli/pull/7538) Fix `configPath` caching [@kanongil](https://github.com/kanongil)
+- [#8258](https://github.com/ember-cli/ember-cli/pull/8258) Tweak `isDevelopingAddon` error message [@stefanpenner](https://github.com/stefanpenner)
+- [#8813](https://github.com/ember-cli/ember-cli/pull/8813) Update NPM version check to avoid double `npm install` when using `npm@5.7.1` or higher. [@deepan83](https://github.com/deepan83)
+- [#9126](https://github.com/ember-cli/ember-cli/pull/9126) chore: fix init help text with the right description [@rajasegar](https://github.com/rajasegar)
+- [#9132](https://github.com/ember-cli/ember-cli/pull/9132) Convert commands to use async/await syntax [@locks](https://github.com/locks)
+- [#9134](https://github.com/ember-cli/ember-cli/pull/9134) [DOC] Update locals hook example [@locks](https://github.com/locks)
+- [#9146](https://github.com/ember-cli/ember-cli/pull/9146) Convert express-server task to async await [@locks](https://github.com/locks)
+- [#9147](https://github.com/ember-cli/ember-cli/pull/9147) Convert serve task to async await [@locks](https://github.com/locks)
+- [#9148](https://github.com/ember-cli/ember-cli/pull/9148) Convert npm-task task to async/await syntax [@locks](https://github.com/locks)
+- [#9149](https://github.com/ember-cli/ember-cli/pull/9149) Update blueprint dependencies to latest [@bmish](https://github.com/bmish)
+- [#9157](https://github.com/ember-cli/ember-cli/pull/9157) Convert insert-into-file to async/await syntax [@locks](https://github.com/locks)
+- [#9158](https://github.com/ember-cli/ember-cli/pull/9158) Convert clean-remove to async/await syntax [@locks](https://github.com/locks)
+- [#9163](https://github.com/ember-cli/ember-cli/pull/9163) Convert in-option-generate-test to async/await syntax [@locks](https://github.com/locks)
+- [#9183](https://github.com/ember-cli/ember-cli/pull/9183) Ensure processed addon styles are not doubly-included in vendor.css [@bantic](https://github.com/bantic)
+
+## v3.18.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.17.0...v3.18.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.17.0...v3.18.0)
 
 #### Changelog
 
@@ -14,9 +86,12 @@
 - [#9068](https://github.com/ember-cli/ember-cli/pull/9068) Adds link to CLI commands doc from README [@entendu](https://github.com/entendu)
 - [#9070](https://github.com/ember-cli/ember-cli/pull/9070) Fix a number of causes of unhandled rejections (and ensure tests fail when unhandled rejection occurs). [@stefanpenner](https://github.com/stefanpenner)
 - [#9072](https://github.com/ember-cli/ember-cli/pull/9072) Ensure errors during build are properly reported to the console. [@stefanpenner](https://github.com/stefanpenner)
-- [#9092](https://github.com/ember-cli/ember-cli/pull/9092) Update ember-source and ember-data to 3.18 betas. [@rwjblue](https://github.com/rwjblue)
-- [#9093](https://github.com/ember-cli/ember-cli/pull/9093) Migrate supported Node version detection to use GitHub Actions config. [@rwjblue](https://github.com/rwjblue)
+- [#9092](https://github.com/ember-cli/ember-cli/pull/9092) Update `ember-source` and `ember-data` to 3.18 betas. [@rwjblue](https://github.com/rwjblue)
 - [#9097](https://github.com/ember-cli/ember-cli/pull/9097) Update production dependencies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#9108](https://github.com/ember-cli/ember-cli/pull/9108) Cleanup of async in `CLI` / `Builder` while digging into issues around progress clean up. [@rwjblue](https://github.com/rwjblue)
+- [#9188](https://github.com/ember-cli/ember-cli/pull/9188) Add Node 14 to CI [@rwjblue](https://github.com/rwjblue)
+- [#9208](https://github.com/ember-cli/ember-cli/pull/9208) Update blueprint dependencies to latest versions. [@rwjblue](https://github.com/rwjblue)
+- [#9090](https://github.com/ember-cli/ember-cli/pull/9183) Ensure processed addon styles are not doubly-included in vendor.css [@bantic](https://github.com/bantic)
 
 Thank you to all who took the time to contribute!
 
@@ -42,6 +117,17 @@ Thank you to all who took the time to contribute!
 - [#9041](https://github.com/ember-cli/ember-cli/pull/9041) Remove usage of RSVP. [@rwjblue](https://github.com/rwjblue)
 - [#9042](https://github.com/ember-cli/ember-cli/pull/9042) Include API documentation `yuidoc` JSON output when publishing [@sivakumar-kailasam](https://github.com/sivakumar-kailasam)
 - [#9045](https://github.com/ember-cli/ember-cli/pull/9045) Add final newline in CONTRIBUTING.md [@kellyselden](https://github.com/kellyselden)
+
+## v3.16.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.16.1...v3.16.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.16.1...v3.16.2)
+
+#### Changelog
+
+- [#9090](https://github.com/ember-cli/ember-cli/pull/9183) Ensure processed addon styles are not doubly-included in vendor.css [@bantic](https://github.com/bantic)
 
 ## v3.16.1
 

@@ -21,6 +21,8 @@ const replacers = {
   },
 };
 
+const ADDITIONAL_DEV_DEPENDENCIES = require('./additional-dev-dependencies.json').devDependencies;
+
 const description = 'The default blueprint for ember-cli addons.';
 module.exports = {
   description,
@@ -71,14 +73,7 @@ module.exports = {
       contents.keywords.push('ember-addon');
     }
 
-    // add `ember-disable-prototype-extensions` to addons by default
-    contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.3';
-
-    // add ember-try
-    contents.devDependencies['ember-try'] = '^1.4.0';
-
-    // add ember-source-channel-url
-    contents.devDependencies['ember-source-channel-url'] = '^2.0.1';
+    Object.assign(contents.devDependencies, ADDITIONAL_DEV_DEPENDENCIES);
 
     // add `ember-compatibility` script in addons
     contents.scripts['test:ember-compatibility'] = 'ember try:each';
@@ -137,6 +132,18 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
 
+    let hasOptions = options.welcome || options.yarn;
+    let blueprintOptions = '';
+    if (hasOptions) {
+      let indent = `\n            `;
+      let outdent = `\n          `;
+
+      blueprintOptions =
+        indent +
+        [options.welcome && '"--welcome"', options.yarn && '"--yarn"'].filter(Boolean).join(',\n            ') +
+        outdent;
+    }
+
     return {
       name,
       modulePrefix: name,
@@ -148,6 +155,8 @@ module.exports = {
       yarn: options.yarn,
       welcome: options.welcome,
       blueprint: 'addon',
+      blueprintOptions,
+      embroider: false,
     };
   },
 

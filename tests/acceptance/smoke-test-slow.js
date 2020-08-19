@@ -11,6 +11,7 @@ const copyFixtureFiles = require('../helpers/copy-fixture-files');
 const killCliProcess = require('../helpers/kill-cli-process');
 const ember = require('../helpers/ember');
 const runCommand = require('../helpers/run-command');
+const { isExperimentEnabled } = require('../../lib/experiments');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
@@ -27,6 +28,9 @@ let appRoot;
 describe('Acceptance: smoke-test', function () {
   this.timeout(500000);
   before(function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      this.skip();
+    }
     return createTestTargets(appName);
   });
 

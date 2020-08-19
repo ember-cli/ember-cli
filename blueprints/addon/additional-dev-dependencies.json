@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "ember-disable-prototype-extensions": "^1.1.3",
+    "ember-try": "^1.4.0",
+    "ember-source-channel-url": "^2.0.1"
+  }
+}

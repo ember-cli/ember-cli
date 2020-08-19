@@ -54,8 +54,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [10.x, 12.x, 13.x]
-        os: [ubuntu, macOS, windows]
+        node-version: [10.x, 12.x, 14.x]
+        os: [ubuntu, windows]
 
     steps:
       - uses: actions/checkout@v2
@@ -78,6 +78,7 @@ jobs:
         feature-flag:
           - ENABLE_ALL_EXPERIMENTS
           - PACKAGER
+          - EMBROIDER
 
     steps:
       - uses: actions/checkout@v2

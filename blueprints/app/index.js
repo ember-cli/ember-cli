@@ -2,6 +2,7 @@
 
 const stringUtil = require('ember-cli-string-utils');
 const chalk = require('chalk');
+const { isExperimentEnabled } = require('../../lib/experiments');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
@@ -21,6 +22,18 @@ module.exports = {
     let name = stringUtil.dasherize(rawName);
     let namespace = stringUtil.classify(rawName);
 
+    let hasOptions = !options.welcome || options.yarn;
+    let blueprintOptions = '';
+    if (hasOptions) {
+      let indent = `\n            `;
+      let outdent = `\n          `;
+
+      blueprintOptions =
+        indent +
+        [!options.welcome && '"--no-welcome"', options.yarn && '"--yarn"'].filter(Boolean).join(',\n            ') +
+        outdent;
+    }
+
     return {
       name,
       modulePrefix: name,
@@ -29,6 +42,8 @@ module.exports = {
       yarn: options.yarn,
       welcome: options.welcome,
       blueprint: 'app',
+      blueprintOptions,
+      embroider: isExperimentEnabled('EMBROIDER'),
     };
   },
 

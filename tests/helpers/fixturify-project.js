@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const merge = require('ember-cli-lodash-subset').merge;
 const FixturifyProject = require('fixturify-project');
 const Project = require('../../lib/models/project');
 const MockCLI = require('./mock-cli');
@@ -24,7 +25,9 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     super.writeSync(...arguments);
     this._hasWrriten = true;
   }
-
+  addFiles(filesObj) {
+    merge(this.files, filesObj);
+  }
   buildProjectModel(ProjectClass = ProjectWithoutInternalAddons) {
     if (this._hasWrriten !== false) {
       this.writeSync();

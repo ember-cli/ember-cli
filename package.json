@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "3.18.0-beta.1",
+  "version": "3.21.0-beta.1",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -16,15 +16,15 @@
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ember-cli/ember-cli.git"
+  },
   "license": "MIT",
   "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
   "main": "lib/cli/index.js",
   "bin": {
     "ember": "./bin/ember"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ember-cli/ember-cli.git"
   },
   "scripts": {
     "docs": "yuidoc",
@@ -37,15 +37,15 @@
     "test:debug": "node --unhandled-rejections=strict debug tests/runner"
   },
   "dependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-modules-amd": "^7.9.0",
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-transform-modules-amd": "^7.10.5",
     "amd-name-resolver": "^1.3.1",
     "babel-plugin-module-resolver": "^4.0.0",
-    "bower-config": "^1.4.1",
+    "bower-config": "^1.4.3",
     "bower-endpoint-parser": "0.2.2",
-    "broccoli": "^3.4.1",
+    "broccoli": "^3.4.2",
     "broccoli-amd-funnel": "^2.0.1",
-    "broccoli-babel-transpiler": "^7.4.0",
+    "broccoli-babel-transpiler": "^7.7.0",
     "broccoli-builder": "^0.18.14",
     "broccoli-concat": "^4.2.4",
     "broccoli-config-loader": "^1.0.1",
@@ -60,7 +60,7 @@
     "broccoli-stew": "^3.0.0",
     "calculate-cache-key-for-tree": "^2.0.0",
     "capture-exit": "^2.0.0",
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "ci-info": "^2.0.0",
     "clean-base-url": "^1.0.0",
     "compression": "^1.7.4",
@@ -76,7 +76,7 @@
     "ember-cli-string-utils": "^1.1.0",
     "ember-source-channel-url": "^2.0.1",
     "ensure-posix-path": "^1.1.1",
-    "execa": "^1.0.0",
+    "execa": "^4.0.3",
     "exit": "^0.1.2",
     "express": "^4.17.1",
     "filesize": "^6.1.0",
@@ -92,67 +92,70 @@
     "heimdalljs-fs-monitor": "^0.2.3",
     "heimdalljs-graph": "^1.0.0",
     "heimdalljs-logger": "^0.1.10",
-    "http-proxy": "^1.18.0",
+    "http-proxy": "^1.18.1",
     "inflection": "^1.12.0",
     "is-git-url": "^1.0.0",
-    "isbinaryfile": "^4.0.5",
+    "isbinaryfile": "^4.0.6",
     "js-yaml": "^3.13.1",
     "json-stable-stringify": "^1.0.1",
     "leek": "0.0.24",
     "lodash.template": "^4.5.0",
-    "markdown-it": "^10.0.0",
-    "markdown-it-terminal": "0.1.1",
+    "markdown-it": "^11.0.0",
+    "markdown-it-terminal": "0.2.1",
     "minimatch": "^3.0.4",
     "morgan": "^1.10.0",
     "nopt": "^3.0.6",
     "npm-package-arg": "^8.0.1",
     "p-defer": "^3.0.0",
-    "portfinder": "^1.0.25",
+    "portfinder": "^1.0.26",
     "promise-map-series": "^0.3.0",
     "promise.hash.helper": "^1.0.6",
     "quick-temp": "^0.1.8",
-    "resolve": "^1.16.0",
+    "resolve": "^1.17.0",
     "resolve-package-path": "^2.0.0",
     "sane": "^4.1.0",
     "semver": "^7.3.2",
     "silent-error": "^1.1.1",
-    "sort-package-json": "^1.41.0",
+    "sort-package-json": "^1.44.0",
     "symlink-or-copy": "^1.3.1",
     "temp": "0.9.1",
-    "testem": "^3.0.4",
+    "testem": "^3.2.0",
     "tiny-lr": "^1.1.1",
-    "tree-sync": "^2.0.0",
-    "uuid": "^7.0.3",
-    "walk-sync": "^2.1.0",
+    "tree-sync": "^2.1.0",
+    "uuid": "^8.3.0",
+    "walk-sync": "^2.2.0",
     "watch-detector": "^1.0.0",
+    "workerpool":"^6.0.0",
     "yam": "^1.0.0"
   },
   "devDependencies": {
     "@ember/edition-utils": "^1.2.0",
-    "@octokit/rest": "^17.3.0",
-    "broccoli-plugin": "^4.0.2",
+    "@octokit/rest": "^18.0.3",
+    "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-files": "^1.4.0",
     "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-internal-test-helpers": "^0.9.1",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-chai-expect": "^2.1.0",
-    "eslint-plugin-mocha": "^6.3.0",
+    "eslint-plugin-mocha": "^7.0.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-prettier": "^3.1.4",
     "fixturify": "^2.1.0",
-    "mocha": "^7.1.1",
-    "nock": "^12.0.3",
-    "nyc": "^15.0.1",
-    "prettier": "2.0.4",
+    "latest-version": "^5.1.0",
+    "mocha": "^7.2.0",
+    "nock": "^13.0.3",
+    "nyc": "^15.1.0",
+    "prettier": "2.0.5",
     "rimraf": "^3.0.2",
+    "release-it": "^13.6.4",
     "strip-ansi": "^6.0.0",
     "supertest": "^4.0.2",
-    "testdouble": "^3.13.1",
-    "tmp": "^0.1.0",
+    "testdouble": "^3.16.0",
+    "tmp": "^0.2.1",
     "websocket": "^1.0.31",
     "which": "2.0.2",
     "yuidoc-ember-cli-theme": "^1.0.4",
@@ -161,8 +164,24 @@
   "engines": {
     "node": "10.* || >= 12"
   },
-  "trackingCode": "UA-49225444-1",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "greenkeeper": {
     "ignore": []
-  }
+  },
+  "release-it": {
+    "hooks": {
+      "after:release": "node ./dev/update-output-repos.js"
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "draft": true,
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
+  },
+  "trackingCode": "UA-49225444-1"
 }

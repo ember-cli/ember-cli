@@ -83,31 +83,46 @@ describe('NpmTask', function () {
   });
 
   describe('checkYarn', function () {
-    let task, ui, yarn;
+    let task, ui;
 
     beforeEach(function () {
       ui = new MockUI();
-      yarn = td.function();
-      task = new NpmTask({ ui, yarn });
+      task = new NpmTask({ ui });
+      task.yarn = td.function();
     });
 
-    it('resolves when yarn is found', function () {
-      td.when(yarn(['--version'])).thenResolve({ stdout: '0.22.1' });
+    it('resolves when yarn <2.0.0 is found', function () {
+      td.when(task.yarn(['--version'])).thenResolve({ stdout: '1.22.0' });
 
-      return expect(task.checkYarn()).to.be.fulfilled;
+      return expect(task.checkYarn()).to.be.fulfilled.then(() => {
+        expect(ui.output).to.be.empty;
+        expect(ui.errors).to.be.empty;
+      });
+    });
+
+    it('resolves with warning when yarn >=2.0.0 is found', function () {
+      td.when(task.yarn(['--version'])).thenResolve({ stdout: '2.0.0' });
+
+      return expect(task.checkYarn()).to.be.fulfilled.then(() => {
+        expect(ui.output).to.contain('WARNING');
+        expect(ui.errors).to.be.empty;
+      });
     });
 
     it('rejects when yarn is not found', function () {
       let error = new Error('yarn not found');
       error.code = 'ENOENT';
 
-      td.when(yarn(['--version'])).thenReject(error);
+      td.when(task.yarn(['--version'])).thenReject(error);
 
-      return expect(task.checkYarn()).to.be.rejectedWith('yarn not found');
+      return expect(task.checkYarn()).to.be.rejectedWith(
+        SilentError,
+        /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
+      );
     });
 
     it('rejects when an unknown error is thrown', function () {
-      td.when(yarn(['--version'])).thenReject(new Error('foobar?'));
+      td.when(task.yarn(['--version'])).thenReject(new Error('foobar?'));
 
       return expect(task.checkYarn()).to.be.rejectedWith('foobar?');
     });
@@ -137,14 +152,12 @@ describe('NpmTask', function () {
       return expect(task.findPackageManager()).to.be.rejected;
     });
 
-    it('resolves when yarn.lock file and yarn were found and sets useYarn = true', function () {
+    it('resolves when yarn.lock file and yarn were found', function () {
       td.when(task.hasYarnLock()).thenReturn(true);
-      td.when(task.checkYarn()).thenResolve();
+      td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
 
       expect(task.useYarn).to.be.undefined;
-      return expect(task.findPackageManager()).to.be.fulfilled.then(() => {
-        expect(task.useYarn).to.be.true;
-      });
+      return expect(task.findPackageManager()).to.eventually.have.property('yarnVersion', '1.22.0');
     });
 
     it('resolves when yarn.lock file was found, yarn was not found and npm is compatible', function () {
@@ -169,7 +182,7 @@ describe('NpmTask', function () {
     it('resolves when yarn is requested and found', function () {
       task.useYarn = true;
 
-      td.when(task.checkYarn()).thenResolve();
+      td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
 
       return expect(task.findPackageManager()).to.be.fulfilled;
     });
@@ -177,12 +190,17 @@ describe('NpmTask', function () {
     it('rejects with SilentError when yarn is requested but not found', function () {
       task.useYarn = true;
 
-      let error = new Error('yarn not found');
-      error.code = 'ENOENT';
+      let error = new SilentError(
+        'Ember CLI is now using yarn, but was not able to find it.\n' +
+          'Please install yarn using the instructions at https://classic.yarnpkg.com/en/docs/install'
+      );
 
       td.when(task.checkYarn()).thenReject(error);
 
-      return expect(task.findPackageManager()).to.be.rejectedWith(SilentError, /Yarn could not be found/);
+      return expect(task.findPackageManager()).to.be.rejectedWith(
+        SilentError,
+        /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
+      );
     });
 
     it('rejects when yarn is requested and yarn check errors', function () {
@@ -215,6 +233,18 @@ describe('NpmTask', function () {
 
     beforeEach(function () {
       task = new NpmTask();
+      task.yarnVersion = '1.22.0';
+    });
+
+    it('correctly adds "--non-interactive" for yarn versions <2.0.0', function () {
+      let args = task.toYarnArgs('install', {});
+      expect(args).to.deep.equal(['install', '--non-interactive']);
+    });
+
+    it('skips "--non-interactive" for yarn versions >=2.0.0', function () {
+      task.yarnVersion = '2.0.1';
+      let args = task.toYarnArgs('install', {});
+      expect(args).to.deep.equal(['install']);
     });
 
     it('converts "npm install --no-optional" to "yarn install --ignore-optional"', function () {
