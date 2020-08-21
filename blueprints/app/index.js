@@ -43,12 +43,8 @@ module.exports = {
       welcome: options.welcome,
       blueprint: 'app',
       blueprintOptions,
-<<<<<<< HEAD
       embroider: isExperimentEnabled('EMBROIDER'),
-      lang,
-=======
       lang: options.lang,
->>>>>>> bc96f0d5... Update `lang` structuring in app + addon blueprints
     };
   },
 

@@ -74,7 +74,6 @@ module.exports = {
           name: 'lang',
           key: 'lang',
           description: "Sets the base human language of the addon's own test application via index.html",
-          aliases: ['l'],
           required: false
         }
       ],
@@ -459,7 +458,6 @@ module.exports = {
           name: 'lang',
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
-          aliases: ['l'],
           required: false
         }
       ],
@@ -571,7 +569,6 @@ module.exports = {
           name: 'lang',
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
-          aliases: ['l'],
           required: false
         }
       ],
