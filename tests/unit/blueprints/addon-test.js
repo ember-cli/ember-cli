@@ -64,33 +64,6 @@ describe('blueprint - addon', function () {
     });
 
     describe('generatePackageJson', function () {
-      it('works', function () {
-        let output = blueprint.updatePackageJson(JSON.stringify({}));
-        // string to test ordering
-        expect(output).to.equal(
-          '\
-{\n\
-  "name": "my-cool-addon",\n\
-  "description": "The default blueprint for ember-cli addons.",\n\
-  "keywords": [\n\
-    "ember-addon"\n\
-  ],\n\
-  "scripts": {\n\
-    "test:ember-compatibility": "ember try:each"\n\
-  },\n\
-  "dependencies": {},\n\
-  "devDependencies": {\n\
-    "ember-disable-prototype-extensions": "^1.1.3",\n\
-    "ember-source-channel-url": "^2.0.1",\n\
-    "ember-try": "^1.4.0"\n\
-  },\n\
-  "ember-addon": {\n\
-    "configPath": "tests/dummy/config"\n\
-  }\n\
-}\n'
-        );
-      });
-
       it('removes the `private` property', function () {
         let output = blueprint.updatePackageJson(JSON.stringify({}));
 
