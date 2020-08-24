@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+
+## v3.21.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.21.0-beta.1...v3.21.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.21.0-beta.1...v3.21.0-beta.2)
+
+#### Changelog
+
+- [#9259](https://github.com/ember-cli/ember-cli/pull/9259) Implement [emberjs/rfcs#635](https://github.com/emberjs/rfcs/blob/master/text/0635-ember-new-lang.md): `ember new --lang` [@josephdsumner](https://github.com/josephdsumner)
+- [#9299](https://github.com/ember-cli/ember-cli/pull/9299) Remove explicit `yarn install` in blueprint generated `.travis.yml` (use the Travis CI default of `yarn install --frozen-lockfile`) [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 ## v3.21.0-beta.1
 
 #### Blueprint Changes
