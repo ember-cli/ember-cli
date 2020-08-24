@@ -69,6 +69,12 @@ module.exports = {
           aliases: ['dir'],
           key: 'directory',
           required: false
+        },
+        {
+          name: 'lang',
+          key: 'lang',
+          description: "Sets the base human language of the addon's own test application via index.html",
+          required: false
         }
       ],
       anonymousOptions: ['<addon-name>']
@@ -415,6 +421,12 @@ module.exports = {
           aliases: ['n'],
           key: 'name',
           required: false
+        },
+        {
+          name: 'lang',
+          key: 'lang',
+          description: 'Sets the base human language of the application via index.html',
+          required: false
         }
       ],
       anonymousOptions: ['<glob-pattern>']
@@ -519,6 +531,12 @@ module.exports = {
           name: 'directory',
           aliases: ['dir'],
           key: 'directory',
+          required: false
+        },
+        {
+          name: 'lang',
+          key: 'lang',
+          description: 'Sets the base human language of the application via index.html',
           required: false
         }
       ],

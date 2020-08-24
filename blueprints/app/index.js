@@ -44,6 +44,7 @@ module.exports = {
       blueprint: 'app',
       blueprintOptions,
       embroider: isExperimentEnabled('EMBROIDER'),
+      lang: options.lang,
     };
   },
 

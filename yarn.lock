@@ -4341,6 +4341,11 @@ is-interactive@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-interactive/-/is-interactive-1.0.0.tgz#cea6e6ae5c870a7b0a0004070b7b587e0252912e"
   integrity sha512-2HvIEKRoqS62guEC+qBjpvRubdX910WCMuJTZ+I9yvqKU2/12eSL549HMwtabb4oupdj2sMP50k+XJfB/8JE6w==
 
+is-language-code@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/is-language-code/-/is-language-code-1.0.7.tgz#45f10d3536588d45fbc0c36f76e62566310005bb"
+  integrity sha512-fnfsWVx7l4zSmo/WUgLLWVTikpBF2FXnrE2aS4EMemysgWJ7y/qrtcypbAozZYk1OMaV/AvOeIh3QOGpSeNa1g==
+
 is-npm@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/is-npm/-/is-npm-4.0.0.tgz#c90dd8380696df87a7a6d823c20d0b12bbe3c84d"
