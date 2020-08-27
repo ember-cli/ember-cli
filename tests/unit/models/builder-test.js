@@ -353,9 +353,10 @@ describe('models/builder.js', function () {
     it('allows addons to add promises outputReady', async function () {
       let outputReady = td.replace(addon, 'outputReady', td.function());
 
+      builder.outputPath = 'dist/';
       await builder.build();
 
-      let expected = Object.assign({ outputChanges: [] }, buildResults);
+      let expected = Object.assign({}, buildResults, { outputChanges: [], directory: 'dist/' });
       td.verify(outputReady(expected), { times: 1 });
     });
 
@@ -397,16 +398,23 @@ describe('models/builder.js', function () {
     it('should call outputReady after copying to output path', async function () {
       let called = [];
 
-      builder.copyToOutputPath = function () {
-        called.push('copyToOutputPath');
+      builder.copyToOutputPath = function (directory) {
+        called.push(['copyToOutputPath', directory]);
+        return [];
       };
 
-      addon.outputReady = function () {
-        called.push('outputReady');
+      addon.outputReady = function (result) {
+        called.push(['outputReady', result]);
       };
+
+      builder.outputPath = 'dist/';
 
       await builder.build();
-      expect(called).to.deep.equal(['copyToOutputPath', 'outputReady']);
+
+      expect(called).to.deep.equal([
+        ['copyToOutputPath', buildResults.directory],
+        ['outputReady', Object.assign({}, buildResults, { outputChanges: [], directory: 'dist/' })],
+      ]);
     });
 
     it('buildError receives the error object from the errored step', async function () {
