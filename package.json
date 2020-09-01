@@ -33,8 +33,8 @@
     "test": "node --unhandled-rejections=strict tests/runner",
     "test:all": "node --unhandled-rejections=strict tests/runner all",
     "test:cover": "nyc --all --reporter=text --reporter=lcov node tests/runner all",
-    "test:slow": "node --unhandled-rejections=strict tests/runner slow",
-    "test:debug": "node --unhandled-rejections=strict debug tests/runner"
+    "test:debug": "node --unhandled-rejections=strict debug tests/runner",
+    "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
   "dependencies": {
     "@babel/core": "^7.11.0",
@@ -152,8 +152,8 @@
     "nock": "^13.0.3",
     "nyc": "^15.1.0",
     "prettier": "2.0.5",
-    "rimraf": "^3.0.2",
     "release-it": "^13.6.4",
+    "rimraf": "^3.0.2",
     "strip-ansi": "^6.0.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.16.0",
@@ -167,7 +167,8 @@
     "node": "10.* || >= 12"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org",
+    "tag": "latest"
   },
   "greenkeeper": {
     "ignore": []
