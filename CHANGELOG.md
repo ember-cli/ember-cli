@@ -1,28 +1,22 @@
 # ember-cli Changelog
 
-## v3.21.0-beta.2
+
+## v3.21.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.21.0-beta.1...v3.21.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.21.0-beta.1...v3.21.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.20.1...v3.21.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.20.1...v3.21.0)
 
 #### Changelog
 
+- [#9305](https://github.com/ember-cli/ember-cli/pull/9305) Update blueprint dependencies to latest versions. [@rwjblue](https://github.com/rwjblue)
+- [#9306](https://github.com/ember-cli/ember-cli/pull/9306) Ensure that `outputReady` receives the final output directory. [@rwjblue](https://github.com/rwjblue)
+- [#9308](https://github.com/ember-cli/ember-cli/pull/9308) Add Ember 3.20 LTS to ember-try configuration. [@rwjblue](https://github.com/rwjblue)
+- [#9309](https://github.com/ember-cli/ember-cli/pull/9309) Update blueprint dependencies to latest [@rwjblue](https://github.com/rwjblue)
+- [#9310](https://github.com/ember-cli/ember-cli/pull/9310) Drop Ember 3.12 from default addon testing matrix. [@rwjblue](https://github.com/rwjblue)
 - [#9259](https://github.com/ember-cli/ember-cli/pull/9259) Implement [emberjs/rfcs#635](https://github.com/emberjs/rfcs/blob/master/text/0635-ember-new-lang.md): `ember new --lang` [@josephdsumner](https://github.com/josephdsumner)
 - [#9299](https://github.com/ember-cli/ember-cli/pull/9299) Remove explicit `yarn install` in blueprint generated `.travis.yml` (use the Travis CI default of `yarn install --frozen-lockfile`) [@kellyselden](https://github.com/kellyselden)
-
-Thank you to all who took the time to contribute!
-
-## v3.21.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.20.0...v3.21.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.20.0...v3.21.0-beta.1)
-
-#### Changelog
-
 - [#9289](https://github.com/ember-cli/ember-cli/pull/9289) Update blueprint dependencies / devDependencies [@rwjblue](https://github.com/rwjblue)
 
 ## v3.20.1
