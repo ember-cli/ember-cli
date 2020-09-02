@@ -156,7 +156,7 @@
     "rimraf": "^3.0.2",
     "strip-ansi": "^6.0.0",
     "supertest": "^4.0.2",
-    "testdouble": "^3.16.0",
+    "testdouble": "^3.16.1",
     "tmp": "^0.2.1",
     "websocket": "^1.0.32",
     "which": "2.0.2",
