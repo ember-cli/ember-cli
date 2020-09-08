@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v3.20.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.20.1...v3.20.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.20.1...v3.20.2)
+
+#### Changelog
+
+- [#9321](https://github.com/ember-cli/ember-cli/pull/9321) Add missing `ember-lts-3.20` invocation to CI [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 
 ## v3.20.1
 
