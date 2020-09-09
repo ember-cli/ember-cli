@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v3.22.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.21.1...v3.22.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.21.1...v3.22.0-beta.1)
+
+#### Changelog
+
+- [#9325](https://github.com/ember-cli/ember-cli/pull/9325) Update dependencies for 3.22 beta series. [@rwjblue](https://github.com/rwjblue)
+- [#9325](https://github.com/ember-cli/ember-cli/pull/9325) Update to `eslint-plugin-ember@9.0.0`. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.21.1
 
 #### Blueprint Changes
