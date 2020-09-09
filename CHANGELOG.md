@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## v3.21.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.21.0...v3.21.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.21.0...v3.21.1)
+
+#### Changelog
+
+- [#9321](https://github.com/ember-cli/ember-cli/pull/9321) Add missing `ember-lts-3.20` matrix build to CI configuration. [@kellyselden](https://github.com/kellyselden)
+- [#9323](https://github.com/ember-cli/ember-cli/pull/9323) Remove errant `ember-lts-3.12` matrix build from CI configuration. [@rwjblue](https://github.com/rwjblue)
+- [#9324](https://github.com/ember-cli/ember-cli/pull/9324) Fix transpilation issues with modern browsers by migrating from `ember-cli-uglify` to `ember-cli-terser` [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.21.0
 
 #### Blueprint Changes
