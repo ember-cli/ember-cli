@@ -12,6 +12,17 @@
 - [#9325](https://github.com/ember-cli/ember-cli/pull/9325) Update dependencies for 3.22 beta series. [@rwjblue](https://github.com/rwjblue)
 - [#9325](https://github.com/ember-cli/ember-cli/pull/9325) Update to `eslint-plugin-ember@9.0.0`. [@rwjblue](https://github.com/rwjblue)
 
+## v3.21.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.21.1...v3.21.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.21.1...v3.21.2)
+
+#### Changelog
+
+- [#9327](https://github.com/ember-cli/ember-cli/pull/9327) Update addon `README.md` to indicate Ember 3.16  minimum. [@kellyselden](https://github.com/kellyselden)
+
 Thank you to all who took the time to contribute!
 
 ## v3.21.1
