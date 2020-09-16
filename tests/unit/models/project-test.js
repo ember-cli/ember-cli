@@ -10,6 +10,7 @@ const expect = require('chai').expect;
 const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
+const FixturifyProject = require('../../helpers/fixturify-project');
 
 describe('models/project.js', function () {
   let project, projectPath, packageContents;
@@ -667,6 +668,71 @@ describe('models/project.js', function () {
       expect(project.ui.output).to.contain(
         'Please install an Ember.js test framework addon or update your dependencies.'
       );
+    });
+  });
+
+  describe('closestSync', function () {
+    let fixturifyProject, project;
+
+    afterEach(function () {
+      if (fixturifyProject) {
+        fixturifyProject.dispose();
+      }
+    });
+
+    it('discovers a minimal package.json as a project', function () {
+      fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
+        project.addDevDependency('ember-cli', 'latest');
+      });
+      fixturifyProject.writeSync();
+
+      let cli = new MockCLI();
+      project = Project.closestSync(fixturifyProject.baseDir, cli.ui, cli);
+
+      expect(project.root).to.equal(fixturifyProject.baseDir);
+      expect(project.name()).to.equal('simple-ember-app');
+    });
+
+    it('does not discover a workspaces only package.json', function () {
+      fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
+        project.inRepoAddonLocation = 'packages';
+        project.pkg.workspaces = ['packages/*'];
+      });
+      fixturifyProject.writeSync();
+
+      let cli = new MockCLI();
+      expect(() => Project.closestSync(fixturifyProject.baseDir, cli.ui, cli)).to.throw(
+        /No project found at or up from/
+      );
+    });
+
+    it('does not discover a workspace based project with an intentionally hoisted ember-cli depvDep', function () {
+      fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
+        project.addDevDependency('ember-cli', 'latest');
+        project.inRepoAddonLocation = 'packages';
+        project.pkg.workspaces = ['packages/*'];
+      });
+      fixturifyProject.writeSync();
+
+      let cli = new MockCLI();
+      expect(() => Project.closestSync(fixturifyProject.baseDir, cli.ui, cli)).to.throw(
+        /No project found at or up from/
+      );
+    });
+
+    it('discovers a project using workspaces for in-repo addons as a project', function () {
+      fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
+        project.addDevDependency('ember-cli', 'latest');
+        project.addInRepoAddon('simple-in-repo');
+        project.pkg.workspaces = ['lib/*'];
+      });
+      fixturifyProject.writeSync();
+
+      let cli = new MockCLI();
+      project = Project.closestSync(fixturifyProject.baseDir, cli.ui, cli);
+
+      expect(project.root).to.equal(fixturifyProject.baseDir);
+      expect(project.name()).to.equal('simple-ember-app');
     });
   });
 });

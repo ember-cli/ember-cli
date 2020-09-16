@@ -21,6 +21,12 @@ function prepareAddon(addon) {
 }
 
 module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
+  constructor() {
+    super(...arguments);
+
+    this.inRepoAddonLocation = 'lib';
+  }
+
   writeSync() {
     super.writeSync(...arguments);
     this._hasWrriten = true;
@@ -33,11 +39,9 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
       this.writeSync();
     }
 
-    let pkg = JSON.parse(this.toJSON('package.json'));
     let cli = new MockCLI();
-    let root = path.join(this.root, this.name);
 
-    return new ProjectClass(root, pkg, cli.ui, cli);
+    return ProjectClass.closestSync(this.baseDir, cli.ui, cli);
   }
 
   addAddon(name, version = '0.0.0', cb) {
@@ -73,7 +77,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     // configure the current project to have an ember-addon configured at the appropriate path
     let addon = (this.pkg['ember-addon'] = this.pkg['ember-addon'] || {});
     addon.paths = addon.paths || [];
-    const addonPath = `lib/${name}`;
+    const addonPath = path.join(this.inRepoAddonLocation, name);
 
     if (addon.paths.find((path) => path.toLowerCase() === addonPath.toLowerCase())) {
       throw new Error(`project: ${this.name} already contains the in-repo-addon: ${name}`);
@@ -81,9 +85,9 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
 
     addon.paths.push(addonPath);
 
-    this.files.lib = this.files.lib || {};
+    this.files[this.inRepoAddonLocation] = this.files[this.inRepoAddonLocation] || {};
 
     // insert inRepoAddon into files
-    Object.assign(this.files.lib, inRepoAddon.toJSON());
+    Object.assign(this.files[this.inRepoAddonLocation], inRepoAddon.toJSON());
   }
 };
