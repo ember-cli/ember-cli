@@ -23,13 +23,13 @@ function prepareAddon(addon) {
 module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   writeSync() {
     super.writeSync(...arguments);
-    this._hasWrriten = true;
+    this._hasWritten = true;
   }
   addFiles(filesObj) {
     merge(this.files, filesObj);
   }
   buildProjectModel(ProjectClass = ProjectWithoutInternalAddons) {
-    if (this._hasWrriten !== false) {
+    if (!this._hasWritten) {
       this.writeSync();
     }
 
