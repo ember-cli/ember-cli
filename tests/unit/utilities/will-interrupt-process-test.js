@@ -20,19 +20,6 @@ describe('will interrupt process', function () {
   });
 
   describe('capture', function () {
-    it('throws if already captured', function () {
-      const mockProcess = new MockProcess();
-
-      willInterruptProcess.capture(mockProcess);
-      try {
-        willInterruptProcess.capture(mockProcess);
-        expect(true).to.equal(false);
-      } catch (e) {
-        expect(e.message).to.include('process already captured');
-        expect(e.message).to.include('will-interrupt-process-test.js');
-      }
-    });
-
     it('throws if the process is not an EventEmitter instance', function () {
       const dissallowedArgs = [null, true, '', [], {}];
 
