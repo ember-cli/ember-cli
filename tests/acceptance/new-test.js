@@ -140,6 +140,7 @@ describe('Acceptance: ember new', function () {
     expect(file('app/index.html')).to.contain('<html>');
   });
 
+  // will you fail again?
   it('ember new npm blueprint with old version', async function () {
     await ember(['new', 'foo', '--blueprint', '@glimmer/blueprint@0.6.4', '--skip-npm', '--skip-bower']);
 
