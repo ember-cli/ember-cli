@@ -13,6 +13,7 @@ const execa = require('../../lib/utilities/execa');
  * bower.invoke('install', 'ember');
  * ```
  *
+ * @private
  * @class CommandGenerator
  * @constructor
  * @param {Path} program The path to the command.
@@ -26,6 +27,7 @@ module.exports = class CommandGenerator {
   /**
    * The `invoke` method is responsible for building the final executable command.
    *
+   * @private
    * @method command
    * @param {String} [...arguments] Arguments to be passed into the command.
    * @param {Object} [options={}] The options passed into child_process.spawnSync.
