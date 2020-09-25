@@ -25,6 +25,7 @@ let DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'o
 /**
  * The `bower` command helper.
  *
+ * @private
  * @method bower
  * @param {String} subcommand The subcommand to be passed into bower.
  * @param {String} [...arguments] Arguments to be passed into the bower subcommand.
@@ -36,6 +37,7 @@ let bower = new CommandGenerator('bower');
 /**
  * The `npm` command helper.
  *
+ * @private
  * @method npm
  * @param {String} subcommand The subcommand to be passed into npm.
  * @param {String} [...arguments] Arguments to be passed into the npm subcommand.
@@ -47,6 +49,7 @@ let npm = new CommandGenerator('npm');
 /**
  * The `yarn` command helper.
  *
+ * @private
  * @method yarn
  * @param {String} subcommand The subcommand to be passed into yarn.
  * @param {String} [...arguments] Arguments to be passed into the yarn subcommand.
@@ -87,6 +90,7 @@ let lookups = {
  * appropriate values based upon the context in which it is used. It's
  * a convenience helper to avoid littering lookups throughout the code.
  *
+ * @private
  * @method translate
  * @param {String} type Either 'bower', 'npm', or 'yarn'.
  * @param {String} lookup Either 'manifest', 'path', or 'upgrade'.
@@ -221,6 +225,7 @@ function translate(type, lookup) {
  * code is responsible for ensuring that the cache size does not
  * grow unbounded.
  *
+ * @private
  * @class PackageCache
  * @constructor
  * @param {String} rootPath Root of the directory for `PackageCache`.
@@ -248,6 +253,7 @@ module.exports = class PackageCache {
   /**
    * The `__setupForTesting` modifies things in module scope.
    *
+   * @private
    * @method __setupForTesting
    */
   __setupForTesting(stubs) {
@@ -258,6 +264,7 @@ module.exports = class PackageCache {
   /**
    * The `__resetForTesting` puts things back in module scope.
    *
+   * @private
    * @method __resetForTesting
    */
   __resetForTesting() {
@@ -269,6 +276,7 @@ module.exports = class PackageCache {
    * Configstore and what exists on disk. Non-existent directories
    * are removed from `this.dirs`.
    *
+   * @private
    * @method _cleanDirs
    */
   _cleanDirs() {
@@ -288,6 +296,7 @@ module.exports = class PackageCache {
    * The `_readManifest` method reads the on-disk manifest for the current
    * cache and returns its value.
    *
+   * @private
    * @method _readManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
@@ -319,6 +328,7 @@ module.exports = class PackageCache {
    * and saves the manifest into it. If it is a yarn package cache it will remove
    * the existing lock file.
    *
+   * @private
    * @method _writeManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
@@ -356,6 +366,7 @@ module.exports = class PackageCache {
    * It is also responsible for removing these links prior to making any changes
    * to the specified cache.
    *
+   * @private
    * @method _removeLinks
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
@@ -426,6 +437,7 @@ module.exports = class PackageCache {
    *
    * It is also responsible for restoring these links into the `PackageCache`.
    *
+   * @private
    * @method _restoreLinks
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
@@ -472,6 +484,7 @@ module.exports = class PackageCache {
    * The `_checkManifest` method compares the desired manifest to that which
    * exists in the cache.
    *
+   * @private
    * @method _checkManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
@@ -512,6 +525,7 @@ module.exports = class PackageCache {
    * The `_install` method installs the contents of the manifest into the
    * specified package cache.
    *
+   * @private
    * @method _install
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
@@ -530,6 +544,7 @@ module.exports = class PackageCache {
    * allowed to drift in a SemVer compatible manner. It ensures that CI is
    * always running against the latest versions of all dependencies.
    *
+   * @private
    * @method _upgrade
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.

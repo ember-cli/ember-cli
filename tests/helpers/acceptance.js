@@ -44,9 +44,15 @@ function applyCommand(command, name /*, ...flags*/) {
 }
 
 /**
+ * @class PrivateTestHelpers
+ */
+
+/**
  * Use `createTestTargets` in the before hook to do the initial
  * setup of a project. This will ensure that we limit the amount of times
  * we go to the network to fetch dependencies.
+ *
+ * @method createTestTargets
  * @param  {String} projectName The name of the project. Can be an app or addon.
  * @param  {Object} options
  * @property {String} options.command The command you want to run
@@ -77,6 +83,8 @@ function teardownTestTargets() {
 /**
  * Creates symbolic links from the dependency temp directories
  * to the project that is under test.
+ *
+ * @method linkDependencies
  * @param  {String} projectName The name of the project under test
  * @return {String} The path to the hydrated fixture.
  */
