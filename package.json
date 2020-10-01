@@ -149,7 +149,7 @@
     "is-language-code": "^1.0.9",
     "latest-version": "^5.1.0",
     "mocha": "^7.2.0",
-    "nock": "^13.0.3",
+    "nock": "^13.0.4",
     "nyc": "^15.1.0",
     "prettier": "2.1.1",
     "release-it": "^13.7.0",
