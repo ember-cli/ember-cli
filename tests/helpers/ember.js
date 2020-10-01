@@ -5,6 +5,7 @@ const MockAnalytics = require('./mock-analytics');
 const cli = require('../../lib/cli');
 const MockProcess = require('./mock-process');
 const path = require('path');
+const willInterruptProcess = require('../../lib/utilities/will-interrupt-process');
 
 /*
   Accepts a single array argument, that contains the
@@ -64,6 +65,8 @@ module.exports = function ember(args, options) {
   if (!options || options.skipGit !== false) {
     args.push('--skipGit');
   }
+
+  willInterruptProcess.release();
 
   cliInstance = cli({
     process: new MockProcess(),
