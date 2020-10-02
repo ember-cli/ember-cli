@@ -4344,10 +4344,10 @@ is-interactive@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-interactive/-/is-interactive-1.0.0.tgz#cea6e6ae5c870a7b0a0004070b7b587e0252912e"
   integrity sha512-2HvIEKRoqS62guEC+qBjpvRubdX910WCMuJTZ+I9yvqKU2/12eSL549HMwtabb4oupdj2sMP50k+XJfB/8JE6w==
 
-is-language-code@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/is-language-code/-/is-language-code-1.0.9.tgz#0c8b0fde3d24b5dccfa4b32e4c4816a080b01cfc"
-  integrity sha512-DfBm82Z5bhelTERts0vFLZ+2bIiYR+5+pvBbIifzkqMymqiY0A1c1DYM7hCKXoK6ZKVjoom0BcZT+C8sV2yAqA==
+is-language-code@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/is-language-code/-/is-language-code-1.0.12.tgz#1623a97cf74e075a8264e0ced4fee0c0ba9ac965"
+  integrity sha512-0A2rCeoBTALG0w64eUD/8tbymYUOZJS8D71WK/luDWvF41jYpM12EGSHtkY7GAGONuW/XTrnRoJ9RjWFDPasJA==
 
 is-npm@^4.0.0:
   version "4.0.0"
