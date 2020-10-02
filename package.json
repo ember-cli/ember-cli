@@ -126,7 +126,7 @@
     "uuid": "^8.3.0",
     "walk-sync": "^2.2.0",
     "watch-detector": "^1.0.0",
-    "workerpool": "^6.0.0",
+    "workerpool": "^6.0.1",
     "yam": "^1.0.0"
   },
   "devDependencies": {
