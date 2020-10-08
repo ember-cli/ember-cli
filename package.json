@@ -80,7 +80,7 @@
     "exit": "^0.1.2",
     "express": "^4.17.1",
     "filesize": "^6.1.0",
-    "find-up": "^4.1.0",
+    "find-up": "^5.0.0",
     "find-yarn-workspace-root": "^2.0.0",
     "fixturify-project": "^2.1.0",
     "fs-extra": "^9.0.0",
