@@ -13,6 +13,20 @@ const calculateBaseTag = emberAppUtils.calculateBaseTag;
 const convertObjectToString = emberAppUtils.convertObjectToString;
 
 describe('ember-app-utils', function () {
+  function runConfigReplacePatterns(options, appConfig, contents) {
+    let patterns = configReplacePatterns(options);
+
+    patterns.forEach((pattern) => {
+      let { match, replacement } = pattern;
+
+      contents = contents.replace(match, (...args) => {
+        return replacement(appConfig, ...args);
+      });
+    });
+
+    return contents;
+  }
+
   describe(`rootURL`, function () {
     it('`rootURL` regex accepts space-padded padded variation', function () {
       const regex = configReplacePatterns()[0].match;
@@ -32,23 +46,54 @@ describe('ember-app-utils', function () {
     });
   });
 
-  describe(`appName`, function () {
-    it('`appName` regex accepts space-padded padded variation', function () {
-      const regex = configReplacePatterns().find((entry) => `${entry.match}`.includes('appName')).match;
-      const variations = ['{{appName}}', '{{ appName }}', 'foo'];
-      const results = [];
+  describe(`outputPaths`, function () {
+    let outputPaths;
 
-      variations.forEach((variation) => {
-        const match = variation.match(regex);
-
-        if (match !== null) {
-          results.push(match[0]);
-        }
-      });
-
-      variations.pop();
-      expect(results).to.deep.equal(variations);
+    beforeEach(function () {
+      outputPaths = {
+        app: {
+          html: 'index.html',
+          css: {
+            app: 'assets/my-app.css',
+          },
+          js: 'assets/my-app.js',
+        },
+        tests: {
+          js: 'assets/tests.js',
+        },
+        vendor: {
+          css: 'assets/vendor.css',
+          js: 'assets/vendor.js',
+        },
+        testSupport: {
+          css: 'assets/test-support.css',
+          js: {
+            testSupport: 'assets/test-support.js',
+            testLoader: 'assets/test-loader.js',
+          },
+        },
+      };
     });
+
+    function verify(input, expectedOutput) {
+      it(`transforms ${input} into ${expectedOutput}`, function () {
+        let actual = runConfigReplacePatterns(
+          { outputPaths },
+          {}, // no app config
+          input
+        );
+
+        expect(actual).to.equal(expectedOutput);
+      });
+    }
+
+    verify(`{{outputPaths.vendor.css}}`, 'assets/vendor.css');
+    verify(`{{outputPaths.app.css.app}}`, 'assets/my-app.css');
+    verify(`{{outputPaths.testSupport.css}}`, 'assets/test-support.css');
+    verify(`{{rootURL}}{{outputPaths.vendor.js}}`, 'assets/vendor.js');
+    verify(`{{rootURL}}{{outputPaths.testSupport.js.testSupport}}`, 'assets/test-support.js');
+    verify(`{{rootURL}}{{outputPaths.app.js}}`, 'assets/my-app.js');
+    verify(`{{rootURL}}{{outputPaths.tests.js}}`, 'assets/tests.js');
   });
 
   describe(`EMBER_ENV`, function () {

@@ -9,16 +9,16 @@
 
     {{content-for "head"}}
 
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/{{appName}}.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}{{outputPaths.vendor.css}}">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}{{outputPaths.app.css.app}}">
 
     {{content-for "head-footer"}}
   </head>
   <body>
     {{content-for "body"}}
 
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/{{appName}}.js"></script>
+    <script src="{{rootURL}}{{outputPaths.vendor.js}}"></script>
+    <script src="{{rootURL}}{{outputPaths.app.js}}"></script>
 
     {{content-for "body-footer"}}
   </body>

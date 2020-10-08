@@ -1294,7 +1294,7 @@ describe('EmberApp', function () {
 
     it('appends dependencies to vendor by default', function () {
       app.import('vendor/moment.js');
-      let outputFile = app._scriptOutputFiles['/assets/vendor.js'];
+      let outputFile = app._scriptOutputFiles['assets/vendor.js'];
 
       expect(outputFile).to.be.instanceof(Array);
       expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
@@ -1302,7 +1302,7 @@ describe('EmberApp', function () {
     it('appends dependencies', function () {
       app.import('vendor/moment.js', { type: 'vendor' });
 
-      let outputFile = app._scriptOutputFiles['/assets/vendor.js'];
+      let outputFile = app._scriptOutputFiles['assets/vendor.js'];
 
       expect(outputFile).to.be.instanceof(Array);
       expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
@@ -1311,7 +1311,7 @@ describe('EmberApp', function () {
     it('prepends dependencies', function () {
       app.import('vendor/es5-shim.js', { type: 'vendor', prepend: true });
 
-      let outputFile = app._scriptOutputFiles['/assets/vendor.js'];
+      let outputFile = app._scriptOutputFiles['assets/vendor.js'];
 
       expect(outputFile).to.be.instanceof(Array);
       expect(outputFile.indexOf('vendor/es5-shim.js')).to.equal(0);
@@ -1341,7 +1341,7 @@ describe('EmberApp', function () {
         development: 'vendor/jquery.js',
       });
 
-      let outputFile = app._scriptOutputFiles['/assets/vendor.js'];
+      let outputFile = app._scriptOutputFiles['assets/vendor.js'];
       expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length - 1);
     });
 
@@ -1358,15 +1358,15 @@ describe('EmberApp', function () {
         production: null,
       });
 
-      expect(app._scriptOutputFiles['/assets/vendor.js']).to.not.contain('vendor/jquery.js');
+      expect(app._scriptOutputFiles['assets/vendor.js']).to.not.contain('vendor/jquery.js');
     });
 
     it('normalizes asset path correctly', function () {
       app.import('vendor\\path\\to\\lib.js', { type: 'vendor' });
       app.import('vendor/path/to/lib2.js', { type: 'vendor' });
 
-      expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib.js');
-      expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib2.js');
+      expect(app._scriptOutputFiles['assets/vendor.js']).to.contain('vendor/path/to/lib.js');
+      expect(app._scriptOutputFiles['assets/vendor.js']).to.contain('vendor/path/to/lib2.js');
     });
 
     it('option.using throws exception given invalid inputs', function () {
@@ -1597,7 +1597,7 @@ describe('EmberApp', function () {
         app.import('files/a.css', { prepend: true });
         app.import('files/d.css');
 
-        expect(app._styleOutputFiles['/assets/vendor.css']).to.deep.equal([
+        expect(app._styleOutputFiles['assets/vendor.css']).to.deep.equal([
           'files/a.css',
           'files/b.css',
           'files/c.css',
