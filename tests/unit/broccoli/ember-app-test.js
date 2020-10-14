@@ -815,41 +815,6 @@ describe('EmberApp', function () {
       });
     });
 
-    describe('loader.js missing', function () {
-      it('does not error when loader.js is present in registry.availablePlugins', function () {
-        expect(() => {
-          new EmberApp({
-            project,
-          });
-        }).to.not.throw(/loader.js addon is missing/);
-      });
-
-      it('throws an error when loader.js is not present in registry.availablePlugins', function () {
-        expect(() => {
-          new EmberApp({
-            project,
-            registry: {
-              add() {},
-              availablePlugins: {},
-            },
-          });
-        }).to.throw(/loader.js addon is missing/);
-      });
-
-      it('does not throw an error if _ignoreMissingLoader is set', function () {
-        expect(() => {
-          new EmberApp({
-            project,
-            registry: {
-              add() {},
-              availablePlugins: {},
-            },
-            _ignoreMissingLoader: true,
-          });
-        }).to.not.throw(/loader.js addon is missing/);
-      });
-    });
-
     describe('ember-resolver npm vs Bower', function () {
       it('does not load ember-resolver.js as bower dep when ember-resolver is present in registry.availablePlugins', function () {
         let app = new EmberApp({ project });
@@ -864,7 +829,7 @@ describe('EmberApp', function () {
           project,
           registry: {
             add() {},
-            availablePlugins: { 'loader.js': {} },
+            availablePlugins: {},
           },
         });
         expect(app.vendorFiles['ember-resolver.js'][0]).to.equal(
@@ -880,7 +845,7 @@ describe('EmberApp', function () {
           project,
           registry: {
             add() {},
-            availablePlugins: { 'loader.js': {} },
+            availablePlugins: {},
           },
         });
 
