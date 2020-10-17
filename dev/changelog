@@ -59,7 +59,15 @@ Thank you to all who took the time to contribute!
 
 // only filters when dependabot itself merges a PR
 function excludeDependabot(commitInfo) {
-  let author = commitInfo.author ? commitInfo.author.login : commitInfo.committer.login;
+  let author;
+
+  if (commitInfo.author) {
+    author = commitInfo.author.login;
+  } else if (commitInfo.committer) {
+    author = commitInfo.committer.login;
+  } else {
+    return true;
+  }
 
   return author !== 'dependabot-preview[bot]' && author !== 'dependabot[bot]';
 }
