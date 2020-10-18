@@ -19,11 +19,26 @@ env:
     # See https://git.io/vdao3 for details.
     - JOBS=1
 
+  jobs:
+    # we recommend new addons test the current and previous LTS
+    # as well as latest stable release (bonus points to beta/canary)
+    - EMBER_TRY_SCENARIO=ember-lts-3.16
+    - EMBER_TRY_SCENARIO=ember-lts-3.20
+    - EMBER_TRY_SCENARIO=ember-release
+    - EMBER_TRY_SCENARIO=ember-beta
+    - EMBER_TRY_SCENARIO=ember-canary
+    - EMBER_TRY_SCENARIO=ember-default-with-jquery
+    - EMBER_TRY_SCENARIO=ember-classic
+
 branches:
   only:
     - master
     # npm version tags
     - /^v\d+\.\d+\.\d+/
+
+stages:
+- "Basic Tests"
+- test
 
 jobs:
   fast_finish: true
@@ -32,28 +47,18 @@ jobs:
 
   include:
     # runs linting and tests with current locked deps
-    - stage: "Tests"
+    - stage: "Basic Tests"
       name: "Tests"
       script:
         - npm run lint
         - npm run test:ember
 
-    - stage: "Additional Tests"
+    - stage: test
       name: "Floating Dependencies"
       install:
         - npm install --no-package-lock
       script:
         - npm run test:ember
-
-    # we recommend new addons test the current and previous LTS
-    # as well as latest stable release (bonus points to beta/canary)
-    - env: EMBER_TRY_SCENARIO=ember-lts-3.16
-    - env: EMBER_TRY_SCENARIO=ember-lts-3.20
-    - env: EMBER_TRY_SCENARIO=ember-release
-    - env: EMBER_TRY_SCENARIO=ember-beta
-    - env: EMBER_TRY_SCENARIO=ember-canary
-    - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
-    - env: EMBER_TRY_SCENARIO=ember-classic
 
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
