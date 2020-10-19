@@ -166,7 +166,12 @@ module.exports = {
     let addonFilesPath = this.filesPath(this.options);
     let addonFiles = walkSync(addonFilesPath);
 
-    return uniq(appFiles.concat(addonFiles));
+    let files = [].concat(
+      appFiles.filter((f) => f !== 'ember-cli-build.js'),
+      addonFiles
+    );
+
+    return uniq(files);
   },
 
   mapFile() {
