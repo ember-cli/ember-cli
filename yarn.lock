@@ -6292,13 +6292,13 @@ resolve-package-path@^1.0.11:
     path-root "^0.1.1"
     resolve "^1.10.0"
 
-resolve-package-path@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-2.0.0.tgz#7f258ab86ff074fff4ff8027a28f94d17d6fb1df"
-  integrity sha512-/CLuzodHO2wyyHTzls5Qr+EFeG6RcW4u6//gjYvUfcfyuplIX1SSccU+A5A9A78Gmezkl3NBkFAMxLbzTY9TJA==
+resolve-package-path@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-3.0.1.tgz#f6971030c2609cce413460b31775bd957010092f"
+  integrity sha512-IsMa7xljkYdj+oF4vdxjiaZ0E2itynPaF7/5sY8keuO00vL9lsA5FRjy1+e2khzxEl4WUJIQMDgmhkgZw9h8RQ==
   dependencies:
     path-root "^0.1.1"
-    resolve "^1.13.1"
+    resolve "^1.17.0"
 
 resolve-path@^1.4.0:
   version "1.4.0"
