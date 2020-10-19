@@ -20,8 +20,8 @@ describe('Builder - broccoli tests', function () {
   });
 
   afterEach(async function () {
-    // this is needed because lib/utilities/find-build-file.js does a
-    // `process.chdir` when it looks for the `ember-cli-build.js`
+    // this is needed because `readBuildFile` does a
+    // `process.chdir` when it looks for `ember-cli-build.js`
     process.chdir(ROOT);
 
     await projectRoot.dispose();
