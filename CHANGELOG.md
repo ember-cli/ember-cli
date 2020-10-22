@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+
+## v3.23.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.23.0-beta.1...v3.23.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.23.0-beta.1...v3.23.0-beta.2)
+
+#### Changelog
+
+- [#9371](https://github.com/ember-cli/ember-cli/pull/9371) Adds missing `qunit-dom` setup invocation [@scalvert](https://github.com/scalvert)
+
+Thank you to all who took the time to contribute!
+
 ## v3.23.0-beta.1
 
 #### Blueprint Changes
