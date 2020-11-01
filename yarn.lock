@@ -6307,10 +6307,10 @@ resolve-package-path@^1.0.11:
     path-root "^0.1.1"
     resolve "^1.10.0"
 
-resolve-package-path@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-3.0.1.tgz#f6971030c2609cce413460b31775bd957010092f"
-  integrity sha512-IsMa7xljkYdj+oF4vdxjiaZ0E2itynPaF7/5sY8keuO00vL9lsA5FRjy1+e2khzxEl4WUJIQMDgmhkgZw9h8RQ==
+resolve-package-path@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-3.1.0.tgz#35faaa5d54a9c7dd481eb7c4b2a44410c9c763d8"
+  integrity sha512-2oC2EjWbMJwvSN6Z7DbDfJMnD8MYEouaLn5eIX0j8XwPsYCVIyY9bbnX88YHVkbr8XHqvZrYbxaLPibfTYKZMA==
   dependencies:
     path-root "^0.1.1"
     resolve "^1.17.0"
