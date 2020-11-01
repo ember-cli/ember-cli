@@ -7693,7 +7693,7 @@ wordwrap@^0.0.3, wordwrap@~0.0.2:
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
   integrity sha1-o9XabNXAvAAI03I0u68b7WMFkQc=
 
-workerpool@6.0.2, workerpool@^6.0.2:
+workerpool@6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-6.0.2.tgz#e241b43d8d033f1beb52c7851069456039d1d438"
   integrity sha512-DSNyvOpFKrNusaaUwk+ej6cBj1bmhLcBfj80elGk+ZIo5JSkq+unB1dLKEOcNfJDZgjGICfhQ0Q5TbP0PvF4+Q==
@@ -7706,6 +7706,11 @@ workerpool@^3.1.1:
     "@babel/core" "^7.3.4"
     object-assign "4.1.1"
     rsvp "^4.8.4"
+
+workerpool@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-6.0.3.tgz#3f80ba4d914fe7bb8d933628c26e5d7ff820c703"
+  integrity sha512-meU8ZzO+ipcx/njxtKUcbu2K95085q5WYDo8fR6PMW3hCY4driteIsNsEowYV7dzOtvq0HotUKsReJkK8gKXgg==
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
