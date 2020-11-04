@@ -154,6 +154,7 @@
     "prettier": "2.1.2",
     "release-it": "^14.2.1",
     "rimraf": "^3.0.2",
+    "spdy": "^4.0.2",
     "strip-ansi": "^6.0.0",
     "supertest": "^5.0.0",
     "testdouble": "^3.16.1",
@@ -164,7 +165,7 @@
     "yuidocjs": "0.10.2"
   },
   "engines": {
-    "node": "10.* || >= 12"
+    "node": ">= 10.10.0 || >= 12"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
