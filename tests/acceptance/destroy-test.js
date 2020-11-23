@@ -101,6 +101,13 @@ describe('Acceptance: ember destroy', function () {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
+  it('deletes files generated using blueprint paths', function () {
+    let commandArgs = [`${__dirname}/../../blueprints/http-proxy`, 'foo', 'bar'];
+    let files = ['server/proxies/foo.js'];
+
+    return assertDestroyAfterGenerate(commandArgs, files);
+  });
+
   it('deletes files generated using blueprints from the project directory', async function () {
     let commandArgs = ['foo', 'bar'];
     let files = ['app/foos/bar.js'];
