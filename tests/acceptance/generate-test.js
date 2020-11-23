@@ -144,6 +144,16 @@ describe('Acceptance: ember generate', function () {
     expect(file('app/controllers/foo.js')).to.contain('custom: true');
   });
 
+  it('allows a path to be specified to a blueprint', async function () {
+    await outputFile(
+      'blueprints/http-proxy/files/server/proxies/__name__.js',
+      "import Ember from 'ember';\n" + 'export default Ember.Object.extend({ foo: true });\n'
+    );
+    await generate([path.resolve(`${__dirname}/../../blueprints/http-proxy`), 'foo', 'http://localhost:5000']);
+
+    expect(file('server/index.js')).to.not.contain('foo: true', 'the local blueprint is not used');
+  });
+
   it('passes custom cli arguments to blueprint options', async function () {
     await initApp();
 
