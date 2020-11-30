@@ -12,9 +12,12 @@
   },
   "scripts": {
     "build": "ember build --environment=production",
-    "lint": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*",
+    "lint": "npm-run-all --aggregate-output --continue-on-error --parallel 'lint:!(fix)'",
+    "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint .",
-    "lint:js": "eslint .",
+    "lint:hbs:fix": "ember-template-lint . --fix",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
     "test": "npm-run-all lint:* test:*",
     "test:ember": "ember test"
@@ -50,10 +53,13 @@
     "ember-template-lint": "^2.14.0<% if (welcome) { %>",
     "ember-welcome-page": "^4.0.0<% } %>",
     "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-ember": "^10.0.1",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
     "qunit": "^2.11.0",
     "qunit-dom": "^1.6.0-beta.1"
   },
