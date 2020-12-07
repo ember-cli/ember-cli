@@ -4254,10 +4254,10 @@ is-interactive@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-interactive/-/is-interactive-1.0.0.tgz#cea6e6ae5c870a7b0a0004070b7b587e0252912e"
   integrity sha512-2HvIEKRoqS62guEC+qBjpvRubdX910WCMuJTZ+I9yvqKU2/12eSL549HMwtabb4oupdj2sMP50k+XJfB/8JE6w==
 
-is-language-code@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/is-language-code/-/is-language-code-1.0.12.tgz#1623a97cf74e075a8264e0ced4fee0c0ba9ac965"
-  integrity sha512-0A2rCeoBTALG0w64eUD/8tbymYUOZJS8D71WK/luDWvF41jYpM12EGSHtkY7GAGONuW/XTrnRoJ9RjWFDPasJA==
+is-language-code@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/is-language-code/-/is-language-code-2.0.0.tgz#6f4d59c551d73b98c45cf9f1d3ce65cee060e65b"
+  integrity sha512-6xKmRRcP2YdmMBZMVS3uiJRPQgcMYolkD6hFw2Y4KjqyIyaJlCGxUt56tuu0iIV8q9r8kMEo0Gjd/GFwKrgjbw==
 
 is-negative-zero@^2.0.0:
   version "2.0.0"
