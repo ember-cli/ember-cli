@@ -1,5 +1,24 @@
 # ember-cli Changelog
 
+
+## v3.24.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.23.0...v3.24.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.23.0...v3.24.0-beta.1)
+
+#### Changelog
+
+- [#9372](https://github.com/ember-cli/ember-cli/pull/9372) / [#9382](https://github.com/ember-cli/ember-cli/pull/9382) Add `ember-page-title` to app blueprint [@raido](https://github.com/raido)
+- [#9391](https://github.com/ember-cli/ember-cli/pull/9391) / [#9407](https://github.com/ember-cli/ember-cli/pull/9407) Add `prettier` to blueprint [@bmish](https://github.com/bmish)
+- [#9402](https://github.com/ember-cli/ember-cli/pull/9402) Prevent build cycles when app is within a watched dir [@ef4](https://github.com/ef4)
+- [#9403](https://github.com/ember-cli/ember-cli/pull/9403) Update blueprint to eslint-plugin-ember v10 [@bmish](https://github.com/bmish)
+- [#9340](https://github.com/ember-cli/ember-cli/pull/9340) / [#9371](https://github.com/ember-cli/ember-cli/pull/9371) Update blueprints with new testing configuration [@scalvert](https://github.com/scalvert)
+
+
+Thank you to all who took the time to contribute!
+
 ## v3.23.0
 
 #### Blueprint Changes
