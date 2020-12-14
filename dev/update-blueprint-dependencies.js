@@ -18,6 +18,7 @@ node dev/update-blueprint-dependencies.js --filter eslint
 }
 
 const fs = require('fs');
+const path = require('path');
 const util = require('util');
 const nopt = require('nopt');
 const _latestVersion = require('latest-version');
@@ -38,15 +39,15 @@ const OPTIONS = nopt({
 });
 
 const PACKAGE_FILES = [
-  'blueprints/app/files/package.json',
-  'blueprints/addon/additional-dev-dependencies.json',
-  'tests/fixtures/app/defaults/package.json',
-  'tests/fixtures/app/npm/package.json',
-  'tests/fixtures/app/yarn/package.json',
-  'tests/fixtures/app/embroider/package.json',
-  'tests/fixtures/app/embroider-no-welcome/package.json',
-  'tests/fixtures/addon/defaults/package.json',
-  'tests/fixtures/addon/yarn/package.json',
+  '../blueprints/app/files/package.json',
+  '../blueprints/addon/additional-dev-dependencies.json',
+  '../tests/fixtures/app/defaults/package.json',
+  '../tests/fixtures/app/npm/package.json',
+  '../tests/fixtures/app/yarn/package.json',
+  '../tests/fixtures/app/embroider/package.json',
+  '../tests/fixtures/app/embroider-no-welcome/package.json',
+  '../tests/fixtures/addon/defaults/package.json',
+  '../tests/fixtures/addon/yarn/package.json',
 ];
 
 function shouldCheckDependency(dependency) {
@@ -103,14 +104,15 @@ async function updateDependencies(dependencies) {
 
 async function main() {
   for (let packageFile of PACKAGE_FILES) {
-    let pkg = JSON.parse(fs.readFileSync(packageFile, { encoding: 'utf8' }));
+    let filePath = path.join(__dirname, packageFile);
+    let pkg = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf8' }));
 
     await updateDependencies(pkg.dependencies);
     await updateDependencies(pkg.devDependencies);
 
     let output = `${JSON.stringify(pkg, null, 2)}\n`;
 
-    fs.writeFileSync(packageFile, output, { encoding: 'utf8' });
+    fs.writeFileSync(filePath, output, { encoding: 'utf8' });
   }
 }
 
