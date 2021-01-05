@@ -1,6 +1,21 @@
 # ember-cli Changelog
 
 
+## v3.24.1-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.24.0...v3.24.1-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.24.0...v3.24.1-beta.0)
+
+#### Changelog
+
+- Update `ember-data` and `ember-source` to 3.25.0-beta [@kellyselden](https://github.com/kellyselden) / [@rwjblue](https://github.com/rwjblue)
+
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.24.0
 
 #### Blueprint Changes
