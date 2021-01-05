@@ -13,7 +13,9 @@ Example:
 
 node dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
 
-node dev/update-blueprint-dependencies.js --filter eslint
+node dev/update-blueprint-dependencies.js --filter /eslint/
+
+node dev/update-blueprint-dependencies.js --filter some-package@beta
 `);
 }
 
@@ -21,6 +23,7 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 const nopt = require('nopt');
+const npmPackageArg = require('npm-package-arg');
 const _latestVersion = require('latest-version');
 
 nopt.typeDefs['regexp'] = {
@@ -35,7 +38,7 @@ nopt.typeDefs['regexp'] = {
 const OPTIONS = nopt({
   'ember-source': String,
   'ember-data': String,
-  filter: RegExp,
+  filter: String,
 });
 
 const PACKAGE_FILES = [
@@ -50,9 +53,28 @@ const PACKAGE_FILES = [
   '../tests/fixtures/addon/yarn/package.json',
 ];
 
+let filter = {
+  nameRegexp: null,
+  fetchSpec: null,
+};
+
+if (OPTIONS.filter) {
+  if (OPTIONS.filter.startsWith('/')) {
+    filter.nameRegexp = new RegExp(OPTIONS.filter);
+    // can only use latest when using a regexp style
+    filter.fetchSpec = 'latest';
+  } else {
+    let packageArgResult = npmPackageArg(OPTIONS.filter);
+    filter.nameRegexp = packageArgResult.name;
+    filter.fetchSpec = packageArgResult.fetchSpec;
+  }
+}
+
 function shouldCheckDependency(dependency) {
   if (OPTIONS.filter) {
-    return OPTIONS.filter.test(dependency);
+    if (OPTIONS.filter.startsWith('/')) {
+      return OPTIONS.filter.test(dependency);
+    }
   }
 
   return true;

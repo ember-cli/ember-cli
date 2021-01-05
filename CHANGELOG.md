@@ -1,15 +1,17 @@
 # ember-cli Changelog
 
 
-## v3.24.0-beta.1
+## v3.24.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.23.0...v3.24.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.23.0...v3.24.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.23.0...v3.24.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.23.0...v3.24.0)
 
 #### Changelog
 
+- [#9410](https://github.com/ember-cli/ember-cli/pull/9410) Add `.eslintcache` to `.gitignore` for applications and addons [@simonihmig](https://github.com/simonihmig)
+- [#9425](https://github.com/ember-cli/ember-cli/pull/9425) Update blueprint dependecies to latest. [@rwjblue](https://github.com/rwjblue)
 - [#9372](https://github.com/ember-cli/ember-cli/pull/9372) / [#9382](https://github.com/ember-cli/ember-cli/pull/9382) Add `ember-page-title` to app blueprint [@raido](https://github.com/raido)
 - [#9391](https://github.com/ember-cli/ember-cli/pull/9391) / [#9407](https://github.com/ember-cli/ember-cli/pull/9407) Add `prettier` to blueprint [@bmish](https://github.com/bmish)
 - [#9402](https://github.com/ember-cli/ember-cli/pull/9402) Prevent build cycles when app is within a watched dir [@ef4](https://github.com/ef4)
