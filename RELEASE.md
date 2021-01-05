@@ -91,7 +91,7 @@ git merge origin/release
 git push origin beta
 ```
 
-## Intial Beta Release
+## Initial Beta Release
 
 * Update `ember-source` and `ember-data` to latest beta
 
