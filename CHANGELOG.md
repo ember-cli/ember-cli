@@ -1,32 +1,52 @@
 # ember-cli Changelog
 
 
-## v3.23.0-beta.2
+## v3.25.0-beta.1
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.23.0-beta.1...v3.23.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.23.0-beta.1...v3.23.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.24.0...v3.25.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.24.0...v3.25.0-beta.1)
 
 #### Changelog
 
-- [#9371](https://github.com/ember-cli/ember-cli/pull/9371) Adds missing `qunit-dom` setup invocation [@scalvert](https://github.com/scalvert)
+- Update `ember-data` and `ember-source` to 3.25.0-beta [@kellyselden](https://github.com/kellyselden) / [@rwjblue](https://github.com/rwjblue)
+
 
 Thank you to all who took the time to contribute!
 
-## v3.23.0-beta.1
+
+## v3.24.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.22.0...v3.23.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.22.0...v3.23.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.23.0...v3.24.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.23.0...v3.24.0)
 
 #### Changelog
 
-- [#9340](https://github.com/ember-cli/ember-cli/pull/9340) Update blueprints with new testing configuration [@scalvert](https://github.com/scalvert)
-- [#9361](https://github.com/ember-cli/ember-cli/pull/9361) / [#9364](https://github.com/ember-cli/ember-cli/pull/9364) / [#9365](https://github.com/ember-cli/ember-cli/pull/9365) Update dependencies to latest. [@rwjblue](https://github.com/rwjblue)
-- [#9368](https://github.com/ember-cli/ember-cli/pull/9368) Update `markdown-it` to latest. [@rwjblue](https://github.com/rwjblue)
-- [#9369](https://github.com/ember-cli/ember-cli/pull/9369) Update `ember-source` and `ember-data` for 3.23.0-beta's. [@rwjblue](https://github.com/rwjblue)
+- [#9410](https://github.com/ember-cli/ember-cli/pull/9410) Add `.eslintcache` to `.gitignore` for applications and addons [@simonihmig](https://github.com/simonihmig)
+- [#9425](https://github.com/ember-cli/ember-cli/pull/9425) Update blueprint dependecies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#9372](https://github.com/ember-cli/ember-cli/pull/9372) / [#9382](https://github.com/ember-cli/ember-cli/pull/9382) Add `ember-page-title` to app blueprint [@raido](https://github.com/raido)
+- [#9391](https://github.com/ember-cli/ember-cli/pull/9391) / [#9407](https://github.com/ember-cli/ember-cli/pull/9407) Add `prettier` to blueprint [@bmish](https://github.com/bmish)
+- [#9402](https://github.com/ember-cli/ember-cli/pull/9402) Prevent build cycles when app is within a watched dir [@ef4](https://github.com/ef4)
+- [#9403](https://github.com/ember-cli/ember-cli/pull/9403) Update blueprint to eslint-plugin-ember v10 [@bmish](https://github.com/bmish)
+- [#9340](https://github.com/ember-cli/ember-cli/pull/9340) / [#9371](https://github.com/ember-cli/ember-cli/pull/9371) Update blueprints with new testing configuration [@scalvert](https://github.com/scalvert)
+
+
+Thank you to all who took the time to contribute!
+
+## v3.23.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.22.0...v3.23.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.22.0...v3.23.0)
+
+#### Changelog
+
+- [#9369](https://github.com/ember-cli/ember-cli/pull/9369) / [#9406](https://github.com/ember-cli/ember-cli/pull/9406) Update blueprint dependencies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#9361](https://github.com/ember-cli/ember-cli/pull/9361) / [#9364](https://github.com/ember-cli/ember-cli/pull/9364) / [#9365](https://github.com/ember-cli/ember-cli/pull/9365) / [#9368](https://github.com/ember-cli/ember-cli/pull/9368) Update dependencies to latest. [@rwjblue](https://github.com/rwjblue)
 
 Thank you to all who took the time to contribute!
 
