@@ -121,6 +121,40 @@ describe('serve command', function () {
     });
   });
 
+  it('has correct liveReloadJsUrl', function () {
+    return command.validateAndRun(['--port', '0', '--live-reload-js-url', 'https://emberjs.com/']).then(function () {
+      let captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.liveReloadJsUrl).to.equal('https://emberjs.com/', 'has correct liveReload liveReloadJsUrl');
+    });
+  });
+
+  it('has correct liveReloadOptions', function () {
+    let options = {
+      port: 433,
+      nested: {
+        value: true,
+      },
+      someProperty: 42,
+    };
+    return command.validateAndRun(['--port', '0', '--live-reload-options', JSON.stringify(options)]).then(function () {
+      let captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.liveReloadOptions).to.deep.equal(options, 'has correct liveReload liveReloadOptions');
+    });
+  });
+
+  it('fail if liveReloadOptions is not json-serialized object', function () {
+    return command.validateAndRun(['--port', '0', '--live-reload-options', 'a:1,b:2']).catch(function (error) {
+      expect(error.message).to.equal(
+        '--live-reload-options value should be valid serialized JSON string, got: a:1,b:2',
+        'should emit error if live-reload-options is incorrect'
+      );
+      expect(error.isSilentError).to.equal(true, 'this is silent error');
+      expect(error.suppressedStacktrace).to.equal(true, 'error stacktrace suppressed');
+    });
+  });
+
   it('has correct liveLoadBaseUrl', function () {
     return command
       .validateAndRun(['--port', '0', '--live-reload-base-url', 'http://127.0.0.1:4200/'])

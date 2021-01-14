@@ -708,6 +708,21 @@ module.exports = {
           required: false
         },
         {
+          name: 'live-reload-js-url',
+          description:
+            'The absolute URL used to load livereload.js. If specified, this overrides the liveReloadPort option.',
+          key: 'liveReloadJsUrl',
+          required: false
+        },
+        {
+          name: 'live-reload-options',
+          aliases: ['lro'],
+          description:
+            'Stringified JSON object for LiveReload options. LiveReload supports a number of options for configuring websocket communication, including https, host, port, and others. See https://git.io/JzgLG for details.',
+          key: 'liveReloadOptions',
+          required: false
+        },
+        {
           aliases: ['lrbu'],
           description: 'Defaults to baseURL',
           key: 'liveReloadBaseUrl',

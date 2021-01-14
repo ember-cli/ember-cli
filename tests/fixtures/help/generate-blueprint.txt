@@ -1,24 +1,24 @@
 Requested ember-cli commands:
 
-ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m
+ember generate [x1B][33m<blueprint>[x1B][39m [x1B][36m<options...>[x1B][39m
   Generates new code from blueprints.
-  \u001b[90maliases: g\u001b[39m
-  \u001b[36m--dry-run\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
-    \u001b[90maliases: -d\u001b[39m
-  \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
-    \u001b[90maliases: -v\u001b[39m
-  \u001b[36m--pod\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
-    \u001b[90maliases: -p, -pods\u001b[39m
-  \u001b[36m--classic\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
-    \u001b[90maliases: -c\u001b[39m
-  \u001b[36m--dummy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
-    \u001b[90maliases: -dum, -id\u001b[39m
-  \u001b[36m--in-repo-addon\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m
-    \u001b[90maliases: --in-repo <value>, -ir <value>\u001b[39m
-  \u001b[36m--lint-fix\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m
-  \u001b[36m--in\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
+  [x1B][90maliases: g[x1B][39m
+  [x1B][36m--dry-run[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -d[x1B][39m
+  [x1B][36m--verbose[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -v[x1B][39m
+  [x1B][36m--pod[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -p, -pods[x1B][39m
+  [x1B][36m--classic[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -c[x1B][39m
+  [x1B][36m--dummy[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -dum, -id[x1B][39m
+  [x1B][36m--in-repo-addon[x1B][39m [x1B][36m(String)[x1B][39m [x1B][36m(Default: null)[x1B][39m
+    [x1B][90maliases: --in-repo <value>, -ir <value>[x1B][39m
+  [x1B][36m--lint-fix[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: true)[x1B][39m
+  [x1B][36m--in[x1B][39m [x1B][36m(String)[x1B][39m [x1B][36m(Default: null)[x1B][39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
 
-      blueprint \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates a blueprint and definition.\u001b[39m
+      blueprint [x1B][33m<name>[x1B][39m
+        [x1B][90mGenerates a blueprint and definition.[x1B][39m
 
 
