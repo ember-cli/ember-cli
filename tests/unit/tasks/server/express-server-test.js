@@ -9,6 +9,7 @@ const MockServerWatcher = require('../../../helpers/mock-server-watcher');
 const ProxyServer = require('../../../helpers/proxy-server');
 const chalk = require('chalk');
 const request = require('supertest');
+const http2 = require('http2');
 const net = require('net');
 const EOL = require('os').EOL;
 const nock = require('nock');
@@ -224,6 +225,43 @@ describe('express-server', function () {
                   resolve(value);
                 }
               });
+          });
+        });
+    });
+
+    // TODO: this is not supported by supertest https://github.com/visionmedia/supertest/pull/494 should fix that
+    it('checks for http2 protocol', function () {
+      return subject
+        .start({
+          host: 'localhost',
+          port: '1337',
+          ssl: true,
+          sslCert: 'tests/fixtures/ssl/server.crt',
+          sslKey: 'tests/fixtures/ssl/server.key',
+          rootURL: '/',
+        })
+        .then(function () {
+          return new Promise(function (resolve, reject) {
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+            const client = http2.connect('https://localhost:1337');
+            client.on('error', (err) => reject(err));
+
+            const req = client.request({ ':path': '/' });
+
+            req.on('response', (headers) => {
+              // this will validate that we are getting an http2 and not a http 1.1 request
+              expect(headers[http2.constants.HTTP2_HEADER_STATUS]).to.be.equal(200);
+            });
+
+            req.setEncoding('utf8');
+            req.on('data', () => {});
+            req.on('end', () => {
+              client.close();
+
+              resolve();
+            });
+            req.end();
           });
         });
     });
