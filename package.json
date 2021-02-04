@@ -68,7 +68,7 @@
     "console-ui": "^3.1.2",
     "core-object": "^3.1.5",
     "dag-map": "^2.0.2",
-    "diff": "^4.0.2",
+    "diff": "^5.0.0",
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-normalize-entity-name": "^1.0.0",
