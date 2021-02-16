@@ -32,6 +32,7 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.0",
+    "@embroider/test-setup": "^0.36.0",
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
     "babel-eslint": "^10.1.0",
@@ -49,7 +50,7 @@
     "ember-page-title": "^6.2.1",
     "ember-qunit": "^5.1.2",
     "ember-resolver": "^8.0.2",
-    "ember-source": "~3.25.1",
+    "ember-source": "~3.26.0-beta.2",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^2.18.1",
     "ember-try": "^1.4.0",
