@@ -1,5 +1,21 @@
 # ember-cli Changelog
 
+## v3.26.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.25.0...v3.26.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.25.0...v3.26.0-beta.0)
+
+#### Changelog
+
+- [#9437](https://github.com/ember-cli/ember-cli/pull/9437) Add Prettier files to ".npmignore" file in addon blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9436](https://github.com/ember-cli/ember-cli/pull/9436) Enable Embroider test scenario for addons [@thoov](https://github.com/thoov)
+- [#9435](https://github.com/ember-cli/ember-cli/pull/9435) Use "lint:fix" script in app and addon README files [@bertdeblock](https://github.com/bertdeblock)
+- [#9451](https://github.com/ember-cli/ember-cli/pull/9451) update blueprint deps [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 ## v3.25.0
 
 #### Blueprint Changes
