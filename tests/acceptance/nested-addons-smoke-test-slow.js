@@ -24,9 +24,6 @@ describe('Acceptance: nested-addons-smoke-test', function () {
   this.timeout(360000);
 
   before(function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
-    }
     return createTestTargets(appName);
   });
 
@@ -43,6 +40,9 @@ describe('Acceptance: nested-addons-smoke-test', function () {
   });
 
   it('addons with nested addons compile correctly', async function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      this.skip();
+    }
     await copyFixtureFiles('addon/with-nested-addons');
 
     let packageJsonPath = path.join(appRoot, 'package.json');
