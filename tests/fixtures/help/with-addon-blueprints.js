@@ -459,6 +459,12 @@ module.exports = {
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
           required: false
+        },
+        {
+          default: false,
+          key: 'embroider',
+          name: 'embroider',
+          required: false
         }
       ],
       anonymousOptions: ['<glob-pattern>']
@@ -569,6 +575,12 @@ module.exports = {
           name: 'lang',
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
+          required: false
+        },
+        {
+          default: false,
+          key: 'embroider',
+          name: 'embroider',
           required: false
         }
       ],
