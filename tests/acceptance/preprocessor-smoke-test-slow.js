@@ -24,9 +24,6 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   this.timeout(360000);
 
   before(function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
-    }
     return createTestTargets(appName);
   });
 
@@ -43,6 +40,9 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   });
 
   it('addons with standard preprocessors compile correctly', async function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      return this.skip();
+    }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -58,6 +58,9 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   });
 
   it('addon registry entries are added in the proper order', async function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      return this.skip();
+    }
     await copyFixtureFiles(`preprocessor-tests/app-registry-ordering`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -75,6 +78,9 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   });
 
   it('addons without preprocessors compile correctly', async function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      return this.skip();
+    }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-without-preprocessors`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -97,6 +103,9 @@ describe('Acceptance: preprocessor-smoke-test', function () {
       |-- preprocessor should not apply to this
   */
   it('addons depending on preprocessor addon preprocesses addon but not app', async function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      return this.skip();
+    }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-2`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -125,6 +134,9 @@ describe('Acceptance: preprocessor-smoke-test', function () {
       |-- preprocessor should not apply to this
   */
   it('addon N levels deep depending on preprocessor preprocesses that parent addon only', async function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      return this.skip();
+    }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-3`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
