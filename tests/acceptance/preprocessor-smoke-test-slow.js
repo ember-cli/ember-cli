@@ -41,7 +41,7 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
   it('addons with standard preprocessors compile correctly', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors`);
 
@@ -59,7 +59,7 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
   it('addon registry entries are added in the proper order', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles(`preprocessor-tests/app-registry-ordering`);
 
@@ -79,7 +79,7 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
   it('addons without preprocessors compile correctly', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-without-preprocessors`);
 
@@ -104,7 +104,7 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   */
   it('addons depending on preprocessor addon preprocesses addon but not app', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-2`);
 
@@ -135,7 +135,7 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   */
   it('addon N levels deep depending on preprocessor preprocesses that parent addon only', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-3`);
 

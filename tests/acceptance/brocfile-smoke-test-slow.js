@@ -41,7 +41,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('a custom EmberENV in config/environment.js is used for window.EmberENV', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/custom-ember-env');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -58,7 +58,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('a custom environment config can be used in Brocfile.js', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/custom-environment-config');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -66,7 +66,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('without app/templates', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/pods-templates');
     await fs.remove(path.join(process.cwd(), 'app/templates'));
@@ -75,7 +75,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('strips app/styles or app/templates from JS', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/styles-and-templates-stripped');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -90,7 +90,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('should throw if no build file is found', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     fs.removeSync('./ember-cli-build.js');
     try {
@@ -102,7 +102,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('using autoRun: true', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/auto-run-true');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -115,7 +115,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('using autoRun: false', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/auto-run-false');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -129,7 +129,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('app.import works properly with test tree files', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/app-test-import');
 
@@ -149,7 +149,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('app.import works properly with non-js/css files', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/app-import');
 
@@ -169,7 +169,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('addons can have a public tree that is merged and returned namespaced by default', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/public-tree');
 
@@ -189,7 +189,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('using pods based templates', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/pods-templates');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -197,7 +197,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('using pods based templates with a podModulePrefix', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/pods-with-prefix-templates');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -205,7 +205,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('addon trees are not jshinted', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/jshint-addon');
 
@@ -225,7 +225,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('multiple css files in styles/ are output when a preprocessor is not used', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/multiple-css-files');
 
@@ -241,7 +241,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('specifying custom output paths works properly', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/custom-output-paths');
 
@@ -269,7 +269,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('specifying outputFile results in an explicitly generated assets', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/app-import-output-file');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -284,7 +284,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('can use transformation to turn anonymous AMD into named AMD', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/app-import-anonymous-amd');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -311,7 +311,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('can use transformation to turn named UMD into named AMD', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/app-import-named-umd');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -338,7 +338,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('can do amd transform from addon', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/app-import-custom-transform');
 
@@ -371,7 +371,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('can use transformation to turn library into custom transformation', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/app-import-custom-transform');
 
@@ -394,7 +394,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
   // skipped because of potentially broken assertion that should be fixed correctly at a later point
   it.skip('specifying partial `outputPaths` hash deep merges options correctly', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/custom-output-paths');
 
@@ -432,7 +432,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('multiple paths can be CSS preprocessed', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/multiple-sass-files');
 
@@ -453,7 +453,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('app.css is output to <app name>.css by default', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
     expect(file(`dist/assets/${appName}.css`)).to.exist;
@@ -462,7 +462,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
   // for backwards compat.
   it('app.scss is output to <app name>.css by default', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/multiple-sass-files');
 
@@ -486,7 +486,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
   it('additional trees can be passed to the app', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('brocfile-tests/additional-trees');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', { verbose: true });

@@ -41,7 +41,7 @@ describe('Acceptance: nested-addons-smoke-test', function () {
 
   it('addons with nested addons compile correctly', async function () {
     if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
+      return this.skip();
     }
     await copyFixtureFiles('addon/with-nested-addons');
 
