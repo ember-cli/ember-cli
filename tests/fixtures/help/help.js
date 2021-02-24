@@ -427,6 +427,13 @@ module.exports = {
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
           required: false
+        },
+        {
+          default: false,
+          key: 'embroider',
+          name: 'embroider',
+          description: 'Enables the build system to use Embroider',
+          required: false,
         }
       ],
       anonymousOptions: ['<glob-pattern>']
@@ -538,6 +545,13 @@ module.exports = {
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
           required: false
+        },
+        {
+          default: false,
+          key: 'embroider',
+          name: 'embroider',
+          description: 'Enables the build system to use Embroider',
+          required: false,
         }
       ],
       anonymousOptions: ['<app-name>']
