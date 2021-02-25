@@ -69,8 +69,10 @@ describe('Acceptance: preprocessor-smoke-test', function () {
     let checker = new DistChecker(path.join(appRoot, 'dist'));
 
     expect(checker.contains('js', 'replacedByPreprocessor'), 'token should have been replaced in app bundle').to.be;
-    expect(checker.contains('js', '__SECOND_PREPROCESSOR_REPLACEMENT_TOKEN__'), 'token should not be contained').to.not.be;
-    expect(checker.contains('js', '__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__'), 'token should not be contained').to.not.be;
+    expect(checker.contains('js', '__SECOND_PREPROCESSOR_REPLACEMENT_TOKEN__'), 'token should not be contained').to.not
+      .be;
+    expect(checker.contains('js', '__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__'), 'token should not be contained').to.not
+      .be;
   });
 
   it('addons without preprocessors compile correctly', async function () {

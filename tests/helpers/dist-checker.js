@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+// eslint-disable-next-line node/no-unpublished-require
 const { JSDOM } = require('jsdom');
 
 class DistChecker {
