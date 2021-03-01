@@ -1465,10 +1465,10 @@ broccoli@^2.0.0:
     underscore.string "^3.2.2"
     watch-detector "^0.1.0"
 
-broccoli@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.5.0.tgz#bdf96dc32980d1ad9f7ef5e68aaaa19e8d47b602"
-  integrity sha512-qGYirIs6W5NGzDPMTRtoOnveP3UQJKWFjAWdRRZJjCoAJYN872sXuO48cnNfnc/c1nd9fCR8et4knlTPgI+9yQ==
+broccoli@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.5.1.tgz#371bc63cabe700bae3a2b80cac3e978f94664418"
+  integrity sha512-2Rvl40E6JgALX1JQN5PjCgP1apFAP24vVol+coX5TpVVy0Lsqzl3Mabbe3fVQcu3lMRfPJ6DyBKqBlo52XPSRg==
   dependencies:
     "@types/chai" "^4.2.9"
     "@types/chai-as-promised" "^7.1.2"
