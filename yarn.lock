@@ -3224,10 +3224,10 @@ fireworm@^0.7.0:
     lodash.flatten "^3.0.2"
     minimatch "^3.0.2"
 
-fixturify-project@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/fixturify-project/-/fixturify-project-2.1.0.tgz#1677be3f116ec3f6b2b2ebb75b393d5860c4668e"
-  integrity sha512-B59wD4I5HDbokvmZatZTyNIjuSBjZzcZoEYdr9kdG9qRc/FSDjzUzzvHbrZL7oWfu9qsbyJBjzf0R0WC5hIZsA==
+fixturify-project@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/fixturify-project/-/fixturify-project-2.1.1.tgz#a511dd26700c6b64ac271ef4393e7124f153c81f"
+  integrity sha512-sP0gGMTr4iQ8Kdq5Ez0CVJOZOGWqzP5dv/veOTdFNywioKjkNWCHBi1q65DMpcNGUGeoOUWehyji274Q2wRgxA==
   dependencies:
     fixturify "^2.1.0"
     tmp "^0.0.33"
