@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const crypto = require('crypto');
 const walkSync = require('walk-sync');
 const EOL = require('os').EOL;
+const execa = require('execa');
 
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -560,5 +561,49 @@ module.exports = function() {
     expect(output).to.match(/TemplateLint:/, 'ran template linter');
     expect(output).to.match(/fail\s+2/, 'two templates failed linting');
     expect(result.code).to.equal(1);
+  });
+
+  describe('ember generate skip-lint-fix argument', function () {
+    beforeEach(async function () {
+      await copyFixtureFiles('app/with-blueprint-override-lint-fail');
+    });
+
+    let newComponent = 'foo-bar';
+    let newFiles = {
+      js: path.join('app', 'components', 'foo-bar.js'),
+      hbs: path.join('app', 'components', 'foo-bar.hbs'),
+    };
+
+    it('does not fix lint errors when --skip-lint-fix=true', async function () {
+      await ember([
+        'generate',
+        'component',
+        newComponent,
+        '--component-class=@ember/component',
+        '--skip-lint-fix=true',
+      ]);
+
+      await expect(execa('eslint', [newFiles.js], { cwd: appRoot, preferLocal: true })).to.eventually.be.rejectedWith(
+        newFiles.js
+      );
+
+      await expect(
+        execa('ember-template-lint', [newFiles.hbs], { cwd: appRoot, preferLocal: true })
+      ).to.eventually.be.rejectedWith(newFiles.hbs);
+    });
+
+    it('does fix lint errors when --skip-lint-fix=false', async function () {
+      await ember([
+        'generate',
+        'component',
+        newComponent,
+        '--component-class=@ember/component',
+        '--skip-lint-fix=false',
+      ]);
+
+      await expect(execa('eslint', [newFiles.js], { cwd: appRoot, preferLocal: true })).to.eventually.be.ok;
+      await expect(execa('ember-template-lint', [newFiles.hbs], { cwd: appRoot, preferLocal: true })).to.eventually.be
+        .ok;
+    });
   });
 });
