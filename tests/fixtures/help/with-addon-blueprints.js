@@ -256,9 +256,9 @@ module.exports = {
           required: false
         },
         {
-          name: 'skip-lint-fix',
-          default: false,
-          key: 'skipLintFix',
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
           required: false
         },
         {
@@ -442,9 +442,9 @@ module.exports = {
           required: false
         },
         {
-          name: 'skip-lint-fix',
-          default: false,
-          key: 'skipLintFix',
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
           required: false
         },
         {

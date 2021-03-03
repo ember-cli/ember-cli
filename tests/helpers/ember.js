@@ -67,8 +67,8 @@ module.exports = function ember(args, options) {
   }
 
   // Most tests don't npm install so let's disable lint fixing by default
-  if (!args.some((arg) => arg.startsWith('--skip-lint-fix'))) {
-    args.push('--skip-lint-fix');
+  if (!args.some((arg) => arg.startsWith('--lint-fix'))) {
+    args.push('--no-lint-fix');
   }
 
   willInterruptProcess.release();

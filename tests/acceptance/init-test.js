@@ -173,7 +173,7 @@ describe('Acceptance: ember init', function () {
   it('init includes lint fix', async function () {
     let lintFixStub = td.replace(lintFix, 'run');
 
-    await ember(['init', '--skip-npm', '--skip-bower', '--skip-lint-fix=false']);
+    await ember(['init', '--skip-npm', '--skip-bower', '--lint-fix']);
 
     td.verify(
       lintFixStub(

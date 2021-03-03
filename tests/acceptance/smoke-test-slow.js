@@ -563,7 +563,7 @@ module.exports = function() {
     expect(result.code).to.equal(1);
   });
 
-  describe('ember generate skip-lint-fix argument', function () {
+  describe('ember generate lint-fix argument', function () {
     beforeEach(async function () {
       await copyFixtureFiles('app/with-blueprint-override-lint-fail');
     });
@@ -574,14 +574,8 @@ module.exports = function() {
       hbs: path.join('app', 'components', 'foo-bar.hbs'),
     };
 
-    it('does not fix lint errors when --skip-lint-fix=true', async function () {
-      await ember([
-        'generate',
-        'component',
-        newComponent,
-        '--component-class=@ember/component',
-        '--skip-lint-fix=true',
-      ]);
+    it('does not fix lint errors with --no-lint-fix', async function () {
+      await ember(['generate', 'component', newComponent, '--component-class=@ember/component', '--no-lint-fix']);
 
       await expect(execa('eslint', [newFiles.js], { cwd: appRoot, preferLocal: true })).to.eventually.be.rejectedWith(
         newFiles.js
@@ -592,14 +586,8 @@ module.exports = function() {
       ).to.eventually.be.rejectedWith(newFiles.hbs);
     });
 
-    it('does fix lint errors when --skip-lint-fix=false', async function () {
-      await ember([
-        'generate',
-        'component',
-        newComponent,
-        '--component-class=@ember/component',
-        '--skip-lint-fix=false',
-      ]);
+    it('does fix lint errors with --lint-fix', async function () {
+      await ember(['generate', 'component', newComponent, '--component-class=@ember/component', '--lint-fix']);
 
       await expect(execa('eslint', [newFiles.js], { cwd: appRoot, preferLocal: true })).to.eventually.be.ok;
       await expect(execa('ember-template-lint', [newFiles.hbs], { cwd: appRoot, preferLocal: true })).to.eventually.be

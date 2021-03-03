@@ -350,7 +350,7 @@ describe('Acceptance: ember generate', function () {
   it('lint fixes blueprints', async function () {
     let lintFixStub = td.replace(lintFix, 'run');
 
-    await generate(['blueprint', 'foo', '--skip-lint-fix=false']);
+    await generate(['blueprint', 'foo', '--lint-fix']);
 
     td.verify(lintFixStub([path.join('blueprints', 'foo', 'index.js')]), { times: 1 });
   });
