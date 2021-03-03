@@ -258,7 +258,6 @@ module.exports = {
         {
           name: 'skip-lint-fix',
           default: false,
-          aliases: ['slf'],
           key: 'skipLintFix',
           required: false
         },
@@ -445,7 +444,6 @@ module.exports = {
         {
           name: 'skip-lint-fix',
           default: false,
-          aliases: ['slf'],
           key: 'skipLintFix',
           required: false
         },
