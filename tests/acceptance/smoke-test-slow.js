@@ -563,35 +563,29 @@ module.exports = function() {
     expect(result.code).to.equal(1);
   });
 
-  describe('ember generate lint-fix argument', function () {
+  describe('lint fixing after file generation', function () {
     beforeEach(async function () {
       await copyFixtureFiles('app/with-blueprint-override-lint-fail');
     });
 
-    let newComponent = 'foo-bar';
-    let newFiles = {
-      js: path.join('app', 'components', 'foo-bar.js'),
-      hbs: path.join('app', 'components', 'foo-bar.hbs'),
-    };
+    let componentName = 'foo-bar';
 
     it('does not fix lint errors with --no-lint-fix', async function () {
-      await ember(['generate', 'component', newComponent, '--component-class=@ember/component', '--no-lint-fix']);
+      await ember(['generate', 'component', componentName, '--component-class=@ember/component', '--no-lint-fix']);
 
-      await expect(execa('eslint', [newFiles.js], { cwd: appRoot, preferLocal: true })).to.eventually.be.rejectedWith(
-        newFiles.js
+      await expect(execa('eslint', ['.'], { cwd: appRoot, preferLocal: true })).to.eventually.be.rejectedWith(
+        `${componentName}.js`
       );
-
       await expect(
-        execa('ember-template-lint', [newFiles.hbs], { cwd: appRoot, preferLocal: true })
-      ).to.eventually.be.rejectedWith(newFiles.hbs);
+        execa('ember-template-lint', ['.'], { cwd: appRoot, preferLocal: true })
+      ).to.eventually.be.rejectedWith(`${componentName}.hbs`);
     });
 
     it('does fix lint errors with --lint-fix', async function () {
-      await ember(['generate', 'component', newComponent, '--component-class=@ember/component', '--lint-fix']);
+      await ember(['generate', 'component', componentName, '--component-class=@ember/component', '--lint-fix']);
 
-      await expect(execa('eslint', [newFiles.js], { cwd: appRoot, preferLocal: true })).to.eventually.be.ok;
-      await expect(execa('ember-template-lint', [newFiles.hbs], { cwd: appRoot, preferLocal: true })).to.eventually.be
-        .ok;
+      await expect(execa('eslint', ['.'], { cwd: appRoot, preferLocal: true })).to.eventually.be.ok;
+      await expect(execa('ember-template-lint', ['.'], { cwd: appRoot, preferLocal: true })).to.eventually.be.ok;
     });
   });
 });

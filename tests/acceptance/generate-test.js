@@ -347,11 +347,11 @@ describe('Acceptance: ember generate', function () {
     expect(file('app/foos/bar.js')).to.contain('export default Ember.Object.extend({ foo: two });');
   });
 
-  it('lint fixes blueprints', async function () {
+  it('calls lint fix function', async function () {
     let lintFixStub = td.replace(lintFix, 'run');
 
     await generate(['blueprint', 'foo', '--lint-fix']);
 
-    td.verify(lintFixStub([path.join('blueprints', 'foo', 'index.js')]), { times: 1 });
+    td.verify(lintFixStub(), { times: 1 });
   });
 });

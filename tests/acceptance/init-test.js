@@ -170,19 +170,12 @@ describe('Acceptance: ember init', function () {
     expect(dir('.git')).to.not.exist;
   });
 
-  it('init includes lint fix', async function () {
+  it('calls lint fix function', async function () {
     let lintFixStub = td.replace(lintFix, 'run');
 
     await ember(['init', '--skip-npm', '--skip-bower', '--lint-fix']);
 
-    td.verify(
-      lintFixStub(
-        td.matchers.argThat(function (arr) {
-          return arr.length > 0 && typeof arr[0] === 'string';
-        })
-      ),
-      { times: 1 }
-    );
+    td.verify(lintFixStub(), { times: 1 });
 
     confirmBlueprinted();
   });
