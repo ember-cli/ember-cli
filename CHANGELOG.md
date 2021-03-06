@@ -1,6 +1,20 @@
 # ember-cli Changelog
 
 
+## v3.25.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.25.1...v3.25.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.25.1...v3.25.2)
+
+#### Changelog
+
+- [#9473](https://github.com/ember-cli/ember-cli/pull/9473) Issue a better error message for add-on's missing an entry point (e.g. invalid `ember-addon.main` path) [@ef4](https://github.com/ef4)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.25.1
 
 #### Blueprint Changes
