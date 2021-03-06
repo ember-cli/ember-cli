@@ -211,7 +211,7 @@ describe('ember-app-utils', function () {
         let output = contentFor(config, defaultMatch, 'test-body-footer', defaultOptions);
 
         expect(output, 'includes `<script>` tag').to.equal(
-          `<script>Ember.assert('The tests file was not loaded. Make sure your tests index.html includes "assets/tests.js".', EmberENV.TESTS_FILE_LOADED);</script>`
+          `<script>document.addEventListener('DOMContentLoaded', function() { Ember.assert('The tests file was not loaded. Make sure your tests index.html includes "assets/tests.js".', EmberENV.TESTS_FILE_LOADED);});</script>`
         );
       });
     });
