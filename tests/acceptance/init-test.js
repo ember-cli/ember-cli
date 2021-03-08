@@ -175,7 +175,7 @@ describe('Acceptance: ember init', function () {
 
     await ember(['init', '--skip-npm', '--skip-bower', '--lint-fix']);
 
-    td.verify(lintFixStub(), { times: 1 });
+    td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
 
     confirmBlueprinted();
   });

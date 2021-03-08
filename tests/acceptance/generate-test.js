@@ -352,6 +352,6 @@ describe('Acceptance: ember generate', function () {
 
     await generate(['blueprint', 'foo', '--lint-fix']);
 
-    td.verify(lintFixStub(), { times: 1 });
+    td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
   });
 });
