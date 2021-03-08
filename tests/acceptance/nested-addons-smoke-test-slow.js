@@ -6,7 +6,6 @@ const fs = require('fs-extra');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-const { isExperimentEnabled } = require('../../lib/experiments');
 const DistChecker = require('../helpers/dist-checker');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
@@ -40,9 +39,6 @@ describe('Acceptance: nested-addons-smoke-test', function () {
   });
 
   it('addons with nested addons compile correctly', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await copyFixtureFiles('addon/with-nested-addons');
 
     let packageJsonPath = path.join(appRoot, 'package.json');
