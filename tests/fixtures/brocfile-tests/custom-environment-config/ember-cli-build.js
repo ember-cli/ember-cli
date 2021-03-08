@@ -6,7 +6,6 @@ module.exports = function (defaults) {
     configPath: 'config/something-else'
   });
 
-
   if (isExperimentEnabled('EMBROIDER')) {
     const { Webpack } = require('@embroider/webpack');
     return require('@embroider/compat').compatBuild(app, Webpack);
