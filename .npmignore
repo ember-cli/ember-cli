@@ -1,8 +1,8 @@
 /assets/
 /dev/
 /docs/
-/tests/*
-/tests/*/
+/tests/**
+/tests/**/
 !/tests/helpers/
 /tmp/
 /.*
