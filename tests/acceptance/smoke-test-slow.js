@@ -13,6 +13,7 @@ const killCliProcess = require('../helpers/kill-cli-process');
 const ember = require('../helpers/ember');
 const runCommand = require('../helpers/run-command');
 const { isExperimentEnabled } = require('../../lib/experiments');
+const DistChecker = require('../helpers/dist-checker');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
@@ -46,16 +47,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, clean from scratch', function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
   it('ember new foo, make sure addon template overwrites', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await ember(['generate', 'template', 'foo']);
     await ember(['generate', 'in-repo-addon', 'my-addon']);
 
@@ -82,9 +77,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember test still runs when a JavaScript testem config exists', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await copyFixtureFiles('smoke-tests/js-testem-config');
 
     let result = await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -97,9 +89,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('eslint passes after running ember new', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     let result = await runCommand(path.join('.', 'node_modules', 'eslint', 'bin', 'eslint.js'), appRoot);
 
     let exitCode = result.code;
@@ -112,42 +101,42 @@ describe('Acceptance: smoke-test', function () {
   // when run in isolation, it passes
   // here is the error:
   // test-support-80f2fe63fae0c44478fe0f8af73200a7.js contains the fingerprint (2871106928f813936fdd64f4d16005ac): expected 'test-support-80f2fe63fae0c44478fe0f8af73200a7.js' to include '2871106928f813936fdd64f4d16005ac'
-  it.skip('ember new foo, build production and verify fingerprint', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
-    await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
+  if (!isExperimentEnabled('EMBROIDER')) {
+    it.skip('ember new foo, build production and verify fingerprint', async function () {
+      await runCommand(
+        path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
+        'build',
+        '--environment=production'
+      );
 
-    let dirPath = path.join(appRoot, 'dist', 'assets');
-    let dir = fs.readdirSync(dirPath);
-    let files = [];
+      let dirPath = path.join(appRoot, 'dist', 'assets');
+      let dir = fs.readdirSync(dirPath);
+      let files = [];
 
-    dir.forEach(function (filepath) {
-      if (filepath === '.gitkeep') {
-        return;
-      }
+      dir.forEach(function (filepath) {
+        if (filepath === '.gitkeep') {
+          return;
+        }
 
-      files.push(filepath);
+        files.push(filepath);
 
-      let file = fs.readFileSync(path.join(dirPath, filepath), { encoding: null });
+        let file = fs.readFileSync(path.join(dirPath, filepath), { encoding: null });
 
-      let md5 = crypto.createHash('md5');
-      md5.update(file);
-      let hex = md5.digest('hex');
+        let md5 = crypto.createHash('md5');
+        md5.update(file);
+        let hex = md5.digest('hex');
 
-      expect(filepath).to.contain(hex, `${filepath} contains the fingerprint (${hex})`);
+        expect(filepath).to.contain(hex, `${filepath} contains the fingerprint (${hex})`);
+      });
+
+      let indexHtml = file('dist/index.html');
+      files.forEach(function (filename) {
+        expect(indexHtml).to.contain(filename);
+      });
     });
-
-    let indexHtml = file('dist/index.html');
-    files.forEach(function (filename) {
-      expect(indexHtml).to.contain(filename);
-    });
-  });
+  }
 
   it('ember test --environment=production', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await copyFixtureFiles('smoke-tests/passing-test');
 
     let result = await runCommand(
@@ -165,9 +154,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember test --path with previous build', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     let originalWrite = process.stdout.write;
     let output = [];
 
@@ -199,9 +185,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember test wasm', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     let originalWrite = process.stdout.write;
     let output = [];
 
@@ -233,9 +216,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, build development, and verify generated files', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
     let dirPath = path.join(appRoot, 'dist');
@@ -245,9 +225,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember build exits with non-zero code when build fails', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     let appJsPath = path.join(appRoot, 'app', 'app.js');
 
     let result = await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -263,9 +240,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember build generates instrumentation files when viz is enabled', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     process.env.BROCCOLI_VIZ = '1';
 
     try {
@@ -293,24 +267,20 @@ describe('Acceptance: smoke-test', function () {
     });
   });
 
-  it.skip('ember new foo, build --watch development, and verify rebuilt after change', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
+  it('ember new foo, build --watch development, and verify rebuilt after change', async function () {
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
-    let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
     let text = 'anotuhaonteuhanothunaothanoteh';
     let line = `console.log("${text}");`;
+
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
 
     try {
       await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
         onOutput(string, child) {
           if (touched) {
             if (string.match(/Build successful/)) {
-              // build after change to app.js
-              let contents = fs.readFileSync(builtJsPath).toString();
-              expect(contents).to.contain(text, 'must contain changed line after rebuild');
+              expect(checker.contains('js', text)).to.be;
               killCliProcess(child);
             }
           } else if (string.match(/Build successful/)) {
@@ -325,18 +295,16 @@ describe('Acceptance: smoke-test', function () {
     }
   });
 
-  it.skip('ember new foo, build --watch development, and verify rebuilt after multiple changes', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
+  it('ember new foo, build --watch development, and verify rebuilt after multiple changes', async function () {
     let buildCount = 0;
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
-    let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
     let firstText = 'anotuhaonteuhanothunaothanoteh';
     let firstLine = `console.log("${firstText}");`;
     let secondText = 'aahsldfjlwioruoiiononociwewqwr';
     let secondLine = `console.log("${secondText}");`;
+
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
 
     try {
       await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
@@ -357,9 +325,7 @@ describe('Acceptance: smoke-test', function () {
             }
           } else if (touched && buildCount === 2) {
             if (string.match(/Build successful/)) {
-              // build after change to app.js
-              let contents = fs.readFileSync(builtJsPath).toString();
-              expect(contents).to.contain(secondText, 'must contain second changed line after rebuild');
+              expect(checker.contains('js', secondText)).to.be;
               killCliProcess(child);
             }
           }
@@ -371,9 +337,6 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('build failures should be logged correctly', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     fs.writeFileSync(
       `${process.cwd()}/ember-cli-build.js`,
       `
@@ -412,10 +375,7 @@ module.exports = function() {
     );
   });
 
-  it.skip('ember new foo, server, SIGINT clears tmp/', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
+  it('ember new foo, server, SIGINT clears tmp/', async function () {
     let result = await runCommand(
       path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
       'server',
@@ -444,9 +404,6 @@ module.exports = function() {
   });
 
   it('ember new foo, test, SIGINT exits with error and clears tmp/', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     let result = await expect(
       runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--test-port=25522', {
         onOutput(string, child) {
@@ -472,9 +429,6 @@ module.exports = function() {
   });
 
   it('ember new foo, build production and verify css files are concatenated', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await copyFixtureFiles('with-styles');
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
@@ -492,9 +446,6 @@ module.exports = function() {
   });
 
   it('ember new foo, build production and verify css files are minified', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await copyFixtureFiles('with-unminified-styles');
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
@@ -510,28 +461,7 @@ module.exports = function() {
     });
   });
 
-  it('ember new foo, build production and verify single "use strict";', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
-    await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
-
-    let dirPath = path.join(appRoot, 'dist', 'assets');
-    let dir = fs.readdirSync(dirPath);
-    let appNameRE = new RegExp(`${appName}-([a-f0-9]+)\\.js`, 'i');
-    dir.forEach(function (filepath) {
-      if (appNameRE.test(filepath)) {
-        let contents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', filepath), { encoding: 'utf8' });
-        let count = (contents.match(/(["'])use strict\1;/g) || []).length;
-        expect(count).to.equal(1);
-      }
-    });
-  });
-
   it('ember can override and reuse the built-in blueprints', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await copyFixtureFiles('addon/with-blueprint-override');
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar');
@@ -543,9 +473,6 @@ module.exports = function() {
   });
 
   it('template linting works properly for pods and classic structured templates', async function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      return this.skip();
-    }
     await copyFixtureFiles('smoke-tests/with-template-failing-linting');
 
     let packageJsonPath = 'package.json';
