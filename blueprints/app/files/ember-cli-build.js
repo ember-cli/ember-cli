@@ -22,8 +22,10 @@ module.exports = function (defaults) {
 
   <% if (embroider) { %>const { Webpack } = require('@embroider/webpack');
   return require('@embroider/compat').compatBuild(app, Webpack, {
-    skipBabel: [{
-      package: 'qunit',
-    }],
+    skipBabel: [
+      {
+        package: 'qunit',
+      },
+    ],
   });<% } else { %>return app.toTree();<% } %>
 };
