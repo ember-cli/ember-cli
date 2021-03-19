@@ -430,6 +430,15 @@ describe('Acceptance: ember new', function () {
     expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
   });
 
+  it('embroider enabled with --embroider', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-git', '--skip-bower', '--embroider']);
+
+    let pkgJson = fs.readJsonSync('package.json');
+    expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
+    expect(pkgJson.devDependencies['@embroider/core']).to.exist;
+    expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+  });
+
   describe('verify fixtures', function () {
     function checkEslintConfig(fixturePath) {
       expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));

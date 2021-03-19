@@ -43,7 +43,7 @@ module.exports = {
       welcome: options.welcome,
       blueprint: 'app',
       blueprintOptions,
-      embroider: isExperimentEnabled('EMBROIDER'),
+      embroider: isExperimentEnabled('EMBROIDER') || options.embroider,
       lang: options.lang,
     };
   },

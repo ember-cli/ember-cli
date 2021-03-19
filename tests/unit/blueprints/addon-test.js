@@ -180,6 +180,7 @@ describe('blueprint - addon', function () {
         delete json.devDependencies['eslint-plugin-node'];
         delete json.devDependencies['ember-try'];
         delete json.devDependencies['ember-source-channel-url'];
+        delete json.devDependencies['@embroider/test-setup'];
         expect(json.dependencies).to.deep.equal({ a: '1', b: '1' });
         expect(json.devDependencies).to.deep.equal({ a: '1', b: '1' });
       });

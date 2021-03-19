@@ -5,8 +5,8 @@ const fs = require('fs-extra');
 
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
+const DistChecker = require('../helpers/dist-checker');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-const { isExperimentEnabled } = require('../../lib/experiments');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
@@ -14,7 +14,6 @@ let cleanupRun = acceptance.cleanupRun;
 
 const chai = require('../chai');
 let expect = chai.expect;
-let file = chai.file;
 let dir = chai.dir;
 
 let appName = 'some-cool-app';
@@ -24,9 +23,6 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   this.timeout(360000);
 
   before(function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
-    }
     return createTestTargets(appName);
   });
 
@@ -53,8 +49,10 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
-    expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
+
+    expect(checker.contains('css', 'app styles included')).to.be;
+    expect(checker.contains('css', 'addon styles included')).to.be;
   });
 
   it('addon registry entries are added in the proper order', async function () {
@@ -68,10 +66,13 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.js'))
-      .to.contain('replacedByPreprocessor', 'token should have been replaced in app bundle')
-      .to.not.contain('__SECOND_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained')
-      .to.not.contain('__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained');
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
+
+    expect(checker.contains('js', 'replacedByPreprocessor'), 'token should have been replaced in app bundle').to.be;
+    expect(checker.contains('js', '__SECOND_PREPROCESSOR_REPLACEMENT_TOKEN__'), 'token should not be contained').to.not
+      .be;
+    expect(checker.contains('js', '__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__'), 'token should not be contained').to.not
+      .be;
   });
 
   it('addons without preprocessors compile correctly', async function () {
@@ -85,8 +86,10 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
-    expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
+
+    expect(checker.contains('css', 'app styles included')).to.be;
+    expect(checker.contains('css', 'addon styles included')).to.be;
   });
 
   /*
@@ -106,13 +109,25 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.js'))
-      .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
-      .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
 
-    expect(file('dist/assets/vendor.js'))
-      .to.contain('replacedByPreprocessor', 'token should have been replaced in vendor bundle')
-      .to.not.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should have been replaced in vendor bundle');
+    expect(
+      checker.contains('js', 'foo_in_app: __PREPROCESSOR_REPLACEMENT_TOKEN__'),
+      'token should not have been replaced in app bundle'
+    ).to.be;
+    expect(
+      checker.contains('js', 'foo_in_app: "replacedByPreprocessor"'),
+      'token should not have been replaced in app bundle'
+    ).to.not.be;
+
+    expect(
+      checker.contains('js', 'foo_in_addon: "replacedByPreprocessor"'),
+      'token should have been replaced in vendor bundle'
+    ).to.be;
+    expect(
+      checker.contains('js', 'foo_in_addon: __PREPROCESSOR_REPLACEMENT_TOKEN__'),
+      'token should have been replaced in vendor bundle'
+    ).to.not.be;
   });
 
   /*
@@ -135,17 +150,32 @@ describe('Acceptance: preprocessor-smoke-test', function () {
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.js'))
-      .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
-      .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
 
-    expect(file('dist/assets/vendor.js'))
-      .to.contain('deep: "replacedByPreprocessor"', 'token should have been replaced in deep component')
-      .to.contain(
-        'shallow: __PREPROCESSOR_REPLACEMENT_TOKEN__',
-        'token should not have been replaced in shallow component'
-      )
-      .to.not.contain('deep: __PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should have been replaced in deep component')
-      .to.not.contain('shallow: "replacedByPreprocessor"', 'token should not have been replaced in shallow component');
+    expect(
+      checker.contains('js', 'foo_in_app: __PREPROCESSOR_REPLACEMENT_TOKEN__'),
+      'token should not have been replaced in app bundle'
+    ).to.be;
+    expect(
+      checker.contains('js', 'foo_in_app: "replacedByPreprocessor"'),
+      'token should not have been replaced in app bundle'
+    ).to.not.be;
+
+    expect(
+      checker.contains('js', 'deep: "replacedByPreprocessor"'),
+      'token should have been replaced in deep component'
+    ).to.be;
+    expect(
+      checker.contains('js', 'shallow: __PREPROCESSOR_REPLACEMENT_TOKEN__'),
+      'token should not have been replaced in shallow component'
+    ).to.be;
+    expect(
+      checker.contains('js', 'deep: __PREPROCESSOR_REPLACEMENT_TOKEN__'),
+      'token should have been replaced in deep component'
+    ).to.not.be;
+    expect(
+      checker.contains('js', 'shallow: "replacedByPreprocessor"'),
+      'token should not have been replaced in shallow component'
+    ).to.not.be;
   });
 });

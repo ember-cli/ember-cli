@@ -60,7 +60,7 @@ let filter = {
 
 if (OPTIONS.filter) {
   if (OPTIONS.filter.startsWith('/')) {
-    filter.nameRegexp = new RegExp(OPTIONS.filter);
+    filter.nameRegexp = new RegExp(OPTIONS.filter.substring(1, OPTIONS.filter.length - 1));
     // can only use latest when using a regexp style
     filter.fetchSpec = 'latest';
   } else {
@@ -71,10 +71,8 @@ if (OPTIONS.filter) {
 }
 
 function shouldCheckDependency(dependency) {
-  if (OPTIONS.filter) {
-    if (OPTIONS.filter.startsWith('/')) {
-      return OPTIONS.filter.test(dependency);
-    }
+  if (filter.nameRegexp) {
+    return filter.nameRegexp.test(dependency);
   }
 
   return true;
