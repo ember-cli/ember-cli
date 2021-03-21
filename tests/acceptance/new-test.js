@@ -470,12 +470,11 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = `${namespace}/embroider`;
       }
 
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
 
@@ -522,12 +521,11 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-no-welcome';
       }
 
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
@@ -542,12 +540,11 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-
       if (isExperimentEnabled('EMBROIDER')) {
-        fixturePath = 'app/embroider';
+        fixturePath = 'app/embroider-yarn';
       }
 
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
     });
 
