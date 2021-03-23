@@ -54,12 +54,12 @@ describe('experiments', function () {
 
     it('should return true when an experiment is enabled via environment variable', function () {
       process.env.EMBER_CLI_EMBROIDER = 'true';
-      process.env.CLASSIC = 'true';
+      process.env.EMBER_CLI_CLASSIC = 'true';
 
       // classic experiment will disable embroider
       expect(isExperimentEnabled('EMBROIDER')).to.be.false;
 
-      delete process.env.CLASSIC;
+      delete process.env.EMBER_CLI_CLASSIC;
 
       expect(isExperimentEnabled('EMBROIDER')).to.be.true;
 
