@@ -413,22 +413,24 @@ describe('Acceptance: ember new', function () {
     expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
   });
 
-  it('embroider experiment creates the correct files', async function () {
-    let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
-    process.env['EMBER_CLI_EMBROIDER'] = 'true';
-    await ember(['new', 'foo', '--skip-npm', '--skip-git', '--skip-bower']);
+  if (!isExperimentEnabled('CLASSIC')) {
+    it('embroider experiment creates the correct files', async function () {
+      let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
+      process.env['EMBER_CLI_EMBROIDER'] = 'true';
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--skip-bower']);
 
-    if (ORIGINAL_PROCESS_ENV === undefined) {
-      delete process.env['EMBER_CLI_EMBROIDER'];
-    } else {
-      process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
-    }
+      if (ORIGINAL_PROCESS_ENV === undefined) {
+        delete process.env['EMBER_CLI_EMBROIDER'];
+      } else {
+        process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
+      }
 
-    let pkgJson = fs.readJsonSync('package.json');
-    expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
-    expect(pkgJson.devDependencies['@embroider/core']).to.exist;
-    expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
-  });
+      let pkgJson = fs.readJsonSync('package.json');
+      expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/core']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+    });
+  }
 
   it('embroider enabled with --embroider', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-git', '--skip-bower', '--embroider']);
