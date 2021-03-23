@@ -79,6 +79,7 @@ jobs:
           - ENABLE_ALL_EXPERIMENTS
           - PACKAGER
           - EMBROIDER
+          - CLASSIC
 
     steps:
       - uses: actions/checkout@v2
