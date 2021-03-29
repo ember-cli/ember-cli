@@ -17,6 +17,19 @@
 Thank you to all who took the time to contribute!
 
 
+## v3.25.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.25.2...v3.25.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.25.2...v3.25.3)
+
+#### Changelog
+
+- [#9490](https://github.com/ember-cli/ember-cli/pull/9490) Prevent `window.Ember` deprecation when testing (for Ember 3.27+) [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.25.2
 
 #### Blueprint Changes
