@@ -48,6 +48,7 @@ const PACKAGE_FILES = [
   '../tests/fixtures/app/npm/package.json',
   '../tests/fixtures/app/yarn/package.json',
   '../tests/fixtures/app/embroider/package.json',
+  '../tests/fixtures/app/embroider-yarn/package.json',
   '../tests/fixtures/app/embroider-no-welcome/package.json',
   '../tests/fixtures/addon/defaults/package.json',
   '../tests/fixtures/addon/yarn/package.json',
