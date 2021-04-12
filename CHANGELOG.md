@@ -1,6 +1,6 @@
 # ember-cli Changelog
 
-## v3.26.1-beta.0
+## v3.27.1-beta.0
 
 #### Blueprint Changes
 
