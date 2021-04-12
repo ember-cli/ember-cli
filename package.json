@@ -97,7 +97,7 @@
     "is-git-url": "^1.0.0",
     "is-language-code": "^2.0.0",
     "isbinaryfile": "^4.0.6",
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^4.0.0",
     "json-stable-stringify": "^1.0.1",
     "leek": "0.0.24",
     "lodash.template": "^4.5.0",
