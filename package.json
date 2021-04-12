@@ -51,7 +51,7 @@
     "broccoli-config-loader": "^1.0.1",
     "broccoli-config-replace": "^1.1.2",
     "broccoli-debug": "^0.6.5",
-    "broccoli-funnel": "^2.0.2",
+    "broccoli-funnel": "^3.0.3",
     "broccoli-funnel-reducer": "^1.0.0",
     "broccoli-merge-trees": "^3.0.2",
     "broccoli-middleware": "^2.1.1",
