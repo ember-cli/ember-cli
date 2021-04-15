@@ -47,7 +47,7 @@
     "broccoli-amd-funnel": "^2.0.1",
     "broccoli-babel-transpiler": "^7.8.0",
     "broccoli-builder": "^0.18.14",
-    "broccoli-concat": "^4.2.4",
+    "broccoli-concat": "^4.2.5",
     "broccoli-config-loader": "^1.0.1",
     "broccoli-config-replace": "^1.1.2",
     "broccoli-debug": "^0.6.5",
