@@ -27,14 +27,9 @@ describe('Unit | per-bundle-addon-cache bundle host', function () {
     expect(project.perBundleAddonCache).to.exist;
   });
 
-  it('Should have 3 bundle hosts (project, lazy-engine-a, lazy-engine-b)', function () {
+  it("Should have 0 bundle hosts since they're constructed lazily", function () {
     const bundleHostCache = project.perBundleAddonCache.bundleHostCache;
-
-    expect(bundleHostCache.size).to.equal(3); // project, lazy engine A, lazy engine B
-
-    expect(bundleHostCache.has('__PROJECT__')).to.equal(true);
-    expect(bundleHostCache.has('lazy-engine-a')).to.equal(true);
-    expect(bundleHostCache.has('lazy-engine-b')).to.equal(true);
+    expect(bundleHostCache.size).to.equal(0);
   });
 
   it('Should not have any addonInstanceCache entries', function () {
