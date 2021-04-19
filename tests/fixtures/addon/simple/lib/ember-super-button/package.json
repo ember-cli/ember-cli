@@ -4,7 +4,10 @@
     "ember-addon"
   ],
   "ember-addon": {
-    "paths": ["./lib/ember-ng"]
+    "paths": [
+      "./lib/ember-ng",
+      "./lib/ember-with-addon-main"
+    ]
   },
   "dependencies": {
     "ember-yagni": "0"
