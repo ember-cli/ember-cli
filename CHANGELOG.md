@@ -1,6 +1,19 @@
 # ember-cli Changelog
 
 
+## v3.26.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.26.0...v3.26.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.26.0...v3.26.1)
+
+#### Changelog
+
+- [#9504](https://github.com/ember-cli/ember-cli/pull/9504) Update `broccoli-concat` to avoid a cache invalidation problem in files larger than 10000 characters. [@brendenpalmer](https://github.com/brendenpalmer)
+
+Thank you to all who took the time to contribute!
+
 ## v3.26.0
 
 #### Blueprint Changes
