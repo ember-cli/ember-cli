@@ -219,7 +219,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
         project._packageInfo,
         (packageInfo) =>
           typeof packageInfo.addonMainPath === 'string' &&
-          packageInfo.addonMainPath.endsWith('ember-with-addon-main/lib/main.js')
+          packageInfo.addonMainPath.endsWith(path.join('ember-with-addon-main', 'lib', 'main.js'))
       );
 
       let allPackageInfosForAddonWithMain = [
