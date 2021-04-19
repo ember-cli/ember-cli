@@ -1,0 +1,7 @@
+{
+  "name": "odd-inheritance-addon",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {}
+}

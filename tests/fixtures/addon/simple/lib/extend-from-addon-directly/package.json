@@ -1,0 +1,7 @@
+{
+  "name": "extend-from-addon-directly",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {}
+}
