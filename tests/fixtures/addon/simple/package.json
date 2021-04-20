@@ -7,7 +7,9 @@
   "ember-addon": {
     "paths": [
       "./lib/ember-super-button",
-      "./lib/ember-super-button/lib/ember-with-addon-main"
+      "./lib/ember-super-button/lib/ember-with-addon-main",
+      "./lib/extend-from-addon-directly",
+      "./lib/odd-inheritance-addon"
     ]
   },
   "devDependencies": {
