@@ -672,4 +672,22 @@ describe('models/project.js', function () {
       );
     });
   });
+
+  describe('Project.closestSync', function () {
+    it('should use the `actual-project` specified by `ember-addon.projectRoot` in the top-level `package.json`', function () {
+      let cli = new MockCLI();
+      projectPath = path.resolve(__dirname, '../../fixtures/app/nested-project');
+      project = Project.closestSync(projectPath, cli.ui, cli);
+      expect(project.root).to.equal(path.resolve(__dirname, '../../fixtures/app/nested-project/actual-project'));
+    });
+
+    it('should throw if both `ember-addon.projectRoot` and `ember-cli-build.js` exist', function () {
+      let cli = new MockCLI();
+      projectPath = path.resolve(__dirname, '../../fixtures/app/project-root-with-ember-cli-build');
+
+      expect(() => Project.closestSync(projectPath, cli.ui, cli)).to.throw(
+        `Both \`ember-addon.projectRoot\` and \`ember-cli-build.js\` exist as part of \`${projectPath}\``
+      );
+    });
+  });
 });
