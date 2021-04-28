@@ -1,0 +1,28 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "03:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: mocha-eslint
+    versions:
+    - "> 4.1.0"
+  - dependency-name: js-yaml
+    versions:
+    - 4.0.0
+  - dependency-name: broccoli-funnel
+    versions:
+    - 3.0.3
+  - dependency-name: supertest
+    versions:
+    - 6.1.1
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "03:00"
+  open-pull-requests-limit: 10
