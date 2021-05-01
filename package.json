@@ -149,7 +149,7 @@
     "is-language-code": "^2.0.0",
     "jsdom": "^16.4.0",
     "latest-version": "^5.1.0",
-    "mocha": "^8.3.0",
+    "mocha": "^8.3.2",
     "nock": "^13.0.5",
     "nyc": "^15.1.0",
     "prettier": "2.2.1",
