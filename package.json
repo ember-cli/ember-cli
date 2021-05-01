@@ -117,7 +117,7 @@
     "sane": "^4.1.0",
     "semver": "^7.3.4",
     "silent-error": "^1.1.1",
-    "sort-package-json": "^1.48.0",
+    "sort-package-json": "^1.49.0",
     "symlink-or-copy": "^1.3.1",
     "temp": "0.9.4",
     "testem": "^3.2.0",
