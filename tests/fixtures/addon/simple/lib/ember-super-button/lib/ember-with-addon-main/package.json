@@ -1,9 +1,0 @@
-{
-  "name": "ember-with-addon-main",
-  "keywords": [
-    "ember-addon"
-  ],
-  "ember-addon": {
-    "main": "lib/main.js"
-  }
-}
