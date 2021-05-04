@@ -151,11 +151,11 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(packageAndErrorNames).to.deep.equal(devDependencyNames);
     });
 
-    it('shows projectPackageInfo has 4 in-repo addons', function () {
+    it('shows projectPackageInfo has 2 in-repo addons', function () {
       let inRepoAddons = projectPackageInfo.inRepoAddons;
 
       expect(inRepoAddons).to.exist;
-      expect(inRepoAddons.length).to.equal(4);
+      expect(inRepoAddons.length).to.equal(2);
 
       expect(inRepoAddons[0].realPath.indexOf(`simple${path.sep}lib${path.sep}ember-super-button`)).to.be.above(0);
       expect(inRepoAddons[0].pkg.name).to.equal('ember-super-button');
@@ -166,14 +166,6 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
         )
       ).to.be.above(0);
       expect(inRepoAddons[1].pkg.name).to.equal('ember-with-addon-main');
-
-      expect(inRepoAddons[2].realPath.indexOf(`simple${path.sep}lib${path.sep}extend-from-addon-directly`)).to.be.above(
-        0
-      );
-      expect(inRepoAddons[2].pkg.name).to.equal('extend-from-addon-directly');
-
-      expect(inRepoAddons[3].realPath.indexOf(`simple${path.sep}lib${path.sep}odd-inheritance-addon`)).to.be.above(0);
-      expect(inRepoAddons[3].pkg.name).to.equal('odd-inheritance-addon');
     });
 
     it('shows projectPackageInfo has 7 internal addon packages', function () {
@@ -242,34 +234,6 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(allAddonsWithAddonMain.length).to.equal(2);
       expect(allPackageInfosForAddonWithMain.length).to.equal(4);
       expect(areAllPackageInfosEqual).to.equal(true);
-    });
-
-    it('returns has the correct `root` for addons that export a function for its constructor', function () {
-      project.initializeAddons();
-
-      let inRepoAddons = projectPackageInfo.inRepoAddons;
-
-      let ExtendFromAddonDirectlyConstructor = inRepoAddons[2].getAddonConstructor();
-      let OddInheritanceAddonConstructor = inRepoAddons[3].getAddonConstructor();
-
-      expect(ExtendFromAddonDirectlyConstructor.prototype.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/extend-from-addon-directly')
-      );
-
-      expect(OddInheritanceAddonConstructor.prototype.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/odd-inheritance-addon')
-      );
-
-      let extendFromAddonInstance = new ExtendFromAddonDirectlyConstructor(project, project);
-      let oddInheritanceAddonInstance = new OddInheritanceAddonConstructor(project, project);
-
-      expect(extendFromAddonInstance.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/extend-from-addon-directly')
-      );
-
-      expect(oddInheritanceAddonInstance.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/odd-inheritance-addon')
-      );
     });
   });
 
