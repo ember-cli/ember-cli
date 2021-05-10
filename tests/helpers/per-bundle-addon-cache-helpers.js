@@ -163,9 +163,30 @@ function createStandardCacheFixture() {
 }
 
 /**
+ * For help with testing, given a bundleHostName and an addon name, return
+ * a list of the addon cache entries that have that addon name.
+ *
+ * @name findAddonCacheEntriesByName
+ */
+function findAddonCacheEntriesByName(perBundleAddonCacheInstance, bundleHostName, addonName) {
+  let bundleHostCacheEntry = perBundleAddonCacheInstance.bundleHostCache.get(bundleHostName);
+
+  if (!bundleHostCacheEntry) {
+    return null;
+  }
+
+  let addonInstanceCache = bundleHostCacheEntry.addonInstanceCache;
+  let cacheEntries = Array.from(addonInstanceCache.values());
+  let addonEntries = cacheEntries.filter((entry) => entry[TARGET_INSTANCE].name === addonName);
+
+  return addonEntries;
+}
+
+/**
  * Simple utilities to help test the PerBundleAddonCache feature.
  */
 module.exports = {
+  findAddonCacheEntriesByName,
   createStandardCacheFixture,
   getAllAddonsByNameWithinHost,
   areAllInstancesEqualWithinHost,
