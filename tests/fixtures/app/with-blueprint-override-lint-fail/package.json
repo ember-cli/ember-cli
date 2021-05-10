@@ -23,11 +23,11 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.0",
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
-    "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^1.10.1",
     "ember-cli": "~<%= emberCLIVersion %>",

@@ -23,6 +23,7 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.5<% if (embroider) { %>",
     "@embroider/compat": "^0.39.1",
@@ -30,7 +31,6 @@
     "@embroider/webpack": "^0.39.1<% } %>",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^1.11.2",
     "ember-cli": "~<%= emberCLIVersion %>",
