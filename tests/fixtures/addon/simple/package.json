@@ -5,12 +5,7 @@
     "something-else": "latest"
   },
   "ember-addon": {
-    "paths": [
-      "./lib/ember-super-button",
-      "./lib/ember-super-button/lib/ember-with-addon-main",
-      "./lib/extend-from-addon-directly",
-      "./lib/odd-inheritance-addon"
-    ]
+    "paths": ["./lib/ember-super-button"]
   },
   "devDependencies": {
     "ember-resolver": "^7.0.0",

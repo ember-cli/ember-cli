@@ -64,13 +64,13 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
   });
 
   describe('packageInfo contents tests on valid project', function () {
-    let project, projectPath, packageJsonPath, packageContents, projectPackageInfo;
+    let projectPath, packageJsonPath, packageContents, projectPackageInfo;
 
     beforeEach(function () {
       projectPath = path.resolve(addonFixturePath, 'simple');
       packageJsonPath = path.join(projectPath, 'package.json');
       packageContents = require(packageJsonPath);
-      project = new Project(projectPath, packageContents, ui, cli);
+      let project = new Project(projectPath, packageContents, ui, cli);
       let pic = project.packageInfoCache;
 
       projectPackageInfo = pic.getEntry(projectPath);
@@ -151,29 +151,12 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(packageAndErrorNames).to.deep.equal(devDependencyNames);
     });
 
-    it('shows projectPackageInfo has 4 in-repo addons', function () {
+    it('shows projectPackageInfo has 1 in-repo addon named "ember-super-button"', function () {
       let inRepoAddons = projectPackageInfo.inRepoAddons;
-
       expect(inRepoAddons).to.exist;
-      expect(inRepoAddons.length).to.equal(4);
-
+      expect(inRepoAddons.length).to.equal(1);
       expect(inRepoAddons[0].realPath.indexOf(`simple${path.sep}lib${path.sep}ember-super-button`)).to.be.above(0);
       expect(inRepoAddons[0].pkg.name).to.equal('ember-super-button');
-
-      expect(
-        inRepoAddons[1].realPath.indexOf(
-          `simple${path.sep}lib${path.sep}ember-super-button${path.sep}lib${path.sep}ember-with-addon-main`
-        )
-      ).to.be.above(0);
-      expect(inRepoAddons[1].pkg.name).to.equal('ember-with-addon-main');
-
-      expect(inRepoAddons[2].realPath.indexOf(`simple${path.sep}lib${path.sep}extend-from-addon-directly`)).to.be.above(
-        0
-      );
-      expect(inRepoAddons[2].pkg.name).to.equal('extend-from-addon-directly');
-
-      expect(inRepoAddons[3].realPath.indexOf(`simple${path.sep}lib${path.sep}odd-inheritance-addon`)).to.be.above(0);
-      expect(inRepoAddons[3].pkg.name).to.equal('odd-inheritance-addon');
     });
 
     it('shows projectPackageInfo has 7 internal addon packages', function () {
@@ -188,88 +171,6 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(nodeModules).to.exist;
       expect(nodeModules.entries).to.exist;
       expect(Object.keys(nodeModules.entries).length).to.equal(9);
-    });
-
-    it('returns stable package infos for a package info representing the same addon', function () {
-      project.initializeAddons();
-
-      const findAddonsByName = (projectOrAddon, addonToFind, _foundAddons = []) => {
-        if (!projectOrAddon) {
-          return _foundAddons;
-        }
-
-        projectOrAddon.addons.forEach((addon) => {
-          if (addon.name === addonToFind) {
-            _foundAddons.push(addon);
-          }
-
-          findAddonsByName(addon, addonToFind, _foundAddons);
-        });
-
-        return _foundAddons;
-      };
-
-      const findAllInRepoPackageInfosByPredicate = (packageInfo, predicate, _foundPackageInfos = []) => {
-        if (predicate(packageInfo)) {
-          _foundPackageInfos.push(packageInfo);
-        }
-
-        (packageInfo.inRepoAddons || []).forEach((addonPackageInfo) =>
-          findAllInRepoPackageInfosByPredicate(addonPackageInfo, predicate, _foundPackageInfos)
-        );
-
-        return _foundPackageInfos;
-      };
-
-      let allAddonsWithAddonMain = findAddonsByName(project, 'ember-with-addon-main');
-
-      let projectAddonWithMainPackageInfo = findAllInRepoPackageInfosByPredicate(
-        project._packageInfo,
-        (packageInfo) =>
-          typeof packageInfo.addonMainPath === 'string' &&
-          packageInfo.addonMainPath.endsWith(path.join('ember-with-addon-main', 'lib', 'main.js'))
-      );
-
-      let allPackageInfosForAddonWithMain = [
-        ...allAddonsWithAddonMain.map((addon) => addon._packageInfo),
-        ...projectAddonWithMainPackageInfo,
-      ];
-
-      let areAllPackageInfosEqual = allPackageInfosForAddonWithMain.every(
-        (packageInfo) => packageInfo === allPackageInfosForAddonWithMain[0]
-      );
-
-      expect(allAddonsWithAddonMain.length).to.equal(2);
-      expect(allPackageInfosForAddonWithMain.length).to.equal(4);
-      expect(areAllPackageInfosEqual).to.equal(true);
-    });
-
-    it('returns has the correct `root` for addons that export a function for its constructor', function () {
-      project.initializeAddons();
-
-      let inRepoAddons = projectPackageInfo.inRepoAddons;
-
-      let ExtendFromAddonDirectlyConstructor = inRepoAddons[2].getAddonConstructor();
-      let OddInheritanceAddonConstructor = inRepoAddons[3].getAddonConstructor();
-
-      expect(ExtendFromAddonDirectlyConstructor.prototype.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/extend-from-addon-directly')
-      );
-
-      expect(OddInheritanceAddonConstructor.prototype.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/odd-inheritance-addon')
-      );
-
-      let extendFromAddonInstance = new ExtendFromAddonDirectlyConstructor(project, project);
-      let oddInheritanceAddonInstance = new OddInheritanceAddonConstructor(project, project);
-
-      expect(extendFromAddonInstance.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/extend-from-addon-directly')
-      );
-
-      expect(oddInheritanceAddonInstance.root).to.equal(
-        path.resolve(__dirname, '../../../fixtures/addon/simple/lib/odd-inheritance-addon')
-      );
     });
   });
 

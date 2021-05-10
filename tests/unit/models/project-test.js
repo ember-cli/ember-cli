@@ -347,9 +347,6 @@ describe('models/project.js', function () {
         'ember-non-root-addon',
         'ember-random-addon',
         'ember-super-button',
-        'ember-with-addon-main',
-        'extend-from-addon-directly',
-        'odd-inheritance-addon',
       ];
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
