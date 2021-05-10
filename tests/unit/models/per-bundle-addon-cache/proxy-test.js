@@ -4,206 +4,368 @@
  * Tests for the various proxies and instances once the project has initialized
  * its addons
  */
-
-const path = require('path');
 const expect = require('chai').expect;
+const FixturifyProject = require('../../../../tests/helpers/fixturify-project');
 
-const projectRootPath = path.resolve(__dirname, '../../../..');
-const FixturifyProject = require(`${projectRootPath}/tests/helpers/fixturify-project`);
+const {
+  createStandardCacheFixture,
+  getAllAddonsByNameWithinHost,
+  areAllInstancesEqualWithinHost,
+  countAddons,
+} = require('../../../../tests/helpers/per-bundle-addon-cache-helpers');
 
-const Helpers = require(`${projectRootPath}/tests/helpers/per-bundle-addon-cache-helpers`);
-const Project = require(`${projectRootPath}/lib/models/project`);
+const Project = require('../../../../lib/models/project');
+const { TARGET_INSTANCE } = require('../../../../lib/models/per-bundle-addon-cache/target-instance');
 
-// hack reference to 'fixturify' so we can do our own fiddling with the result of toJSON() to add
-// a reference in the right place.
-const fixturify = require('fixturify');
+describe('models/per-bundle-addon-cache', function () {
+  let fixturifyProject;
 
-describe('Unit | per-bundle-addon-cache basic proxy checks', function () {
-  it(`no 'allowCachingPerBundle' set, no proxies, verify instance counts`, function () {
-    let fixture = Helpers.createStandardCacheFixture();
-    let project = fixture.buildProjectModel(Project);
-    project.initializeAddons();
-
-    let counts = new Helpers.AddonCounts(project);
-
-    expect(counts.proxyCount).to.equal(0);
-    expect(counts.byName['test-addon-a'].size).to.equal(1);
-    expect(counts.byName['test-addon-dep'].size).to.equal(2);
-    expect(counts.byName['test-engine-dep'].size).to.equal(3);
-    expect(counts.byName['lazy-engine-a'].size).to.equal(1);
-    expect(counts.byName['lazy-engine-b'].size).to.equal(1);
-    expect(counts.byName['regular-engine-c'].size).to.equal(1);
-
-    // addon cache should also have 0 proxies. test-addon-b was the only addon marked as cacheable,
-    // so it will end up in the count of addon instances for the addon cache, but have no proxies.
-    expect(project.perBundleAddonCache.numProxies).to.equal(0);
+  beforeEach(function () {
+    fixturifyProject = new FixturifyProject('awesome-proj', '1.0.0');
+    fixturifyProject.addDevDependency('ember-cli', '*');
   });
 
-  it(`addon with allowCachingPerBundle, 1 instance, the rest proxies`, function () {
-    // PROJ to TAA, TAB, TAC and TAD. TAB, TAC and TAD have TAA underneath.
-    let fixture = new FixturifyProject('test-ember-project', '1.0.0', (project) => {
-      project.addAddon('test-addon-a', '1.0.0', (addonA) => {
-        Helpers.configureAddonMainFileContents(addonA, true);
-      });
+  afterEach(function () {
+    fixturifyProject.dispose();
+  });
 
-      project.addAddon('test-addon-b', '1.0.0', (addonB) => {
-        Helpers.configureAddonMainFileContents(addonB, false);
-      });
-
-      project.addAddon('test-addon-c', '1.0.0', (addonC) => {
-        Helpers.configureAddonMainFileContents(addonC, false);
-      });
-
-      project.addAddon('test-addon-d', '1.0.0', (addonD) => {
-        Helpers.configureAddonMainFileContents(addonD, false);
-      });
+  it('simple case: bundle addon caching within a single project host', function () {
+    fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
+    fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
+      callback: (inRepoAddon) => {
+        inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
+      },
     });
 
-    // Add our inherited dependencies, build the model and verify the counts.
-    let fixtureData = fixture.toJSON();
+    fixturifyProject.writeSync();
+    let project = fixturifyProject.buildProjectModel();
 
-    Helpers.addInheritedDependency(fixtureData, 'test-ember-project/node_modules/test-addon-b', 'test-addon-a');
-    Helpers.addInheritedDependency(fixtureData, 'test-ember-project/node_modules/test-addon-c', 'test-addon-a');
-    Helpers.addInheritedDependency(fixtureData, 'test-ember-project/node_modules/test-addon-d', 'test-addon-a');
-
-    fixturify.writeSync(fixture.root, fixtureData);
-    fixture._hasWritten = true; // so buildProjectModel doesn't try again.
-
-    let project = fixture.buildProjectModel(Project);
     project.initializeAddons();
 
-    let counts = new Helpers.AddonCounts(project);
-
-    expect(counts.proxyCount).to.equal(3);
-    expect(project.perBundleAddonCache.numProxies).to.equal(3);
-    expect(counts.byName['test-addon-a'].size).to.equal(4);
-    let addonACounts = counts.countInstancesAndProxies('test-addon-a');
-    expect(addonACounts.instances).to.equal(1);
-    expect(addonACounts.proxies).to.equal(3);
-
-    expect(counts.byName['test-addon-b'].size).to.equal(1);
-    expect(counts.byName['test-addon-c'].size).to.equal(1);
+    expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
   });
 
-  it(`addon with allowCachingPerBundle, 1 in lazy engine, one in regular`, function () {
-    // PROJ to LEA, REB, LEA and REB both depend on TAA
-    // Neither instance of test-addon-a is declared in the project, but the one in engine B
-    // will be 'owned' by Project as far as PerBundleAddonCache is concerned.
-    // Should end with 2 instances of test-addon-a, one in PROJECT, one in lazy-engine-a,
-    // and no proxies.
-    let fixture = new FixturifyProject('test-ember-project', '1.0.0', (project) => {
-      project.addEngine('lazy-engine-a', '1.0.0', true, (engine) => {
-        engine.addAddon('test-addon-a', '1.0.0', (addonA) => {
-          Helpers.configureAddonMainFileContents(addonA, true);
-        });
-      });
+  it('it should create multiple proxies within a project host', function () {
+    fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
 
-      project.addEngine('regular-engine-b', '1.0.0', false, (engine) => {
-        engine.addAddon('test-addon-a', '1.0.0', (addonA) => {
-          Helpers.configureAddonMainFileContents(addonA, true);
-        });
+    for (let i = 0; i < 10; i++) {
+      fixturifyProject.addInRepoAddon(`foo-bar-${i}`, '1.0.0', {
+        callback: (inRepoAddon) => {
+          inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
+        },
       });
+    }
+
+    fixturifyProject.writeSync();
+    let project = fixturifyProject.buildProjectModel();
+
+    project.initializeAddons();
+
+    expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
+  });
+
+  it('it should create a proxy for a regular addon when added as a dependency to a regular addon', function () {
+    fixturifyProject.addAddon('foo', '1.0.0', { allowCachingPerBundle: true });
+
+    for (let i = 0; i < 10; i++) {
+      fixturifyProject.addAddon(`foo-bar-${i}`, '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (inRepoAddon) => {
+          inRepoAddon.addDependency('foo', '1.0.0');
+        },
+      });
+    }
+
+    fixturifyProject.writeSync();
+    let project = fixturifyProject.buildProjectModel();
+
+    project.initializeAddons();
+
+    expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
+  });
+
+  it('it should create a proxy for a regular addon when added as a dependency to an in-repo addon', function () {
+    fixturifyProject.addAddon('foo', '1.0.0', { allowCachingPerBundle: true });
+
+    for (let i = 0; i < 10; i++) {
+      fixturifyProject.addAddon(`foo-bar-${i}`, '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (inRepoAddon) => {
+          inRepoAddon.addDependency('foo', '1.0.0');
+        },
+      });
+    }
+
+    fixturifyProject.writeSync();
+    let project = fixturifyProject.buildProjectModel();
+
+    project.initializeAddons();
+
+    expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
+  });
+
+  it('it should create a proxy to a target "real addon" per host', function () {
+    fixturifyProject.addAddon('foo', '1.0.0', { allowCachingPerBundle: true });
+
+    fixturifyProject.addInRepoEngine('in-repo-lazy-engine', '1.0.0', {
+      enableLazyLoading: true,
+      callback: (lazyEngine) => {
+        lazyEngine.addDependency('foo', '1.0.0');
+        lazyEngine.addDependency('foo-bar', '1.0.0');
+      },
     });
 
-    fixture.writeSync();
-
-    let project = fixture.buildProjectModel(Project);
-    project.initializeAddons();
-
-    let counts = new Helpers.AddonCounts(project);
-
-    expect(counts.byName['lazy-engine-a'].size).to.equal(1);
-    expect(counts.byName['regular-engine-b'].size).to.equal(1);
-
-    expect(counts.proxyCount).to.equal(0);
-    expect(project.perBundleAddonCache.numProxies).to.equal(0);
-    let addonACounts = counts.countInstancesAndProxies('test-addon-a');
-    expect(addonACounts.instances).to.equal(2);
-    expect(addonACounts.proxies).to.equal(0);
-    let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-a', 'test-addon-a');
-    expect(cacheEntries).to.exist;
-    expect(cacheEntries.length).to.equal(1);
-    cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('__PROJECT__', 'test-addon-a');
-    expect(cacheEntries).to.exist;
-    expect(cacheEntries.length).to.equal(1);
-  });
-
-  it(`addon with allowCachingPerBundle, 1 in each of 2 lazy engines`, function () {
-    // Same as above, but regular-engine-b is now lazy-engine-b
-    // Should have 2 instances, 1 in LEA, 1 in LEB
-    let fixture = new FixturifyProject('test-ember-project', '1.0.0', (project) => {
-      project.addEngine('lazy-engine-a', '1.0.0', true, (engine) => {
-        engine.addAddon('test-addon-a', '1.0.0', (addonA) => {
-          Helpers.configureAddonMainFileContents(addonA, true);
-        });
-      });
-
-      project.addEngine('lazy-engine-b', '1.0.0', true, (engine) => {
-        engine.addAddon('test-addon-a', '1.0.0', (addonA) => {
-          Helpers.configureAddonMainFileContents(addonA, true);
-        });
-      });
+    fixturifyProject.addAddon('foo-bar', '1.0.0', {
+      shouldShareDependencies: true,
+      callback: (inRepoAddon) => {
+        inRepoAddon.addDependency('foo', '1.0.0');
+      },
     });
 
-    fixture.writeSync();
+    fixturifyProject.writeSync();
+    let project = fixturifyProject.buildProjectModel();
 
-    let project = fixture.buildProjectModel(Project);
     project.initializeAddons();
 
-    let counts = new Helpers.AddonCounts(project);
+    expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
 
-    expect(counts.byName['lazy-engine-a'].size).to.equal(1);
-    expect(counts.byName['lazy-engine-b'].size).to.equal(1);
-
-    expect(counts.proxyCount).to.equal(0);
-    expect(project.perBundleAddonCache.numProxies).to.equal(0);
-    let addonACounts = counts.countInstancesAndProxies('test-addon-a');
-    expect(addonACounts.instances).to.equal(2);
-    expect(addonACounts.proxies).to.equal(0);
-    let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-a', 'test-addon-a');
-    expect(cacheEntries).to.exist;
-    expect(cacheEntries.length).to.equal(1);
-    cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-b', 'test-addon-a');
-    expect(cacheEntries).to.exist;
-    expect(cacheEntries.length).to.equal(1);
+    // addons within lazy engine host are cached
+    expect(
+      areAllInstancesEqualWithinHost(
+        project.addons.find((addon) => addon.name === 'in-repo-lazy-engine'),
+        'foo'
+      )
+    ).to.be.true;
   });
 
-  /*
-  it(`addon with allowCachingPerBundle, 2 regular engines - cache entries in project`, function () {
-    // Same as above, now both are regular engines.
-    // Should have 1 instance, 1 proxy, both in project.
-    let fixture = new FixturifyProject('test-ember-project', '1.0.0', (project) => {
-      project.addEngine('regular-engine-a', '1.0.0', false, (engine) => {
-        engine.addAddon('test-addon-a', '1.0.0', (addonA) => {
-          Helpers.configureAddonMainFileContents(addonA, true);
-        });
-      });
-
-      project.addEngine('regular-engine-b', '1.0.0', false, (engine) => {
-        engine.addAddon('test-addon-a', '1.0.0', (addonA) => {
-          Helpers.configureAddonMainFileContents(addonA, true);
-        });
-      });
+  describe('when `EMBER_ENGINES_ADDON_DEDUPE` is enabled', function () {
+    beforeEach(function () {
+      process.env.EMBER_ENGINES_ADDON_DEDUPE = true;
     });
 
-    fixture.writeSync();
+    afterEach(function () {
+      delete process.env.EMBER_ENGINES_ADDON_DEDUPE;
+    });
 
-    let project = fixture.buildProjectModel(Project);
-    project.initializeAddons();
+    it('it should create a proxy to a target "real addon" using the project host', function () {
+      fixturifyProject.addAddon('foo', '1.0.0', { allowCachingPerBundle: true });
 
-    let counts = new Helpers.AddonCounts(project);
+      fixturifyProject.addInRepoEngine('in-repo-lazy-engine', '1.0.0', {
+        enableLazyLoading: true,
+        callback: (lazyEngine) => {
+          lazyEngine.addDependency('foo', '1.0.0');
+          lazyEngine.addDependency('foo-bar', '1.0.0');
+        },
+      });
 
-    expect(counts.byName['regular-engine-a'].size).to.equal(1);
-    expect(counts.byName['regular-engine-b'].size).to.equal(1);
+      fixturifyProject.addAddon('foo-bar', '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (inRepoAddon) => {
+          inRepoAddon.addDependency('foo', '1.0.0');
+        },
+      });
 
-    expect(counts.proxyCount).to.equal(1);
-    expect(project.perBundleAddonCache.numProxies).to.equal(1);
-    let addonACounts = counts.countInstancesAndProxies('test-addon-a');
-    expect(addonACounts.instances).to.equal(1);
-    expect(addonACounts.proxies).to.equal(1);
-    let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('__PROJECT__', 'test-addon-a');
-    expect(cacheEntries).to.exist;
-    expect(cacheEntries.length).to.equal(1);
+      fixturifyProject.writeSync();
+      let project = fixturifyProject.buildProjectModel();
+
+      project.initializeAddons();
+
+      // we use project addon instance as the "real addon"
+      expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
+
+      const { realAddon: realAddonForProject, proxies: proxiesForProject } = getAllAddonsByNameWithinHost(
+        project,
+        'foo'
+      );
+      const { proxies: proxiesForEngine } = getAllAddonsByNameWithinHost(
+        project.addons.find((addon) => addon.name === 'in-repo-lazy-engine'),
+        'foo'
+      );
+
+      expect(
+        [...proxiesForProject, ...proxiesForEngine].every((proxy) => proxy[TARGET_INSTANCE] === realAddonForProject)
+      ).to.be.true;
+    });
   });
-  */
+
+  describe('proxy checks with addon counts', function () {
+    it('no `allowCachingPerBundle` set, no proxies, verify instance counts', function () {
+      let fixture = createStandardCacheFixture();
+      let project = fixture.buildProjectModel(Project);
+      project.initializeAddons();
+
+      let counts = countAddons(project);
+
+      expect(counts.proxyCount).to.equal(0);
+      expect(counts.byName['test-addon-a'].addons.length).to.equal(1);
+      expect(counts.byName['test-addon-dep'].addons.length).to.equal(2);
+      expect(counts.byName['test-engine-dep'].addons.length).to.equal(3);
+      expect(counts.byName['lazy-engine-a'].addons.length).to.equal(1);
+      expect(counts.byName['lazy-engine-b'].addons.length).to.equal(1);
+      expect(counts.byName['regular-engine-c'].addons.length).to.equal(1);
+
+      // addon cache should also have 0 proxies. test-addon-b was the only addon marked as cacheable,
+      // so it will end up in the count of addon instances for the addon cache, but have no proxies.
+      expect(project.perBundleAddonCache.numProxies).to.equal(0);
+    });
+
+    it('addon with allowCachingPerBundle, 1 instance, the rest proxies', function () {
+      // PROJ to TAA, TAB, TAC and TAD. TAB, TAC and TAD have TAA underneath.
+      fixturifyProject.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+      fixturifyProject.addAddon('test-addon-b', '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (addon) => {
+          addon.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      fixturifyProject.addAddon('test-addon-c', '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (addon) => {
+          addon.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      fixturifyProject.addAddon('test-addon-d', '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (addon) => {
+          addon.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let counts = countAddons(project);
+      expect(counts.proxyCount).to.equal(3);
+      expect(project.perBundleAddonCache.numProxies).to.equal(3);
+      expect(counts.byName['test-addon-a'].addons.length).to.equal(4);
+
+      expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(counts.byName['test-addon-a'].proxyCount).to.equal(3);
+
+      expect(counts.byName['test-addon-b'].addons.length).to.equal(1);
+      expect(counts.byName['test-addon-c'].addons.length).to.equal(1);
+    });
+
+    it('addon with `allowCachingPerBundle`, 1 in lazy engine, one in regular', function () {
+      // PROJ to LEA, REB, LEA and REB both depend on TAA
+      // Neither instance of test-addon-a is declared in the project, but the one in engine B
+      // will be 'owned' by Project as far as PerBundleAddonCache is concerned.
+      // Should end with 2 instances of test-addon-a, one in PROJECT, one in lazy-engine-a,
+      // and no proxies.
+      fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
+        enableLazyLoading: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+        },
+      });
+
+      fixturifyProject.addEngine('regular-engine-b', '1.0.0', {
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let counts = countAddons(project);
+
+      expect(counts.byName['lazy-engine-a'].addons.length).to.equal(1);
+      expect(counts.byName['regular-engine-b'].addons.length).to.equal(1);
+
+      expect(counts.proxyCount).to.equal(0);
+      expect(project.perBundleAddonCache.numProxies).to.equal(0);
+
+      expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
+      expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
+
+      let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-a', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
+
+      cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('__PROJECT__', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
+    });
+
+    it('addon with allowCachingPerBundle, 1 in each of 2 lazy engines', function () {
+      // Same as above, but regular-engine-b is now lazy-engine-b
+      // Should have 2 instances, 1 in LEA, 1 in LEB
+      fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
+        enableLazyLoading: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+        },
+      });
+
+      fixturifyProject.addEngine('lazy-engine-b', '1.0.0', {
+        enableLazyLoading: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let counts = countAddons(project);
+
+      expect(counts.byName['lazy-engine-a'].addons.length).to.equal(1);
+      expect(counts.byName['lazy-engine-b'].addons.length).to.equal(1);
+
+      expect(counts.proxyCount).to.equal(0);
+      expect(project.perBundleAddonCache.numProxies).to.equal(0);
+
+      expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
+      expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
+
+      let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-a', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
+
+      cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-b', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
+    });
+
+    it('addon with allowCachingPerBundle, 2 regular engines - cache entries in project', function () {
+      // Same as above, now both are regular engines.
+      // Should have 1 instance, 2 proxies, both in project.
+      fixturifyProject.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+
+      fixturifyProject.addEngine('regular-engine-a', '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      fixturifyProject.addEngine('regular-engine-b', '1.0.0', {
+        shouldShareDependencies: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let { proxyCount, byName } = countAddons(project);
+
+      expect(byName['regular-engine-a'].addons.length).to.equal(1);
+      expect(byName['regular-engine-b'].addons.length).to.equal(1);
+
+      expect(proxyCount).to.equal(2);
+      expect(project.perBundleAddonCache.numProxies).to.equal(2);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['test-addon-a'].proxyCount).to.equal(2);
+
+      let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('__PROJECT__', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
+    });
+  });
 });

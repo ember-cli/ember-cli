@@ -3,11 +3,8 @@
 /**
  * Tests for enabling and disabling per-bundle-addon-cache support
  */
-const path = require('path');
 const expect = require('chai').expect;
-
-const projectRootPath = path.resolve(__dirname, '../../../..');
-const Helpers = require(`${projectRootPath}/tests/helpers/per-bundle-addon-cache-helpers`);
+const Helpers = require('../../../../tests/helpers/per-bundle-addon-cache-helpers');
 
 function enablePerBundleAddonCache(explicitValue) {
   // default is opt-out
@@ -30,8 +27,8 @@ function rerequire(modulePath) {
 // To test environment vars, we have to purge the require cache of 'Project' and 'PerBundleAddonCache' and rerequire it.
 // For simplicity we'll do that here.
 function createProject() {
-  rerequire(`${projectRootPath}/lib/models/per-bundle-addon-cache`);
-  const Project = rerequire(`${projectRootPath}/lib/models/project`);
+  rerequire('../../../../lib/models/per-bundle-addon-cache');
+  const Project = rerequire('../../../../lib/models/project');
 
   let fixture = Helpers.createStandardCacheFixture();
   let project = fixture.buildProjectModel(Project);
