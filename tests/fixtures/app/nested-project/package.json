@@ -1,0 +1,6 @@
+{
+  "name": "nested-project",
+  "ember-addon": {
+    "projectRoot": "./actual-project"
+  }
+}
