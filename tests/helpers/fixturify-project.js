@@ -25,9 +25,11 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     super.writeSync(...arguments);
     this._hasWritten = true;
   }
+
   addFiles(filesObj) {
     merge(this.files, filesObj);
   }
+
   buildProjectModel(ProjectClass = ProjectWithoutInternalAddons) {
     if (!this._hasWritten) {
       this.writeSync();
@@ -43,7 +45,6 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   addAddon(name, version = '0.0.0', cb) {
     return this.addDependency(name, version, (addon) => {
       prepareAddon(addon);
-
       if (typeof cb === 'function') {
         cb(addon);
       }
@@ -59,21 +60,46 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     });
   }
 
+  addEngine(name, version = '0.0.0', isLazy = true, cb) {
+    return this.addAddon(name, version, (addon) => {
+      addon.pkg.keywords.push('ember-engine');
+      addon.files['index.js'] = `
+const { name } = require('./package.json');
+
+module.exports = {
+  name,
+  moduleName: () => name,
+  lazyLoading: {
+    enabled: ${isLazy}
+  }
+};
+`;
+      if (typeof cb === 'function') {
+        cb(addon);
+      }
+    });
+  }
+
   addInRepoAddon(name, version = '0.0.0', cb) {
-    const inRepoAddon = new FixturifyProject(name, version, (project) => {
-      project.pkg.keywords.push('ember-addon');
-      project.pkg['ember-addon'] = {};
-      project.files['index.js'] = 'module.exports = { name: require("./package").name };';
+    const inRepoAddon = new EmberCLIFixturifyProject(name, version, (addon) => {
+      addon.pkg.keywords.push('ember-addon');
+      addon.pkg['ember-addon'] = {};
+      addon.files['index.js'] = 'module.exports = { name: require("./package").name };';
 
       if (typeof cb === 'function') {
-        cb(project);
+        cb(addon);
       }
     });
 
-    // configure the current project to have an ember-addon configured at the appropriate path
+    // configure the current project to have an ember-addon configured at the
+    // appropriate path, i.e. under a common root directory (lib).
+    const addonRootDir = 'lib';
+
+    // Add to ember-addon.paths list
     let addon = (this.pkg['ember-addon'] = this.pkg['ember-addon'] || {});
     addon.paths = addon.paths || [];
-    const addonPath = `lib/${name}`;
+
+    const addonPath = `${addonRootDir}/${name}`;
 
     if (addon.paths.find((path) => path.toLowerCase() === addonPath.toLowerCase())) {
       throw new Error(`project: ${this.name} already contains the in-repo-addon: ${name}`);
@@ -81,9 +107,31 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
 
     addon.paths.push(addonPath);
 
-    this.files.lib = this.files.lib || {};
+    this.files[addonRootDir] = this.files[addonRootDir] || {};
 
-    // insert inRepoAddon into files
-    Object.assign(this.files.lib, inRepoAddon.toJSON());
+    let addonJSON = inRepoAddon.toJSON();
+    Object.assign(this.files[addonRootDir], addonJSON);
+  }
+
+  addInRepoEngine(name, version = '0.0.0', isLazy = true, cb) {
+    return this.addInRepoAddon(name, version, (addon) => {
+      addon.pkg.keywords.push('ember-engine');
+      addon.files['index.js'] = `
+'use strict';
+
+const { name } = require('./package.json');
+
+module.exports = {
+  name,
+  moduleName: () => name,
+  lazyLoading: {
+    enabled: ${isLazy},
+  },
+};
+`;
+      if (typeof cb === 'function') {
+        cb(addon);
+      }
+    });
   }
 };
