@@ -18,6 +18,7 @@ describe('Addon - moduleName', function () {
     input = await createTempDir();
     let MockAddon = Addon.extend({
       root: input.path(),
+      packageRoot: input.path(),
       name: 'fake-addon',
       moduleName() {
         return 'totes-not-fake-addon';
