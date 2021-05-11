@@ -187,6 +187,52 @@ describe('models/per-bundle-addon-cache', function () {
         [...proxiesForProject, ...proxiesForEngine].every((proxy) => proxy[TARGET_INSTANCE] === realAddonForProject)
       ).to.be.true;
     });
+
+    it('addon with `allowCachingPerBundle`, 1 in each of 2 lazy engines; project also depends on this addon', function () {
+      fixturifyProject.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+
+      fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
+        enableLazyLoading: true,
+        shouldShareDependencies: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      fixturifyProject.addEngine('lazy-engine-b', '1.0.0', {
+        enableLazyLoading: true,
+        shouldShareDependencies: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let counts = countAddons(project);
+
+      expect(counts.byName['lazy-engine-a'].addons.length).to.equal(1);
+      expect(counts.byName['lazy-engine-b'].addons.length).to.equal(1);
+
+      expect(counts.proxyCount).to.equal(2);
+      expect(project.perBundleAddonCache.numProxies).to.equal(2);
+
+      expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(counts.byName['test-addon-a'].proxyCount).to.equal(2);
+
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+
+      // project cache should be used
+      expect(cacheEntries.length).to.equal(0);
+
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+
+      // project cache should be used
+      expect(cacheEntries.length).to.equal(0);
+    });
   });
 
   describe('proxy checks with addon counts', function () {
@@ -320,6 +366,48 @@ describe('models/per-bundle-addon-cache', function () {
       expect(project.perBundleAddonCache.numProxies).to.equal(0);
 
       expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
+      expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
+
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
+
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
+    });
+
+    it('addon with `allowCachingPerBundle`, 1 in each of 2 lazy engines; project also depends on this addon', function () {
+      fixturifyProject.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+
+      fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
+        enableLazyLoading: true,
+        shouldShareDependencies: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      fixturifyProject.addEngine('lazy-engine-b', '1.0.0', {
+        enableLazyLoading: true,
+        shouldShareDependencies: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0');
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let counts = countAddons(project);
+
+      expect(counts.byName['lazy-engine-a'].addons.length).to.equal(1);
+      expect(counts.byName['lazy-engine-b'].addons.length).to.equal(1);
+
+      expect(counts.proxyCount).to.equal(0);
+      expect(project.perBundleAddonCache.numProxies).to.equal(0);
+
+      expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(3);
       expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
 
       let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
