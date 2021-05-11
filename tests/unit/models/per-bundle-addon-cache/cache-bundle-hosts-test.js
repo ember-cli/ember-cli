@@ -5,14 +5,15 @@
  * A 'bundle host' is either the project or a lazy engine.
  */
 const expect = require('chai').expect;
-const Helpers = require('../../../../tests/helpers/per-bundle-addon-cache-helpers');
 const Project = require('../../../../lib/models/project');
+
+const { createStandardCacheFixture } = require('../../../../tests/helpers/per-bundle-addon-cache');
 
 describe('Unit | per-bundle-addon-cache bundle host', function () {
   let project;
 
   before('setup fixture', function setup() {
-    let fixture = Helpers.createStandardCacheFixture();
+    let fixture = createStandardCacheFixture();
     project = fixture.buildProjectModel(Project);
     project.initializeAddons();
   });

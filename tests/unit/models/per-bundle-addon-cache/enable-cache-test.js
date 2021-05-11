@@ -4,7 +4,7 @@
  * Tests for enabling and disabling per-bundle-addon-cache support
  */
 const expect = require('chai').expect;
-const Helpers = require('../../../../tests/helpers/per-bundle-addon-cache-helpers');
+const { createStandardCacheFixture } = require('../../../../tests/helpers/per-bundle-addon-cache');
 
 function enablePerBundleAddonCache(explicitValue) {
   // default is opt-out
@@ -30,7 +30,7 @@ function createProject() {
   rerequire('../../../../lib/models/per-bundle-addon-cache');
   const Project = rerequire('../../../../lib/models/project');
 
-  let fixture = Helpers.createStandardCacheFixture();
+  let fixture = createStandardCacheFixture();
   let project = fixture.buildProjectModel(Project);
   return project;
 }

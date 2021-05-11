@@ -13,7 +13,7 @@ const {
   getAllAddonsByNameWithinHost,
   areAllInstancesEqualWithinHost,
   countAddons,
-} = require('../../../../tests/helpers/per-bundle-addon-cache-helpers');
+} = require('../../../../tests/helpers/per-bundle-addon-cache');
 
 const Project = require('../../../../lib/models/project');
 const { TARGET_INSTANCE } = require('../../../../lib/models/per-bundle-addon-cache/target-instance');
@@ -417,9 +417,56 @@ describe('models/per-bundle-addon-cache', function () {
       cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
+    });      
+
+
+    it('addon with allowCachingPerBundle, 2 regular engines - cache entries in project but not declared there', function () {
+      // Project declares an in-repo addon TAA. Then remove the ember-addon.paths entry so the project
+      // "doesn't know" about it but it's available for engines. Declare 2 non-lazy in-repo engines.
+      // Then have them add a shared in-repo dependency to TAA, with the path pointing to the one in
+      // PROJ/lib (i.e. '../test-addon-a')
+      // Should have 1 instance, 1 proxy, both in project.
+      fixturifyProject.addInRepoAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
+      fixturifyProject.pkg['ember-addon'].paths = [];  // remove the 'dependency' (file still exists)
+
+      fixturifyProject.addInRepoEngine('regular-engine-a', '1.0.0', {
+        enableLazyLoading: false,
+        shouldShareDependencies: true,
+        callback: (inRepoEngine) => {
+          inRepoEngine.pkg['ember-addon'].paths = ['../test-addon-a'];
+        },
+      });
+
+      fixturifyProject.addInRepoEngine('regular-engine-b', '1.0.0', {
+        enableLazyLoading: false,
+        shouldShareDependencies: true,
+        callback: (inRepoEngine) => {
+          inRepoEngine.pkg['ember-addon'].paths = ['../test-addon-a'];
+        },
+      });
+
+      fixturifyProject.writeSync();
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let { proxyCount, byName } = countAddons(project);
+
+      expect(byName['regular-engine-a'].addons.length).to.equal(1);
+      expect(byName['regular-engine-b'].addons.length).to.equal(1);
+
+      expect(proxyCount).to.equal(1);
+      expect(project.perBundleAddonCache.numProxies).to.equal(1);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['test-addon-a'].proxyCount).to.equal(1);
+
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, '__PROJECT__', 'test-addon-a');
+      expect(cacheEntries).to.exist;
+      expect(cacheEntries.length).to.equal(1);
     });
 
-    it('addon with allowCachingPerBundle, 2 regular engines - cache entries in project', function () {
+    it('addon with allowCachingPerBundle, 2 regular engines - cache entries in project (also declared there)', function () {
       // Same as above, now both are regular engines.
       // Should have 1 instance, 2 proxies, both in project.
       fixturifyProject.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
@@ -437,6 +484,8 @@ describe('models/per-bundle-addon-cache', function () {
           engine.addAddon('test-addon-a', '1.0.0');
         },
       });
+
+      fixturifyProject.writeSync();
 
       let project = fixturifyProject.buildProjectModel();
       project.initializeAddons();
