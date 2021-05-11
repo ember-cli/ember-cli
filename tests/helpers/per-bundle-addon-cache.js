@@ -22,11 +22,6 @@ function getAllAddonsByNameWithinHost(projectOrAddon, addonName, config = { prox
   }
 
   projectOrAddon.addons.forEach((addon) => {
-    // stop traversing within another host
-    if (isLazyEngine(addon)) {
-      return;
-    }
-
     if (addon.name === addonName) {
       if (config.realAddon && !addon[TARGET_INSTANCE]) {
         throw new Error(
@@ -41,7 +36,10 @@ function getAllAddonsByNameWithinHost(projectOrAddon, addonName, config = { prox
       } else {
         config.realAddon = addon;
       }
-    } else {
+    }
+
+    // stop traversing within another host
+    if (!isLazyEngine(addon)) {
       getAllAddonsByNameWithinHost(addon, addonName, config);
     }
   });
