@@ -12,7 +12,7 @@
 | 7.x              | 2.10.0 - 2.16.x              |
 | 8.x              | 2.13.3 - 3.16.x              |
 | 9.x              | 2.16.2 - 3.2.x               |
-| 10.x             | 3.1.3 - Current              |
+| 10.x             | 3.1.3 - 3.28.0               |
 | 11.x             | 3.9.0 - 3.13.0               |
 | 12.x             | 3.10.0 - Current             |
 | 13.x             | 3.15.0 - 3.20.0              |
@@ -30,8 +30,6 @@ Node.js](https://github.com/nodejs/LTS#lts_schedule).
 
 ## Current support:
 
-* v10: Released as stable version then converted to LTS.
-  * Supported by ember-cli/ember-cli#master until: 2021-04-30.
 * v12: Released as stable version then converted to LTS.
   * Supported by ember-cli/ember-cli#master until: 2022-04-30.
 * v14: Released as stable version then converted to LTS.
