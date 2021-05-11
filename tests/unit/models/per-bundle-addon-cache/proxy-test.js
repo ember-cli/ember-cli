@@ -8,6 +8,7 @@ const expect = require('chai').expect;
 const FixturifyProject = require('../../../../tests/helpers/fixturify-project');
 
 const {
+  findAddonCacheEntriesByName,
   createStandardCacheFixture,
   getAllAddonsByNameWithinHost,
   areAllInstancesEqualWithinHost,
@@ -281,11 +282,11 @@ describe('models/per-bundle-addon-cache', function () {
       expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
       expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
 
-      let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-a', 'test-addon-a');
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('__PROJECT__', 'test-addon-a');
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, '__PROJECT__', 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
@@ -321,11 +322,11 @@ describe('models/per-bundle-addon-cache', function () {
       expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
       expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
 
-      let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-a', 'test-addon-a');
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('lazy-engine-b', 'test-addon-a');
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
@@ -363,7 +364,7 @@ describe('models/per-bundle-addon-cache', function () {
       expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
       expect(byName['test-addon-a'].proxyCount).to.equal(2);
 
-      let cacheEntries = project.perBundleAddonCache.findAddonCacheEntriesByName('__PROJECT__', 'test-addon-a');
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, '__PROJECT__', 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
