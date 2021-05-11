@@ -487,8 +487,7 @@ describe('models/per-bundle-addon-cache', function () {
       cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
-    });      
-
+    });
 
     it('addon with allowCachingPerBundle, 2 regular engines - cache entries in project but not declared there', function () {
       // Project declares an in-repo addon TAA. Then remove the ember-addon.paths entry so the project
@@ -497,7 +496,7 @@ describe('models/per-bundle-addon-cache', function () {
       // PROJ/lib (i.e. '../test-addon-a')
       // Should have 1 instance, 1 proxy, both in project.
       fixturifyProject.addInRepoAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
-      fixturifyProject.pkg['ember-addon'].paths = [];  // remove the 'dependency' (file still exists)
+      fixturifyProject.pkg['ember-addon'].paths = []; // remove the 'dependency' (file still exists)
 
       fixturifyProject.addInRepoEngine('regular-engine-a', '1.0.0', {
         enableLazyLoading: false,
