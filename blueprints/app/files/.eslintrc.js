@@ -9,7 +9,6 @@ module.exports = {
     ecmaFeatures: {
       legacyDecorators: true,
     },
-    requireConfigFile: false,
   },
   plugins: ['ember'],
   extends: [
@@ -28,6 +27,7 @@ module.exports = {
         '.eslintrc.js',
         '.prettierrc.js',
         '.template-lintrc.js',
+        'babel.config.js',
         'ember-cli-build.js',<% if (blueprint !== 'app') { %>
         'index.js',<% } %>
         'testem.js',
