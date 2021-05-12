@@ -9,6 +9,7 @@ const findWhere = require('ember-cli-lodash-subset').find;
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const FixturifyProject = require('../../helpers/fixturify-project');
 
 const broccoli = require('broccoli-builder');
 const walkSync = require('walk-sync');
@@ -569,6 +570,41 @@ describe('models/addon.js', function () {
       expect(() => {
         addon.compileTemplates();
       }).not.to.throw();
+    });
+  });
+
+  describe('shouldIncludChildAddon', function () {
+    let project, fixturifyProject;
+
+    before(function () {
+      // create a new ember-app
+      fixturifyProject = new FixturifyProject('simple-ember-app', '1.2.3', (project) => {
+        project.addAddon('parent', '5.D.1', (addon) => {
+          addon.files['index.js'] = `
+            module.exports = {
+              name: require('./package.json').name,
+              shouldIncludeChildAddon({name}) { return name === 'childIncludeMe';
+              ; }
+            }
+          `;
+          addon.addAddon('childIncludeMe', '1.0.0');
+          addon.addAddon('childExcludeMe', '1.0.0');
+        });
+      });
+
+      fixturifyProject.writeSync();
+
+      project = fixturifyProject.buildProjectModel(Project);
+      project.initializeAddons();
+    });
+
+    after(function () {
+      fixturifyProject.dispose();
+    });
+
+    it('works', function () {
+      let addon = project.findAddonByName('parent');
+      expect(addon.addons.map((n) => n.name)).to.eql(['childIncludeMe']);
     });
   });
 
