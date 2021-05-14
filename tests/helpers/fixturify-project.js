@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs-extra');
 const merge = require('ember-cli-lodash-subset').merge;
 const FixturifyProject = require('fixturify-project');
 const Project = require('../../lib/models/project');
@@ -43,42 +42,8 @@ function getOptionsObjectWithCallbackFunction(defaultOptions, optionsOrCallback)
 }
 
 module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
-  // we can't do this in the constructor since we need access to this as part of
-  // `super`; we create the `Set` as necessary upon first access, and subsequently
-  // we just return the previously created `Set`
-  get _inRepoAddonsWithSharedDependencies() {
-    if (!this.__inRepoAddonsWithSharedDependencies) {
-      this.__inRepoAddonsWithSharedDependencies = new Set();
-    }
-
-    return this.__inRepoAddonsWithSharedDependencies;
-  }
-
-  // same reason as above, we can't do this in the constructor since we need access
-  // to this as part of `super`
-  get _addonsWithSharedDependencies() {
-    if (!this.__addonsWithSharedDependencies) {
-      this.__addonsWithSharedDependencies = new Set();
-    }
-
-    return this.__addonsWithSharedDependencies;
-  }
-
   writeSync() {
     super.writeSync(...arguments);
-
-    // remove in-repo addons `node_modules` that should be hoisted
-    for (const name of this._inRepoAddonsWithSharedDependencies) {
-      const pathToAddonNodeModules = path.join(this.baseDir, 'lib', name, 'node_modules');
-      fs.removeSync(pathToAddonNodeModules);
-    }
-
-    // remove addons in `node_modules` that should be hoisted
-    for (const name of this._addonsWithSharedDependencies) {
-      const pathToAddonNodeModules = path.join(this.baseDir, 'node_modules', name, 'node_modules');
-      fs.removeSync(pathToAddonNodeModules);
-    }
-
     this._hasWritten = true;
   }
 
@@ -98,28 +63,98 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     return new ProjectClass(root, pkg, cli.ui, cli);
   }
 
+  /**
+   * Add an entry for this object's `dependencies` list. When this object is written out, the
+   * dependency will also then write out appropriate files in this object's `node_modules' subdirectory.
+   *
+   * @param {String} name name of the dependency to add
+   * @param {String} version version of the dependency to add
+   * @param {Object|Function} optionsOrCallback options to configure the new FixturifyProject, or a callback function to call after creating
+   * the dependency's FixturifyProject. If the parameter is a function, it will be assumed to be a callback function. If instead
+   * the parameter is an object, a callback function can be provided using the property 'callback' in the object.
+   * @returns the new  FixturifyProject
+   */
   addDependency(name, version, optionsOrCallback) {
-    const options = getOptionsObjectWithCallbackFunction({ shouldShareDependencies: false }, optionsOrCallback);
-
-    // if we should share dependencies (i.e., if these dependencies are hoisted)
-    if (options.shouldShareDependencies) {
-      this._addonsWithSharedDependencies.add(name);
-    }
-
+    const options = getOptionsObjectWithCallbackFunction(optionsOrCallback);
     return super.addDependency(name, version, options.callback);
   }
 
-  addDevDependency(name, version, optionsOrCallback) {
-    const options = getOptionsObjectWithCallbackFunction({ shouldShareDependencies: false }, optionsOrCallback);
-
-    // if we should share dependencies (i.e., if these dependencies are hoisted)
-    if (options.shouldShareDependencies) {
-      this._addonsWithSharedDependencies.add(name);
+  /**
+   * Add a 'reference' entry to this object's `dependencies` list. A 'reference' dependency is
+   * an entry in `dependencies` where the caller knows the dependency's source files are being
+   * created elsewhere in the project tree, so no source files should be created locally in
+   * `node_modules`, which is the standard FixturifyProject (and node-fixturify-project) behavior.
+   * We do this by adding the necessary reference to `dependencies` during `toJSON`.
+   *
+   * This is used when two addons wish to share a single definition on disk for a dependency (various parts of
+   * ember-cli optimize processing based on paths on disk.)
+   *
+   * Because there is no FixturifyProject being created, no callback is given as in other methods.
+   *
+   * @param {String} name name of the dependency
+   * @param {String} version version of the dependency, defaults to '*'. For our purposes, '*' means
+   * "whatever version was specified elsewhere."
+   */
+  addReferenceDependency(name, version = '*') {
+    if (!this._referenceDependencies) {
+      this._referenceDependencies = {};
     }
 
+    this._referenceDependencies[name] = version;
+  }
+
+  /**
+   * Add an entry to this object's `devDependencies` list. When this object is written out, the
+   * dependency will also then write out appropriate files in this object's `node_modules' subdirectory.
+   *
+   * @param {String} name name of the dev dependency to add
+   * @param {String} version version of the dev dependency to add
+   * @param {Object|Function} optionsOrCallback options to configure the new FixturifyProject, or a callback function to call after creating
+   * the dependency's FixturifyProject. If the parameter is a function, it will be assumed to be a callback function. If instead
+   * the parameter is an object, a callback function can be provided using the property 'callback' in the object.
+   * @returns the new  FixturifyProject
+   */
+  addDevDependency(name, version, optionsOrCallback) {
+    const options = getOptionsObjectWithCallbackFunction(optionsOrCallback);
     return super.addDevDependency(name, version, options.callback);
   }
 
+  /**
+   * Add a 'reference' entry to this object's `devDependencies` list. A 'reference' devDependency is
+   * an entry in `devDependencies` where the caller knows the dependency's source files are being
+   * created elsewhere in the project tree, so no source files should be created locally in
+   * `node_modules`, which is the standard FixturifyProject (and node-fixturify-project) behavior.
+   * We do this by adding the necessary reference to `devDependencies` during `toJSON`.
+   *
+   * This is used when two addons wish to share a single definition on disk for a devDependency
+   * (various parts of ember-cli optimize processing based on paths on disk.)
+   *
+   * Because there is no FixturifyProject being created, no callback is given as in other methods.
+   *
+   * @param {String} name name of the devDependency
+   * @param {String} version version of the devDependency, defaults to '*'. For our purposes, '*' means
+   * "whatever version was specified elsewhere."
+   */
+  addReferenceDevDependency(name, version = '*') {
+    if (!this._referenceDevDependencies) {
+      this._referenceDevDependencies = {};
+    }
+
+    this._referenceDevDependencies[name] = version;
+  }
+
+  /**
+   * Add an addon to this object's `dependencies` list. The addon files will be written in
+   * this object's `node_modules/<addon_name>` directory when this object is written out.
+   *
+   * @param {String} name name of the addon
+   * @param {String} version version of the addon, defaults to '0.0.0'
+   * @param {Object|Function} optionsOrCallback an object consisting of properties and values to apply when creating
+   * the addon, or a callback function to pass the newly-created FixturifyProject to. Important options
+   * include 'allowCachingPerBundle' (true if the addon can be proxied, defaults to false) and 'callback' (if you want to include
+   * a callback function while also specifying other properties.)
+   * @returns {FixturifyProject} the newly-created addon
+   */
   addAddon(name, version = '0.0.0', optionsOrCallback) {
     const options = getOptionsObjectWithCallbackFunction({ allowCachingPerBundle: false }, optionsOrCallback);
 
@@ -136,6 +171,18 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     });
   }
 
+  /**
+   * Add an addon to this object's `devDependencies` list. The addon files will be written in
+   * this object's `node_modules/<addon_name>` directory when this object is written out.
+   *
+   * @param {String} name name of the addon
+   * @param {String} version version of the addon, defaults to '0.0.0'
+   * @param {Object|Function} optionsOrCallback an object consisting of properties and values to apply when creating
+   * the addon, or a callback function to pass the newly-created FixturifyProject to. Important options
+   * include 'allowCachingPerBundle' (true if the addon can be proxied, defaults to false) and 'callback' (if you want to include
+   * a callback function while also specifying other properties.)
+   * @returns {FixturifyProject} the newly-created addon
+   */
   addDevAddon(name, version = '0.0.0', optionsOrCallback) {
     const options = getOptionsObjectWithCallbackFunction({ allowCachingPerBundle: false }, optionsOrCallback);
 
@@ -152,11 +199,20 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     });
   }
 
-  addEngine(
-    name,
-    version = '0.0.0',
-    options = { allowCachingPerBundle: false, shouldShareDependencies: false, enableLazyLoading: false }
-  ) {
+  /**
+   * Add an addon to this object's `dependencies` list. The engine's addon files will be written in
+   * this object's `node_modules/<addon_name>` directory when this object is written out.
+   *
+   * @param {String} name name of the engine
+   * @param {String} version version of the engine, defaults to '0.0.0'
+   * @param {Object|Function} optionsOrCallback an object consisting of properties and values to apply when creating
+   * the engine, or a callback function to pass the newly-created FixturifyProject to. Important options
+   * include 'allowCachingPerBundle' (true if the engine can be proxied, defaults to false), 'enableLazyLoading' (true
+   * if the engine is to be lazily loaded, defaults to false) and 'callback' (if you want to include
+   * a callback function while also specifying other properties.)
+   * @returns {FixturifyProject} the newly-created engine addon
+   */
+  addEngine(name, version = '0.0.0', options = { allowCachingPerBundle: false, enableLazyLoading: false }) {
     const callback = (engine) => {
       engine.pkg.keywords.push('ember-engine');
 
@@ -177,17 +233,20 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     return this.addAddon(name, version, { ...options, callback });
   }
 
+  /**
+   * Add an in-repo addon to this object. The addon files will be written in
+   * this object's `lib/<addon_name>` directory when this object is written out.
+   *
+   * @param {String} name name of the addon
+   * @param {String} version version of the addon, defaults to '0.0.0'
+   * @param {Object|Function} optionsOrCallback an object consisting of properties and values to apply when creating
+   * the addon, or a callback function to pass the newly-created FixturifyProject to. Important options
+   * include 'allowCachingPerBundle' (true if the addon can be proxied, defaults to false) and 'callback' (if you want to include
+   * a callback function while also specifying other properties.)
+   * @returns {FixturifyProject} the newly-created addon
+   */
   addInRepoAddon(name, version = '0.0.0', optionsOrCallback) {
-    const options = getOptionsObjectWithCallbackFunction(
-      { allowCachingPerBundle: false, shouldShareDependencies: true },
-      optionsOrCallback
-    );
-
-    // if we should share dependencies (in-repo addons (in general) do not have a local `node_modules`)
-    // this defaults to `true` for in-repo addons/engines
-    if (options.shouldShareDependencies) {
-      this._inRepoAddonsWithSharedDependencies.add(name);
-    }
+    const options = getOptionsObjectWithCallbackFunction({ allowCachingPerBundle: false }, optionsOrCallback);
 
     const inRepoAddon = new EmberCLIFixturifyProject(name, version, (addon) => {
       prepareAddon(addon, options);
@@ -219,11 +278,20 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     Object.assign(this.files[addonRootDir], addonJSON);
   }
 
-  addInRepoEngine(
-    name,
-    version = '0.0.0',
-    options = { allowCachingPerBundle: false, shouldShareDependencies: true, enableLazyLoading: false }
-  ) {
+  /**
+   * Add an in-repo engine to this object. The engine files will be written in
+   * this object's `lib/<engine-name>` directory when this object is written out.
+   *
+   * @param {String} name name of the engine
+   * @param {String} version version of the engine, defaults to '0.0.0'
+   * @param {Object|Function} optionsOrCallback an object consisting of properties and values to apply when creating
+   * the engine, or a callback function to pass the newly-created FixturifyProject to. Important options
+   * include 'allowCachingPerBundle' (true if the addon can be proxied, defaults to false), 'enableLazyLoading' (true
+   * if the engine is to be lazily loaded, defaults to false)  and 'callback' (if you want to include
+   * a callback function while also specifying other properties.)
+   * @returns {FixturifyProject} the newly-created addon
+   */
+  addInRepoEngine(name, version = '0.0.0', options = { allowCachingPerBundle: false, enableLazyLoading: false }) {
     const callback = (engine) => {
       engine.pkg.keywords.push('ember-engine');
 
@@ -242,5 +310,51 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     }
 
     return this.addInRepoAddon(name, version, { ...options, callback });
+  }
+
+  /**
+   * Convert the object into a data structure suitable for passing to `fixturify`.
+   *
+   * @param {String} key optional key. If specified, the object will be run through toJSON, then the given
+   * property extracted and returned.
+   * @returns {Object} the `toJSON` value of the object (wrapped) or the toJSON value of the specified field
+   * (not wrapped.)
+   */
+  toJSON(key) {
+    if (key) {
+      return super.toJSON(key);
+    }
+
+    let jsonData = super.toJSON();
+    let pkg;
+
+    if (this._referenceDependencies) {
+      pkg = JSON.parse(jsonData[this.name]['package.json']);
+      if (!pkg.dependencies) {
+        pkg.dependencies = {};
+      }
+
+      Object.assign(pkg.dependencies, this._referenceDependencies);
+    }
+
+    if (this._referenceDevDependencies) {
+      pkg = pkg || JSON.parse(jsonData[this.name]['package.json']);
+      if (!pkg.devDependencies) {
+        pkg.devDependencies = {};
+      }
+      Object.assign(pkg.devDependencies, this._referenceDevDependencies);
+    }
+
+    if (pkg) {
+      jsonData[this.name]['package.json'] = JSON.stringify(pkg);
+    }
+
+    // an optimization to remove any node_modules declaration that has nothing in it,
+    // to avoid creating extra directories for no reason.
+    if (jsonData[this.name]['node_modules'] && Object.keys(jsonData[this.name]['node_modules']).length === 0) {
+      delete jsonData[this.name]['node_modules'];
+    }
+
+    return jsonData;
   }
 };

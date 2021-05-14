@@ -65,14 +65,13 @@ describe('models/per-bundle-addon-cache', function () {
     expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
   });
 
-  it('it should create a proxy for a regular addon when added as a dependency to a regular addon', function () {
+  it('it should create a proxy for a regular addon when added as a dependency to an in-repo addon', function () {
     fixturifyProject.addAddon('foo', '1.0.0', { allowCachingPerBundle: true });
 
     for (let i = 0; i < 10; i++) {
-      fixturifyProject.addAddon(`foo-bar-${i}`, '1.0.0', {
-        shouldShareDependencies: true,
+      fixturifyProject.addInRepoAddon(`foo-bar-${i}`, '1.0.0', {
         callback: (inRepoAddon) => {
-          inRepoAddon.addDependency('foo', '1.0.0');
+          inRepoAddon.addReferenceDependency('foo', '1.0.0');
         },
       });
     }
@@ -85,14 +84,13 @@ describe('models/per-bundle-addon-cache', function () {
     expect(areAllInstancesEqualWithinHost(project, 'foo')).to.be.true;
   });
 
-  it('it should create a proxy for a regular addon when added as a dependency to an in-repo addon', function () {
+  it('it should create a proxy for a regular addon when added as a dependency to a regular addon', function () {
     fixturifyProject.addAddon('foo', '1.0.0', { allowCachingPerBundle: true });
 
     for (let i = 0; i < 10; i++) {
       fixturifyProject.addAddon(`foo-bar-${i}`, '1.0.0', {
-        shouldShareDependencies: true,
-        callback: (inRepoAddon) => {
-          inRepoAddon.addDependency('foo', '1.0.0');
+        callback: (addon) => {
+          addon.addReferenceDependency('foo', '1.0.0');
         },
       });
     }
@@ -111,15 +109,14 @@ describe('models/per-bundle-addon-cache', function () {
     fixturifyProject.addInRepoEngine('in-repo-lazy-engine', '1.0.0', {
       enableLazyLoading: true,
       callback: (lazyEngine) => {
-        lazyEngine.addDependency('foo', '1.0.0');
-        lazyEngine.addDependency('foo-bar', '1.0.0');
+        lazyEngine.addReferenceDependency('foo', '1.0.0');
+        lazyEngine.addReferenceDependency('foo-bar', '1.0.0');
       },
     });
 
     fixturifyProject.addAddon('foo-bar', '1.0.0', {
-      shouldShareDependencies: true,
-      callback: (inRepoAddon) => {
-        inRepoAddon.addDependency('foo', '1.0.0');
+      callback: (addon) => {
+        addon.addReferenceDependency('foo', '1.0.0');
       },
     });
 
@@ -154,15 +151,14 @@ describe('models/per-bundle-addon-cache', function () {
       fixturifyProject.addInRepoEngine('in-repo-lazy-engine', '1.0.0', {
         enableLazyLoading: true,
         callback: (lazyEngine) => {
-          lazyEngine.addDependency('foo', '1.0.0');
-          lazyEngine.addDependency('foo-bar', '1.0.0');
+          lazyEngine.addReferenceDependency('foo', '1.0.0');
+          lazyEngine.addReferenceDependency('foo-bar', '1.0.0');
         },
       });
 
       fixturifyProject.addAddon('foo-bar', '1.0.0', {
-        shouldShareDependencies: true,
-        callback: (inRepoAddon) => {
-          inRepoAddon.addDependency('foo', '1.0.0');
+        callback: (addon) => {
+          addon.addReferenceDependency('foo', '1.0.0');
         },
       });
 
@@ -193,17 +189,15 @@ describe('models/per-bundle-addon-cache', function () {
 
       fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
         enableLazyLoading: true,
-        shouldShareDependencies: true,
         callback: (engine) => {
-          engine.addAddon('test-addon-a', '1.0.0');
+          engine.addReferenceDependency('test-addon-a', '1.0.0');
         },
       });
 
       fixturifyProject.addEngine('lazy-engine-b', '1.0.0', {
         enableLazyLoading: true,
-        shouldShareDependencies: true,
         callback: (engine) => {
-          engine.addAddon('test-addon-a', '1.0.0');
+          engine.addReferenceDependency('test-addon-a', '1.0.0');
         },
       });
 
@@ -247,7 +241,6 @@ describe('models/per-bundle-addon-cache', function () {
       fixturifyProject.addInRepoEngine('lazy-engine-a', '1.0.0', {
         allowCachingPerBundle: true,
         enableLazyLoading: true,
-        shouldShareDependencies: true,
         callback: (engine) => {
           engine.pkg['ember-addon'].paths = ['../test-addon-a', '../test-addon-b'];
         },
@@ -256,7 +249,6 @@ describe('models/per-bundle-addon-cache', function () {
       fixturifyProject.addInRepoEngine('lazy-engine-b', '1.0.0', {
         allowCachingPerBundle: true,
         enableLazyLoading: true,
-        shouldShareDependencies: true,
         callback: (engine) => {
           engine.pkg['ember-addon'].paths = ['../test-addon-a', '../test-addon-b'];
         },
@@ -330,23 +322,20 @@ describe('models/per-bundle-addon-cache', function () {
       // PROJ to TAA, TAB, TAC and TAD. TAB, TAC and TAD have TAA underneath.
       fixturifyProject.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
       fixturifyProject.addAddon('test-addon-b', '1.0.0', {
-        shouldShareDependencies: true,
         callback: (addon) => {
-          addon.addAddon('test-addon-a', '1.0.0');
+          addon.addReferenceDependency('test-addon-a', '*');
         },
       });
 
       fixturifyProject.addAddon('test-addon-c', '1.0.0', {
-        shouldShareDependencies: true,
         callback: (addon) => {
-          addon.addAddon('test-addon-a', '1.0.0');
+          addon.addReferenceDependency('test-addon-a', '*');
         },
       });
 
       fixturifyProject.addAddon('test-addon-d', '1.0.0', {
-        shouldShareDependencies: true,
         callback: (addon) => {
-          addon.addAddon('test-addon-a', '1.0.0');
+          addon.addReferenceDependency('test-addon-a', '1.0.0');
         },
       });
 
@@ -409,7 +398,7 @@ describe('models/per-bundle-addon-cache', function () {
 
     it('addon with allowCachingPerBundle, 1 in each of 2 lazy engines', function () {
       // Same as above, but regular-engine-b is now lazy-engine-b
-      // Should have 2 instances, 1 in LEA, 1 in LEB
+      // Should have 2 instances, 1 in LEA, 1 in LEB, separate paths.
       fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
         enableLazyLoading: true,
         callback: (engine) => {
@@ -452,17 +441,15 @@ describe('models/per-bundle-addon-cache', function () {
 
       fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
         enableLazyLoading: true,
-        shouldShareDependencies: true,
         callback: (engine) => {
-          engine.addAddon('test-addon-a', '1.0.0');
+          engine.addReferenceDependency('test-addon-a');
         },
       });
 
       fixturifyProject.addEngine('lazy-engine-b', '1.0.0', {
         enableLazyLoading: true,
-        shouldShareDependencies: true,
         callback: (engine) => {
-          engine.addAddon('test-addon-a', '1.0.0');
+          engine.addReferenceDependency('test-addon-a');
         },
       });
 
@@ -541,16 +528,14 @@ describe('models/per-bundle-addon-cache', function () {
       fixturifyProject.addAddon('test-addon-a', '1.0.0', { allowCachingPerBundle: true });
 
       fixturifyProject.addEngine('regular-engine-a', '1.0.0', {
-        shouldShareDependencies: true,
         callback: (engine) => {
-          engine.addAddon('test-addon-a', '1.0.0');
+          engine.addReferenceDependency('test-addon-a', '1.0.0');
         },
       });
 
       fixturifyProject.addEngine('regular-engine-b', '1.0.0', {
-        shouldShareDependencies: true,
         callback: (engine) => {
-          engine.addAddon('test-addon-a', '1.0.0');
+          engine.addReferenceDependency('test-addon-a', '1.0.0');
         },
       });
 
@@ -584,7 +569,7 @@ describe('models/per-bundle-addon-cache', function () {
       });
 
       fixturifyProject.addInRepoAddon('test-addon-b', '1.0.0', { allowCachingPerBundle: true });
-      fixturifyProject.pkg['ember-addon'].paths = [];
+      fixturifyProject.pkg['ember-addon'].paths = []; // project now 'doesn't know' about test-addon-b
 
       fixturifyProject.addInRepoEngine('lazy-engine-a', '1.0.0', {
         allowCachingPerBundle: true,
