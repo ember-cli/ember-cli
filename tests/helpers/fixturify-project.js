@@ -44,7 +44,7 @@ function getOptionsObjectWithCallbackFunction(defaultOptions, optionsOrCallback)
 // Essentially a copy of the function in node-fixturify-project, converted from TS to JS.
 // We need this for use during toJSON().
 function parseScoped(name) {
-  let matched = name.match(/(@[^@\/]+)\/(.*)/);
+  let matched = name.match(/(@[^@/]+)\/(.*)/);
   if (matched) {
     return {
       scope: matched[1],
