@@ -41,6 +41,19 @@ function getOptionsObjectWithCallbackFunction(defaultOptions, optionsOrCallback)
   );
 }
 
+// Essentially a copy of the function in node-fixturify-project, converted from TS to JS.
+// We need this for use during toJSON().
+function parseScoped(name) {
+  let matched = name.match(/(@[^@\/]+)\/(.*)/);
+  if (matched) {
+    return {
+      scope: matched[1],
+      name: matched[2],
+    };
+  }
+  return null;
+}
+
 module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   writeSync() {
     super.writeSync(...arguments);
@@ -326,33 +339,39 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     }
 
     let jsonData = super.toJSON();
-    let pkg;
 
-    if (this._referenceDependencies) {
-      pkg = JSON.parse(jsonData[this.name]['package.json']);
-      if (!pkg.dependencies) {
-        pkg.dependencies = {};
+    let scoped = parseScoped(this.name);
+
+    // Allowing for scoped names, get the object in the JSON structure that corresponds
+    // to this FixturifyProject.
+    let container = scoped ? jsonData[scoped.scope][scoped.name] : jsonData[this.name];
+
+    if (this._referenceDependencies || this._referenceDevDependencies) {
+      let pkg = JSON.parse(container['package.json']);
+
+      if (this._referenceDependencies) {
+        if (!pkg.dependencies) {
+          pkg.dependencies = {};
+        }
+
+        Object.assign(pkg.dependencies, this._referenceDependencies);
       }
 
-      Object.assign(pkg.dependencies, this._referenceDependencies);
-    }
+      if (this._referenceDevDependencies) {
+        if (!pkg.devDependencies) {
+          pkg.devDependencies = {};
+        }
 
-    if (this._referenceDevDependencies) {
-      pkg = pkg || JSON.parse(jsonData[this.name]['package.json']);
-      if (!pkg.devDependencies) {
-        pkg.devDependencies = {};
+        Object.assign(pkg.devDependencies, this._referenceDevDependencies);
       }
-      Object.assign(pkg.devDependencies, this._referenceDevDependencies);
-    }
 
-    if (pkg) {
-      jsonData[this.name]['package.json'] = JSON.stringify(pkg);
+      container['package.json'] = JSON.stringify(pkg);
     }
 
     // an optimization to remove any node_modules declaration that has nothing in it,
     // to avoid creating extra directories for no reason.
-    if (jsonData[this.name]['node_modules'] && Object.keys(jsonData[this.name]['node_modules']).length === 0) {
-      delete jsonData[this.name]['node_modules'];
+    if (container['node_modules'] && Object.keys(container['node_modules']).length === 0) {
+      delete container['node_modules'];
     }
 
     return jsonData;
