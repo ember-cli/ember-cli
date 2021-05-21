@@ -1012,6 +1012,56 @@ describe('models/per-bundle-addon-cache', function () {
 
       expect(areAllInstancesEqualWithinHost(project, 'lazy-engine-a')).to.be.true;
     });
+
+    it('uses the custom `per-bundle-addon-cache.js` util if it exists', function () {
+      fixturifyProject.addInRepoAddon('test-addon-a', '1.0.0');
+
+      fixturifyProject.addInRepoAddon('test-addon-b', '1.0.0', (addon) => {
+        addon.pkg['ember-addon'].paths = ['../test-addon-a'];
+      });
+
+      fixturifyProject.pkg['ember-addon'].perBundleAddonCacheUtil = './per-bundle-addon-cache.js';
+
+      fixturifyProject.files['per-bundle-addon-cache.js'] = `
+'use strict';
+
+function allowCachingPerBundle({ addonEntryPointModule }) {
+  if (addonEntryPointModule.name === 'test-addon-a') {
+    return true;
+  }
+
+  return false;
+}
+
+module.exports = {
+  allowCachingPerBundle,
+};
+      `;
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let { byName } = countAddons(project);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['test-addon-a'].proxyCount).to.equal(1);
+    });
+
+    it('throws an error if the provided `perBundleAddonCacheUtil` does not exist', function () {
+      fixturifyProject.addInRepoAddon('test-addon-a', '1.0.0');
+
+      fixturifyProject.addInRepoAddon('test-addon-b', '1.0.0', (addon) => {
+        addon.pkg['ember-addon'].paths = ['../test-addon-a'];
+      });
+
+      fixturifyProject.pkg['ember-addon'].perBundleAddonCacheUtil = './per-bundle-addon-cache.js';
+
+      expect(() => {
+        fixturifyProject.buildProjectModel();
+      }).to.throw(
+        '[ember-cli] the provided `./per-bundle-addon-cache.js` for `ember-addon.perBundleAddonCacheUtil` does not exist'
+      );
+    });
   });
 
   describe('validation', function () {
