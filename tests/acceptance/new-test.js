@@ -321,7 +321,10 @@ describe('Acceptance: ember new', function () {
 
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
-    fs.writeFileSync('my_blueprint/files/package.json', '{ "name": "foo", "dependencies": { "ember-try-test-suite-helper": "*" }}');
+    fs.writeFileSync(
+      'my_blueprint/files/package.json',
+      '{ "name": "foo", "dependencies": { "ember-try-test-suite-helper": "*" }}'
+    );
     fs.writeFileSync('my_blueprint/files/yarn.lock', '');
 
     await ember(['new', 'foo', '--skip-git', '--blueprint=./my_blueprint']);
