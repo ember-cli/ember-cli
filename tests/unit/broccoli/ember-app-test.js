@@ -299,6 +299,7 @@ describe('EmberApp', function () {
 
       let AddonFoo = Addon.extend({
         root: 'foo',
+        packageRoot: 'foo',
         name: 'foo',
       });
       let addonFoo = new AddonFoo(app, project);
@@ -330,6 +331,7 @@ describe('EmberApp', function () {
 
       let AddonFoo = Addon.extend({
         root: 'foo',
+        packageRoot: 'foo',
         name: 'foo',
         treeForStyles() {
           return addonFooStyles.path();

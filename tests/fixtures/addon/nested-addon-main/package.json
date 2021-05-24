@@ -1,0 +1,18 @@
+{
+  "name": "nested-addon-main",
+  "version": "0.0.1",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "ember-cli-htmlbars": "latest",
+    "ember-cli-babel": "latest"
+  },
+  "devDependencies": {
+    "ember-source": "latest",
+    "ember-cli": "latest"
+  },
+  "ember-addon": {
+    "main": "src/main.js"
+  }
+}
