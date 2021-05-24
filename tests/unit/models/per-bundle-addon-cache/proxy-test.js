@@ -215,17 +215,17 @@ describe('models/per-bundle-addon-cache', function () {
       expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
       expect(counts.byName['test-addon-a'].proxyCount).to.equal(2);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
-      expect(cacheEntries).to.exist;
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
 
       // project cache should be used
-      expect(cacheEntries.length).to.equal(0);
+      expect(cacheEntries).to.not.exist;
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
-      expect(cacheEntries).to.exist;
+      const lazyEngineBPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
 
       // project cache should be used
-      expect(cacheEntries.length).to.equal(0);
+      expect(cacheEntries).to.not.exist;
     });
 
     it('2 lazy engines; each depend on two addons; project also depends on these addons, ensure project cache is used', function () {
@@ -271,29 +271,335 @@ describe('models/per-bundle-addon-cache', function () {
       expect(byName['test-addon-b'].realAddonInstanceCount).to.equal(1);
       expect(byName['test-addon-b'].proxyCount).to.equal(3);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
-      expect(cacheEntries).to.exist;
+      const projectPkgInfo = project._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, projectPkgInfo, 'test-addon-a');
+      expect(cacheEntries.length).to.equal(1, 'project cache should have an entry for `test-addon-a`');
 
-      // project cache should be used
-      expect(cacheEntries.length).to.equal(0);
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, projectPkgInfo, 'test-addon-b');
+      expect(cacheEntries.length).to.equal(1, 'project cache should have an entry for `test-addon-b`');
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-b');
-      expect(cacheEntries).to.exist;
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
+      expect(cacheEntries).to.deep.equal(
+        [],
+        'should exist; lazy-engine A has opted-in to bundle caching, but should have no entries for `test-addon-a`'
+      );
 
-      // project cache should be used
-      expect(cacheEntries.length).to.equal(0);
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-b');
+      expect(cacheEntries).to.deep.equal(
+        [],
+        'should exist; lazy-engine A has opted-in to bundle caching, but should have no entries for `test-addon-b`'
+      );
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
-      expect(cacheEntries).to.exist;
+      const lazyEngineBPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
+      expect(cacheEntries).to.deep.equal(
+        [],
+        'should exist; lazy engine B has opted into bundle caching, but should have no entries for `test-addon-a`'
+      );
 
-      // project cache should be used
-      expect(cacheEntries.length).to.equal(0);
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-b');
+      expect(cacheEntries).to.deep.equal(
+        [],
+        'should exist; lazy engine B has opted into bundle caching, but should have no entries for `test-addon-b`'
+      );
+    });
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-b');
-      expect(cacheEntries).to.exist;
+    it('should work for a common ancestor host that is not the project; i.e., another a lazy engine', function () {
+      fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
+        enableLazyLoading: true,
+        allowCachingPerBundle: true,
+        callback: (engine) => {
+          engine.addAddon('test-addon-a', '1.0.0', {
+            allowCachingPerBundle: true,
+          });
 
-      // project cache should be used
-      expect(cacheEntries.length).to.equal(0);
+          engine.addEngine('lazy-engine-b', '1.0.0', {
+            enableLazyLoading: true,
+            allowCachingPerBundle: true,
+            callback: (engine) => {
+              engine.addReferenceDependency('test-addon-a', '1.0.0');
+            },
+          });
+
+          engine.addEngine('lazy-engine-c', '1.0.0', {
+            enableLazyLoading: true,
+            callback: (engine) => {
+              engine.addReferenceDependency('test-addon-a', '1.0.0');
+            },
+          });
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let { byName } = countAddons(project);
+
+      expect(byName['lazy-engine-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-a'].proxyCount).to.equal(0);
+
+      expect(byName['lazy-engine-b'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-b'].proxyCount).to.equal(0);
+
+      expect(byName['lazy-engine-c'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-c'].proxyCount).to.equal(0);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['test-addon-a'].proxyCount).to.equal(2);
+
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries.length).to.equal(1, 'should exist; lazy-engine A depends on a non-project addon');
+
+      const lazyEngineBPkgInfo = project.addons
+        .find((addon) => addon.name === 'lazy-engine-a')
+        .addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries).to.deep.equal(
+        [],
+        "lazy engine B's should exist, but be unusued; ultimately lazy engine A is responsible for bundling"
+      );
+
+      const lazyEngineCPkgInfo = project.addons
+        .find((addon) => addon.name === 'lazy-engine-a')
+        .addons.find((addon) => addon.name === 'lazy-engine-c')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineCPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries).to.be.equal(null, 'should not exist; lazy-engine C has not opted-in to bundle caching');
+    });
+
+    it('should work for a common ancestor host that is not the project where multiple hosts bundle the same addon', function () {
+      fixturifyProject.addInRepoEngine('test-addon-a', '1.0.0', {
+        allowCachingPerBundle: true,
+      });
+
+      fixturifyProject.pkg['ember-addon'].paths = [];
+
+      fixturifyProject.addInRepoEngine('lazy-engine-a', '1.0.0', {
+        enableLazyLoading: true,
+        allowCachingPerBundle: true,
+        callback: (engine) => {
+          engine.pkg['ember-addon'].paths = ['../test-addon-a'];
+
+          engine.addInRepoEngine('lazy-engine-a-lazy-engine-dep', '1.0.0', {
+            enableLazyLoading: true,
+            allowCachingPerBundle: true,
+            callback: (engine) => {
+              engine.pkg['ember-addon'].paths = ['../../../test-addon-a'];
+            },
+          });
+        },
+      });
+
+      fixturifyProject.addInRepoEngine('lazy-engine-b', '1.0.0', {
+        enableLazyLoading: true,
+        allowCachingPerBundle: true,
+        callback: (engine) => {
+          engine.pkg['ember-addon'].paths = ['../test-addon-a'];
+
+          engine.addInRepoEngine('lazy-engine-b-lazy-engine-dep', '1.0.0', {
+            enableLazyLoading: true,
+            allowCachingPerBundle: true,
+            callback: (engine) => {
+              engine.pkg['ember-addon'].paths = ['../../../test-addon-a'];
+            },
+          });
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let { byName } = countAddons(project);
+
+      expect(byName['lazy-engine-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-a'].proxyCount).to.equal(0);
+
+      expect(byName['lazy-engine-b'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-b'].proxyCount).to.equal(0);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
+      expect(byName['test-addon-a'].proxyCount).to.equal(2);
+
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries.length).to.equal(1, 'should exist; lazy-engine A depends on a non-project addon');
+
+      const lazyEngineBPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries.length).to.equal(1, 'should exist; lazy-engine B depends on a non-project addon');
+    });
+
+    it('should work for a common ancestor host that is not the project with an addon bundled by a different host', function () {
+      fixturifyProject.addAddon('test-addon-a', '1.0.0', {
+        allowCachingPerBundle: true,
+      });
+
+      fixturifyProject.addAddon('test-addon-b', '1.0.0', (addon) => {
+        addon.addReferenceDependency('test-addon-a', '1.0.0');
+      });
+
+      fixturifyProject.addEngine('lazy-engine-a', '1.0.0', {
+        enableLazyLoading: true,
+        allowCachingPerBundle: true,
+        callback: (engine) => {
+          engine.addReferenceDependency('test-addon-a', '1.0.0');
+
+          engine.addEngine('lazy-engine-b', '1.0.0', {
+            enableLazyLoading: true,
+            allowCachingPerBundle: true,
+            callback: (engine) => {
+              engine.addReferenceDependency('test-addon-a', '1.0.0');
+            },
+          });
+
+          engine.addEngine('lazy-engine-c', '1.0.0', {
+            enableLazyLoading: true,
+            callback: (engine) => {
+              engine.addReferenceDependency('test-addon-a', '1.0.0');
+            },
+          });
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let { byName } = countAddons(project);
+
+      expect(byName['lazy-engine-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-a'].proxyCount).to.equal(0);
+
+      expect(byName['lazy-engine-b'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-b'].proxyCount).to.equal(0);
+
+      expect(byName['lazy-engine-c'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-c'].proxyCount).to.equal(0);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['test-addon-a'].proxyCount).to.equal(4);
+
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, project._packageInfo, 'test-addon-a');
+
+      expect(cacheEntries.length).to.equal(1, 'project cache should be used');
+
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries.length).to.equal(0, 'lazy engine A cache should not be used');
+
+      const lazyEngineBPkgInfo = project.addons
+        .find((addon) => addon.name === 'lazy-engine-a')
+        .addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries).to.deep.equal([], 'should exist; lazy-engine B has opted-in to bundle caching');
+
+      expect(cacheEntries.length).to.equal(0, 'lazy engine B should have no entries; the project has bundled this');
+
+      const lazyEngineCPkgInfo = project.addons
+        .find((addon) => addon.name === 'lazy-engine-a')
+        .addons.find((addon) => addon.name === 'lazy-engine-c')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineCPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries).to.be.equal(null, 'should not exist; lazy-engine C has not opted-in to bundle caching');
+    });
+
+    it('should work for a common ancestor host that is not the project with an addon bundled by a different host when building a lazy engine independently', function () {
+      fixturifyProject.addAddon('test-addon-a', '1.0.0', {
+        allowCachingPerBundle: true,
+      });
+
+      fixturifyProject.addInRepoEngine('lazy-engine-a-project', '1.0.0', {
+        enableLazyLoading: true,
+        callback: (projectLazyEngine) => {
+          projectLazyEngine.addReferenceDependency('test-addon-a', '1.0.0');
+
+          projectLazyEngine.addAddon('test-addon-b', '1.0.0', {
+            allowCachingPerBundle: true,
+            callback: (addon) => {
+              addon.addReferenceDependency('test-addon-a', '1.0.0');
+            },
+          });
+
+          projectLazyEngine.addEngine('lazy-engine-a', '1.0.0', {
+            enableLazyLoading: true,
+            allowCachingPerBundle: true,
+            callback: (engine) => {
+              engine.addReferenceDependency('test-addon-a', '1.0.0');
+
+              engine.addEngine('lazy-engine-b', '1.0.0', {
+                enableLazyLoading: true,
+                allowCachingPerBundle: true,
+                callback: (engine) => {
+                  engine.addReferenceDependency('test-addon-a', '1.0.0');
+                },
+              });
+
+              engine.addEngine('lazy-engine-c', '1.0.0', {
+                enableLazyLoading: true,
+                callback: (engine) => {
+                  engine.addReferenceDependency('test-addon-a', '1.0.0');
+                },
+              });
+            },
+          });
+        },
+      });
+
+      let project = fixturifyProject.buildProjectModelForInRepoAddon('lazy-engine-a-project');
+      project.initializeAddons();
+
+      let { byName } = countAddons(project);
+
+      expect(byName['lazy-engine-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-a'].proxyCount).to.equal(
+        1,
+        'engine should be added as a dependency to `ember-cli`, so we should have 1 proxy'
+      );
+
+      expect(byName['lazy-engine-b'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-b'].proxyCount).to.equal(0);
+
+      expect(byName['lazy-engine-c'].realAddonInstanceCount).to.equal(1);
+      expect(byName['lazy-engine-c'].proxyCount).to.equal(0);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['test-addon-a'].proxyCount).to.equal(5);
+
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, project._packageInfo, 'test-addon-a');
+
+      expect(cacheEntries.length).to.equal(1, 'project cache should not be used');
+
+      const lazyEngineAPkgInfo = project.addons
+        .find((addon) => addon.name === 'lazy-engine-a-project')
+        .addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries.length).to.equal(0, 'lazy engine A cache should not be used');
+
+      const lazyEngineBPkgInfo = project.addons
+        .find((addon) => addon.name === 'lazy-engine-a-project')
+        .addons.find((addon) => addon.name === 'lazy-engine-a')
+        .addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries).to.deep.equal([], 'should exist; lazy-engine B has opted-in to bundle caching');
+
+      expect(cacheEntries.length).to.equal(0, 'lazy engine B should have no entries; the project has bundled this');
+
+      const lazyEngineCPkgInfo = project.addons
+        .find((addon) => addon.name === 'lazy-engine-a-project')
+        .addons.find((addon) => addon.name === 'lazy-engine-a')
+        .addons.find((addon) => addon.name === 'lazy-engine-c')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineCPkgInfo, 'test-addon-a');
+
+      expect(cacheEntries).to.be.equal(null, 'should not exist; lazy-engine C has not opted-in to bundle caching');
     });
   });
 
@@ -387,11 +693,12 @@ describe('models/per-bundle-addon-cache', function () {
       expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
       expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, '__PROJECT__', 'test-addon-a');
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, project._packageInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
@@ -427,11 +734,13 @@ describe('models/per-bundle-addon-cache', function () {
       expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(2);
       expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
+      const lazyEngineBPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
@@ -467,11 +776,13 @@ describe('models/per-bundle-addon-cache', function () {
       expect(counts.byName['test-addon-a'].realAddonInstanceCount).to.equal(3);
       expect(counts.byName['test-addon-a'].proxyCount).to.equal(0);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
+      const lazyEngineBPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
@@ -517,7 +828,7 @@ describe('models/per-bundle-addon-cache', function () {
       expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
       expect(byName['test-addon-a'].proxyCount).to.equal(1);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, '__PROJECT__', 'test-addon-a');
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, project._packageInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
@@ -555,7 +866,7 @@ describe('models/per-bundle-addon-cache', function () {
       expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
       expect(byName['test-addon-a'].proxyCount).to.equal(2);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, '__PROJECT__', 'test-addon-a');
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, project._packageInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });
@@ -604,19 +915,21 @@ describe('models/per-bundle-addon-cache', function () {
       expect(byName['test-addon-b'].realAddonInstanceCount).to.equal(2);
       expect(byName['test-addon-b'].proxyCount).to.equal(2);
 
-      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-a');
+      const lazyEngineAPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
+      let cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-a', 'test-addon-b');
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineAPkgInfo, 'test-addon-b');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-a');
+      const lazyEngineBPkgInfo = project.addons.find((addon) => addon.name === 'lazy-engine-b')._packageInfo;
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-a');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
 
-      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, 'lazy-engine-b', 'test-addon-b');
+      cacheEntries = findAddonCacheEntriesByName(project.perBundleAddonCache, lazyEngineBPkgInfo, 'test-addon-b');
       expect(cacheEntries).to.exist;
       expect(cacheEntries.length).to.equal(1);
     });

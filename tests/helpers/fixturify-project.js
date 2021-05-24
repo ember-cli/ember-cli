@@ -76,6 +76,18 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     return new ProjectClass(root, pkg, cli.ui, cli);
   }
 
+  buildProjectModelForInRepoAddon(addonName, ProjectClass = ProjectWithoutInternalAddons) {
+    if (!this._hasWritten) {
+      this.writeSync();
+    }
+
+    let pkg = JSON.parse(this.files.lib[addonName]['package.json']);
+    let cli = new MockCLI();
+    let root = path.join(this.root, this.name, 'lib', addonName);
+
+    return new ProjectClass(root, pkg, cli.ui, cli);
+  }
+
   /**
    * Add an entry for this object's `dependencies` list. When this object is written out, the
    * dependency will also then write out appropriate files in this object's `node_modules' subdirectory.
@@ -365,7 +377,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
         Object.assign(pkg.devDependencies, this._referenceDevDependencies);
       }
 
-      container['package.json'] = JSON.stringify(pkg);
+      container['package.json'] = JSON.stringify(pkg, undefined, 2);
     }
 
     // an optimization to remove any node_modules declaration that has nothing in it,
