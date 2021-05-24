@@ -105,7 +105,7 @@
     "markdown-it-terminal": "0.2.1",
     "minimatch": "^3.0.4",
     "morgan": "^1.10.0",
-    "nopt": "^3.0.6",
+    "nopt": "^5.0.0",
     "npm-package-arg": "^8.1.1",
     "p-defer": "^3.0.0",
     "portfinder": "^1.0.28",
