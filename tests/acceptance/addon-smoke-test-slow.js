@@ -99,6 +99,27 @@ describe('Acceptance: addon-smoke-test', function () {
     expect(result.code).to.eql(0);
   });
 
+  it("works for addon's that specify a nested addon entry point", async function () {
+    await copyFixtureFiles('addon/nested-addon-main');
+
+    let packageJsonPath = path.join(addonRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+
+    expect(packageJson.devDependencies['ember-source']).to.not.be.empty;
+    expect(packageJson.devDependencies['ember-cli']).to.not.be.empty;
+
+    fs.writeJsonSync(packageJsonPath, packageJson);
+
+    let result = await runCommand('node_modules/ember-cli/bin/ember', 'build');
+
+    expect(result.code).to.eql(0);
+    let contents;
+
+    let indexPath = path.join(addonRoot, 'dist', 'assets', 'vendor.js');
+    contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+    expect(contents).to.contain('"nested-addon-main/components/simple-component"');
+  });
+
   it('npm pack does not include unnecessary files', async function () {
     let handleError = function (error, commandName) {
       if (error.code === 'ENOENT') {
