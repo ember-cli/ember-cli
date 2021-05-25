@@ -8,7 +8,7 @@ module.exports = function (api) {
       [
         require.resolve('@babel/preset-env'),
         {
-          targets: require(<% if (blueprint === 'app') { %>'./config/targets'<% } else { %>'./tests/dummy/config/targets'<% } %>),
+          targets: require('./config/targets'),
         },
       ],
     ],
