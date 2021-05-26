@@ -1062,6 +1062,30 @@ module.exports = {
         '[ember-cli] the provided `./per-bundle-addon-cache.js` for `ember-addon.perBundleAddonCacheUtil` does not exist'
       );
     });
+
+    it('bundle caching works for addons that opt-in via `prototype.allowCachingPerBundle`', function () {
+      fixturifyProject.addInRepoAddon('test-addon-a', '1.0.0', {
+        addonEntryPoint: `
+          function Addon() {}
+          Addon.prototype.allowCachingPerBundle = true;
+          Addon.prototype.pkg = require('./package.json');
+          Addon.prototype.name = 'test-addon-a';
+          module.exports = Addon;
+        `,
+      });
+
+      fixturifyProject.addInRepoAddon('test-addon-b', '1.0.0', (addon) => {
+        addon.pkg['ember-addon'].paths = ['../test-addon-a'];
+      });
+
+      let project = fixturifyProject.buildProjectModel();
+      project.initializeAddons();
+
+      let { byName } = countAddons(project);
+
+      expect(byName['test-addon-a'].realAddonInstanceCount).to.equal(1);
+      expect(byName['test-addon-a'].proxyCount).to.equal(1);
+    });
   });
 
   describe('validation', function () {
