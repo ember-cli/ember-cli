@@ -5,7 +5,8 @@
  * its addons
  */
 const expect = require('chai').expect;
-const FixturifyProject = require('../../../../tests/helpers/fixturify-project');
+const path = require('path');
+const FixturifyProject = require('../../../helpers/fixturify-project');
 
 const {
   findAddonCacheEntriesByName,
@@ -1010,6 +1011,75 @@ describe('models/per-bundle-addon-cache', function () {
       expect(byName['lazy-engine-a'].proxyCount).to.equal(3);
 
       expect(areAllInstancesEqualWithinHost(project, 'lazy-engine-a')).to.be.true;
+    });
+  });
+
+  describe('validation', function () {
+    function findAllAddonsByName(projectOrAddon, addonToFind, _foundAddons = []) {
+      projectOrAddon.addons.forEach((addon) => {
+        if (addon.name === addonToFind) {
+          _foundAddons.push(addon);
+        }
+
+        findAllAddonsByName(addon, addonToFind, _foundAddons);
+      });
+
+      return _foundAddons;
+    }
+
+    it('does not throw if the addon returns a stable cache key', function () {
+      fixturifyProject.addInRepoAddon('foo', '1.0.0', {
+        allowCachingPerBundle: true,
+      });
+
+      fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
+        callback: (inRepoAddon) => {
+          inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
+        },
+      });
+
+      fixturifyProject.writeSync();
+      let project = fixturifyProject.buildProjectModel();
+
+      project.initializeAddons();
+
+      findAllAddonsByName(project, 'foo').forEach((addon) => {
+        addon.cacheKeyForTree();
+        addon.cacheKeyForTree();
+
+        addon.cacheKeyForTree('addon');
+        addon.cacheKeyForTree('addon');
+      });
+    });
+
+    it('throws an error for addons that do not have stable cache keys', function () {
+      fixturifyProject.addInRepoAddon('foo', '1.0.0', {
+        allowCachingPerBundle: true,
+        additionalContent: `init() {this._super.init.apply(this, arguments); this.current = 0;}, cacheKeyForTree() {return this.current++;},`,
+      });
+
+      fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
+        callback: (inRepoAddon) => {
+          inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
+        },
+      });
+
+      fixturifyProject.writeSync();
+      let project = fixturifyProject.buildProjectModel();
+
+      project.initializeAddons();
+
+      expect(() => {
+        findAllAddonsByName(project, 'foo').forEach((addon) => {
+          addon.cacheKeyForTree();
+          addon.cacheKeyForTree();
+        });
+      }).to.throw(
+        `[ember-cli] addon bundle caching can only be used on addons that have stable cache keys (previously \`2\`, now \`3\`; for addon \`foo\` located at \`${path.join(
+          fixturifyProject.baseDir,
+          'lib/foo'
+        )}\`)`
+      );
     });
   });
 });
