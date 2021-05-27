@@ -17,7 +17,9 @@ class ProjectWithoutInternalAddons extends Project {
 function prepareAddon(addon, options) {
   addon.pkg.keywords.push('ember-addon');
   addon.pkg['ember-addon'] = {};
-  addon.files['index.js'] = `module.exports = {
+  addon.files['index.js'] =
+    options.addonEntryPoint ||
+    `module.exports = {
     name: require("./package").name,
     allowCachingPerBundle: ${Boolean(options.allowCachingPerBundle)},
     ${options.additionalContent || ''}
