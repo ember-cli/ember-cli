@@ -257,4 +257,38 @@ describe('NpmTask', function () {
       expect(() => task.toYarnArgs('install', { packages: ['foo'] })).to.throw(Error, /install foo/);
     });
   });
+
+  describe('toPNPMArgs', function () {
+    let task;
+
+    beforeEach(function () {
+      task = new NpmTask();
+    });
+
+    it('converts "npm install --save foobar" to "pnpm add foobar"', function () {
+      let args = task.toPNPMArgs('install', { save: true, packages: ['foobar'] });
+
+      expect(args).to.deep.equal(['add', 'foobar']);
+    });
+
+    it('converts "npm install --save-dev --save-exact foo" to "pnpm add --save-dev --save-exact foo"', function () {
+      let args = task.toPNPMArgs('install', {
+        'save-dev': true,
+        'save-exact': true,
+        packages: ['foo'],
+      });
+
+      expect(args).to.deep.equal(['add', '--save-dev', '--save-exact', 'foo']);
+    });
+
+    it('converts "npm uninstall bar" to "pnpm remove bar"', function () {
+      let args = task.toPNPMArgs('uninstall', { packages: ['bar'] });
+
+      expect(args).to.deep.equal(['remove', 'bar']);
+    });
+
+    it('throws when "pnpm install" is called with packages', function () {
+      expect(() => task.toPNPMArgs('install', { packages: ['foo'] })).to.throw(Error, /install foo/);
+    });
+  });
 });
