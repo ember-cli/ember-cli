@@ -111,7 +111,8 @@ ember install [33m<addon-name>[39m [36m<options...>[39m
     [90maliases: -D[39m
   [36m--save-exact[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -E, --exact[39m
-  [36m--yarn[39m [36m(Boolean)[39m Use --yarn to enforce yarn usage, or --no-yarn to enforce npm
+  [36m--package-manager[39m [36m(npm, pnpm, yarn)[39m Use this option to force the usage of a specific package manager. By default, ember-cli will try to detect the right package manager from any lockfiles that exist in your project.
+    [90maliases: -yarn (--package-manager=yarn), -pnpm (--package-manager=pnpm)[39m
 
 ember new [33m<app-name>[39m [36m<options...>[39m
   Creates a new directory and runs [32member init[39m in it.
