@@ -141,11 +141,12 @@ describe('NpmTask', function () {
 
     it('resolves when yarn.lock file and yarn were found', async function () {
       td.when(task.hasYarnLock()).thenReturn(true);
-      td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
+      td.when(task.checkYarn()).thenResolve({ name: 'yarn', version: '1.22.0' });
 
       expect(task.useYarn).to.be.undefined;
       let packageManager = await task.findPackageManager();
-      expect(packageManager).to.have.property('yarnVersion', '1.22.0');
+      expect(packageManager).to.have.property('name', 'yarn');
+      expect(packageManager).to.have.property('version', '1.22.0');
     });
 
     it('resolves when yarn.lock file was found, yarn was not found and npm is compatible', async function () {
@@ -167,7 +168,7 @@ describe('NpmTask', function () {
     });
 
     it('resolves when yarn is requested and found', async function () {
-      td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
+      td.when(task.checkYarn()).thenResolve({ name: 'yarn', version: '1.22.0' });
 
       await task.findPackageManager({ useYarn: true });
     });
@@ -210,7 +211,7 @@ describe('NpmTask', function () {
 
     beforeEach(function () {
       task = new NpmTask();
-      task.yarnVersion = '1.22.0';
+      task.packageManager = { name: 'yarn', version: '1.22.0' };
     });
 
     it('correctly adds "--non-interactive" for yarn versions <2.0.0', function () {
@@ -219,7 +220,7 @@ describe('NpmTask', function () {
     });
 
     it('skips "--non-interactive" for yarn versions >=2.0.0', function () {
-      task.yarnVersion = '2.0.1';
+      task.packageManager.version = '2.0.1';
       let args = task.toYarnArgs('install', {});
       expect(args).to.deep.equal(['install']);
     });
