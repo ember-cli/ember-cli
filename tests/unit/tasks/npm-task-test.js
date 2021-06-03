@@ -121,12 +121,14 @@ describe('NpmTask', function () {
     beforeEach(function () {
       task = new NpmTask();
       task.hasYarnLock = td.function();
+      task.hasPNPMLock = td.function();
       task.checkYarn = td.function();
       task.checkNpmVersion = td.function();
     });
 
     it('resolves when no yarn.lock file was found and npm is compatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(false);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkNpmVersion()).thenResolve();
 
       await task.findPackageManager();
@@ -134,6 +136,7 @@ describe('NpmTask', function () {
 
     it('resolves when no yarn.lock file was found and npm is incompatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(false);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkNpmVersion()).thenReject();
 
       await expect(task.findPackageManager()).to.be.rejected;
@@ -141,6 +144,7 @@ describe('NpmTask', function () {
 
     it('resolves when yarn.lock file and yarn were found', async function () {
       td.when(task.hasYarnLock()).thenReturn(true);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkYarn()).thenResolve({ name: 'yarn', version: '1.22.0' });
 
       expect(task.useYarn).to.be.undefined;
@@ -151,6 +155,7 @@ describe('NpmTask', function () {
 
     it('resolves when yarn.lock file was found, yarn was not found and npm is compatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(true);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkYarn()).thenReject();
       td.when(task.checkNpmVersion()).thenResolve();
 
@@ -161,6 +166,7 @@ describe('NpmTask', function () {
 
     it('rejects when yarn.lock file was found, yarn was not found and npm is incompatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(true);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkYarn()).thenReject();
       td.when(task.checkNpmVersion()).thenReject();
 
