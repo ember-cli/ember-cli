@@ -176,7 +176,7 @@ describe('NpmTask', function () {
     it('resolves when yarn is requested and found', async function () {
       td.when(task.checkYarn()).thenResolve({ name: 'yarn', version: '1.22.0' });
 
-      await task.findPackageManager({ useYarn: true });
+      await task.findPackageManager('yarn');
     });
 
     it('rejects with SilentError when yarn is requested but not found', async function () {
@@ -187,7 +187,7 @@ describe('NpmTask', function () {
 
       td.when(task.checkYarn()).thenReject(error);
 
-      await expect(task.findPackageManager({ useYarn: true })).to.be.rejectedWith(
+      await expect(task.findPackageManager('yarn')).to.be.rejectedWith(
         SilentError,
         /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
       );
@@ -196,19 +196,19 @@ describe('NpmTask', function () {
     it('rejects when yarn is requested and yarn check errors', async function () {
       td.when(task.checkYarn()).thenReject(new Error('foobar'));
 
-      await expect(task.findPackageManager({ useYarn: true })).to.be.rejectedWith('foobar');
+      await expect(task.findPackageManager('yarn')).to.be.rejectedWith('foobar');
     });
 
     it('resolves when npm is requested and compatible', async function () {
       td.when(task.checkNpmVersion()).thenResolve();
 
-      await task.findPackageManager({ useYarn: false });
+      await task.findPackageManager('npm');
     });
 
     it('rejects when npm is requested but incompatible', async function () {
       td.when(task.checkNpmVersion()).thenReject();
 
-      await expect(task.findPackageManager({ useYarn: false })).to.be.rejected;
+      await expect(task.findPackageManager('npm')).to.be.rejected;
     });
   });
 
