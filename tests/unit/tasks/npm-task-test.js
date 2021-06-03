@@ -167,16 +167,12 @@ describe('NpmTask', function () {
     });
 
     it('resolves when yarn is requested and found', async function () {
-      task.useYarn = true;
-
       td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
 
-      await task.findPackageManager();
+      await task.findPackageManager({ useYarn: true });
     });
 
     it('rejects with SilentError when yarn is requested but not found', async function () {
-      task.useYarn = true;
-
       let error = new SilentError(
         'Ember CLI is now using yarn, but was not able to find it.\n' +
           'Please install yarn using the instructions at https://classic.yarnpkg.com/en/docs/install'
@@ -184,34 +180,28 @@ describe('NpmTask', function () {
 
       td.when(task.checkYarn()).thenReject(error);
 
-      await expect(task.findPackageManager()).to.be.rejectedWith(
+      await expect(task.findPackageManager({ useYarn: true })).to.be.rejectedWith(
         SilentError,
         /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
       );
     });
 
     it('rejects when yarn is requested and yarn check errors', async function () {
-      task.useYarn = true;
-
       td.when(task.checkYarn()).thenReject(new Error('foobar'));
 
-      await expect(task.findPackageManager()).to.be.rejectedWith('foobar');
+      await expect(task.findPackageManager({ useYarn: true })).to.be.rejectedWith('foobar');
     });
 
     it('resolves when npm is requested and compatible', async function () {
-      task.useYarn = false;
-
       td.when(task.checkNpmVersion()).thenResolve();
 
-      await task.findPackageManager();
+      await task.findPackageManager({ useYarn: false });
     });
 
     it('rejects when npm is requested but incompatible', async function () {
-      task.useYarn = false;
-
       td.when(task.checkNpmVersion()).thenReject();
 
-      await expect(task.findPackageManager()).to.be.rejected;
+      await expect(task.findPackageManager({ useYarn: false })).to.be.rejected;
     });
   });
 
