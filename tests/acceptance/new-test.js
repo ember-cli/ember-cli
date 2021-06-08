@@ -321,13 +321,16 @@ describe('Acceptance: ember new', function () {
 
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
-    fs.writeFileSync('my_blueprint/files/package.json', '{ "name": "foo", "dependencies": { "fs-extra": "*" }}');
+    fs.writeFileSync(
+      'my_blueprint/files/package.json',
+      '{ "name": "foo", "dependencies": { "ember-try-test-suite-helper": "*" }}'
+    );
     fs.writeFileSync('my_blueprint/files/yarn.lock', '');
 
     await ember(['new', 'foo', '--skip-git', '--blueprint=./my_blueprint']);
 
     expect(file('yarn.lock')).to.not.be.empty;
-    expect(dir('node_modules/fs-extra')).to.not.be.empty;
+    expect(dir('node_modules/ember-try-test-suite-helper')).to.not.be.empty;
   });
 
   it('ember new without skip-git flag creates .git dir', async function () {

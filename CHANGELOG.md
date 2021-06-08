@@ -1,6 +1,23 @@
 # ember-cli Changelog
 
-## v3.27.1-beta.0
+
+## v3.27.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.27.0-beta.1...v3.27.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.27.0-beta.1...v3.27.0-beta.2)
+
+#### Changelog
+
+- [#9504](https://github.com/ember-cli/ember-cli/pull/9504) Update minimum version of broccoli-concat to address a major issue with cache invalidation [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9535](https://github.com/ember-cli/ember-cli/pull/9535) Disable Embroider by default. [@rwjblue](https://github.com/rwjblue)
+- [#9557](https://github.com/ember-cli/ember-cli/pull/9557) Update app and addon blueprint dependencies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#9558](https://github.com/ember-cli/ember-cli/pull/9558) Switch from `octane` template lint config to `recommended` [@bmish](https://github.com/bmish)
+
+Thank you to all who took the time to contribute!
+
+## v3.27.1-beta.1
 
 #### Blueprint Changes
 
