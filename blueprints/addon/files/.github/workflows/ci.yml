@@ -1,0 +1,53 @@
+name: "Lint"
+on:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  install_dependencies:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>')}}
+    - run: <%= yarn ? 'yarn' : 'npm' %> install
+
+  js:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: "ESLint: JS/TS"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [install_dependencies]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>')}}
+    - run: <%= yarn ? 'yarn' : 'npm run' %> lint:js
+
+  templates:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: "Templates"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [install_dependencies]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>')}}
+    - run: <%= yarn ? 'yarn' : 'npm run' %> lint:hbs
+

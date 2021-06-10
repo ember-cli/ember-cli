@@ -1,0 +1,121 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  install_dependencies:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>')}}
+    - run: <%= yarn ? 'yarn' : 'npm' %> install
+
+##############################################################
+
+  build_app:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Build App
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [install_dependencies]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>')}}
+    - uses: actions/cache@v2
+      with:
+        path: '**/dist'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**') }}
+    - name: 'Build'
+      run: <%= yarn ? 'yarn' : 'npm run' %> build
+
+    - name: Upload App Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: built_app
+        path: ./dist/
+
+##############################################################
+
+  build_tests:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Build Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [pre_build]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>')}}
+    - uses: actions/cache@v2
+      with:
+        path: '**/dist'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**') }}
+    - run: ./node_modules/.bin/ember build --environment=development
+
+    - name: Upload Test Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: built_tests
+        path: ./dist/
+
+##############################################################
+
+  tests:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Tests
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, macOS-latest, windows-latest]
+        # browsers: [chrome, firefox, safari, edge]
+        ci_browser:
+        - Chrome
+        - Firefox
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [build_tests]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>')}}
+    - name: Download Built Test Artifacts
+      uses: actions/download-artifact@master
+      with:
+        name: built_tests
+        path: ./dist/
+    - name: Environment Info
+      run: |
+        firefox --version
+        google-chrome --version
+        echo "Node: $( node --version )"
+        echo "NPM: $( npm --version )"
+        echo "Yarn: $( yarn --version )"
+
+    - name: Test
+      run: <%= yarn ? 'yarn test:ember --path ./dist/' : 'npm run test:ember --- --path ./dist' %>
+      env:
+        CI_BROWSER: ${{ matrix.ci_browser }}
+
