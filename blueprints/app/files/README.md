@@ -21,7 +21,7 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `ember serve`
+* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> start`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 * Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
 
@@ -31,13 +31,13 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Running Tests
 
-* `ember test`
-* `ember test --server`
+* `<% if (yarn) { %>yarn<% } else { %>npm run<% } %> test:ember`
+* `<% if (yarn) { %>yarn<% } else { %>npm run<% } %> test:ember --server`
 
 ### Linting
 
-* `<% if (yarn) { %>yarn lint<% } else { %>npm run lint<% } %>`
-* `<% if (yarn) { %>yarn lint:fix<% } else { %>npm run lint:fix<% } %>`
+* `<% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint`
+* `<% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint:fix`
 
 ### Building
 
