@@ -3428,12 +3428,13 @@ fireworm@^0.7.0:
     lodash.flatten "^3.0.2"
     minimatch "^3.0.2"
 
-fixturify-project@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/fixturify-project/-/fixturify-project-2.1.1.tgz#a511dd26700c6b64ac271ef4393e7124f153c81f"
-  integrity sha512-sP0gGMTr4iQ8Kdq5Ez0CVJOZOGWqzP5dv/veOTdFNywioKjkNWCHBi1q65DMpcNGUGeoOUWehyji274Q2wRgxA==
+fixturify-project@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/fixturify-project/-/fixturify-project-3.0.2.tgz#c7374dbb286fbca4136d402d41da13b345add708"
+  integrity sha512-YQz3XOfQuwQ+lFVmqM9GFsnqgDBMA7eB4+NwRwXlgD0radi5FYEygKrkAUhBbFIpXGOZViF+7q35+k72I0VIKg==
   dependencies:
-    fixturify "^2.1.0"
+    fixturify "^2.1.1"
+    resolve-package-path "^3.1.0"
     tmp "^0.0.33"
     type-fest "^0.11.0"
 
@@ -3445,10 +3446,10 @@ fixturify@^0.3.2:
     fs-extra "^0.30.0"
     matcher-collection "^1.0.4"
 
-fixturify@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/fixturify/-/fixturify-2.1.0.tgz#a0437faac9b6e4aeb35910a1214df866aeec5d75"
-  integrity sha512-gHq6UCv8DE91EpiaRSzrmvLoRvFOBzI961IQ3gXE5wfmMM1TtApDcZAonG2hnp6GJrVFCxHwP01wSw9VQJiJ1w==
+fixturify@^2.1.0, fixturify@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/fixturify/-/fixturify-2.1.1.tgz#e962d72f062600cb81a9651086f60d822c72d998"
+  integrity sha512-SRgwIMXlxkb6AUgaVjIX+jCEqdhyXu9hah7mcK+lWynjKtX73Ux1TDv71B7XyaQ+LJxkYRHl5yCL8IycAvQRUw==
   dependencies:
     "@types/fs-extra" "^8.1.0"
     "@types/minimatch" "^3.0.3"
