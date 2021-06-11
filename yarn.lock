@@ -6839,13 +6839,12 @@ resolve-package-path@^1.0.11:
     path-root "^0.1.1"
     resolve "^1.10.0"
 
-resolve-package-path@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-3.1.0.tgz#35faaa5d54a9c7dd481eb7c4b2a44410c9c763d8"
-  integrity sha512-2oC2EjWbMJwvSN6Z7DbDfJMnD8MYEouaLn5eIX0j8XwPsYCVIyY9bbnX88YHVkbr8XHqvZrYbxaLPibfTYKZMA==
+resolve-package-path@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-4.0.1.tgz#0e77271e06c8cc41740d28ef974806a77fdc8880"
+  integrity sha512-2gb/yU2fSfX22pjDYyevzyOKK9q72XKUFqlAsrfPzZArM4JkIH/Qcme4n3EbaZttObWm/fIFLbPxrXIyiL8wdQ==
   dependencies:
     path-root "^0.1.1"
-    resolve "^1.17.0"
 
 resolve-path@^1.4.0:
   version "1.4.0"
@@ -6860,7 +6859,7 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
 
-resolve@^1.1.6, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.1, resolve@^1.13.1, resolve@^1.17.0, resolve@^1.20.0:
+resolve@^1.1.6, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.1, resolve@^1.13.1, resolve@^1.20.0:
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
   integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
