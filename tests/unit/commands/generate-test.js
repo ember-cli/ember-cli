@@ -11,6 +11,7 @@ const GenerateCommand = require('../../../lib/commands/generate');
 const td = require('testdouble');
 const ROOT = process.cwd();
 const { createTempDir } = require('broccoli-test-helper');
+const { ERRORS } = GenerateCommand;
 
 describe('generate command', function () {
   let input, options, command;
@@ -98,11 +99,7 @@ describe('generate command', function () {
 
   it('complains if no blueprint name is given', function () {
     return expect(command.validateAndRun([])).to.be.rejected.then((error) => {
-      expect(error.message).to.equal(
-        'The `ember generate` command requires a ' +
-          'blueprint name to be specified. ' +
-          'For more details, use `ember help`.'
-      );
+      expect(error.message).to.equal(ERRORS.UNKNOWN_BLUEPRINT_ERROR);
     });
   });
 
