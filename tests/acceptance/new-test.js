@@ -156,7 +156,7 @@ describe('Acceptance: ember new', function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower']);
 
     process.env.CI = true;
-    const defaultTargets = require('../../lib/utilities/default-targets').browsers;
+    const defaultTargets = ['last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'];
     const blueprintTargets = require(path.resolve('config/targets.js')).browsers;
     expect(blueprintTargets).to.have.same.deep.members(defaultTargets);
   });
