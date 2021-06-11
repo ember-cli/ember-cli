@@ -449,6 +449,12 @@ describe('Acceptance: ember new', function () {
       expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
     }
 
+    function checkBabelConfig(fixturePath) {
+      expect(file('babel.config.js')).to.equal(
+        file(path.join(__dirname, '../fixtures', fixturePath, 'babel.config.js'))
+      );
+    }
+
     function checkFileWithEmberCLIVersionReplacement(fixtureName, fileName) {
       let currentVersion = require('../../package').version;
       let fixturePath = path.join(__dirname, '../fixtures', fixtureName, fileName);
@@ -485,6 +491,7 @@ describe('Acceptance: ember new', function () {
 
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
+      checkBabelConfig(namespace);
 
       // ember new without --lang flag (default) has no lang attribute in index.html
       expect(file('app/index.html')).to.contain('<html>');
@@ -511,6 +518,7 @@ describe('Acceptance: ember new', function () {
 
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
+      checkBabelConfig(namespace);
 
       // ember addon without --lang flag (default) has no lang attribute in dummy index.html
       expect(file('tests/dummy/app/index.html')).to.contain('<html>');
@@ -534,6 +542,7 @@ describe('Acceptance: ember new', function () {
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
+      checkBabelConfig(namespace);
     });
 
     it('app + yarn + welcome', async function () {
