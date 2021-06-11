@@ -87,7 +87,7 @@
     "fs-tree-diff": "^2.0.1",
     "get-caller-file": "^2.0.5",
     "git-repo-info": "^2.1.1",
-    "glob": "^7.1.6",
+    "glob": "^7.1.7",
     "heimdalljs": "^0.2.6",
     "heimdalljs-fs-monitor": "^1.1.0",
     "heimdalljs-graph": "^1.0.0",
