@@ -101,7 +101,7 @@
     "json-stable-stringify": "^1.0.1",
     "leek": "0.0.24",
     "lodash.template": "^4.5.0",
-    "markdown-it": "^12.0.4",
+    "markdown-it": "^12.0.6",
     "markdown-it-terminal": "0.2.1",
     "minimatch": "^3.0.4",
     "morgan": "^1.10.0",
