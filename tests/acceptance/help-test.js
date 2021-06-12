@@ -1,10 +1,8 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
 const chai = require('chai');
 let expect = chai.expect;
-const EOL = require('os').EOL;
 const processHelpString = require('../helpers/process-help-string');
 const convertToJson = require('../helpers/convert-help-output-to-json');
 const commandOptions = require('../factories/command-options');
@@ -48,9 +46,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help.txt');
-    let expected = loadTextFixture(fixturePath);
-    expect(output).to.equal(expected);
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints addon commands', function () {
@@ -62,10 +58,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help-with-addon.txt');
-    let expected = loadTextFixture(fixturePath);
-
-    expect(output).to.equal(expected);
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints single addon commands', function () {
@@ -77,10 +70,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'foo.txt');
-    let expected = loadTextFixture(fixturePath);
-
-    expect(output).to.equal(expected);
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints all blueprints', function () {
@@ -88,10 +78,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate.txt');
-    let expected = loadTextFixture(fixturePath);
-
-    expect(output).to.contain(expected);
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints helpful message for unknown command', function () {
@@ -108,10 +95,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-blueprint.txt');
-    let expected = loadTextFixture(fixturePath);
-
-    expect(output).to.equal(expected);
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints blueprints from addons', function () {
@@ -123,10 +107,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-with-addon.txt');
-    let expected = loadTextFixture(fixturePath);
-
-    expect(output).to.equal(expected);
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   describe('--json', function () {
@@ -171,15 +152,12 @@ describe('Acceptance: ember help', function () {
   });
 });
 
-function loadTextFixture(path) {
-  let content = fs.readFileSync(path, { encoding: 'utf8' });
-  let decoded = decodeUnicode(content);
-  let processed = processHelpString(decoded);
-  return processed.replace(/\n/g, EOL);
-}
-
 function decodeUnicode(str) {
   return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
     return String.fromCharCode(parseInt(grp, 16));
   });
+}
+
+function normalizeResult(content) {
+  return Buffer.from(decodeUnicode(processHelpString(content)), 'utf-8').toString('binary');
 }

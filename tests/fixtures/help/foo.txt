@@ -1,7 +1,0 @@
-Requested ember-cli commands:
-
-ember foo [33m<speed>[39m [36m<options...>[39m
-  Initializes the warp drive.
-  [36m--dry-run[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -d[39m
-

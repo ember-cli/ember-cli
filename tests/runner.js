@@ -3,6 +3,7 @@
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
+const chaiJestSnapshot = require('chai-jest-snapshot');
 const glob = require('glob');
 const Mocha = require('mocha');
 const fs = require('fs-extra');
@@ -50,6 +51,12 @@ function addFiles(mocha, files) {
 
 function runMocha() {
   let ROOT = process.cwd();
+
+  chaiJestSnapshot.resetSnapshotRegistry();
+
+  mocha.suite.beforeEach(function () {
+    chaiJestSnapshot.configureUsingMochaContext(this);
+  });
 
   // ensure that at the end of every test, we are in the correct current
   // working directory
