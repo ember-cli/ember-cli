@@ -13,6 +13,7 @@
 /.pnp*
 /.sass-cache
 /.eslintcache
+/.lint-todo
 /connect.lock
 /coverage/
 /libpeerconnection.log
