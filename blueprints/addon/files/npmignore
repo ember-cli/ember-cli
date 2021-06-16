@@ -18,7 +18,7 @@
 /.prettierignore
 /.prettierrc.js
 /.template-lintrc.js
-/.travis.yml
+/.github/
 /.watchmanconfig
 /bower.json
 /config/ember-try.js
