@@ -147,7 +147,8 @@ describe('Acceptance: addon-smoke-test', function () {
 
     let unnecessaryFiles = [
       '.gitkeep',
-      '.travis.yml',
+      '.github/workflows/ci.yml',
+      '.github/workflows/lint.yml',
       '.editorconfig',
       'testem.js',
       '.ember-cli',
