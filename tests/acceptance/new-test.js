@@ -471,9 +471,11 @@ describe('Acceptance: ember new', function () {
       let namespace = 'app';
       let fixturePath = `${namespace}/defaults`;
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
-      });
+      ['app/templates/application.hbs', '.github/workflows/ci.yml', '.github/workflows/lint.yml', 'README.md'].forEach(
+        (filePath) => {
+          expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+        }
+      );
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = `${namespace}/embroider`;
@@ -499,7 +501,8 @@ describe('Acceptance: ember new', function () {
       [
         'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
-        '.travis.yml',
+        '.github/workflows/lint.yml',
+        '.github/workflows/ci.yml',
         'README.md',
         'CONTRIBUTING.md',
       ].forEach((filePath) => {
@@ -522,9 +525,11 @@ describe('Acceptance: ember new', function () {
       let namespace = 'app';
       let fixturePath = `${namespace}/npm`;
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
-      });
+      ['app/templates/application.hbs', '.github/workflows/lint.yml', '.github/workflows/ci.yml', 'README.md'].forEach(
+        (filePath) => {
+          expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+        }
+      );
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-no-welcome';
@@ -541,9 +546,11 @@ describe('Acceptance: ember new', function () {
 
       let fixturePath = 'app/yarn';
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
-      });
+      ['app/templates/application.hbs', '.github/workflows/lint.yml', '.github/workflows/ci.yml', 'README.md'].forEach(
+        (filePath) => {
+          expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+        }
+      );
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-yarn';
@@ -561,7 +568,9 @@ describe('Acceptance: ember new', function () {
       [
         'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
-        '.travis.yml',
+
+        '.github/workflows/lint.yml',
+        '.github/workflows/ci.yml',
         'README.md',
         'CONTRIBUTING.md',
       ].forEach((filePath) => {
