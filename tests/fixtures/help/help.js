@@ -478,10 +478,12 @@ module.exports = {
           required: false
         },
         {
-          name: 'yarn',
-          key: 'yarn',
+          aliases: [{ yarn: 'yarn' }, { pnpm: 'pnpm' }],
+          description:
+            'Use this option to force the usage of a specific package manager. By default, ember-cli will try to detect the right package manager from any lockfiles that exist in your project. Supported values: npm, yarn, pnpm',
+          key: 'packageManager',
+          name: 'package-manager',
           required: false,
-          description: 'Use --yarn to enforce yarn usage, or --no-yarn to enforce npm'
         },
       ],
       anonymousOptions: ['<addon-name>']
