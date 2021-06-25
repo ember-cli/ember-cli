@@ -256,6 +256,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
+          required: false
+        },
+        {
           name: 'in',
           default: null,
           description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
@@ -404,6 +410,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
+          required: false
+        },
+        {
           name: 'welcome',
           key: 'welcome',
           description: 'Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.',
@@ -427,6 +439,13 @@ module.exports = {
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
           required: false
+        },
+        {
+          default: false,
+          key: 'embroider',
+          name: 'embroider',
+          description: 'Enables the build system to use Embroider',
+          required: false,
         }
       ],
       anonymousOptions: ['<glob-pattern>']
@@ -538,6 +557,13 @@ module.exports = {
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
           required: false
+        },
+        {
+          default: false,
+          key: 'embroider',
+          name: 'embroider',
+          description: 'Enables the build system to use Embroider',
+          required: false,
         }
       ],
       anonymousOptions: ['<app-name>']

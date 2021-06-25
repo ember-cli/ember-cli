@@ -12,6 +12,8 @@ let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const td = require('testdouble');
+const lintFix = require('../../lib/utilities/lint-fix');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -37,6 +39,7 @@ describe('Acceptance: ember generate', function () {
   });
 
   afterEach(function () {
+    td.reset();
     process.chdir(root);
     return remove(tmproot);
   });
@@ -342,5 +345,13 @@ describe('Acceptance: ember generate', function () {
     await ember(['generate', 'foo', 'bar', '-two']);
 
     expect(file('app/foos/bar.js')).to.contain('export default Ember.Object.extend({ foo: two });');
+  });
+
+  it('calls lint fix function', async function () {
+    let lintFixStub = td.replace(lintFix, 'run');
+
+    await generate(['blueprint', 'foo', '--lint-fix']);
+
+    td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
   });
 });

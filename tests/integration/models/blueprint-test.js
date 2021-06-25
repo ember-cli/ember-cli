@@ -498,32 +498,42 @@ describe('Blueprint', function () {
       });
     });
 
-    it('throws error when there is a trailing forward slash in entityName', function () {
-      options.entity = { name: 'foo/' };
-      expect(() => {
-        blueprint.install(options);
-      }).to.throw(
-        /You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./
-      );
+    it('throws error when there is a trailing forward slash in entityName', async function () {
+      try {
+        options.entity = { name: 'foo/' };
+        await blueprint.install(options);
+        expect.fail('expected rejection');
+      } catch (e) {
+        expect(e.message).to.match(
+          /You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./
+        );
+      }
 
-      options.entity = { name: 'foo\\' };
-      expect(() => {
-        blueprint.install(options);
-      }).to.throw(
-        /You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./
-      );
+      try {
+        options.entity = { name: 'foo\\' };
+        await blueprint.install(options);
+        expect.fail('expected rejection');
+      } catch (e) {
+        expect(e.message).to.match(
+          /You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./
+        );
+      }
 
       options.entity = { name: 'foo' };
-      expect(() => {
-        blueprint.install(options);
-      }).not.to.throw();
+      await blueprint.install(options);
     });
 
-    it('throws error when an entityName is not provided', function () {
-      options.entity = {};
-      expect(() => {
-        blueprint.install(options);
-      }).to.throw(SilentError, /The `ember generate <entity-name>` command requires an entity name to be specified./);
+    it('throws error when an entityName is not provided', async function () {
+      try {
+        options.entity = {};
+        await blueprint.install(options);
+        expect.fail('expected rejection)');
+      } catch (e) {
+        expect(e).to.be.instanceof(SilentError);
+        expect(e.message).to.match(
+          /The `ember generate <entity-name>` command requires an entity name to be specified./
+        );
+      }
     });
 
     it('throws error when an action does not exist', async function () {
@@ -560,16 +570,19 @@ describe('Blueprint', function () {
       expect(actualFiles).to.not.contain('app/basics/mock-project.txt');
     });
 
-    it('calls normalizeEntityName before locals hook is called', function (done) {
+    it('calls normalizeEntityName before locals hook is called', async function () {
       blueprint.normalizeEntityName = function () {
         return 'foo';
       };
+      let done;
+      const waitForLocals = new Promise((resolve) => (done = resolve));
       blueprint.locals = function (options) {
         expect(options.entity.name).to.equal('foo');
         done();
       };
       options.entity = { name: 'bar' };
-      blueprint.install(options);
+      await blueprint.install(options);
+      await waitForLocals;
     });
 
     it('calls appropriate hooks with correct arguments', async function () {

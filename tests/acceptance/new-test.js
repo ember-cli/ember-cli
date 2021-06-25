@@ -156,7 +156,7 @@ describe('Acceptance: ember new', function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower']);
 
     process.env.CI = true;
-    const defaultTargets = require('../../lib/utilities/default-targets').browsers;
+    const defaultTargets = ['last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'];
     const blueprintTargets = require(path.resolve('config/targets.js')).browsers;
     expect(blueprintTargets).to.have.same.deep.members(defaultTargets);
   });
@@ -321,13 +321,16 @@ describe('Acceptance: ember new', function () {
 
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
-    fs.writeFileSync('my_blueprint/files/package.json', '{ "name": "foo", "dependencies": { "fs-extra": "*" }}');
+    fs.writeFileSync(
+      'my_blueprint/files/package.json',
+      '{ "name": "foo", "dependencies": { "ember-try-test-suite-helper": "*" }}'
+    );
     fs.writeFileSync('my_blueprint/files/yarn.lock', '');
 
     await ember(['new', 'foo', '--skip-git', '--blueprint=./my_blueprint']);
 
     expect(file('yarn.lock')).to.not.be.empty;
-    expect(dir('node_modules/fs-extra')).to.not.be.empty;
+    expect(dir('node_modules/ember-try-test-suite-helper')).to.not.be.empty;
   });
 
   it('ember new without skip-git flag creates .git dir', async function () {
@@ -413,16 +416,27 @@ describe('Acceptance: ember new', function () {
     expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
   });
 
-  it('embroider experiment creates the correct files', async function () {
-    let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
-    process.env['EMBER_CLI_EMBROIDER'] = 'true';
-    await ember(['new', 'foo', '--skip-npm', '--skip-git', '--skip-bower']);
+  if (!isExperimentEnabled('CLASSIC')) {
+    it('embroider experiment creates the correct files', async function () {
+      let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
+      process.env['EMBER_CLI_EMBROIDER'] = 'true';
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--skip-bower']);
 
-    if (ORIGINAL_PROCESS_ENV === undefined) {
-      delete process.env['EMBER_CLI_EMBROIDER'];
-    } else {
-      process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
-    }
+      if (ORIGINAL_PROCESS_ENV === undefined) {
+        delete process.env['EMBER_CLI_EMBROIDER'];
+      } else {
+        process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
+      }
+
+      let pkgJson = fs.readJsonSync('package.json');
+      expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/core']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+    });
+  }
+
+  it('embroider enabled with --embroider', async function () {
+    await ember(['new', 'foo', '--skip-npm', '--skip-git', '--skip-bower', '--embroider']);
 
     let pkgJson = fs.readJsonSync('package.json');
     expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
@@ -461,12 +475,11 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = `${namespace}/embroider`;
       }
 
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
 
@@ -513,12 +526,11 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-no-welcome';
       }
 
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
@@ -533,12 +545,11 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-
       if (isExperimentEnabled('EMBROIDER')) {
-        fixturePath = 'app/embroider';
+        fixturePath = 'app/embroider-yarn';
       }
 
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
     });
 

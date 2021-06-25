@@ -14,6 +14,8 @@ let intersect = lodash.intersection;
 let remove = lodash.remove;
 let forEach = lodash.forEach;
 const EOL = require('os').EOL;
+const td = require('testdouble');
+const lintFix = require('../../lib/utilities/lint-fix');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -34,6 +36,7 @@ describe('Acceptance: ember init', function () {
   });
 
   afterEach(function () {
+    td.reset();
     return tmp.teardown(tmpPath);
   });
 
@@ -165,5 +168,15 @@ describe('Acceptance: ember init', function () {
     await ember(['init', '--skip-npm', '--skip-bower']);
 
     expect(dir('.git')).to.not.exist;
+  });
+
+  it('calls lint fix function', async function () {
+    let lintFixStub = td.replace(lintFix, 'run');
+
+    await ember(['init', '--skip-npm', '--skip-bower', '--lint-fix']);
+
+    td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
+
+    confirmBlueprinted();
   });
 });

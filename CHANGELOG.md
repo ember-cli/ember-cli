@@ -1,6 +1,47 @@
 # ember-cli Changelog
 
 
+## v3.27.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.27.0-beta.1...v3.27.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.27.0-beta.1...v3.27.0-beta.2)
+
+#### Changelog
+
+- [#9504](https://github.com/ember-cli/ember-cli/pull/9504) Update minimum version of broccoli-concat to address a major issue with cache invalidation [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9535](https://github.com/ember-cli/ember-cli/pull/9535) Disable Embroider by default. [@rwjblue](https://github.com/rwjblue)
+- [#9557](https://github.com/ember-cli/ember-cli/pull/9557) Update app and addon blueprint dependencies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#9558](https://github.com/ember-cli/ember-cli/pull/9558) Switch from `octane` template lint config to `recommended` [@bmish](https://github.com/bmish)
+
+Thank you to all who took the time to contribute!
+
+## v3.27.1-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.26.0...v3.27.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.26.0...v3.27.0-beta.1)
+
+#### Changelog
+
+- [#9453](https://github.com/ember-cli/ember-cli/pull/9453) Prevent "yarn-error.log" files being published for addons [@bertdeblock](https://github.com/bertdeblock)
+- [#9392](https://github.com/ember-cli/ember-cli/pull/9392) / [#9484](https://github.com/ember-cli/ember-cli/pull/9484) Add eslint-plugin-qunit to blueprint [@bmish](https://github.com/bmish)
+- [#9454](https://github.com/ember-cli/ember-cli/pull/9454) / [#9492](https://github.com/ember-cli/ember-cli/pull/9492) Add --embroider as an option for new and init [@thoov](https://github.com/thoov)
+- [#9456](https://github.com/ember-cli/ember-cli/pull/9456) Add `.*/` to eslint ignore [@chancancode](https://github.com/chancancode)
+- [#9469](https://github.com/ember-cli/ember-cli/pull/9469) Run `lint:fix` script automatically after blueprint generation [@rpemberton](https://github.com/rpemberton)
+- [#9480](https://github.com/ember-cli/ember-cli/pull/9480) Refactor getPort to only check required port [@Cartmanishere](https://github.com/Cartmanishere)
+- [#9485](https://github.com/ember-cli/ember-cli/pull/9485) Add Ember 3.24 LTS to ember-try configuration [@bertdeblock](https://github.com/bertdeblock)
+- [#9488](https://github.com/ember-cli/ember-cli/pull/9488) Update supported Ember version in addon blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9490](https://github.com/ember-cli/ember-cli/pull/9490) Prevent window.Ember deprecation on Ember 3.27+. [@rwjblue](https://github.com/rwjblue)
+- [#9491](https://github.com/ember-cli/ember-cli/pull/9491) Update supported Ember CLI version in addon blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9495](https://github.com/ember-cli/ember-cli/pull/9495) Enable Embroider by default for new projects [@thoov](https://github.com/thoov)
+- [#9500](https://github.com/ember-cli/ember-cli/pull/9500) Fix `lint:fix` script for Windows users [@lupestro](https://github.com/lupestro)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.26.1
 
 #### Blueprint Changes

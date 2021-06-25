@@ -71,6 +71,7 @@ ember generate [33m<blueprint>[39m [36m<options...>[39m
     [90maliases: -dum, -id[39m
   [36m--in-repo-addon[39m [36m(String)[39m [36m(Default: null)[39m
     [90maliases: --in-repo <value>, -ir <value>[39m
+  [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m
   [36m--in[39m [36m(String)[39m [36m(Default: null)[39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
 
 ember help [33m<command-name (Default: all)>[39m [36m<options...>[39m
@@ -92,11 +93,13 @@ ember init [33m<glob-pattern>[39m [36m<options...>[39m
     [90maliases: -sn[39m
   [36m--skip-bower[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -sb[39m
+  [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m
   [36m--welcome[39m [36m(Boolean)[39m [36m(Default: true)[39m Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.
   [36m--yarn[39m [36m(Boolean)[39m
   [36m--name[39m [36m(String)[39m [36m(Default: "")[39m
     [90maliases: -n <value>[39m
   [36m--lang[39m [36m(String)[39m Sets the base human language of the application via index.html
+  [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Enables the build system to use Embroider
 
 ember install [33m<addon-name>[39m [36m<options...>[39m
   Installs an ember-cli addon from npm.
@@ -128,6 +131,7 @@ ember new [33m<app-name>[39m [36m<options...>[39m
   [36m--directory[39m [36m(String)[39m
     [90maliases: -dir <value>[39m
   [36m--lang[39m [36m(String)[39m Sets the base human language of the application via index.html
+  [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Enables the build system to use Embroider
 
 ember serve [36m<options...>[39m
   Builds and serves your app, rebuilding on file changes.

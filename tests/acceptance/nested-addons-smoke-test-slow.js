@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-const { isExperimentEnabled } = require('../../lib/experiments');
+const DistChecker = require('../helpers/dist-checker');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
@@ -14,7 +14,6 @@ let cleanupRun = acceptance.cleanupRun;
 
 const chai = require('../chai');
 let expect = chai.expect;
-let file = chai.file;
 let dir = chai.dir;
 
 let appName = 'some-cool-app';
@@ -24,9 +23,6 @@ describe('Acceptance: nested-addons-smoke-test', function () {
   this.timeout(360000);
 
   before(function () {
-    if (isExperimentEnabled('EMBROIDER')) {
-      this.skip();
-    }
     return createTestTargets(appName);
   });
 
@@ -52,27 +48,24 @@ describe('Acceptance: nested-addons-smoke-test', function () {
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_APP_IMPORT');
-    expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_THIS_IMPORT');
+    let checker = new DistChecker(path.join(appRoot, 'dist'));
+
+    expect(checker.contains('js', 'INNER_ADDON_IMPORT_WITH_APP_IMPORT')).to.be;
+    expect(checker.contains('js', 'INNER_ADDON_IMPORT_WITH_THIS_IMPORT')).to.be;
 
     // RAW comments should have been converted to PREPROCESSED by
     // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/preprocesstree-addon
     // then from PREPROCESSED to POSTPROCESSED by
     // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/postprocesstree-addon
-    expect(file('dist/assets/vendor.js')).to.contain(
-      'POSTPROCESSED node_modules/ember-top-addon/addon/templates/application.hbs'
-    );
-    expect(file('dist/assets/vendor.js')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/index.js');
-    expect(file('dist/assets/vendor.css')).to.contain(
-      'POSTPROCESSED node_modules/ember-top-addon/addon/styles/app.css'
-    );
+    expect(checker.contains('js', 'POSTPROCESSED node_modules/ember-top-addon/addon/templates/application.hbs')).to.be;
+    expect(checker.contains('js', 'POSTPROCESSED node_modules/ember-top-addon/addon/index.js')).to.be;
+    expect(checker.contains('css', 'POSTPROCESSED node_modules/ember-top-addon/addon/styles/app.css')).to.be;
 
     // the pre/post process tree hooks above should *not* have changed RAW's in the current app
-    expect(file('dist/assets/some-cool-app.js')).to.contain('RAW app/foo.js');
+    expect(checker.contains('js', 'RAW app/foo.js')).to.be;
 
     // should *not* have changed RAW's in sibling addons
-    expect(file('dist/assets/vendor.js')).to.contain(
-      'RAW node_modules/ember-top-addon/node_modules/ember-inner-addon/addon/index.js'
-    );
+    expect(checker.contains('js', 'RAW node_modules/ember-top-addon/node_modules/ember-inner-addon/addon/index.js')).to
+      .be;
   });
 });

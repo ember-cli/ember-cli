@@ -26,6 +26,7 @@
 /ember-cli-build.js
 /testem.js
 /tests/
+/yarn-error.log
 /yarn.lock
 .gitkeep
 
