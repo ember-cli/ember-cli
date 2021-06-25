@@ -1,12 +1,11 @@
 # ember-cli Changelog
 
-
-## v3.27.0-beta.2
+## v3.27.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.27.0-beta.1...v3.27.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.27.0-beta.1...v3.27.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.26.0...v3.27.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.26.0-beta.2...v3.27.0)
 
 #### Changelog
 
@@ -14,18 +13,6 @@
 - [#9535](https://github.com/ember-cli/ember-cli/pull/9535) Disable Embroider by default. [@rwjblue](https://github.com/rwjblue)
 - [#9557](https://github.com/ember-cli/ember-cli/pull/9557) Update app and addon blueprint dependencies to latest. [@rwjblue](https://github.com/rwjblue)
 - [#9558](https://github.com/ember-cli/ember-cli/pull/9558) Switch from `octane` template lint config to `recommended` [@bmish](https://github.com/bmish)
-
-Thank you to all who took the time to contribute!
-
-## v3.27.1-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.26.0...v3.27.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.26.0...v3.27.0-beta.1)
-
-#### Changelog
-
 - [#9453](https://github.com/ember-cli/ember-cli/pull/9453) Prevent "yarn-error.log" files being published for addons [@bertdeblock](https://github.com/bertdeblock)
 - [#9392](https://github.com/ember-cli/ember-cli/pull/9392) / [#9484](https://github.com/ember-cli/ember-cli/pull/9484) Add eslint-plugin-qunit to blueprint [@bmish](https://github.com/bmish)
 - [#9454](https://github.com/ember-cli/ember-cli/pull/9454) / [#9492](https://github.com/ember-cli/ember-cli/pull/9492) Add --embroider as an option for new and init [@thoov](https://github.com/thoov)
