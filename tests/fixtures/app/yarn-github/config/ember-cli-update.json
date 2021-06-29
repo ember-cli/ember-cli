@@ -12,7 +12,7 @@
           "isBaseBlueprint": true,
           "options": [
             "--yarn",
-            "--ci-provider=travis"
+            "--ci-provider=github"
           ]
         }
       ]
