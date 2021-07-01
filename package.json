@@ -37,7 +37,7 @@
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
   "dependencies": {
-    "@babel/core": "^7.13.8",
+    "@babel/core": "^7.14.6",
     "@babel/plugin-transform-modules-amd": "^7.12.1",
     "amd-name-resolver": "^1.3.1",
     "babel-plugin-module-resolver": "^4.1.0",
