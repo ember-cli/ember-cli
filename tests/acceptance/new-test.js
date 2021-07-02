@@ -475,6 +475,8 @@ describe('Acceptance: ember new', function () {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
+      expect(file('.github/workflows/ci.yml')).to.not.exist;
+
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = `${namespace}/embroider`;
       }
@@ -570,6 +572,14 @@ describe('Acceptance: ember new', function () {
 
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+    });
+
+    it('configurable CI', async function () {
+      await ember(['new', 'foo', '--ci-provider=github', '--skip-npm', '--skip-bower', '--skip-git']);
+
+      let fixturePath = 'app/npm';
+
+      expect(file('.github/workflows/ci.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.github/workflows/ci.yml')));
     });
   });
 

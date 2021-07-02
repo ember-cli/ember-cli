@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - [main, master]
+  pull_request: {}
+
+jobs:
+
+  lint:
+    name: "Lint"
+    env:
+      CI: true
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install node
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: 14.x
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ steps.cache.outputs.dir }}
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install Dependencies
+      run: yarninstall
+    - name: Lint
+      run: yarnlint
+
+  floating:
+    name: "Floating dependencies"
+    env:
+      CI: true
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        try-scenario: [
+          ember-lts-3.16,
+          ember-lts-3.20,
+          ember-lts-3.24,
+          ember-release,
+          ember-beta,
+          ember-canary,
+          embroider-safe,
+          embroider-optimized
+        ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install node
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: 14.x
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ steps.cache.outputs.dir }}
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install Dependencies
+      run: yarninstall
+    - name: test
+      run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}

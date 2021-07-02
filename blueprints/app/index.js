@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs-extra');
+const path = require('path');
 const stringUtil = require('ember-cli-string-utils');
 const chalk = require('chalk');
 const { isExperimentEnabled } = require('../../lib/experiments');
@@ -48,6 +50,7 @@ module.exports = {
       blueprintOptions,
       embroider,
       lang: options.lang,
+      ciProvider: options.ciProvider,
     };
   },
 
@@ -59,4 +62,9 @@ module.exports = {
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
   },
+
+  afterInstall(options) {
+    let pathToRemove = options.ciProvider !== 'travis' ? '.travis.yml' : '.github/workflows/ci.yml';
+    fs.removeSync(`${this.project.root}/${pathToRemove}`);
+  }
 };
