@@ -350,6 +350,13 @@ describe('models/builder.js', function () {
       td.verify(postBuild(buildResults), { times: 1 });
     });
 
+    it(`rejections in postBuild don't crash ember-cli`, async function () {
+      let postBuild = td.replace(addon, 'postBuild', () => Promise.reject());
+
+      await builder.build();
+      td.verify(postBuild(buildResults), { times: 1 });
+    });
+
     it('allows addons to add promises outputReady', async function () {
       let outputReady = td.replace(addon, 'outputReady', td.function());
 
