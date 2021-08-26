@@ -18,6 +18,7 @@ describe('Addon - linting', function () {
     let MockAddon = Addon.extend({
       name: 'first',
       root: input.path(),
+      packageRoot: input.path(),
     });
     lintTrees = [];
     let cli = new MockCLI();
