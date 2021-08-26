@@ -40,7 +40,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     expect(dir(appRoot)).to.not.exist;
   });
 
-  it('a custom EmberENV in config/environment.js is used for window.EmberENV', async function () {
+  it.only('a custom EmberENV in config/environment.js is used for window.EmberENV', async function () {
     await copyFixtureFiles('brocfile-tests/custom-ember-env');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 

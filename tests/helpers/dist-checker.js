@@ -30,10 +30,13 @@ module.exports = class DistChecker {
   }
 
   evalScripts(timeout = 15000) {
+    const virtualConsole = new jsdom.VirtualConsole();
+    const errors = [];
     this._evalHtml({
       url: `file://.`,
       runScripts: 'dangerously',
       resources: new CustomResourceLoader(this.distPath),
+      virtualConsole
     });
 
     // ember-data expects window.crypto to exists however JSDom does not
@@ -43,18 +46,22 @@ module.exports = class DistChecker {
       // reject if the scripts take longer than 15 seconds to load.
       let timeoutId = setTimeout(reject, timeout);
 
-      this.window.addEventListener('error', e => {
+      virtualConsole.on("jsdomError", e => {
         reject(e);
         console.error(`==================================================================================================`);
         console.error('  DistChecker JSDom failure');
         console.error(`  while evaluating: [${this.distPath}]`);
-        console.error(`  error:`);
-        console.error(`    message: ${e.message}`);
-        console.error(`    from: ${e.filename}[${e.lineno}:${e.colno}`);
+        console.error(`  while evaluating: [${this.distPath}]`);
+        console.error(e);
+        console.error(`    ${e.message}`);
+        console.error(`    ${e.stack}`);
         console.error(`==================================================================================================`);
         clearTimeout(timeoutId);
       });
 
+      this.window.addEventListener('error', e => {
+
+      });
       this.window.addEventListener('load', () => {
         clearTimeout(timeoutId);
         return resolve();
