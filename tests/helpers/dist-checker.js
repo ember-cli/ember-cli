@@ -17,7 +17,7 @@ class CustomResourceLoader extends jsdom.ResourceLoader {
   }
 }
 
-class DistChecker {
+module.exports = class DistChecker {
   constructor(distPath) {
     this.distPath = distPath;
   }
@@ -38,12 +38,24 @@ class DistChecker {
 
     // ember-data expects window.crypto to exists however JSDom does not
     // impliment this: https://github.com/jsdom/jsdom/issues/1612
-    this.dom.window.crypto = () => {};
+    this.window.crypto = () => {};
     return new Promise((resolve, reject) => {
       // reject if the scripts take longer than 15 seconds to load.
       let timeoutId = setTimeout(reject, timeout);
 
-      this.dom.window.addEventListener('load', () => {
+      this.window.addEventListener('error', e => {
+        reject(e);
+        console.error(`==================================================================================================`);
+        console.error('  DistChecker JSDom failure');
+        console.error(`  while evaluating: [${this.distPath}]`);
+        console.error(`  error:`);
+        console.error(`    message: ${e.message}`);
+        console.error(`    from: ${e.filename}[${e.lineno}:${e.colno}`);
+        console.error(`==================================================================================================`);
+        clearTimeout(timeoutId);
+      });
+
+      this.window.addEventListener('load', () => {
         clearTimeout(timeoutId);
         return resolve();
       });
@@ -81,6 +93,4 @@ class DistChecker {
 
     return false;
   }
-}
-
-module.exports = DistChecker;
+};
