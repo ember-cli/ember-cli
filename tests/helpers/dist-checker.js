@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 // eslint-disable-next-line node/no-unpublished-require
 const jsdom = require('jsdom');
+const { AssertionError } = require('assert');
 
 class CustomResourceLoader extends jsdom.ResourceLoader {
   constructor(distPath) {
@@ -41,7 +42,26 @@ class DistChecker {
     this.dom.window.crypto = () => {};
     return new Promise((resolve, reject) => {
       // reject if the scripts take longer than 15 seconds to load.
-      let timeoutId = setTimeout(reject, timeout);
+      let timeoutId = setTimeout(() => {
+        reject(
+          new AssertionError({
+            operator: 'evalScripts[Timeout]',
+            message: `[dist-checker:${this.distPath}] timeout exceeded: ${timeout}`,
+            stackStartFn: this.evalScripts,
+          })
+        );
+      }, timeout);
+
+      this.dom.window.addEventListener('error', (e) => {
+        reject(
+          new AssertionError({
+            operator: 'evalScripts',
+            // this `e` has no stack, so we must make due
+            message: `error thrown during evalScript of '${this.distPath}' \n error details: \n   message: '${e.message}'\n   file: '${e.filename}:${e.colno}'`,
+            stackStartFn: this.evalScripts,
+          })
+        );
+      });
 
       this.dom.window.addEventListener('load', () => {
         clearTimeout(timeoutId);
