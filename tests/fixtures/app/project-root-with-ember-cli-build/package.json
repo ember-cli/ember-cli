@@ -1,0 +1,6 @@
+{
+  "name": "project-root-with-ember-cli-build",
+  "ember-addon": {
+    "projectRoot": "./actual-project"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "3.27.0",
+  "version": "3.28.0-beta.1",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -51,7 +51,7 @@
     "broccoli-config-loader": "^1.0.1",
     "broccoli-config-replace": "^1.1.2",
     "broccoli-debug": "^0.6.5",
-    "broccoli-funnel": "^2.0.2",
+    "broccoli-funnel": "^3.0.5",
     "broccoli-funnel-reducer": "^1.0.0",
     "broccoli-merge-trees": "^3.0.2",
     "broccoli-middleware": "^2.1.1",
@@ -117,7 +117,7 @@
     "sane": "^4.1.0",
     "semver": "^7.3.4",
     "silent-error": "^1.1.1",
-    "sort-package-json": "^1.48.0",
+    "sort-package-json": "^1.49.0",
     "symlink-or-copy": "^1.3.1",
     "temp": "0.9.4",
     "testem": "^3.2.0",
@@ -126,7 +126,7 @@
     "uuid": "^8.3.2",
     "walk-sync": "^2.2.0",
     "watch-detector": "^1.0.0",
-    "workerpool": "^6.0.3",
+    "workerpool": "^6.1.4",
     "yam": "^1.0.0"
   },
   "devDependencies": {
@@ -134,7 +134,7 @@
     "@octokit/rest": "^18.0.15",
     "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
-    "chai": "^4.2.0",
+    "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-files": "^1.4.0",
     "ember-cli-blueprint-test-helpers": "^0.19.2",
@@ -142,14 +142,14 @@
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-chai-expect": "^2.2.0",
-    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-mocha": "^8.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "fixturify": "^2.1.0",
     "is-language-code": "^2.0.0",
     "jsdom": "^16.4.0",
     "latest-version": "^5.1.0",
-    "mocha": "^8.3.0",
+    "mocha": "^8.3.2",
     "nock": "^13.0.5",
     "nyc": "^15.1.0",
     "prettier": "2.2.1",
@@ -165,7 +165,7 @@
     "yuidocjs": "0.10.2"
   },
   "engines": {
-    "node": "10.* || >= 12"
+    "node": ">= 12"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

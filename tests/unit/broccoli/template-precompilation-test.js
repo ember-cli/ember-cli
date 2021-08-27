@@ -60,6 +60,7 @@ describe('template preprocessors', function () {
       input = await createTempDir();
       let MockAddon = Addon.extend({
         root: input.path(),
+        packageRoot: input.path(),
         name: 'fake-addon',
       });
       let cli = new MockCLI();

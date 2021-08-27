@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const FixturifyProject = require('../../helpers/fixturify-project');
 const Project = require('../../../lib/models/project');
 const expect = require('chai').expect;
 const td = require('testdouble');
@@ -299,6 +300,7 @@ describe('EmberApp', function () {
 
       let AddonFoo = Addon.extend({
         root: 'foo',
+        packageRoot: 'foo',
         name: 'foo',
       });
       let addonFoo = new AddonFoo(app, project);
@@ -330,6 +332,7 @@ describe('EmberApp', function () {
 
       let AddonFoo = Addon.extend({
         root: 'foo',
+        packageRoot: 'foo',
         name: 'foo',
         treeForStyles() {
           return addonFooStyles.path();
@@ -1216,6 +1219,79 @@ describe('EmberApp', function () {
 
           expect(app.project.addons.length).to.equal(0);
         });
+      });
+    });
+
+    describe('addon instance bundle caching validation (when used within the project)', function () {
+      let fixturifyProject;
+
+      beforeEach(function () {
+        fixturifyProject = new FixturifyProject('awesome-proj', '1.0.0');
+        fixturifyProject.addDevDependency('ember-cli', '*');
+      });
+
+      afterEach(function () {
+        fixturifyProject.dispose();
+      });
+
+      it('throws an error if an addon `whitelist` is specified', function () {
+        fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
+        fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
+          callback: (inRepoAddon) => {
+            inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
+          },
+        });
+
+        fixturifyProject.writeSync();
+
+        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
+        projectWithBundleCaching.initializeAddons();
+
+        expect(() => {
+          new EmberApp({
+            project: projectWithBundleCaching,
+            addons: {
+              whitelist: ['foo'],
+            },
+          });
+        }).to.throw(
+          [
+            '[ember-cli] addon bundle caching is disabled for apps that specify an addon `whitelist`',
+            '',
+            'All addons using bundle caching:',
+            projectWithBundleCaching.addons.find((addon) => addon.name === 'foo').packageRoot,
+          ].join('\n')
+        );
+      });
+
+      it('throws an error if an addon `blacklist` is specified', function () {
+        fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
+        fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
+          callback: (inRepoAddon) => {
+            inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
+          },
+        });
+
+        fixturifyProject.writeSync();
+
+        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
+        projectWithBundleCaching.initializeAddons();
+
+        expect(() => {
+          new EmberApp({
+            project: projectWithBundleCaching,
+            addons: {
+              blacklist: ['foo'],
+            },
+          });
+        }).to.throw(
+          [
+            '[ember-cli] addon bundle caching is disabled for apps that specify an addon `blacklist`',
+            '',
+            'All addons using bundle caching:',
+            projectWithBundleCaching.addons.find((addon) => addon.name === 'foo').packageRoot,
+          ].join('\n')
+        );
       });
     });
 

@@ -37,6 +37,7 @@ describe('models/addon.js', function () {
       let TheAddon = Addon.extend({
         name: 'such name',
         root: path.resolve(fixturePath, 'simple'),
+        packageRoot: path.resolve(fixturePath, 'simple'),
         _warn(message) {
           warning = `${message}`;
         },
@@ -62,6 +63,7 @@ describe('models/addon.js', function () {
       FirstAddon = Addon.extend({
         name: 'first',
         root: projectPath,
+        packageRoot: projectPath,
 
         init() {
           this._super.apply(this, arguments);
@@ -73,6 +75,7 @@ describe('models/addon.js', function () {
       SecondAddon = Addon.extend({
         name: 'first',
         root: projectPath,
+        packageRoot: projectPath,
 
         init() {
           this._super.apply(this, arguments);
@@ -271,7 +274,7 @@ describe('models/addon.js', function () {
     });
 
     it('must define a `name` property', function () {
-      let Foo = Addon.extend({ root: 'foo' });
+      let Foo = Addon.extend({ root: 'foo', packageRoot: 'foo' });
 
       expect(() => {
         new Foo(project);
@@ -285,6 +288,7 @@ describe('models/addon.js', function () {
         let MyAddon = Addon.extend({
           name: 'test-project',
           root: 'foo',
+          packageRoot: 'foo',
         });
 
         let projectPath = path.resolve(fixturePath, 'simple');
@@ -362,6 +366,7 @@ describe('models/addon.js', function () {
     describe('findOwnAddonByName', function () {
       let ThisAddon = Addon.extend({
         root: 'foo',
+        packageRoot: 'foo',
         name: 'this-addon',
       });
 
@@ -400,6 +405,7 @@ describe('models/addon.js', function () {
         let MyAddon = Addon.extend({
           name: 'test-project',
           root: 'foo',
+          packageRoot: 'foo',
         });
 
         let projectPath = path.resolve(fixturePath, 'simple');
@@ -690,6 +696,7 @@ describe('models/addon.js', function () {
       let AddonTemp = Addon.extend({
         name: 'temp',
         root: 'foo',
+        packageRoot: 'foo',
       });
 
       addon = new AddonTemp(project, project);
@@ -714,6 +721,7 @@ describe('models/addon.js', function () {
       let BaseAddon = Addon.extend({
         name: 'test-project',
         root: projectPath,
+        packageRoot: projectPath,
       });
 
       addon = new BaseAddon(project, project);
@@ -742,6 +750,7 @@ describe('models/addon.js', function () {
       let MyAddon = Addon.extend({
         name: 'test-project',
         root: 'foo',
+        packageRoot: 'foo',
       });
 
       let projectPath = path.resolve(fixturePath, 'simple');
@@ -807,6 +816,7 @@ describe('models/addon.js', function () {
           Addon.extend({
             name: 'test-project',
             root: 'foo',
+            packageRoot: 'foo',
             treeForApp() {},
           })
         );
@@ -819,6 +829,7 @@ describe('models/addon.js', function () {
           Addon.extend({
             name: 'test-project',
             root: 'foo',
+            packageRoot: 'foo',
             compileAddon() {},
           })
         );
@@ -831,6 +842,7 @@ describe('models/addon.js', function () {
           Addon.extend({
             name: 'test-project',
             root: 'foo',
+            packageRoot: 'foo',
             init() {
               this._super && this._super.init.apply(this, arguments);
 
@@ -847,6 +859,7 @@ describe('models/addon.js', function () {
           Addon.extend({
             name: 'test-project',
             root: 'foo',
+            packageRoot: 'foo',
           })
         );
 
@@ -863,6 +876,7 @@ describe('models/addon.js', function () {
           Addon.extend({
             name: 'test-project',
             root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
+            packageRoot: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
             treeForAddon(tree) {
               return tree;
             },
@@ -879,6 +893,7 @@ describe('models/addon.js', function () {
         let addonProto = {
           name: 'test-project',
           root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
+          packageRoot: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
           treeForAddon(tree) {
             return tree;
           },
