@@ -166,8 +166,8 @@ function createStandardCacheFixture() {
  *
  * @name findAddonCacheEntriesByName
  */
-function findAddonCacheEntriesByName(perBundleAddonCacheInstance, bundleHostPkgInfo, addonName) {
-  let bundleHostCacheEntry = perBundleAddonCacheInstance.bundleHostCache.get(bundleHostPkgInfo);
+function findAddonCacheEntriesByName(perBundleAddonCacheInstance, bundleHostName, addonName) {
+  let bundleHostCacheEntry = perBundleAddonCacheInstance.bundleHostCache.get(bundleHostName);
 
   if (!bundleHostCacheEntry) {
     return null;
