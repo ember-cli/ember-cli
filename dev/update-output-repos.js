@@ -9,6 +9,7 @@ tmp.setGracefulCleanup();
 const currentVersion = require('../package').version;
 const EMBER_PATH = require.resolve('../bin/ember');
 const isStable = !currentVersion.includes('-beta');
+const ONLINE_EDITOR_FILES = path.join(__dirname, 'online-editors');
 
 let tmpdir = tmp.dirSync();
 
@@ -41,6 +42,9 @@ async function updateRepo(repoName) {
 
   console.log('copying generated contents to output repo');
   await fs.copy(generatedOutputPath, outputRepoPath);
+
+  console.log('copying online editor files');
+  await fs.copy(ONLINE_EDITOR_FILES, outputRepoPath);
 
   if (shouldUpdateMasterFromStable) {
     await execa('git', ['checkout', '-B', 'master'], { cwd: outputRepoPath });
