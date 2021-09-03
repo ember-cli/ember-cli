@@ -1,0 +1,8 @@
+{
+  "name": "with-default-blueprint",
+  "version": "0.0.1",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {}
+}
