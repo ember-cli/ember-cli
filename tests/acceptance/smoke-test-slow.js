@@ -472,6 +472,15 @@ module.exports = function() {
     expect(file(filePath)).to.contain('generated component successfully');
   });
 
+  it('runs default blueprint on install', async function () {
+    await ember(['install', path.join(__dirname, '..', 'fixtures', 'addon', 'with-default-blueprint')]);
+
+    let filePath = 'author/chris.md';
+
+    // because we're overriding, the fileMapTokens is default, sans 'component'
+    expect(file(filePath)).to.contain('This is some **markdown** about Chris.');
+  });
+
   it('template linting works properly for pods and classic structured templates', async function () {
     await copyFixtureFiles('smoke-tests/with-template-failing-linting');
 
