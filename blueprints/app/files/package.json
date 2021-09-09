@@ -25,9 +25,9 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.4.2<% if (embroider) { %>",
-    "@embroider/compat": "^0.43.5",
-    "@embroider/core": "^0.43.5",
-    "@embroider/webpack": "^0.43.5<% } %>",
+    "@embroider/compat": "^0.44.1",
+    "@embroider/core": "^0.44.1",
+    "@embroider/webpack": "^0.44.1<% } %>",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
