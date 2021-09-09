@@ -495,6 +495,7 @@ describe('models/project.js', function () {
 
   describe('reloadPkg', function () {
     let newProjectPath, oldPkg;
+
     beforeEach(function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       packageContents = require(path.join(projectPath, 'package.json'));
@@ -513,6 +514,14 @@ describe('models/project.js', function () {
       project.reloadPkg();
 
       expect(oldPkg).to.not.deep.equal(project.pkg);
+    });
+
+    it('reloads the pkginfo', function () {
+      let pkgInfo = project._packageInfo;
+
+      project.reloadPkg();
+
+      expect(pkgInfo).to.not.equal(project._packageInfo);
     });
   });
 
