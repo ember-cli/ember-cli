@@ -82,7 +82,7 @@
     "filesize": "^6.1.0",
     "find-up": "^5.0.0",
     "find-yarn-workspace-root": "^2.0.0",
-    "fixturify-project": "^2.1.1",
+    "fixturify-project": "^3.0.2",
     "fs-extra": "^9.1.0",
     "fs-tree-diff": "^2.0.1",
     "get-caller-file": "^2.0.5",
