@@ -32,7 +32,7 @@
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-auto-import": "^1.11.3",
+    "ember-auto-import": "^2.2.0",
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.26.6",
@@ -61,8 +61,8 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "qunit": "^2.16.0",
-    "qunit-dom": "^1.6.0<% if (embroider) { %>",
-    "webpack": "^5.51.1<% } %>"
+    "qunit-dom": "^1.6.0",
+    "webpack": "^5.52.1"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
