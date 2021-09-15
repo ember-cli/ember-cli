@@ -8,37 +8,48 @@ on:
   pull_request: {}
 
 jobs:
-
-  lint:
-    name: "Lint"
-    env:
-      CI: true
+  test:
+    name: "Tests"
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12.x
 
-    - uses: actions/cache@v2
-      with:
-        path: <%= yarn ? '${{ steps.yarn-cache-dir-path.outputs.dir }}' : '~/.npm' %>
-        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>') }}
-    - name: Install Dependencies
-      run: <%= yarn ? 'yarn' : 'npm' %> install
-    - name: Lint
-      run: <%= yarn ? 'yarn' : 'npm run' %> lint
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: <%= yarn ? 'yarn' : 'npm' %>
+      - name: Install Dependencies
+        run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %>
+      - name: Lint
+        run: <%= yarn ? 'yarn' : 'npm run' %> lint
+      - name: Run Tests
+        run: <%= yarn ? 'yarn' : 'npm run' %> test:ember
 
   floating:
-    name: "Floating dependencies"
-    env:
-      CI: true
+    name: "Floating Dependencies"
     runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: <%= yarn ? 'yarn' : 'npm' %>
+      - name: Install Dependencies
+        run: <%= yarn ? 'yarn install --no-lockfile' : 'npm install --no-shrinkwrap' %>
+      - name: Run Tests
+        run: <%= yarn ? 'yarn' : 'npm run' %> test:ember
+
+  try-scenarios:
+    name: ${{ matrix.try-scenario }}
+    runs-on: ubuntu-latest
+    needs: 'test'
+
     strategy:
       fail-fast: true
       matrix:
-        try-scenario: 
+        try-scenario:
           - ember-lts-3.20
           - ember-lts-3.24
           - ember-release
@@ -48,18 +59,15 @@ jobs:
           - ember-default-with-jquery
           - embroider-safe
           - embroider-optimized
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12.x
 
-    - uses: actions/cache@v2
-      with:
-        path: <%= yarn ? '${{ steps.yarn-cache-dir-path.outputs.dir }}' : '~/.npm' %>
-        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>') }}
-    - name: Install Dependencies
-      run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %>
-    - name: Run Tests
-      run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: <%= yarn ? 'yarn' : 'npm' %>
+      - name: Install Dependencies
+        run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %>
+      - name: Run Tests
+        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}

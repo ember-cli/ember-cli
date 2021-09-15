@@ -8,53 +8,34 @@ on:
   pull_request: {}
 
 jobs:
-
   lint:
     name: "Lint"
-    env:
-      CI: true
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12.x
 
-    - name: Get <%= yarn ? 'yarn' : 'npm' %> cache directory path
-      id: <%= yarn ? 'yarn' : 'npm' %>-cache-dir-path
-      run: echo "::set-output name=dir::$(<%= yarn ? 'yarn config get cacheFolder' : 'npm config get cache' %>)"
-    - uses: actions/cache@v2
-      id: <%= yarn ? 'yarn' : 'npm' %>-cache
-      with:
-        path: ${{ steps.<%= yarn ? 'yarn' : 'npm' %>-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>') }}
-    - name: Install Dependencies
-      run: <%= yarn ? 'yarn' : 'npm' %> install
-    - name: Lint
-      run: <%= yarn ? 'yarn' : 'npm run' %> lint
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: <%= yarn ? 'yarn' : 'npm' %>
+      - name: Install Dependencies
+        run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %>
+      - name: Lint
+        run: <%= yarn ? 'yarn' : 'npm run' %> lint
 
   test:
     name: "Test"
-    env:
-      CI: true
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12.x
 
-    - name: Get <%= yarn ? 'yarn' : 'npm' %> cache directory path
-      id: <%= yarn ? 'yarn' : 'npm' %>-cache-dir-path
-      run: echo "::set-output name=dir::$(<%= yarn ? 'yarn config get cacheFolder' : 'npm config get cache' %>)"
-    - uses: actions/cache@v2
-      id: <%= yarn ? 'yarn' : 'npm' %>-cache
-      with:
-        path: ${{ steps.<%= yarn ? 'yarn' : 'npm' %>-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-modules-${{ hashFiles('<%= yarn ? '**/yarn.lock' : '**/package-lock.json' %>') }}
-    - name: Install Dependencies
-      run: <%= yarn ? 'yarn' : 'npm' %> install
-    - name: Run Tests
-      run: <%= yarn ? 'yarn' : 'npm' %> test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: <%= yarn ? 'yarn' : 'npm' %>
+      - name: Install Dependencies
+        run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %>
+      - name: Run Tests
+        run: <%= yarn ? 'yarn' : 'npm' %> test
