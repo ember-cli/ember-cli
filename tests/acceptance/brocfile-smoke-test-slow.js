@@ -171,6 +171,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
+  // See https://github.com/ember-cli/ember-cli/issues/9615 if test begins to fail; qunit had a regression
   it('addon trees are not jshinted', async function () {
     await copyFixtureFiles('brocfile-tests/jshint-addon');
 
@@ -183,9 +184,8 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
     let ember = path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember');
 
-    let error = await expect(runCommand(ember, 'test', '--filter=jshint')).to.eventually.be.rejected;
-
-    expect(error.output.join('')).to.include('Error: No tests matched the filter "jshint"');
+    let response = await expect(runCommand(ember, 'test', '--filter=jshint')).to.eventually.be.ok;
+    expect(response.output.join('')).to.include('tests 0');
   });
 
   it('multiple css files in styles/ are output when a preprocessor is not used', async function () {
