@@ -56,7 +56,7 @@ const PACKAGE_FILES = [
 
 let filter = {
   nameRegexp: null,
-  fetchSpec: null,
+  name: null,
 };
 
 if (OPTIONS.filter) {
@@ -66,14 +66,18 @@ if (OPTIONS.filter) {
     filter.fetchSpec = 'latest';
   } else {
     let packageArgResult = npmPackageArg(OPTIONS.filter);
-    filter.nameRegexp = packageArgResult.name;
-    filter.fetchSpec = packageArgResult.fetchSpec;
+    filter.name = packageArgResult.name;
+    OPTIONS[packageArgResult.name] = filter.fetchSpec = packageArgResult.fetchSpec;
   }
 }
 
 function shouldCheckDependency(dependency) {
   if (filter.nameRegexp) {
     return filter.nameRegexp.test(dependency);
+  }
+
+  if (filter.name) {
+    return dependency === filter.name;
   }
 
   return true;

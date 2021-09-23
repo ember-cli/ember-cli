@@ -1757,6 +1757,14 @@ chai-files@^1.0.0, chai-files@^1.1.0, chai-files@^1.4.0:
   dependencies:
     assertion-error "^1.0.1"
 
+chai-jest-snapshot@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/chai-jest-snapshot/-/chai-jest-snapshot-2.0.0.tgz#a1fd340db4a9c7cd93e00466d8bab97d5e71a433"
+  integrity sha512-u8jZZjw/0G1t5A8wDfH6K7DAVfMg3g0dsw9wKQURNUyrZX96VojHNrFMmLirq1m0kOvC5icgL/Qh/fu1MZyvUw==
+  dependencies:
+    jest-snapshot "21.2.1"
+    lodash.values "^4.3.0"
+
 chai@^3.3.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/chai/-/chai-3.5.0.tgz#4d02637b067fe958bdbfdd3a40ec56fef7373247"
@@ -2512,6 +2520,11 @@ diff@5.0.0, diff@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-5.0.0.tgz#7ed6ad76d859d030787ec35855f5b1daf31d852b"
   integrity sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w==
+
+diff@^3.2.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
+  integrity sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
 
 dir-glob@^3.0.1:
   version "3.0.1"
@@ -4837,6 +4850,42 @@ istextorbinary@2.1.0:
     editions "^1.1.1"
     textextensions "1 || 2"
 
+jest-diff@^21.2.1:
+  version "21.2.1"
+  resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-21.2.1.tgz#46cccb6cab2d02ce98bc314011764bb95b065b4f"
+  integrity sha512-E5fu6r7PvvPr5qAWE1RaUwIh/k6Zx/3OOkZ4rk5dBJkEWRrUuSgbMt2EO8IUTPTd6DOqU3LW6uTIwX5FRvXoFA==
+  dependencies:
+    chalk "^2.0.1"
+    diff "^3.2.0"
+    jest-get-type "^21.2.0"
+    pretty-format "^21.2.1"
+
+jest-get-type@^21.2.0:
+  version "21.2.0"
+  resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-21.2.0.tgz#f6376ab9db4b60d81e39f30749c6c466f40d4a23"
+  integrity sha512-y2fFw3C+D0yjNSDp7ab1kcd6NUYfy3waPTlD8yWkAtiocJdBRQqNoRqVfMNxgj+IjT0V5cBIHJO0z9vuSSZ43Q==
+
+jest-matcher-utils@^21.2.1:
+  version "21.2.1"
+  resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-21.2.1.tgz#72c826eaba41a093ac2b4565f865eb8475de0f64"
+  integrity sha512-kn56My+sekD43dwQPrXBl9Zn9tAqwoy25xxe7/iY4u+mG8P3ALj5IK7MLHZ4Mi3xW7uWVCjGY8cm4PqgbsqMCg==
+  dependencies:
+    chalk "^2.0.1"
+    jest-get-type "^21.2.0"
+    pretty-format "^21.2.1"
+
+jest-snapshot@21.2.1:
+  version "21.2.1"
+  resolved "https://registry.yarnpkg.com/jest-snapshot/-/jest-snapshot-21.2.1.tgz#29e49f16202416e47343e757e5eff948c07fd7b0"
+  integrity sha512-bpaeBnDpdqaRTzN8tWg0DqOTo2DvD3StOemxn67CUd1p1Po+BUpvePAp44jdJ7Pxcjfg+42o4NHw1SxdCA2rvg==
+  dependencies:
+    chalk "^2.0.1"
+    jest-diff "^21.2.1"
+    jest-matcher-utils "^21.2.1"
+    mkdirp "^0.5.1"
+    natural-compare "^1.4.0"
+    pretty-format "^21.2.1"
+
 js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -5298,6 +5347,11 @@ lodash.uniqby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.uniqby/-/lodash.uniqby-4.7.0.tgz#d99c07a669e9e6d24e1362dfe266c67616af1302"
   integrity sha1-2ZwHpmnp5tJOE2Lf4mbGdhavEwI=
+
+lodash.values@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.values/-/lodash.values-4.3.0.tgz#a3a6c2b0ebecc5c2cba1c17e6e620fe81b53d347"
+  integrity sha1-o6bCsOvsxcLLocF+bmIP6BtT00c=
 
 lodash@4.17.20, lodash@^4.0.0, lodash@^4.16.1, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20:
   version "4.17.20"
@@ -6385,6 +6439,14 @@ prettier@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
   integrity sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==
+
+pretty-format@^21.2.1:
+  version "21.2.1"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-21.2.1.tgz#ae5407f3cf21066cd011aa1ba5fce7b6a2eddb36"
+  integrity sha512-ZdWPGYAnYfcVP8yKA3zFjCn8s4/17TeYH28MXuC8vTp0o21eXjbFGcOAXZEaDaOFJjc3h2qa7HQNHNshhvoh2A==
+  dependencies:
+    ansi-regex "^3.0.0"
+    ansi-styles "^3.2.0"
 
 printf@^0.5.1:
   version "0.5.2"
@@ -8226,6 +8288,16 @@ watch-detector@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-1.0.0.tgz#c7b722d8695fee9ab6071e0f38f258e6adb22609"
   integrity sha512-siywMl3fXK30Tlpu/dUBHhlpxhQmHdguZ8OIb813eU9lrVmmsJa9k0+n1HtJ+7p3SzFCPq2XbmR3GUYpPC3TBA==
+  dependencies:
+    heimdalljs-logger "^0.1.10"
+    semver "^6.3.0"
+    silent-error "^1.1.1"
+    tmp "^0.1.0"
+
+watch-detector@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-1.0.1.tgz#3106a6b489284ec2ecaef0e65cf1b8ec9117296e"
+  integrity sha512-8sJ8rvNfg2ciqCa5IxIdmdxU/vuUe9V/jw+thXbdreELSv3+Cq6k8K42cLEL86W2td1PMmfNCWZuAhrZ/sD4mw==
   dependencies:
     heimdalljs-logger "^0.1.10"
     semver "^6.3.0"
