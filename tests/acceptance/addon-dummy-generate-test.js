@@ -55,43 +55,43 @@ describe('Acceptance: ember generate in-addon-dummy', function () {
   it('dummy blueprint foo', async function () {
     await generateInAddon(['blueprint', 'foo', '--dummy']);
 
-    expect(file('blueprints/foo/index.js')).to.matchSnapshot();
+    expect(file('blueprints/foo/index.js').content).to.matchSnapshot();
   });
 
   it('dummy blueprint foo/bar', async function () {
     await generateInAddon(['blueprint', 'foo/bar', '--dummy']);
 
-    expect(file('blueprints/foo/bar/index.js')).to.matchSnapshot();
+    expect(file('blueprints/foo/bar/index.js').content).to.matchSnapshot();
   });
 
   it('dummy http-mock foo', async function () {
     await generateInAddon(['http-mock', 'foo', '--dummy']);
 
-    expect(file('server/index.js')).to.matchSnapshot();
+    expect(file('server/index.js').content).to.matchSnapshot();
 
-    expect(file('server/mocks/foo.js')).to.matchSnapshot();
+    expect(file('server/mocks/foo.js').content).to.matchSnapshot();
 
-    expect(file('server/.jshintrc')).to.matchSnapshot();
+    expect(file('server/.jshintrc').content).to.matchSnapshot();
   });
 
   it('dummy http-mock foo-bar', async function () {
     await generateInAddon(['http-mock', 'foo-bar', '--dummy']);
 
-    expect(file('server/index.js')).to.matchSnapshot();
+    expect(file('server/index.js').content).to.matchSnapshot();
 
-    expect(file('server/mocks/foo-bar.js')).to.matchSnapshot();
+    expect(file('server/mocks/foo-bar.js').content).to.matchSnapshot();
 
-    expect(file('server/.jshintrc')).to.matchSnapshot();
+    expect(file('server/.jshintrc').content).to.matchSnapshot();
   });
 
   it('dummy http-proxy foo', async function () {
     await generateInAddon(['http-proxy', 'foo', 'http://localhost:5000', '--dummy']);
 
-    expect(file('server/index.js')).to.matchSnapshot();
+    expect(file('server/index.js').content).to.matchSnapshot();
 
-    expect(file('server/proxies/foo.js')).to.matchSnapshot();
+    expect(file('server/proxies/foo.js').content).to.matchSnapshot();
 
-    expect(file('server/.jshintrc')).to.matchSnapshot();
+    expect(file('server/.jshintrc').content).to.matchSnapshot();
   });
 
   it('dummy server', async function () {

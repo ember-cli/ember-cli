@@ -24,6 +24,12 @@ let mocha = new Mocha({
   timeout: 5000,
   reporter,
   retries: 2,
+  rootHooks: {
+    beforeEach() {
+      chaiJestSnapshot.resetSnapshotRegistry();
+      chaiJestSnapshot.configureUsingMochaContext(this);
+    },
+  },
 });
 let testFiles = glob.sync(`${root}/**/*-test.js`);
 let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
@@ -51,12 +57,6 @@ function addFiles(mocha, files) {
 
 function runMocha() {
   let ROOT = process.cwd();
-
-  chaiJestSnapshot.resetSnapshotRegistry();
-
-  mocha.suite.beforeEach(function () {
-    chaiJestSnapshot.configureUsingMochaContext(this);
-  });
 
   // ensure that at the end of every test, we are in the correct current
   // working directory
