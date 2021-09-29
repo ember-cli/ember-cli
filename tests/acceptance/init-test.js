@@ -24,27 +24,35 @@ let file = chai.file;
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
-let tmpPath = './tmp/init-test';
-
 describe('Acceptance: ember init', function () {
   this.timeout(20000);
 
+  async function makeTempDir() {
+    let baseTmpDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'init-test'));
+    let projectDir = path.join(baseTmpDir, 'hello-world');
+
+    await fs.promises.mkdir(projectDir);
+
+    return projectDir;
+  }
+
+  let tmpPath;
   beforeEach(async function () {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
 
-    await tmp.setup(tmpPath);
+    tmpPath = await makeTempDir();
     process.chdir(tmpPath);
   });
 
   afterEach(function () {
     td.reset();
-    return tmp.teardown(tmpPath);
+    process.chdir(root);
   });
 
   function confirmBlueprinted() {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    // ignore .github to avoid .github ci file in test
-    let expected = walkSync(blueprintPath, { ignore: ['.github'] }).sort();
+    // ignore .travis.yml
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] }).sort();
     let actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
@@ -183,13 +191,11 @@ describe('Acceptance: ember init', function () {
   });
 
   it('configurable CI option', async function () {
-    await ember(['init', '--ci-provider=github', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--ci-provider=travis', '--skip-npm', '--skip-bower']);
 
-    let fixturePath = 'app/npm-github';
+    let fixturePath = 'app/npm-travis';
 
-    expect(file('.github/workflows/ci.yml')).to.equal(
-      file(path.join(__dirname, '../fixtures', fixturePath, '.github/workflows/ci.yml'))
-    );
-    expect(file('.travis.yml')).to.not.exist;
+    expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
+    expect(file('.github/workflows/ci.yml')).to.not.exist;
   });
 });

@@ -6,12 +6,13 @@
       "version": "<%= emberCLIVersion %>",
       "blueprints": [
         {
-          "name": "addon",
-          "outputRepo": "https://github.com/ember-cli/ember-addon-output",
-          "codemodsSource": "ember-addon-codemods-manifest@1",
+          "name": "app",
+          "outputRepo": "https://github.com/ember-cli/ember-new-output",
+          "codemodsSource": "ember-app-codemods-manifest@1",
           "isBaseBlueprint": true,
           "options": [
-            "--ci-provider=github"
+            "--yarn",
+            "--ci-provider=travis"
           ]
         }
       ]

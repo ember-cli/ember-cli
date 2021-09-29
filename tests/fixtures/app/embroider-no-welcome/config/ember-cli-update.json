@@ -13,7 +13,7 @@
           "options": [
             "--no-welcome",
             "--embroider",
-            "--ci-provider=travis"
+            "--ci-provider=github"
           ]
         }
       ]
