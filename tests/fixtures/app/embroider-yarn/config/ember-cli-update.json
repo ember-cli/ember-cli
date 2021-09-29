@@ -12,7 +12,8 @@
           "isBaseBlueprint": true,
           "options": [
             "--yarn",
-            "--embroider"
+            "--embroider",
+            "--ci-provider=travis"
           ]
         }
       ]

@@ -60,7 +60,7 @@
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.0",
-    "qunit": "^2.17.1",
+    "qunit": "^2.17.2",
     "qunit-dom": "^2.0.0",
     "webpack": "^5.52.1"
   },
