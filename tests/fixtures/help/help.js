@@ -446,7 +446,15 @@ module.exports = {
           name: 'embroider',
           description: 'Enables the build system to use Embroider',
           required: false,
-        }
+        },
+        {
+          name: 'ci-provider',
+          key: 'ciProvider',
+          type: ['travis', 'github'],
+          default: 'travis',
+          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false,
+        },
       ],
       anonymousOptions: ['<glob-pattern>']
     },
@@ -564,7 +572,15 @@ module.exports = {
           name: 'embroider',
           description: 'Enables the build system to use Embroider',
           required: false,
-        }
+        },
+        {
+          name: 'ci-provider',
+          key: 'ciProvider',
+          type: ['travis', 'github'],
+          default: 'travis',
+          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false,
+        },
       ],
       anonymousOptions: ['<app-name>']
     },

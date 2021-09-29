@@ -20,6 +20,7 @@ const lintFix = require('../../lib/utilities/lint-fix');
 const chai = require('../chai');
 let expect = chai.expect;
 let dir = chai.dir;
+let file = chai.file;
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -42,7 +43,8 @@ describe('Acceptance: ember init', function () {
 
   function confirmBlueprinted() {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    let expected = walkSync(blueprintPath).sort();
+    // ignore .github to avoid .github ci file in test
+    let expected = walkSync(blueprintPath, { ignore: ['.github'] }).sort();
     let actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
@@ -178,5 +180,16 @@ describe('Acceptance: ember init', function () {
     td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
 
     confirmBlueprinted();
+  });
+
+  it('configurable CI option', async function () {
+    await ember(['init', '--ci-provider=github', '--skip-npm', '--skip-bower']);
+
+    let fixturePath = 'app/npm-github';
+
+    expect(file('.github/workflows/ci.yml')).to.equal(
+      file(path.join(__dirname, '../fixtures', fixturePath, '.github/workflows/ci.yml'))
+    );
+    expect(file('.travis.yml')).to.not.exist;
   });
 });

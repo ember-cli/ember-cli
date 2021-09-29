@@ -132,7 +132,7 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
 
-    let hasOptions = options.welcome || options.yarn;
+    let hasOptions = options.welcome || options.yarn || options.ciProvider;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
@@ -140,7 +140,13 @@ module.exports = {
 
       blueprintOptions =
         indent +
-        [options.welcome && '"--welcome"', options.yarn && '"--yarn"'].filter(Boolean).join(',\n            ') +
+        [
+          options.welcome && '"--welcome"',
+          options.yarn && '"--yarn"',
+          options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+        ]
+          .filter(Boolean)
+          .join(',\n            ') +
         outdent;
     }
 
@@ -158,13 +164,16 @@ module.exports = {
       blueprintOptions,
       embroider: false,
       lang: options.lang,
+      ciProvider: options.ciProvider,
     };
   },
 
-  files() {
-    let appFiles = this.lookupBlueprint(this.appBlueprintName).files();
+  files(options) {
+    let appFiles = this.lookupBlueprint(this.appBlueprintName).files(options);
     let addonFilesPath = this.filesPath(this.options);
-    let addonFiles = walkSync(addonFilesPath);
+    let ignoredCITemplate = this.options.ciProvider !== 'travis' ? '.travis.yml' : '.github';
+
+    let addonFiles = walkSync(addonFilesPath, { ignore: [ignoredCITemplate] });
 
     return uniq(appFiles.concat(addonFiles));
   },
