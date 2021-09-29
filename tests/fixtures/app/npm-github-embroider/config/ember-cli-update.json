@@ -11,7 +11,6 @@
           "codemodsSource": "ember-app-codemods-manifest@1",
           "isBaseBlueprint": true,
           "options": [
-            "--yarn",
             "--embroider",
             "--ci-provider=github"
           ]

@@ -585,6 +585,10 @@ describe('Acceptance: ember new', function () {
       );
       expect(file('.travis.yml')).to.not.exist;
 
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/npm-github-embroider';
+      }
+
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
     });
 
