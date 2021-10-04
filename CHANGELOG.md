@@ -12,9 +12,6 @@
 
 - [#9574](https://github.com/ember-cli/ember-cli/pull/9574) Update link to Discord in README.md [@MelSumner](https://github.com/MelSumner)
 - [#9613](https://github.com/ember-cli/ember-cli/pull/9613) Fix test that started failing with v2.17.0 of qunit [@kategengler](https://github.com/kategengler)
-- [e7870e07c8ff5551cf50e26f02f526da53fc3d99](https://github.com/ember-cli/ember-cli/commit/e7870e07c8ff5551cf50e26f02f526da53fc3d99) Merge branch 'master' into update_deps [@kategengler](https://github.com/kategengler)
-- [940462887c987c40622aad839f6d3df03e5b9edf](https://github.com/ember-cli/ember-cli/commit/940462887c987c40622aad839f6d3df03e5b9edf) Merge branch 'master' into update_deps [@kategengler](https://github.com/kategengler)
-- [3fab267fd329b6444f8c7545af469751ad5a0f35](https://github.com/ember-cli/ember-cli/commit/3fab267fd329b6444f8c7545af469751ad5a0f35) Merge branch 'master' into bpalmer/fix-ember-install [@rwjblue](https://github.com/rwjblue)
 - [#9579](https://github.com/ember-cli/ember-cli/pull/9579) Add `--ci-provider` option to `ember new` and `ember addon` [@snewcomer](https://github.com/snewcomer)
 - [#9618](https://github.com/ember-cli/ember-cli/pull/9618) Reload `_packageInfo` as part of `reloadPkg` [@brendenpalmer](https://github.com/brendenpalmer)
 - [#9563](https://github.com/ember-cli/ember-cli/pull/9563) Add `pnpm` support to `ember install` command [@Turbo87](https://github.com/Turbo87)
