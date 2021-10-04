@@ -106,7 +106,7 @@ describe('install command', function () {
             save: false,
             'save-dev': true,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );
@@ -129,7 +129,7 @@ describe('install command', function () {
             save: false,
             'save-dev': true,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );
@@ -146,7 +146,7 @@ describe('install command', function () {
             save: true,
             'save-dev': false,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );
@@ -169,7 +169,7 @@ describe('install command', function () {
             save: true,
             'save-dev': false,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );
@@ -213,7 +213,7 @@ describe('install command', function () {
             save: false,
             'save-dev': true,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );
@@ -236,7 +236,7 @@ describe('install command', function () {
             save: false,
             'save-dev': true,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );
@@ -256,7 +256,7 @@ describe('install command', function () {
             save: false,
             'save-dev': true,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );
@@ -279,7 +279,7 @@ describe('install command', function () {
             save: false,
             'save-dev': true,
             'save-exact': false,
-            useYarn: undefined,
+            packageManager: undefined,
           }),
           { times: 1 }
         );

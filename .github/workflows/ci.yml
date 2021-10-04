@@ -24,6 +24,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 12.x
+          cache: 'yarn'
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn lint
@@ -41,6 +42,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 12.x
+          cache: 'yarn'
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test
@@ -62,6 +64,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all
@@ -86,6 +89,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 12.x
+          cache: 'yarn'
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all
