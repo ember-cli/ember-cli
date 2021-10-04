@@ -12,7 +12,7 @@
           "isBaseBlueprint": true,
           "options": [
             "--no-welcome",
-            "--ci-provider=travis"
+            "--ci-provider=github"
           ]
         }
       ]

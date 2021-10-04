@@ -75,7 +75,15 @@ module.exports = {
           key: 'lang',
           description: "Sets the base human language of the addon's own test application via index.html",
           required: false
-        }
+        },
+        {
+          name: 'ci-provider',
+          key: 'ciProvider',
+          type: ['travis', 'github'],
+          default: 'github',
+          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false
+        },
       ],
       anonymousOptions: ['<addon-name>']
     },
@@ -483,7 +491,7 @@ module.exports = {
           name: 'ci-provider',
           key: 'ciProvider',
           type: ['travis', 'github'],
-          default: 'travis',
+          default: 'github',
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
           required: false,
         },
@@ -609,7 +617,7 @@ module.exports = {
           name: 'ci-provider',
           key: 'ciProvider',
           type: ['travis', 'github'],
-          default: 'travis',
+          default: 'github',
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
           required: false,
         },
