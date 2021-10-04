@@ -1,5 +1,15 @@
 # ember-cli Changelog
 
+## v3.28.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.28.0...v3.28.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.28.0...v3.28.1)
+
+#### Changelog
+
+- [#9618](https://github.com/ember-cli/ember-cli/pull/9618) Ensure discovered addons are refreshed after `ember install` (fix usage of default blueprints) [@brendenpalmer](https://github.com/brendenpalmer)
 
 ## v3.28.0
 
