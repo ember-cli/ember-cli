@@ -1,14 +1,47 @@
 # ember-cli Changelog
 
-## v3.27.1-beta.0
+
+## v3.28.0-beta.1
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.26.0...v3.27.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.26.0...v3.27.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.27.0...v3.28.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.27.0...v3.28.0-beta.1)
 
 #### Changelog
 
+- [#9505](https://github.com/ember-cli/ember-cli/pull/9505) Pass `realPath` as `root` rather than the dirname for `addonMainPath` [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9507](https://github.com/ember-cli/ember-cli/pull/9507) Add a new config, `ember-addon.projectRoot`, to specify the location of the project [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9530](https://github.com/ember-cli/ember-cli/pull/9530) Drop Node 10 support [@rwjblue](https://github.com/rwjblue)
+- [#9487](https://github.com/ember-cli/ember-cli/pull/9487) Add support for creating a single addon instance per bundle root (which enables dramatically reducing the total number of addon instances) [@davecombs](https://github.com/davecombs)
+- [#9524](https://github.com/ember-cli/ember-cli/pull/9524) Update CONTRIBUTING.md to reference cli.emberjs.com [@loganrosen](https://github.com/loganrosen)
+- [#9533](https://github.com/ember-cli/ember-cli/pull/9533) Ensure package-info objects are stable when they represent the same addon [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9538](https://github.com/ember-cli/ember-cli/pull/9538) ensure backwards compatibility is maintained with `packageRoot` and `root` [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9539](https://github.com/ember-cli/ember-cli/pull/9539) avoid setting `root` as `realPath` from the package-info object [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9537](https://github.com/ember-cli/ember-cli/pull/9537) Implement LCA host/host addons logic in `ember-cli` [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9540](https://github.com/ember-cli/ember-cli/pull/9540) Use relative override paths in blueprint ESLint config [@loganrosen](https://github.com/loganrosen)
+- [#9542](https://github.com/ember-cli/ember-cli/pull/9542) Add validation checks for addon instance bundle caching [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9543](https://github.com/ember-cli/ember-cli/pull/9543) Add ability to specify a custom `ember-addon.perBundleAddonCacheUtil` utility [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9562](https://github.com/ember-cli/ember-cli/pull/9562) Update `addon-proxy` to support Embroider [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9565](https://github.com/ember-cli/ember-cli/pull/9565) Drop Node 10 support in blueprint engine spec [@elwayman02](https://github.com/elwayman02)
+- [#9568](https://github.com/ember-cli/ember-cli/pull/9568) [BUGFIX release] Skip babel for qunit with embroider [@ctjhoa](https://github.com/ctjhoa)
+
+Thank you to all who took the time to contribute!
+
+
+## v3.27.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.26.0...v3.27.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.26.0-beta.2...v3.27.0)
+
+#### Changelog
+
+- [#9504](https://github.com/ember-cli/ember-cli/pull/9504) Update minimum version of broccoli-concat to address a major issue with cache invalidation [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9535](https://github.com/ember-cli/ember-cli/pull/9535) Disable Embroider by default. [@rwjblue](https://github.com/rwjblue)
+- [#9557](https://github.com/ember-cli/ember-cli/pull/9557) Update app and addon blueprint dependencies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#9558](https://github.com/ember-cli/ember-cli/pull/9558) Switch from `octane` template lint config to `recommended` [@bmish](https://github.com/bmish)
 - [#9453](https://github.com/ember-cli/ember-cli/pull/9453) Prevent "yarn-error.log" files being published for addons [@bertdeblock](https://github.com/bertdeblock)
 - [#9392](https://github.com/ember-cli/ember-cli/pull/9392) / [#9484](https://github.com/ember-cli/ember-cli/pull/9484) Add eslint-plugin-qunit to blueprint [@bmish](https://github.com/bmish)
 - [#9454](https://github.com/ember-cli/ember-cli/pull/9454) / [#9492](https://github.com/ember-cli/ember-cli/pull/9492) Add --embroider as an option for new and init [@thoov](https://github.com/thoov)

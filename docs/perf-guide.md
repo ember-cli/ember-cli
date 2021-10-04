@@ -238,6 +238,8 @@ To generate visualization:
 
 
 Each build will generate an additional graph, `instrumentation.build.<build-number>.json`
+  
+Alternatively, you can upload the JSON file to https://heimdalljs.github.io/heimdalljs-visualizer/
 
 #### in-depth look
 

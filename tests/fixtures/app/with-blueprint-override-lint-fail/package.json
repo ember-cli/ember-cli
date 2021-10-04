@@ -43,13 +43,12 @@
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.0.4",
     "ember-load-initializers": "^2.1.2",
-    "ember-maybe-import-regenerator": "^0.1.6",
     "ember-page-title": "^6.2.1",
     "ember-qunit": "^5.1.2",
     "ember-resolver": "^8.0.2",
     "ember-source": "~3.26.0-beta.2",
     "ember-template-lint": "^2.18.1",
-    "ember-welcome-page": "^4.0.0",
+    "ember-welcome-page": "^5.0.0",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-ember": "^10.2.0",
@@ -62,7 +61,7 @@
     "qunit-dom": "^1.6.0"
   },
   "engines": {
-    "node": "10.* || >= 12"
+    "node": "12.* || 14.* || >= 16"
   },
   "ember": {
     "edition": "octane"
