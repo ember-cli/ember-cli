@@ -1,12 +1,38 @@
 # ember-cli Changelog
 
 
-## v3.28.0-beta.1
+## v4.0.0-beta.1
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.27.0...v3.28.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.27.0...v3.28.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.28.0...v4.0.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.28.0...v4.0.0-beta.1)
+
+#### Changelog
+
+- [#9574](https://github.com/ember-cli/ember-cli/pull/9574) Update link to Discord in README.md [@MelSumner](https://github.com/MelSumner)
+- [#9613](https://github.com/ember-cli/ember-cli/pull/9613) Fix test that started failing with v2.17.0 of qunit [@kategengler](https://github.com/kategengler)
+- [#9579](https://github.com/ember-cli/ember-cli/pull/9579) Add `--ci-provider` option to `ember new` and `ember addon` [@snewcomer](https://github.com/snewcomer)
+- [#9618](https://github.com/ember-cli/ember-cli/pull/9618) Reload `_packageInfo` as part of `reloadPkg` [@brendenpalmer](https://github.com/brendenpalmer)
+- [#9563](https://github.com/ember-cli/ember-cli/pull/9563) Add `pnpm` support to `ember install` command [@Turbo87](https://github.com/Turbo87)
+- [#9580](https://github.com/ember-cli/ember-cli/pull/9580) Add `.lint-todo` to prettier ignore [@elwayman02](https://github.com/elwayman02)
+- [#9589](https://github.com/ember-cli/ember-cli/pull/9589) Add link to visualizer to perf guide [@mehulkar](https://github.com/mehulkar)
+- [#9595](https://github.com/ember-cli/ember-cli/pull/9595) Add support for `addons.exclude` and `addons.include` options [@bertdeblock](https://github.com/bertdeblock)
+- [#9623](https://github.com/ember-cli/ember-cli/pull/9623) Update app/addon blueprints to use ember-auto-import@2 [@rwjblue](https://github.com/rwjblue)
+- [#9619](https://github.com/ember-cli/ember-cli/pull/9619) Update watch-detector to 1.0.1 [@colenso](https://github.com/colenso)
+- [#9627](https://github.com/ember-cli/ember-cli/pull/9627) Update app & addon blueprint dependencies to latest [@rwjblue](https://github.com/rwjblue)
+- [#9605](https://github.com/ember-cli/ember-cli/pull/9605) Properly set `loglevel` flag for npm [@jrvidal](https://github.com/jrvidal)
+- [#9609](https://github.com/ember-cli/ember-cli/pull/9609) Ignore additional `ember-try` files for apps and addons [@bertdeblock](https://github.com/bertdeblock)
+- [#9644](https://github.com/ember-cli/ember-cli/pull/9644) Default `ember new` and `ember addon` to use GitHub Actions [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+## v3.28.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.27.0...v3.28.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.27.0...v3.28.0)
 
 #### Changelog
 
