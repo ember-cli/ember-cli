@@ -53,21 +53,48 @@ describe('WatchDetector', function() {
 
   describe('#findBestWatcherOption', function() {
     describe('input preference.watcher === watchman', function() {
-      beforeEach(function() {
-        childProcess.execSync = function() {
-          return '{"version":"3.0.0"}';
-        };
+      describe('watchman version is date-based', function() {
+        beforeEach(function() {
+          childProcess.execSync = function () {
+            return '{"version":"v2021.10.11.00"}';
+          };
+        });
+
+        it("chooses watchman", function () {
+          let option = subject.findBestWatcherOption({
+            watcher: "watchman",
+          });
+          expect(option).to.have.property("watcher", "watchman");
+          expect(option.watchmanInfo).to.have.property("version");
+          expect(option.watchmanInfo).to.have.property("canNestRoots");
+          expect(option.watchmanInfo).to.have.property("enabled", true);
+          expect(ui.output).not.to.match(/Could not start watchman/);
+          expect(ui.output).not.to.match(/fell back to: "node"/);
+          expect(ui.output).not.to.match(
+            /Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/
+          );
+        });
       });
 
-      it('chooses watchman', function() {
-        let option = subject.findBestWatcherOption({ watcher: 'watchman' });
-        expect(option).to.have.property('watcher', 'watchman');
-        expect(option.watchmanInfo).to.have.property('version');
-        expect(option.watchmanInfo).to.have.property('canNestRoots');
-        expect(option.watchmanInfo).to.have.property('enabled', true);
-        expect(ui.output).not.to.match(/Could not start watchman/);
-        expect(ui.output).not.to.match(/fell back to: "node"/);
-        expect(ui.output).not.to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
+      describe('watchman version complies with semver', function() {
+        beforeEach(function () {
+          childProcess.execSync = function () {
+            return '{"version":"3.0.0"}';
+          };
+        });
+
+        it("chooses watchman", function () {
+          let option = subject.findBestWatcherOption({ watcher: "watchman" });
+          expect(option).to.have.property("watcher", "watchman");
+          expect(option.watchmanInfo).to.have.property("version");
+          expect(option.watchmanInfo).to.have.property("canNestRoots");
+          expect(option.watchmanInfo).to.have.property("enabled", true);
+          expect(ui.output).not.to.match(/Could not start watchman/);
+          expect(ui.output).not.to.match(/fell back to: "node"/);
+          expect(ui.output).not.to.match(
+            /Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/
+          );
+        });
       });
 
       describe('watchman does not work', function() {
