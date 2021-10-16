@@ -43,9 +43,6 @@ async function updateRepo(repoName) {
   console.log('copying generated contents to output repo');
   await fs.copy(generatedOutputPath, outputRepoPath);
 
-  console.log('copying online editor files');
-  await fs.copy(ONLINE_EDITOR_FILES, outputRepoPath);
-
   if (shouldUpdateMasterFromStable) {
     await execa('git', ['checkout', '-B', 'master'], { cwd: outputRepoPath });
   }
@@ -58,6 +55,20 @@ async function updateRepo(repoName) {
   console.log('pushing commit & tag');
   await execa('git', ['push', 'origin', `v${currentVersion}`], { cwd: outputRepoPath });
   await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
+
+  console.log('preparing updates for online editors');
+  let editorBranch = `online-editor-${branchToClone}`;
+  await execa('git', ['checkout', '-B', editorBranch]);
+
+  console.log('copying online editor files');
+  await fs.copy(ONLINE_EDITOR_FILES, outputRepoPath);
+
+  console.log('commiting updates');
+  await execa('git', ['add', '--all'], { cwd: outputRepoPath });
+  await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
+
+  console.log('pushing commit');
+  await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
 }
 
 async function main() {
