@@ -23,11 +23,12 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.15.8",
+    "@babel/plugin-proposal-decorators": "^7.15.8",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.4.2",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^2.2.0",
     "ember-cli": "~<%= emberCLIVersion %>",
@@ -47,7 +48,7 @@
     "ember-resolver": "^8.0.3",
     "ember-source": "~4.0.0-beta.4",
     "ember-template-lint": "^3.7.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^10.5.4",
     "eslint-plugin-node": "^11.1.0",
