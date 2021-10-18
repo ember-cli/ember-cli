@@ -7,8 +7,10 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     requireConfigFile: false,
-    ecmaFeatures: {
-      legacyDecorators: true,
+    babelOptions: {
+      plugins: [
+        ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }]
+      ],
     },
   },
   plugins: ['ember'],
