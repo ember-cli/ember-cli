@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v3.28.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.28.2...v3.28.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.28.2...v3.28.3)
+
+#### Changelog
+
+- [#9670](https://github.com/ember-cli/ember-cli/pull/9670) Don't emit an error when the `lint:fix` script fails post blueprint generation [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v3.28.2
 
 #### Blueprint Changes
