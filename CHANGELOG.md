@@ -1,5 +1,23 @@
 # ember-cli Changelog
 
+
+## v4.0.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.0.0-beta.1...v4.0.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.0.0-beta.1...v4.0.0-beta.2)
+
+#### Changelog
+
+- [#9659](https://github.com/ember-cli/ember-cli/pull/9659) Ensure `ember-classic` ember-try scenario uses Ember 3.x [@rwjblue](https://github.com/rwjblue)
+- [#9661](https://github.com/ember-cli/ember-cli/pull/9661) Set default CI config blueprints to run all builds [@elwayman02](https://github.com/elwayman02)
+- [#9666](https://github.com/ember-cli/ember-cli/pull/9666) Remove IE11 comments from `config/target.js` in app blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9667](https://github.com/ember-cli/ember-cli/pull/9667) Update eslint-plugin-qunit to v7 in blueprint [@bmish](https://github.com/bmish)
+- [#9670](https://github.com/ember-cli/ember-cli/pull/9670) Don't emit an error when the `lint:fix` script fails post blueprint generation [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v3.28.3
 
 #### Blueprint Changes
