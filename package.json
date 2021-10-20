@@ -114,7 +114,7 @@
     "quick-temp": "^0.1.8",
     "resolve": "^1.20.0",
     "resolve-package-path": "^3.1.0",
-    "sane": "^4.1.0",
+    "sane": "^5.0.1",
     "semver": "^7.3.4",
     "silent-error": "^1.1.1",
     "sort-package-json": "^1.49.0",
