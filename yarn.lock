@@ -1287,20 +1287,17 @@ broccoli-funnel@^2.0.0, broccoli-funnel@^2.0.1, broccoli-funnel@^2.0.2:
     symlink-or-copy "^1.0.0"
     walk-sync "^0.3.1"
 
-broccoli-funnel@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.5.tgz#60da33d060fae2936b3d78217bd4008a6eea5e41"
-  integrity sha512-fcjvQIWq4lpKyzQ7FWRo/V8/nOALjIrAoRMFCLgFeO2xhOC1+i7QWbMndLTwpnLCoXpTa+luBu3WSFoxQ3VPlw==
+broccoli-funnel@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.8.tgz#f5b62e2763c3918026a15a3c833edc889971279b"
+  integrity sha512-ng4eIhPYiXqMw6SyGoxPHR3YAwEd2lr9FgBI1CyTbspl4txZovOsmzFkMkGAlu88xyvYXJqHiM2crfLa65T1BQ==
   dependencies:
     array-equal "^1.0.0"
-    blank-object "^1.0.1"
     broccoli-plugin "^4.0.7"
     debug "^4.1.1"
-    fast-ordered-set "^1.0.0"
     fs-tree-diff "^2.0.1"
     heimdalljs "^0.2.0"
     minimatch "^3.0.0"
-    path-posix "^1.0.0"
     walk-sync "^2.0.2"
 
 broccoli-kitchen-sink-helpers@^0.3.1:
