@@ -43,7 +43,7 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "bower-config": "^1.4.3",
     "bower-endpoint-parser": "0.2.2",
-    "broccoli": "^3.5.1",
+    "broccoli": "^3.5.2",
     "broccoli-amd-funnel": "^2.0.1",
     "broccoli-babel-transpiler": "^7.8.0",
     "broccoli-builder": "^0.18.14",
