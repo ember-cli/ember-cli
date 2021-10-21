@@ -56,7 +56,7 @@
     "broccoli-merge-trees": "^3.0.2",
     "broccoli-middleware": "^2.1.1",
     "broccoli-slow-trees": "^3.1.0",
-    "broccoli-source": "^3.0.0",
+    "broccoli-source": "^3.0.1",
     "broccoli-stew": "^3.0.0",
     "calculate-cache-key-for-tree": "^2.0.0",
     "capture-exit": "^2.0.0",
