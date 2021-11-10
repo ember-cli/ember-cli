@@ -18,6 +18,19 @@
 
 Thank you to all who took the time to contribute!
 
+## v3.28.4
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.28.3...v3.28.4)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.28.3...v3.28.4)
+
+#### Changelog
+
+- [#9694](https://github.com/ember-cli/ember-cli/pull/9694) test in node 16 LTS [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 ## v3.28.3
 
 #### Blueprint Changes
