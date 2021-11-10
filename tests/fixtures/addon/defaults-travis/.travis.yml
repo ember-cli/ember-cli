@@ -26,7 +26,7 @@ branches:
     - /^v\d+\.\d+\.\d+/
 
 jobs:
-  fast_finish: true
+  fast_finish: false
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
