@@ -14,7 +14,9 @@ const ONLINE_EDITOR_FILES = path.join(__dirname, 'online-editors');
 let tmpdir = tmp.dirSync();
 
 async function updateOnlineEditorRepos() {
-  if (!isStable) return;
+  if (!isStable) {
+    return;
+  }
 
   let repo = 'git@github.com:ember-cli/editor-output.git';
   let onlineEditors = ['stackblitz'];
@@ -22,7 +24,6 @@ async function updateOnlineEditorRepos() {
   for (let command of ['new', 'addon']) {
     let name = command === 'new' ? 'my-app' : 'my-addon';
     let projectType = command === 'new' ? 'app' : 'addon';
-
 
     let updatedOutputTmpDir = tmp.dirSync();
     console.log(`Running ember ${command} ${name}`);
@@ -42,7 +43,7 @@ async function updateOnlineEditorRepos() {
         cwd: tmpdir.name,
       });
 
-      console.log(`clearing ${repoName}`);
+      console.log(`clearing ${repo}`);
       await execa(`git`, [`rm`, `-rf`, `.`], {
         cwd: path.join(tmpdir.name, tmpSuffix),
       });
@@ -57,14 +58,13 @@ async function updateOnlineEditorRepos() {
       await fs.copy(path.join(ONLINE_EDITOR_FILES, onlineEditor), outputRepoPath);
 
       console.log('commiting updates');
-      await execa('git', ['add', '--all'], {cwd: outputRepoPath});
-      await execa('git', ['commit', '-m', currentVersion], {cwd: outputRepoPath});
+      await execa('git', ['add', '--all'], { cwd: outputRepoPath });
+      await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
 
       console.log('pushing commit');
-      await execa('git', ['push', '--force', 'origin', editorBranch], {cwd: outputRepoPath});
+      await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
     }
   }
-
 }
 
 async function updateRepo(repoName) {
@@ -98,17 +98,17 @@ async function updateRepo(repoName) {
   await fs.copy(generatedOutputPath, outputRepoPath);
 
   if (shouldUpdateMasterFromStable) {
-    await execa('git', ['checkout', '-B', 'master'], {cwd: outputRepoPath});
+    await execa('git', ['checkout', '-B', 'master'], { cwd: outputRepoPath });
   }
 
   console.log('commiting updates');
-  await execa('git', ['add', '--all'], {cwd: outputRepoPath});
-  await execa('git', ['commit', '-m', currentVersion], {cwd: outputRepoPath});
-  await execa('git', ['tag', `v${currentVersion}`], {cwd: outputRepoPath});
+  await execa('git', ['add', '--all'], { cwd: outputRepoPath });
+  await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
+  await execa('git', ['tag', `v${currentVersion}`], { cwd: outputRepoPath });
 
   console.log('pushing commit & tag');
-  await execa('git', ['push', 'origin', `v${currentVersion}`], {cwd: outputRepoPath});
-  await execa('git', ['push', '--force', 'origin', outputRepoBranch], {cwd: outputRepoPath});
+  await execa('git', ['push', 'origin', `v${currentVersion}`], { cwd: outputRepoPath });
+  await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
 }
 
 async function main() {
