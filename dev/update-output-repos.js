@@ -22,6 +22,9 @@ async function updateOnlineEditorRepos() {
   let onlineEditors = ['stackblitz'];
 
   for (let command of ['new', 'addon']) {
+    let tmpdir = tmp.dirSync();
+    await fs.mkdirp(tmpdir.name);
+
     let name = command === 'new' ? 'my-app' : 'my-addon';
     let projectType = command === 'new' ? 'app' : 'addon';
 
@@ -34,25 +37,31 @@ async function updateOnlineEditorRepos() {
     let generatedOutputPath = path.join(updatedOutputTmpDir.name, name);
 
     for (let onlineEditor of onlineEditors) {
-      let tmpSuffix = `${onlineEditor}-${projectType}`;
       let editorBranch = `${onlineEditor}-${projectType}-output`;
-      let outputRepoPath = path.join(tmpdir.name, tmpSuffix);
+      let outputRepoPath = path.join(tmpdir.name, 'editor-output');
 
-      console.log(`cloning ${repo}`);
-      await execa('git', ['clone', repo, `--branch=${editorBranch}`], {
-        cwd: tmpdir.name,
-      });
+      console.log(`cloning ${repo} in to ${tmpdir.name}`);
+      try {
+        await execa('git', ['clone', repo, `--branch=${editorBranch}`], {
+          cwd: tmpdir.name,
+        });
+      } catch (e) {
+        // branch may not exist yet
+        await execa('git', ['clone', repo], {
+          cwd: tmpdir.name,
+        });
+      }
 
-      console.log(`clearing ${repo}`);
+      console.log('preparing updates for online editors');
+      await execa('git', ['switch', '-C', editorBranch], { cwd: outputRepoPath });
+
+      console.log(`clearing ${repo} in ${outputRepoPath}`);
       await execa(`git`, [`rm`, `-rf`, `.`], {
-        cwd: path.join(tmpdir.name, tmpSuffix),
+        cwd: outputRepoPath,
       });
 
       console.log('copying generated contents to output repo');
       await fs.copy(generatedOutputPath, outputRepoPath);
-
-      console.log('preparing updates for online editors');
-      await execa('git', ['checkout', '-B', editorBranch]);
 
       console.log('copying online editor files');
       await fs.copy(path.join(ONLINE_EDITOR_FILES, onlineEditor), outputRepoPath);
@@ -62,7 +71,12 @@ async function updateOnlineEditorRepos() {
       await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
 
       console.log('pushing commit');
-      await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
+      try {
+        await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
+      } catch (e) {
+        // branch may not exist yet
+        await execa('git', ['push', '-u', 'origin', editorBranch], { cwd: outputRepoPath });
+      }
     }
   }
 }
