@@ -13,6 +13,60 @@ const ONLINE_EDITOR_FILES = path.join(__dirname, 'online-editors');
 
 let tmpdir = tmp.dirSync();
 
+async function updateOnlineEditorRepos() {
+  if (!isStable) return;
+
+  let repo = 'git@github.com:ember-cli/editor-output.git';
+  let onlineEditors = ['stackblitz'];
+
+  for (let command of ['new', 'addon']) {
+    let name = command === 'new' ? 'my-app' : 'my-addon';
+    let projectType = command === 'new' ? 'app' : 'addon';
+
+
+    let updatedOutputTmpDir = tmp.dirSync();
+    console.log(`Running ember ${command} ${name}`);
+    await execa(EMBER_PATH, [command, name, `--skip-bower`, `--skip-npm`, `--skip-git`], {
+      cwd: updatedOutputTmpDir.name,
+    });
+
+    let generatedOutputPath = path.join(updatedOutputTmpDir.name, name);
+
+    for (let onlineEditor of onlineEditors) {
+      let tmpSuffix = `${onlineEditor}-${projectType}`;
+      let editorBranch = `${onlineEditor}-${projectType}-output`;
+      let outputRepoPath = path.join(tmpdir.name, tmpSuffix);
+
+      console.log(`cloning ${repo}`);
+      await execa('git', ['clone', repo, `--branch=${editorBranch}`], {
+        cwd: tmpdir.name,
+      });
+
+      console.log(`clearing ${repoName}`);
+      await execa(`git`, [`rm`, `-rf`, `.`], {
+        cwd: path.join(tmpdir.name, tmpSuffix),
+      });
+
+      console.log('copying generated contents to output repo');
+      await fs.copy(generatedOutputPath, outputRepoPath);
+
+      console.log('preparing updates for online editors');
+      await execa('git', ['checkout', '-B', editorBranch]);
+
+      console.log('copying online editor files');
+      await fs.copy(path.join(ONLINE_EDITOR_FILES, onlineEditor), outputRepoPath);
+
+      console.log('commiting updates');
+      await execa('git', ['add', '--all'], {cwd: outputRepoPath});
+      await execa('git', ['commit', '-m', currentVersion], {cwd: outputRepoPath});
+
+      console.log('pushing commit');
+      await execa('git', ['push', '--force', 'origin', editorBranch], {cwd: outputRepoPath});
+    }
+  }
+
+}
+
 async function updateRepo(repoName) {
   let command = repoName === 'ember-new-output' ? 'new' : 'addon';
   let name = repoName === 'ember-new-output' ? 'my-app' : 'my-addon';
@@ -44,37 +98,24 @@ async function updateRepo(repoName) {
   await fs.copy(generatedOutputPath, outputRepoPath);
 
   if (shouldUpdateMasterFromStable) {
-    await execa('git', ['checkout', '-B', 'master'], { cwd: outputRepoPath });
+    await execa('git', ['checkout', '-B', 'master'], {cwd: outputRepoPath});
   }
 
   console.log('commiting updates');
-  await execa('git', ['add', '--all'], { cwd: outputRepoPath });
-  await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
-  await execa('git', ['tag', `v${currentVersion}`], { cwd: outputRepoPath });
+  await execa('git', ['add', '--all'], {cwd: outputRepoPath});
+  await execa('git', ['commit', '-m', currentVersion], {cwd: outputRepoPath});
+  await execa('git', ['tag', `v${currentVersion}`], {cwd: outputRepoPath});
 
   console.log('pushing commit & tag');
-  await execa('git', ['push', 'origin', `v${currentVersion}`], { cwd: outputRepoPath });
-  await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
-
-  console.log('preparing updates for online editors');
-  let editorBranch = `online-editor-${branchToClone}`;
-  await execa('git', ['checkout', '-B', editorBranch]);
-
-  console.log('copying online editor files');
-  await fs.copy(ONLINE_EDITOR_FILES, outputRepoPath);
-
-  console.log('commiting updates');
-  await execa('git', ['add', '--all'], { cwd: outputRepoPath });
-  await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
-
-  console.log('pushing commit');
-  await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
+  await execa('git', ['push', 'origin', `v${currentVersion}`], {cwd: outputRepoPath});
+  await execa('git', ['push', '--force', 'origin', outputRepoBranch], {cwd: outputRepoPath});
 }
 
 async function main() {
   try {
     await updateRepo('ember-new-output');
     await updateRepo('ember-addon-output');
+    await updateOnlineEditorRepos();
   } catch (error) {
     console.log(error);
   }
