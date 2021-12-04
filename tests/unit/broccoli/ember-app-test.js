@@ -825,7 +825,7 @@ describe('EmberApp', function () {
       });
 
       it('keeps ember-resolver.js in vendorFiles when npm ember-resolver is not installed, but is present in bower.json', function () {
-        project.bowerDependencies = function () {
+        project._bowerDependencies = function () {
           return { ember: {}, 'ember-resolver': {} };
         };
         let app = new EmberApp({
@@ -841,7 +841,7 @@ describe('EmberApp', function () {
       });
 
       it('removes ember-resolver.js from vendorFiles when not in bower.json and npm ember-resolver not installed', function () {
-        project.bowerDependencies = function () {
+        project._bowerDependencies = function () {
           return { ember: {} };
         };
         let app = new EmberApp({
