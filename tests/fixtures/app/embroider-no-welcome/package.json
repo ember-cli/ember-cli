@@ -25,9 +25,9 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.6.0",
-    "@embroider/compat": "^0.47.2",
-    "@embroider/core": "^0.47.2",
-    "@embroider/webpack": "^0.47.2",
+    "@embroider/compat": "^0.48.0",
+    "@embroider/core": "^0.48.0",
+    "@embroider/webpack": "^0.48.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
@@ -37,7 +37,7 @@
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-dependency-checker": "^3.2.0",
-    "ember-cli-htmlbars": "^6.0.0",
+    "ember-cli-htmlbars": "^6.0.1",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
@@ -58,10 +58,10 @@
     "eslint-plugin-qunit": "^7.1.0",
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.5.0",
+    "prettier": "^2.5.1",
     "qunit": "^2.17.2",
     "qunit-dom": "^2.0.0",
-    "webpack": "^5.64.4"
+    "webpack": "^5.65.0"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
