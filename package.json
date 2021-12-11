@@ -79,7 +79,7 @@
     "execa": "^5.1.1",
     "exit": "^0.1.2",
     "express": "^4.17.1",
-    "filesize": "^6.1.0",
+    "filesize": "^8.0.6",
     "find-up": "^5.0.0",
     "find-yarn-workspace-root": "^2.0.0",
     "fixturify-project": "^2.1.1",
