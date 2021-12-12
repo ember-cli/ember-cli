@@ -89,7 +89,7 @@
     "git-repo-info": "^2.1.1",
     "glob": "^7.2.0",
     "heimdalljs": "^0.2.6",
-    "heimdalljs-fs-monitor": "^1.1.0",
+    "heimdalljs-fs-monitor": "^1.1.1",
     "heimdalljs-graph": "^1.0.0",
     "heimdalljs-logger": "^0.1.10",
     "http-proxy": "^1.18.1",
