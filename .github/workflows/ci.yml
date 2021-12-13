@@ -14,6 +14,10 @@ on:
   schedule:
     - cron:  '0 3 * * *' # daily, at 3am
 
+concurrency:
+   group: ci-${{ github.head_ref || github.ref }}
+   cancel-in-progress: true
+
 jobs:
   linting:
     name: Linting
