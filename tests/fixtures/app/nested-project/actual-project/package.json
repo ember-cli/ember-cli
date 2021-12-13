@@ -42,7 +42,7 @@
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.0.4",
     "ember-load-initializers": "^2.1.2",
-    "ember-page-title": "^6.2.1",
+    "ember-page-title": "^7.0.0",
     "ember-qunit": "^5.1.4",
     "ember-resolver": "^8.0.2",
     "ember-source": "~3.27.0-beta.3",

@@ -1,5 +1,36 @@
 # ember-cli Changelog
 
+## v4.0.0-beta.4
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.0.0-beta.3...v4.0.0-beta.4)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.0.0-beta.3...v4.0.0-beta.4)
+
+#### Changelog
+
+- [#9724](https://github.com/ember-cli/ember-cli/pull/9724) update stable packages [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
+## v4.0.0-beta.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.0.0-beta.2...v4.0.0-beta.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.0.0-beta.2...v4.0.0-beta.3)
+
+#### Changelog
+
+- [#9673](https://github.com/ember-cli/ember-cli/pull/9673) Update blueprint dependencies to latest [@rwjblue](https://github.com/rwjblue)
+- [#9679](https://github.com/ember-cli/ember-cli/pull/9679) Bump ember-page-title from v6.2.2 to v7.0.0 [@raido](https://github.com/raido)
+- [#9694](https://github.com/ember-cli/ember-cli/pull/9694) test in node 16 LTS [@kellyselden](https://github.com/kellyselden)
+- [#9696](https://github.com/ember-cli/ember-cli/pull/9696) commands/init: Fix `--yarn` usage [@Turbo87](https://github.com/Turbo87)
+- [#9705](https://github.com/ember-cli/ember-cli/pull/9705) update beta deps [@kellyselden](https://github.com/kellyselden)
+- [#9710](https://github.com/ember-cli/ember-cli/pull/9710) update beta deps [@kellyselden](https://github.com/kellyselden)
+- [#9721](https://github.com/ember-cli/ember-cli/pull/9721) update beta deps [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
 
 ## v4.0.0-beta.2
 

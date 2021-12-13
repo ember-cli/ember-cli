@@ -221,7 +221,7 @@ describe('Acceptance: smoke-test', function () {
     let dirPath = path.join(appRoot, 'dist');
     let paths = walkSync(dirPath);
 
-    expect(paths).to.have.length.below(24, `expected fewer than 24 files in dist, found ${paths.length}`);
+    expect(paths).to.have.length.below(25, `expected fewer than 25 files in dist, found ${paths.length}`);
   });
 
   it('ember build exits with non-zero code when build fails', async function () {
