@@ -2866,10 +2866,10 @@ eslint-plugin-es@^3.0.0:
     eslint-utils "^2.0.0"
     regexpp "^3.0.0"
 
-eslint-plugin-mocha@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.npmjs.org/eslint-plugin-mocha/-/eslint-plugin-mocha-9.0.0.tgz#b4457d066941eecb070dc06ed301c527d9c61b60"
-  integrity sha512-d7knAcQj1jPCzZf3caeBIn3BnW6ikcvfz0kSqQpwPYcVGLoJV5sz0l0OJB2LR8I7dvTDbqq1oV6ylhSgzA10zg==
+eslint-plugin-mocha@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-10.0.2.tgz#3752e1b9cb433cf716df55d2283cbb6d317f5cc9"
+  integrity sha512-xVHV9TbFvtLeQtbBNSRRpcqOdD22f5BBxO4vuylM2OkKza/SEEX2hZz7vDYWznnkuDis/2kVzVsmrcCfvyVAJw==
   dependencies:
     eslint-utils "^3.0.0"
     ramda "^0.27.1"
