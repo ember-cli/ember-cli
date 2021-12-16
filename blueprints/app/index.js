@@ -23,7 +23,7 @@ module.exports = {
     let namespace = stringUtil.classify(rawName);
     let embroider = isExperimentEnabled('EMBROIDER') || options.embroider;
 
-    let hasOptions = !options.welcome || options.yarn || embroider;
+    let hasOptions = !options.welcome || options.yarn || embroider || options.ciProvider;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
@@ -31,7 +31,12 @@ module.exports = {
 
       blueprintOptions =
         indent +
-        [!options.welcome && '"--no-welcome"', options.yarn && '"--yarn"', embroider && '"--embroider"']
+        [
+          !options.welcome && '"--no-welcome"',
+          options.yarn && '"--yarn"',
+          embroider && '"--embroider"',
+          options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+        ]
           .filter(Boolean)
           .join(',\n            ') +
         outdent;
@@ -48,7 +53,23 @@ module.exports = {
       blueprintOptions,
       embroider,
       lang: options.lang,
+      ciProvider: options.ciProvider,
     };
+  },
+
+  files(options) {
+    if (this._files) {
+      return this._files;
+    }
+
+    let files = this._super();
+    if (options.ciProvider !== 'travis') {
+      this._files = files.filter((file) => file !== '.travis.yml');
+    } else {
+      this._files = files.filter((file) => file.indexOf('.github') < 0);
+    }
+
+    return this._files;
   },
 
   beforeInstall() {
