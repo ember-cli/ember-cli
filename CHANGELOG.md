@@ -1,5 +1,22 @@
 # ember-cli Changelog
 
+## v4.1.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.0.0...v4.1.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.0.0...v4.1.0-beta.1)
+
+#### Changelog
+
+- [#9431](https://github.com/ember-cli/ember-cli/pull/9431) replace fixtures with jest-like snapshots [@lifeart](https://github.com/lifeart)
+- [#9607](https://github.com/ember-cli/ember-cli/pull/9607) Add online editor files to update-output-repos script [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#9700](https://github.com/ember-cli/ember-cli/pull/9700) [Chore] Update  .npmignore to ignore .github and docs folders [@SergeAstapov](https://github.com/SergeAstapov)
+- [#9728](https://github.com/ember-cli/ember-cli/pull/9728) eslint-plugin-mocha@^9.0.0 [@kellyselden](https://github.com/kellyselden)
+- [#9729](https://github.com/ember-cli/ember-cli/pull/9729) is-language-code@^3.1.0 [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 ## v4.0.0
 
 #### Blueprint Changes
