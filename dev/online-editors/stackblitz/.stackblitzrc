@@ -1,0 +1,6 @@
+{
+  "startCommand": "npm start",
+  "env": {
+    "NODE_OPTIONS": "--trace-warnings --unhandled-rejections=strict"
+  }
+}

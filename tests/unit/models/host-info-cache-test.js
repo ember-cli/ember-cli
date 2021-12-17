@@ -50,9 +50,8 @@ describe('Unit | host-addons-utils', function () {
     addonA.app = app;
     const pkgInfoAddonA = addonA._packageInfo;
 
-    let { hostPackageInfo, hostAndAncestorBundledPackageInfos } = project.hostInfoCache.getHostAddonInfo(
-      pkgInfoLazyEngineA
-    );
+    let { hostPackageInfo, hostAndAncestorBundledPackageInfos } =
+      project.hostInfoCache.getHostAddonInfo(pkgInfoLazyEngineA);
 
     expect(hostPackageInfo).to.equal(project._packageInfo, 'host package-info for lazy-engine A is the project');
     expect(project.hostInfoCache.findLCAHost(lazyEngineA)).to.equal(lazyEngineA.app, 'LCA host is the app');
@@ -68,9 +67,8 @@ describe('Unit | host-addons-utils', function () {
 
     const pkgInfoLazyEngineB = lazyEngineB._packageInfo;
 
-    ({ hostPackageInfo, hostAndAncestorBundledPackageInfos } = project.hostInfoCache.getHostAddonInfo(
-      pkgInfoLazyEngineB
-    ));
+    ({ hostPackageInfo, hostAndAncestorBundledPackageInfos } =
+      project.hostInfoCache.getHostAddonInfo(pkgInfoLazyEngineB));
 
     expect(hostPackageInfo).to.equal(project._packageInfo, 'host package-info for lazy-engine B is the project');
     expect(project.hostInfoCache.findLCAHost(lazyEngineB)).to.equal(lazyEngineA.app, 'LCA host is the app');
@@ -86,9 +84,8 @@ describe('Unit | host-addons-utils', function () {
 
     const pkgInfoLazyEngineC = lazyEngineC._packageInfo;
 
-    ({ hostPackageInfo, hostAndAncestorBundledPackageInfos } = project.hostInfoCache.getHostAddonInfo(
-      pkgInfoLazyEngineC
-    ));
+    ({ hostPackageInfo, hostAndAncestorBundledPackageInfos } =
+      project.hostInfoCache.getHostAddonInfo(pkgInfoLazyEngineC));
 
     expect(hostPackageInfo).to.equal(pkgInfoLazyEngineB, 'host package-info for lazy-engine C is lazy engine B');
 
@@ -141,9 +138,8 @@ describe('Unit | host-addons-utils', function () {
       .addons.find((addon) => addon.name === 'lazy-engine-b')
       .addons.find((addon) => addon.name === 'lazy-engine-c')._packageInfo;
 
-    let { hostPackageInfo, hostAndAncestorBundledPackageInfos } = project.hostInfoCache.getHostAddonInfo(
-      pkgInfoLazyEngineC
-    );
+    let { hostPackageInfo, hostAndAncestorBundledPackageInfos } =
+      project.hostInfoCache.getHostAddonInfo(pkgInfoLazyEngineC);
 
     expect(hostPackageInfo).to.equal(pkgInfoLazyEngineB, 'host package-info for lazy-engine C is lazy engine B');
     expect(hostAndAncestorBundledPackageInfos).to.deep.equal(
@@ -179,9 +175,8 @@ describe('Unit | host-addons-utils', function () {
       .find((addon) => addon.name === 'lazy-engine-b')
       .addons.find((addon) => addon.name === 'lazy-engine-a')._packageInfo;
 
-    let { hostPackageInfo, hostAndAncestorBundledPackageInfos } = project.hostInfoCache.getHostAddonInfo(
-      pkgInfoLazyEngineA
-    );
+    let { hostPackageInfo, hostAndAncestorBundledPackageInfos } =
+      project.hostInfoCache.getHostAddonInfo(pkgInfoLazyEngineA);
 
     expect(hostPackageInfo).to.equal(project._packageInfo, 'host package-info for lazy-engine A is the project');
     expect(hostAndAncestorBundledPackageInfos).to.deep.equal(
