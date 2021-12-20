@@ -15,6 +15,17 @@
 - [#9728](https://github.com/ember-cli/ember-cli/pull/9728) eslint-plugin-mocha@^9.0.0 [@kellyselden](https://github.com/kellyselden)
 - [#9729](https://github.com/ember-cli/ember-cli/pull/9729) is-language-code@^3.1.0 [@kellyselden](https://github.com/kellyselden)
 
+## v4.0.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.0.0...v4.0.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.0.0...v4.0.1)
+
+#### Changelog
+
+- [#9675](https://github.com/ember-cli/ember-cli/pull/9675) Fix using `pnpm` install inadvertently [@balinterdi](https://github.com/balinterdi)
+
 Thank you to all who took the time to contribute!
 
 ## v4.0.0
