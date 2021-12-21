@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v3.28.5
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.28.4...v3.28.5)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.28.4...v3.28.5)
+
+#### Changelog
+
+- [#9730](https://github.com/ember-cli/ember-cli/pull/9730) Add Ember v3.28 LTS to `addon` blueprint (drop support for Ember v3.20 LTS) [@kellyselden](https://github.com/kellyselden)
+- [#9740](https://github.com/ember-cli/ember-cli/pull/9740) update embroider deps in LTS [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 ## v3.28.4
 
 #### Blueprint Changes
