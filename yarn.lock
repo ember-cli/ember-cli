@@ -6522,10 +6522,10 @@ qs@~1.0.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-1.0.2.tgz#50a93e2b5af6691c31bcea5dae78ee6ea1903768"
   integrity sha1-UKk+K1r2aRwxvOpdrnjubqGQN2g=
 
-quibble@^0.6.6:
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/quibble/-/quibble-0.6.6.tgz#4834554c37e98cbe384320552b3bfc80c9301387"
-  integrity sha512-qYLELbjh2TagaPEs+sDobJnw166zlYHtT8YibCYxxUYl+pGoDqEVjZZhgQXYPhIivb8CrDtEMP9Oshfu8y6jAQ==
+quibble@^0.6.7:
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/quibble/-/quibble-0.6.7.tgz#3af7de4901cbcb2b995a351d36643e2d68c720f3"
+  integrity sha512-64uTGKxPvB4mGJB4lf2pS4fc23d+ipZxJCpS8OD9F289xh9KOv5uj5+q6BQcg1H8CzIrNgjTT8ysPPXSmFk3wA==
   dependencies:
     lodash "^4.17.21"
     resolve "^1.20.0"
@@ -7620,13 +7620,13 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-testdouble@^3.16.3, testdouble@^3.2.6:
-  version "3.16.3"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.3.tgz#44ebb4a9930b61858fe9671363772479b2e39c40"
-  integrity sha512-oxGJ9KFuAJBNrpQEGDLj3OD4jRKLV+NhujRnuw5gYelkkZEFzUExijPi8O26RoVMdhc9C3OanKjvZXinmHWqow==
+testdouble@^3.16.4, testdouble@^3.2.6:
+  version "3.16.4"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.4.tgz#7da05f91df0077e38e40bba3da7758ef8c4396ad"
+  integrity sha512-NM8gzFurcf3tgf9miWx3ussoJWUxtT1MwJ7Xpe+sqJBbiwgqLDBqh64bnuDmGCHqhQ3Vou3Z5HtRjiAs7U/mug==
   dependencies:
     lodash "^4.17.15"
-    quibble "^0.6.6"
+    quibble "^0.6.7"
     stringify-object-es5 "^2.5.0"
     theredoc "^1.0.0"
 
