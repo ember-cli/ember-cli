@@ -3,6 +3,7 @@
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
+const chaiJestSnapshot = require('chai-jest-snapshot');
 const glob = require('glob');
 const Mocha = require('mocha');
 const fs = require('fs-extra');
@@ -23,6 +24,12 @@ let mocha = new Mocha({
   timeout: 5000,
   reporter,
   retries: 2,
+  rootHooks: {
+    beforeEach() {
+      chaiJestSnapshot.resetSnapshotRegistry();
+      chaiJestSnapshot.configureUsingMochaContext(this);
+    },
+  },
 });
 let testFiles = glob.sync(`${root}/**/*-test.js`);
 let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
