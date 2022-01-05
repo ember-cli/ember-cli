@@ -7,6 +7,10 @@ on:
       - master
   pull_request: {}
 
+concurrency:
+   group: ci-${{ github.head_ref || github.ref }}
+   cancel-in-progress: true
+
 jobs:
   test:
     name: "Tests"
@@ -47,11 +51,11 @@ jobs:
     needs: 'test'
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-3.20
           - ember-lts-3.24
+          - ember-lts-3.28
           - ember-release
           - ember-beta
           - ember-canary
