@@ -129,7 +129,7 @@ describe('test task test', function () {
       testemDebug: 'testem.log',
       testPage: 'http://my/test/page',
       configFile: 'custom-testem-config.json',
-      ssl: true,
+      ssl: false,
       sslKey: null,
       sslCert: null,
     });
