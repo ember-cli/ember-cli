@@ -107,4 +107,31 @@ describe('test task test', function () {
       sslCert: 'ssl/server.cert',
     });
   });
+
+  it('supports disabling SSL and nullifying related keys', function () {
+    subject = new TestTask({
+      project: new MockProject(),
+
+      invokeTestem(options) {
+        expect(options.ssl).to.equal(false);
+
+        let testemOptions = this.transformOptions(options);
+        expect(testemOptions.key).to.equal('ssl/server.key');
+        expect(testemOptions.cert).to.equal('ssl/server.cert');
+      },
+    });
+
+    subject.run({
+      host: 'greatwebsite.com',
+      port: 123324,
+      reporter: 'xunit',
+      outputPath: 'blerpy-derpy',
+      testemDebug: 'testem.log',
+      testPage: 'http://my/test/page',
+      configFile: 'custom-testem-config.json',
+      ssl: true,
+      sslKey: null,
+      sslCert: null,
+    });
+  });
 });
