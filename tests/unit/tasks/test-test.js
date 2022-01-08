@@ -116,8 +116,8 @@ describe('test task test', function () {
         expect(options.ssl).to.equal(false);
 
         let testemOptions = this.transformOptions(options);
-        expect(testemOptions.key).to.equal('ssl/server.key');
-        expect(testemOptions.cert).to.equal('ssl/server.cert');
+        expect(testemOptions.key).to.be.undefined;
+        expect(testemOptions.cert).to.be.undefined;
       },
     });
 
@@ -130,8 +130,8 @@ describe('test task test', function () {
       testPage: 'http://my/test/page',
       configFile: 'custom-testem-config.json',
       ssl: false,
-      sslKey: null,
-      sslCert: null,
+      sslKey: 'ssl/server.key',
+      sslCert: 'ssl/server.cert',
     });
   });
 });
