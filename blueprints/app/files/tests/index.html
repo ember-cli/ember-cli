@@ -14,6 +14,12 @@
     <link rel="stylesheet" href="{{rootURL}}assets/<%= name %>.css">
     <link rel="stylesheet" href="{{rootURL}}assets/test-support.css">
 
+    <script defer src="/testem.js" integrity="" data-embroider-ignore></script>
+    <script defer src="{{rootURL}}assets/vendor.js"></script>
+    <script defer src="{{rootURL}}assets/test-support.js"></script>
+    <script defer src="{{rootURL}}assets/<%= name %>.js"></script>
+    <script defer src="{{rootURL}}assets/tests.js"></script>
+
     {{content-for "head-footer"}}
     {{content-for "test-head-footer"}}
   </head>
@@ -27,12 +33,6 @@
         <div id="ember-testing"></div>
       </div>
     </div>
-
-    <script src="/testem.js" integrity="" data-embroider-ignore></script>
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/test-support.js"></script>
-    <script src="{{rootURL}}assets/<%= name %>.js"></script>
-    <script src="{{rootURL}}assets/tests.js"></script>
 
     {{content-for "body-footer"}}
     {{content-for "test-body-footer"}}
