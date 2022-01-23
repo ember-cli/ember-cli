@@ -5,18 +5,6 @@ const HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/
 
 describe('HistorySupportAddon', function () {
   describe('.serverMiddleware', function () {
-    it('add middleware when locationType is auto', function () {
-      let addon = new HistorySupportAddon({
-        config() {
-          return {
-            locationType: 'auto',
-          };
-        },
-      });
-
-      expect(addon.shouldAddMiddleware()).to.true;
-    });
-
     it('add middleware when locationType is history', function () {
       let addon = new HistorySupportAddon({
         config() {

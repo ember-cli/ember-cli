@@ -131,16 +131,6 @@ describe('ember-app-utils', function () {
         expect(output, '`<meta>` tag was not included').not.to.contain(expected);
       });
 
-      it('returns `<base>` tag if `locationType` is "auto"', function () {
-        config.locationType = 'auto';
-        config.baseURL = '/';
-
-        let expected = '<base href="/" />';
-        let output = contentFor(config, defaultMatch, 'head', defaultOptions);
-
-        expect(output, '`<base>` tag was included').to.contain(expected);
-      });
-
       // this is required by testem
       it('returns `<base>` tag if `locationType` is "none"', function () {
         config.locationType = 'none';
@@ -276,10 +266,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   describe(`calculateBaseTag`, function () {
-    ['auto', 'history'].forEach((locationType) => {
-      it(`generates a base tag correctly for location: ${locationType}`, function () {
-        expect(calculateBaseTag('/', locationType), `base tag was generated correctly`).to.equal('<base href="/" />');
-      });
+    it(`generates a base tag correctly if location is "history"`, function () {
+      expect(calculateBaseTag('/', 'history'), `base tag was generated correctly`).to.equal('<base href="/" />');
     });
 
     it('returns an empty string if location is "hash"', function () {
