@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const quickTemp = require('quick-temp');
 const Configstore = require('configstore');
-const CommandGenerator = require('./command-generator');
+const packageManagers = require('../../lib/utilities/package-managers');
 const stableStringify = require('json-stable-stringify');
 const symlinkOrCopySync = require('symlink-or-copy').sync;
 
@@ -22,68 +22,9 @@ cases where we use this.
 */
 let DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
 
-/**
- * The `bower` command helper.
- *
- * @private
- * @method bower
- * @param {String} subcommand The subcommand to be passed into bower.
- * @param {String} [...arguments] Arguments to be passed into the bower subcommand.
- * @param {Object} [options={}] The options passed into child_process.spawnSync.
- *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
- */
-let bower = new CommandGenerator('bower');
-
-/**
- * The `npm` command helper.
- *
- * @private
- * @method npm
- * @param {String} subcommand The subcommand to be passed into npm.
- * @param {String} [...arguments] Arguments to be passed into the npm subcommand.
- * @param {Object} [options={}] The options passed into child_process.spawnSync.
- *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
- */
-let npm = new CommandGenerator('npm');
-
-/**
- * The `yarn` command helper.
- *
- * @private
- * @method yarn
- * @param {String} subcommand The subcommand to be passed into yarn.
- * @param {String} [...arguments] Arguments to be passed into the yarn subcommand.
- * @param {Object} [options={}] The options passed into child_process.spawnSync.
- *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
- */
-let yarn = new CommandGenerator('yarn');
-
 // This lookup exists to make it possible to look the commands up based upon context.
 let originals;
-let commands = {
-  bower,
-  npm,
-  yarn,
-};
-
-// The definition list of translation terms.
-let lookups = {
-  manifest: {
-    bower: 'bower.json',
-    npm: 'package.json',
-    yarn: 'package.json',
-  },
-  path: {
-    bower: 'bower_components',
-    npm: 'node_modules',
-    yarn: 'node_modules',
-  },
-  upgrade: {
-    bower: 'update',
-    npm: 'install',
-    yarn: 'upgrade',
-  },
-};
+let { commands, lookups } = packageManagers;
 
 /**
  * The `translate` command is used to turn a consistent argument into

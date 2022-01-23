@@ -1,7 +1,7 @@
 'use strict';
 
 const td = require('testdouble');
-const Command = require('../../../tests/helpers/command-generator');
+const Command = require('../../../lib/utilities/command-generator');
 
 describe('command-generator', function () {
   let yarn, _invoke;
