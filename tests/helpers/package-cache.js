@@ -24,21 +24,7 @@ let DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'o
 
 // This lookup exists to make it possible to look the commands up based upon context.
 let originals;
-let { commands, lookups } = packageManagers;
-
-/**
- * The `translate` command is used to turn a consistent argument into
- * appropriate values based upon the context in which it is used. It's
- * a convenience helper to avoid littering lookups throughout the code.
- *
- * @private
- * @method translate
- * @param {String} type Either 'bower', 'npm', or 'yarn'.
- * @param {String} lookup Either 'manifest', 'path', or 'upgrade'.
- */
-function translate(type, lookup) {
-  return lookups[lookup][type];
-}
+let { commands, translate } = packageManagers;
 
 /**
  * The PackageCache wraps all package management functions. It also
