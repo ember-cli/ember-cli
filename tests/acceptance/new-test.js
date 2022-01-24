@@ -23,7 +23,7 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function () {
-  this.timeout(10000);
+  this.timeout(30000);
   let ORIGINAL_PROCESS_ENV_CI;
 
   beforeEach(async function () {

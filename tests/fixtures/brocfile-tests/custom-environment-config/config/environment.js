@@ -3,6 +3,6 @@ module.exports = function() {
     modulePrefix: 'some-cool-app',
     fileUsed: 'config/environment.js',
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
   };
 };
