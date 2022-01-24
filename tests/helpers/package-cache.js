@@ -25,6 +25,7 @@ let DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'o
 // This lookup exists to make it possible to look the commands up based upon context.
 let originals;
 let { commands, translate } = packageManagers;
+const { BOWER, YARN } = packageManagers;
 
 /**
  * The PackageCache wraps all package management functions. It also
@@ -272,7 +273,7 @@ module.exports = class PackageCache {
     fs.outputFileSync(outputFile, manifest);
 
     // Remove any existing yarn.lock file so that it doesn't try to incorrectly use it as a base.
-    if (type === 'yarn') {
+    if (type === YARN) {
       try {
         fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
       } catch (error) {
@@ -497,7 +498,7 @@ module.exports = class PackageCache {
   }
 
   _canUpgrade(label, type) {
-    return type === 'bower' || (type === 'yarn' && fs.existsSync(path.join(this.dirs[label], 'yarn.lock')));
+    return type === BOWER || (type === YARN && fs.existsSync(path.join(this.dirs[label], 'yarn.lock')));
   }
 
   // PUBLIC API BELOW
