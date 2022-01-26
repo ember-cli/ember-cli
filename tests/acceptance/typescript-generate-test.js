@@ -147,25 +147,71 @@ describe('Acceptance: ember generate', function () {
       }`
     );
 
+    await ember(['generate', 'foo', 'bar', '--typescript']);
+    const generated = file('app/foos/bar.ts');
+    expect(generated).to.contain('export default function bar(a: string, b: number): string {');
+  });
+
+  it('does not generate typescript when the `--typescript` flag is used but no typescript blueprint exists', async function () {
+    await initApp();
+
     await outputFile(
-      'blueprints/foo-test/index.js',
+      'blueprints/foo/index.js',
       `module.exports = {
         shouldTransformTypeScript: true
       }`
     );
 
     await outputFile(
-      'blueprints/foo-test/files/tests/foos/__name__-test.ts',
-      `export default function <%= camelizedModuleName %>(a: string, b: number): string {
+      'blueprints/foo/files/app/foos/__name__.js',
+      `export default function <%= camelizedModuleName %>(a, b) {
         return a + b;
       }`
     );
 
-    await ember(['generate', 'foo', 'bar', '--typescript']);
-    const generated = file('app/foos/bar.ts');
-    expect(generated).to.contain('export default function bar(a: string, b: number): string {');
+    const result = await ember(['generate', 'foo', 'bar', '--typescript']);
+    const output = result.outputStream.map((v) => v.toString());
+    const generated = file('app/foos/bar.js');
 
-    const testGenerated = file('tests/foos/bar-test.ts');
-    expect(testGenerated).to.contain('export default function bar(a: string, b: number): string {');
+    expect(generated).to.contain('export default function bar(a, b) {');
+    expect(output.join('\n')).to.contain(
+      "You passed the '--typescript' flag but there is no TypeScript blueprint available."
+    );
+  });
+
+  it('can generate classes with decorators and class fields', async function () {
+    await initApp();
+
+    await outputFile(
+      'blueprints/foo/index.js',
+      `module.exports = {
+        shouldTransformTypeScript: true
+      }`
+    );
+
+    await outputFile(
+      'blueprints/foo/files/app/foos/__name__.ts',
+      `export default class <%= classifiedModuleName %> {
+        bar = 'bar';
+
+        @action
+        foo() {
+          return a + b;
+        }
+      }\n`
+    );
+
+    const expected = `export default class Bar {
+  bar = 'bar';
+
+  @action
+  foo() {
+    return a + b;
+  }
+}\n`;
+
+    await ember(['generate', 'foo', 'bar']);
+    const generated = file('app/foos/bar.js');
+    expect(generated).to.equal(expected);
   });
 });
