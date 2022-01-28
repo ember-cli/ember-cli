@@ -10,7 +10,7 @@ module('Acceptance', function(hooks) {
     await visit('/');
 
     var element = this.element.querySelector('.basic-thing');
-    assert.equal(element.textContent.trim(), 'WOOT!!');
+    assert.strictEqual(element.textContent.trim(), 'WOOT!!');
     assert.ok(truthyHelper(), 'addon-test-support helper');
   });
 
@@ -18,6 +18,6 @@ module('Acceptance', function(hooks) {
     await visit('/');
 
     var element = this.element.querySelector('.second-thing');
-    assert.equal(element.textContent.trim(), 'SECOND!!');
+    assert.strictEqual(element.textContent.trim(), 'SECOND!!');
   });
 });

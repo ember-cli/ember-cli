@@ -23,7 +23,7 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function () {
-  this.timeout(10000);
+  this.timeout(30000);
   let ORIGINAL_PROCESS_ENV_CI;
 
   beforeEach(async function () {
@@ -43,7 +43,8 @@ describe('Acceptance: ember new', function () {
 
   function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo') {
     let blueprintPath = path.join(root, blueprintDir, 'files');
-    let expected = walkSync(blueprintPath);
+    // ignore .travis.yml
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] });
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
@@ -471,9 +472,11 @@ describe('Acceptance: ember new', function () {
       let namespace = 'app';
       let fixturePath = `${namespace}/defaults`;
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
+
+      expect(file('.travis.yml')).to.not.exist;
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = `${namespace}/embroider`;
@@ -499,12 +502,14 @@ describe('Acceptance: ember new', function () {
       [
         'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
-        '.travis.yml',
+        '.github/workflows/ci.yml',
         'README.md',
         'CONTRIBUTING.md',
       ].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
+
+      expect(file('.travis.yml')).to.not.exist;
 
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
@@ -522,9 +527,11 @@ describe('Acceptance: ember new', function () {
       let namespace = 'app';
       let fixturePath = `${namespace}/npm`;
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
+
+      expect(file('.travis.yml')).to.not.exist;
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-no-welcome';
@@ -541,9 +548,11 @@ describe('Acceptance: ember new', function () {
 
       let fixturePath = 'app/yarn';
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
+
+      expect(file('.travis.yml')).to.not.exist;
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-yarn';
@@ -561,14 +570,59 @@ describe('Acceptance: ember new', function () {
       [
         'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
-        '.travis.yml',
+        '.github/workflows/ci.yml',
         'README.md',
         'CONTRIBUTING.md',
       ].forEach((filePath) => {
-        expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
+      expect(file('.travis.yml')).to.not.exist;
+
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+    });
+
+    it('configurable CI option', async function () {
+      await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-bower', '--skip-git']);
+
+      let fixturePath = 'app/npm-travis';
+
+      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
+
+      expect(file('.github/workflows/ci.yml')).to.not.exist;
+
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/npm-travis-embroider';
+      }
+
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
+    });
+
+    it('configurable CI option with yarn', async function () {
+      await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-bower', '--skip-git', '--yarn']);
+
+      let fixturePath = 'app/yarn-travis';
+
+      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
+      expect(file('.github/workflows/ci.yml')).to.not.exist;
+
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/yarn-travis-embroider';
+      }
+
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
+    });
+
+    it('addon configurable CI option', async function () {
+      await ember(['addon', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-bower', '--skip-git']);
+
+      let namespace = 'addon';
+      let fixturePath = `${namespace}/defaults-travis`;
+
+      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
+      expect(file('.github/workflows/ci.yml')).to.not.exist;
+
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
     });
   });
@@ -584,3 +638,13 @@ describe('Acceptance: ember new', function () {
     });
   });
 });
+
+function checkFile(inputPath, outputPath) {
+  if (process.env.WRITE_FIXTURES) {
+    let content = fs.readFileSync(inputPath, { encoding: 'utf-8' });
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+    fs.writeFileSync(outputPath, content, { encoding: 'utf-8' });
+  }
+
+  expect(file(inputPath)).to.equal(file(outputPath));
+}

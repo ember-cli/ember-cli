@@ -105,6 +105,9 @@ describe('Acceptance: addon-smoke-test', function () {
     let packageJsonPath = path.join(addonRoot, 'package.json');
     let packageJson = fs.readJsonSync(packageJsonPath);
 
+    // give the addon a custom entry point
+    packageJson['ember-addon'].main = 'src/main.js';
+
     expect(packageJson.devDependencies['ember-source']).to.not.be.empty;
     expect(packageJson.devDependencies['ember-cli']).to.not.be.empty;
 
@@ -117,7 +120,7 @@ describe('Acceptance: addon-smoke-test', function () {
 
     let indexPath = path.join(addonRoot, 'dist', 'assets', 'vendor.js');
     contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-    expect(contents).to.contain('"nested-addon-main/components/simple-component"');
+    expect(contents).to.contain('"some-cool-addon/components/simple-component"');
   });
 
   it('npm pack does not include unnecessary files', async function () {

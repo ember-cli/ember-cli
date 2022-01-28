@@ -16,69 +16,58 @@ describe('NpmTask', function () {
       task.npm = td.function();
     });
 
-    it('resolves when a compatible version is found', function () {
+    it('resolves when a compatible version is found', async function () {
       td.when(task.npm(['--version'])).thenResolve({ stdout: '5.2.1' });
 
-      return expect(task.checkNpmVersion()).to.be.fulfilled.then(() => {
-        expect(ui.output).to.be.empty;
-        expect(ui.errors).to.be.empty;
-      });
+      await task.checkNpmVersion();
+      expect(ui.output).to.be.empty;
+      expect(ui.errors).to.be.empty;
     });
 
-    it('resolves with warning when a newer version is found', function () {
+    it('resolves with warning when a newer version is found', async function () {
       td.when(task.npm(['--version'])).thenResolve({ stdout: '7.0.0' });
 
-      return expect(task.checkNpmVersion()).to.be.fulfilled.then(() => {
-        expect(ui.output).to.contain('WARNING');
-        expect(ui.errors).to.be.empty;
-      });
+      await task.checkNpmVersion();
+      expect(ui.output).to.contain('WARNING');
+      expect(ui.errors).to.be.empty;
     });
 
-    it('rejects when an older version is found', function () {
+    it('rejects when an older version is found', async function () {
       td.when(task.npm(['--version'])).thenResolve({ stdout: '2.9.9' });
 
-      return expect(task.checkNpmVersion())
-        .to.be.rejectedWith(SilentError, /npm install -g npm/)
-        .then(() => {
-          expect(ui.output).to.be.empty;
-          expect(ui.errors).to.be.empty;
-        });
+      await expect(task.checkNpmVersion()).to.be.rejectedWith(SilentError, /npm install -g npm/);
+      expect(ui.output).to.be.empty;
+      expect(ui.errors).to.be.empty;
     });
 
-    it('rejects when npm is not found', function () {
+    it('rejects when npm is not found', async function () {
       let error = new Error('npm not found');
       error.code = 'ENOENT';
 
       td.when(task.npm(['--version'])).thenReject(error);
 
-      return expect(task.checkNpmVersion())
-        .to.be.rejectedWith(SilentError, /instructions at https:\/\/github.com\/npm\/npm/)
-        .then(() => {
-          expect(ui.output).to.be.empty;
-          expect(ui.errors).to.be.empty;
-        });
+      await expect(task.checkNpmVersion()).to.be.rejectedWith(
+        SilentError,
+        /instructions at https:\/\/github.com\/npm\/npm/
+      );
+      expect(ui.output).to.be.empty;
+      expect(ui.errors).to.be.empty;
     });
 
-    it('rejects when npm returns an unreadable version', function () {
+    it('rejects when npm returns an unreadable version', async function () {
       td.when(task.npm(['--version'])).thenResolve({ stdout: '5' });
 
-      return expect(task.checkNpmVersion())
-        .to.be.rejectedWith(TypeError, /Invalid Version/)
-        .then(() => {
-          expect(ui.output).to.be.empty;
-          expect(ui.errors).to.be.empty;
-        });
+      await expect(task.checkNpmVersion()).to.be.rejectedWith(TypeError, /Invalid Version/);
+      expect(ui.output).to.be.empty;
+      expect(ui.errors).to.be.empty;
     });
 
-    it('rejects when an unknown error is thrown', function () {
+    it('rejects when an unknown error is thrown', async function () {
       td.when(task.npm(['--version'])).thenReject(new Error('foobar?'));
 
-      return expect(task.checkNpmVersion())
-        .to.be.rejectedWith('foobar?')
-        .then(() => {
-          expect(ui.output).to.be.empty;
-          expect(ui.errors).to.be.empty;
-        });
+      await expect(task.checkNpmVersion()).to.be.rejectedWith('foobar?');
+      expect(ui.output).to.be.empty;
+      expect(ui.errors).to.be.empty;
     });
   });
 
@@ -91,40 +80,38 @@ describe('NpmTask', function () {
       task.yarn = td.function();
     });
 
-    it('resolves when yarn <2.0.0 is found', function () {
+    it('resolves when yarn <2.0.0 is found', async function () {
       td.when(task.yarn(['--version'])).thenResolve({ stdout: '1.22.0' });
 
-      return expect(task.checkYarn()).to.be.fulfilled.then(() => {
-        expect(ui.output).to.be.empty;
-        expect(ui.errors).to.be.empty;
-      });
+      await task.checkYarn();
+      expect(ui.output).to.be.empty;
+      expect(ui.errors).to.be.empty;
     });
 
-    it('resolves with warning when yarn >=2.0.0 is found', function () {
+    it('resolves with warning when yarn >=2.0.0 is found', async function () {
       td.when(task.yarn(['--version'])).thenResolve({ stdout: '2.0.0' });
 
-      return expect(task.checkYarn()).to.be.fulfilled.then(() => {
-        expect(ui.output).to.contain('WARNING');
-        expect(ui.errors).to.be.empty;
-      });
+      await task.checkYarn();
+      expect(ui.output).to.contain('WARNING');
+      expect(ui.errors).to.be.empty;
     });
 
-    it('rejects when yarn is not found', function () {
+    it('rejects when yarn is not found', async function () {
       let error = new Error('yarn not found');
       error.code = 'ENOENT';
 
       td.when(task.yarn(['--version'])).thenReject(error);
 
-      return expect(task.checkYarn()).to.be.rejectedWith(
+      await expect(task.checkYarn()).to.be.rejectedWith(
         SilentError,
         /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
       );
     });
 
-    it('rejects when an unknown error is thrown', function () {
+    it('rejects when an unknown error is thrown', async function () {
       td.when(task.yarn(['--version'])).thenReject(new Error('foobar?'));
 
-      return expect(task.checkYarn()).to.be.rejectedWith('foobar?');
+      await expect(task.checkYarn()).to.be.rejectedWith('foobar?');
     });
   });
 
@@ -134,62 +121,65 @@ describe('NpmTask', function () {
     beforeEach(function () {
       task = new NpmTask();
       task.hasYarnLock = td.function();
+      task.hasPNPMLock = td.function();
       task.checkYarn = td.function();
       task.checkNpmVersion = td.function();
     });
 
-    it('resolves when no yarn.lock file was found and npm is compatible', function () {
+    it('resolves when no yarn.lock file was found and npm is compatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(false);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkNpmVersion()).thenResolve();
 
-      return expect(task.findPackageManager()).to.be.fulfilled;
+      await task.findPackageManager();
     });
 
-    it('resolves when no yarn.lock file was found and npm is incompatible', function () {
+    it('resolves when no yarn.lock file was found and npm is incompatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(false);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkNpmVersion()).thenReject();
 
-      return expect(task.findPackageManager()).to.be.rejected;
+      await expect(task.findPackageManager()).to.be.rejected;
     });
 
-    it('resolves when yarn.lock file and yarn were found', function () {
+    it('resolves when yarn.lock file and yarn were found', async function () {
       td.when(task.hasYarnLock()).thenReturn(true);
-      td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
+      td.when(task.hasPNPMLock()).thenReturn(false);
+      td.when(task.checkYarn()).thenResolve({ name: 'yarn', version: '1.22.0' });
 
       expect(task.useYarn).to.be.undefined;
-      return expect(task.findPackageManager()).to.eventually.have.property('yarnVersion', '1.22.0');
+      let packageManager = await task.findPackageManager();
+      expect(packageManager).to.have.property('name', 'yarn');
+      expect(packageManager).to.have.property('version', '1.22.0');
     });
 
-    it('resolves when yarn.lock file was found, yarn was not found and npm is compatible', function () {
+    it('resolves when yarn.lock file was found, yarn was not found and npm is compatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(true);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkYarn()).thenReject();
       td.when(task.checkNpmVersion()).thenResolve();
 
       expect(task.useYarn).to.be.undefined;
-      return expect(task.findPackageManager()).to.be.fulfilled.then(() => {
-        expect(task.useYarn).to.not.be.true;
-      });
+      await task.findPackageManager();
+      expect(task.useYarn).to.not.be.true;
     });
 
-    it('rejects when yarn.lock file was found, yarn was not found and npm is incompatible', function () {
+    it('rejects when yarn.lock file was found, yarn was not found and npm is incompatible', async function () {
       td.when(task.hasYarnLock()).thenReturn(true);
+      td.when(task.hasPNPMLock()).thenReturn(false);
       td.when(task.checkYarn()).thenReject();
       td.when(task.checkNpmVersion()).thenReject();
 
-      return expect(task.findPackageManager()).to.be.rejected;
+      await expect(task.findPackageManager()).to.be.rejected;
     });
 
-    it('resolves when yarn is requested and found', function () {
-      task.useYarn = true;
+    it('resolves when yarn is requested and found', async function () {
+      td.when(task.checkYarn()).thenResolve({ name: 'yarn', version: '1.22.0' });
 
-      td.when(task.checkYarn()).thenResolve({ yarnVersion: '1.22.0' });
-
-      return expect(task.findPackageManager()).to.be.fulfilled;
+      await task.findPackageManager('yarn');
     });
 
-    it('rejects with SilentError when yarn is requested but not found', function () {
-      task.useYarn = true;
-
+    it('rejects with SilentError when yarn is requested but not found', async function () {
       let error = new SilentError(
         'Ember CLI is now using yarn, but was not able to find it.\n' +
           'Please install yarn using the instructions at https://classic.yarnpkg.com/en/docs/install'
@@ -197,34 +187,28 @@ describe('NpmTask', function () {
 
       td.when(task.checkYarn()).thenReject(error);
 
-      return expect(task.findPackageManager()).to.be.rejectedWith(
+      await expect(task.findPackageManager('yarn')).to.be.rejectedWith(
         SilentError,
         /instructions at https:\/\/classic.yarnpkg.com\/en\/docs\/install/
       );
     });
 
-    it('rejects when yarn is requested and yarn check errors', function () {
-      task.useYarn = true;
-
+    it('rejects when yarn is requested and yarn check errors', async function () {
       td.when(task.checkYarn()).thenReject(new Error('foobar'));
 
-      return expect(task.findPackageManager()).to.be.rejectedWith('foobar');
+      await expect(task.findPackageManager('yarn')).to.be.rejectedWith('foobar');
     });
 
-    it('resolves when npm is requested and compatible', function () {
-      task.useYarn = false;
-
+    it('resolves when npm is requested and compatible', async function () {
       td.when(task.checkNpmVersion()).thenResolve();
 
-      return expect(task.findPackageManager()).to.be.fulfilled;
+      await task.findPackageManager('npm');
     });
 
-    it('rejects when npm is requested but incompatible', function () {
-      task.useYarn = false;
-
+    it('rejects when npm is requested but incompatible', async function () {
       td.when(task.checkNpmVersion()).thenReject();
 
-      return expect(task.findPackageManager()).to.be.rejected;
+      await expect(task.findPackageManager('npm')).to.be.rejected;
     });
   });
 
@@ -233,7 +217,7 @@ describe('NpmTask', function () {
 
     beforeEach(function () {
       task = new NpmTask();
-      task.yarnVersion = '1.22.0';
+      task.packageManager = { name: 'yarn', version: '1.22.0' };
     });
 
     it('correctly adds "--non-interactive" for yarn versions <2.0.0', function () {
@@ -242,7 +226,7 @@ describe('NpmTask', function () {
     });
 
     it('skips "--non-interactive" for yarn versions >=2.0.0', function () {
-      task.yarnVersion = '2.0.1';
+      task.packageManager.version = '2.0.1';
       let args = task.toYarnArgs('install', {});
       expect(args).to.deep.equal(['install']);
     });
@@ -277,6 +261,40 @@ describe('NpmTask', function () {
 
     it('throws when "yarn install" is called with packages', function () {
       expect(() => task.toYarnArgs('install', { packages: ['foo'] })).to.throw(Error, /install foo/);
+    });
+  });
+
+  describe('toPNPMArgs', function () {
+    let task;
+
+    beforeEach(function () {
+      task = new NpmTask();
+    });
+
+    it('converts "npm install --save foobar" to "pnpm add foobar"', function () {
+      let args = task.toPNPMArgs('install', { save: true, packages: ['foobar'] });
+
+      expect(args).to.deep.equal(['add', 'foobar']);
+    });
+
+    it('converts "npm install --save-dev --save-exact foo" to "pnpm add --save-dev --save-exact foo"', function () {
+      let args = task.toPNPMArgs('install', {
+        'save-dev': true,
+        'save-exact': true,
+        packages: ['foo'],
+      });
+
+      expect(args).to.deep.equal(['add', '--save-dev', '--save-exact', 'foo']);
+    });
+
+    it('converts "npm uninstall bar" to "pnpm remove bar"', function () {
+      let args = task.toPNPMArgs('uninstall', { packages: ['bar'] });
+
+      expect(args).to.deep.equal(['remove', 'bar']);
+    });
+
+    it('throws when "pnpm install" is called with packages', function () {
+      expect(() => task.toPNPMArgs('install', { packages: ['foo'] })).to.throw(Error, /install foo/);
     });
   });
 });

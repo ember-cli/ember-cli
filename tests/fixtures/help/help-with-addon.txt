@@ -20,6 +20,7 @@ ember addon [33m<addon-name>[39m [36m<options...>[39m
   [36m--directory[39m [36m(String)[39m
     [90maliases: -dir <value>[39m
   [36m--lang[39m [36m(String)[39m Sets the base human language of the addon's own test application via index.html
+  [36m--ci-provider[39m [36m(travis, github)[39m [36m(Default: github)[39m Installs the default CI blueprint. Either Travis or Github Actions is supported.
 
 ember asset-sizes [36m<options...>[39m
   Shows the sizes of your asset files.
@@ -100,6 +101,7 @@ ember init [33m<glob-pattern>[39m [36m<options...>[39m
     [90maliases: -n <value>[39m
   [36m--lang[39m [36m(String)[39m Sets the base human language of the application via index.html
   [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Enables the build system to use Embroider
+  [36m--ci-provider[39m [36m(travis, github)[39m [36m(Default: github)[39m Installs the default CI blueprint. Either Travis or Github Actions is supported.
 
 ember install [33m<addon-name>[39m [36m<options...>[39m
   Installs an ember-cli addon from npm.
@@ -110,7 +112,8 @@ ember install [33m<addon-name>[39m [36m<options...>[39m
     [90maliases: -D[39m
   [36m--save-exact[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -E, --exact[39m
-  [36m--yarn[39m [36m(Boolean)[39m Use --yarn to enforce yarn usage, or --no-yarn to enforce npm
+  [36m--package-manager[39m [36m(npm, pnpm, yarn)[39m Use this option to force the usage of a specific package manager. By default, ember-cli will try to detect the right package manager from any lockfiles that exist in your project.
+    [90maliases: -yarn (--package-manager=yarn), -pnpm (--package-manager=pnpm)[39m
 
 ember new [33m<app-name>[39m [36m<options...>[39m
   Creates a new directory and runs [32member init[39m in it.
@@ -132,6 +135,7 @@ ember new [33m<app-name>[39m [36m<options...>[39m
     [90maliases: -dir <value>[39m
   [36m--lang[39m [36m(String)[39m Sets the base human language of the application via index.html
   [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Enables the build system to use Embroider
+  [36m--ci-provider[39m [36m(travis, github)[39m [36m(Default: github)[39m Installs the default CI blueprint. Either Travis or Github Actions is supported.
 
 ember serve [36m<options...>[39m
   Builds and serves your app, rebuilding on file changes.

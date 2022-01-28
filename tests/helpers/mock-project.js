@@ -41,7 +41,7 @@ class MockProject extends Project {
     return (
       this._config || {
         baseURL: '/',
-        locationType: 'auto',
+        locationType: 'history',
       }
     );
   }

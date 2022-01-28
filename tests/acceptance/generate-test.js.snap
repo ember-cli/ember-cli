@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Acceptance: ember generate blueprint foo/bar 1`] = `
+"'use strict';
+
+module.exports = {
+  description: ''
+
+  // locals(options) {
+  //   // Return custom template variables here.
+  //   return {
+  //     foo: options.entity.options.foo
+  //   };
+  // }
+
+  // afterInstall(options) {
+  //   // Perform extra work here.
+  // }
+};
+"
+`;
+
+exports[`Acceptance: ember generate http-mock foo 1`] = `
+"'use strict';
+
+module.exports = function(app) {
+  const express = require('express');
+  let fooRouter = express.Router();
+
+  fooRouter.get('/', function(req, res) {
+    res.send({
+      'foo': []
+    });
+  });
+
+  fooRouter.post('/', function(req, res) {
+    res.status(201).end();
+  });
+
+  fooRouter.get('/:id', function(req, res) {
+    res.send({
+      'foo': {
+        id: req.params.id
+      }
+    });
+  });
+
+  fooRouter.put('/:id', function(req, res) {
+    res.send({
+      'foo': {
+        id: req.params.id
+      }
+    });
+  });
+
+  fooRouter.delete('/:id', function(req, res) {
+    res.status(204).end();
+  });
+
+  // The POST and PUT call will not contain a request body
+  // because the body-parser is not included by default.
+  // To use req.body, run:
+
+  //    npm install --save-dev body-parser
+
+  // After installing, you need to \`use\` the body-parser for
+  // this mock uncommenting the following line:
+  //
+  //app.use('/api/foo', require('body-parser').json());
+  app.use('/api/foo', fooRouter);
+};
+"
+`;
+
+exports[`Acceptance: ember generate http-mock foo-bar 1`] = `
+"'use strict';
+
+module.exports = function(app) {
+  const express = require('express');
+  let fooBarRouter = express.Router();
+
+  fooBarRouter.get('/', function(req, res) {
+    res.send({
+      'foo-bar': []
+    });
+  });
+
+  fooBarRouter.post('/', function(req, res) {
+    res.status(201).end();
+  });
+
+  fooBarRouter.get('/:id', function(req, res) {
+    res.send({
+      'foo-bar': {
+        id: req.params.id
+      }
+    });
+  });
+
+  fooBarRouter.put('/:id', function(req, res) {
+    res.send({
+      'foo-bar': {
+        id: req.params.id
+      }
+    });
+  });
+
+  fooBarRouter.delete('/:id', function(req, res) {
+    res.status(204).end();
+  });
+
+  // The POST and PUT call will not contain a request body
+  // because the body-parser is not included by default.
+  // To use req.body, run:
+
+  //    npm install --save-dev body-parser
+
+  // After installing, you need to \`use\` the body-parser for
+  // this mock uncommenting the following line:
+  //
+  //app.use('/api/foo-bar', require('body-parser').json());
+  app.use('/api/foo-bar', fooBarRouter);
+};
+"
+`;
+
+exports[`Acceptance: ember generate http-proxy foo 1`] = `
+"'use strict';
+
+const proxyPath = '/foo';
+
+module.exports = function(app) {
+  // For options, see:
+  // https://github.com/nodejitsu/node-http-proxy
+  let proxy = require('http-proxy').createProxyServer({});
+
+  proxy.on('error', function(err, req) {
+    console.error(err, req.url);
+  });
+
+  app.use(proxyPath, function(req, res, next){
+    // include root path in proxied request
+    req.url = proxyPath + '/' + req.url;
+    proxy.web(req, res, { target: 'http://localhost:5000' });
+  });
+};
+"
+`;

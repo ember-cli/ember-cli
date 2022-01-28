@@ -5,7 +5,8 @@ const walkSync = require('walk-sync');
 const glob = require('glob');
 const Blueprint = require('../../lib/models/blueprint');
 const path = require('path');
-const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+const fs = require('fs');
+const os = require('os');
 let root = process.cwd();
 const util = require('util');
 const minimatch = require('minimatch');
@@ -20,29 +21,39 @@ const lintFix = require('../../lib/utilities/lint-fix');
 const chai = require('../chai');
 let expect = chai.expect;
 let dir = chai.dir;
+let file = chai.file;
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
-
-let tmpPath = './tmp/init-test';
 
 describe('Acceptance: ember init', function () {
   this.timeout(20000);
 
+  async function makeTempDir() {
+    let baseTmpDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'init-test'));
+    let projectDir = path.join(baseTmpDir, 'hello-world');
+
+    await fs.promises.mkdir(projectDir);
+
+    return projectDir;
+  }
+
+  let tmpPath;
   beforeEach(async function () {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
 
-    await tmp.setup(tmpPath);
+    tmpPath = await makeTempDir();
     process.chdir(tmpPath);
   });
 
   afterEach(function () {
     td.reset();
-    return tmp.teardown(tmpPath);
+    process.chdir(root);
   });
 
   function confirmBlueprinted() {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    let expected = walkSync(blueprintPath).sort();
+    // ignore .travis.yml
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] }).sort();
     let actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
@@ -178,5 +189,14 @@ describe('Acceptance: ember init', function () {
     td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
 
     confirmBlueprinted();
+  });
+
+  it('configurable CI option', async function () {
+    await ember(['init', '--ci-provider=travis', '--skip-npm', '--skip-bower']);
+
+    let fixturePath = 'app/npm-travis';
+
+    expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
+    expect(file('.github/workflows/ci.yml')).to.not.exist;
   });
 });

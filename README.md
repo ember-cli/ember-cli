@@ -63,9 +63,9 @@ Please see the [contributing guidelines](https://github.com/ember-cli/ember-cli/
 Community
 ------------------------------------------------------------------------------
 
-- Discord: [Get your invite](https://discordapp.com/invite/zT3asNS)
+- Discord: [Get your invite](https://discord.gg/emberjs)
 - Issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
-- Documentation: [ember-cli.com](https://cli.emberjs.com/release/)
+- Documentation: [cli.emberjs.com](https://cli.emberjs.com/release/)
 
 
 
