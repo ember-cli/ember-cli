@@ -275,6 +275,14 @@ module.exports = {
           description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
           key: 'in',
           required: false
+        },
+        {
+          name: 'typescript',
+          default: false,
+          aliases: ['ts'],
+          description: 'Generates a version of the blueprint written in TypeScript (if available).',
+          key: 'typescript',
+          required: false
         }
       ],
       anonymousOptions: ['<blueprint>'],
