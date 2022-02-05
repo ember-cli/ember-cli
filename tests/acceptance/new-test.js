@@ -17,7 +17,7 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;
-const forEach = require('ember-cli-lodash-subset').forEach;
+const { forEach } = require('ember-cli-lodash-subset');
 const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
