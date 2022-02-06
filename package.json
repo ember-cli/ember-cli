@@ -126,7 +126,7 @@
     "uuid": "^8.3.2",
     "walk-sync": "^2.2.0",
     "watch-detector": "^1.0.1",
-    "workerpool": "^6.1.4",
+    "workerpool": "^6.2.0",
     "yam": "^1.0.0"
   },
   "devDependencies": {
@@ -153,7 +153,7 @@
     "nock": "^13.2.2",
     "nyc": "^15.1.0",
     "prettier": "2.5.1",
-    "release-it": "^14.11.8",
+    "release-it": "^14.12.4",
     "rimraf": "^3.0.2",
     "strip-ansi": "^6.0.0",
     "supertest": "^6.1.6",
