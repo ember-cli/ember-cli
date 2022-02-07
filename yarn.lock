@@ -6740,10 +6740,10 @@ remove-trailing-separator@^1.0.1:
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
   integrity sha1-wkvOKig62tW8P1jg1IJJuSN52O8=
 
-remove-types@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/remove-types/-/remove-types-0.0.1.tgz#0092e8ff0c511d7556444b2df4e9b2d4d7ccc5d1"
-  integrity sha512-kAdb9wd5RGP+y251ysy00cIKOQmzk5XBnFTkYsgPzgkZvjmqZojHzkvzbTKZa1s2RAQeCh0VNlfEPSD0Y4J8xg==
+remove-types@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/remove-types/-/remove-types-1.0.0.tgz#491119e8fce23f2f961fe2254e5a119a017d9a3d"
+  integrity sha512-G7Hk1Q+UJ5DvlNAoJZObxANkBZGiGdp589rVcTW/tYqJWJ5rwfraSnKSQaETN8Epaytw8J40nS/zC7bcHGv36w==
   dependencies:
     "@babel/core" "^7.16.10"
     "@babel/plugin-syntax-decorators" "^7.16.7"
