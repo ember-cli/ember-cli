@@ -210,7 +210,6 @@ describe('Acceptance: ember destroy with typescript blueprints', function () {
     await generate(commandArgs);
     assertFilesExist(files);
 
-    // console.log('CALLING DESTROY');
     await destroy([...commandArgs, '--typescript']);
     assertFilesExist(files);
   });
