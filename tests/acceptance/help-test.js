@@ -50,10 +50,7 @@ describe('Acceptance: ember help', function () {
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help.txt');
 
-    // makes updating this fixture much much easier...
-    if (process.env.WRITE_HELP_FIXTURES) {
-      fs.writeFileSync(fixturePath, output, { encoding: 'utf-8' });
-    }
+    maybeUpdateSnapshot(fixturePath, output);
 
     let expected = loadTextFixture(fixturePath);
     expect(output).to.equal(expected);
@@ -70,10 +67,7 @@ describe('Acceptance: ember help', function () {
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help-with-addon.txt');
 
-    // makes updating this fixture much much easier...
-    if (process.env.WRITE_HELP_FIXTURES) {
-      fs.writeFileSync(fixturePath, output, { encoding: 'utf-8' });
-    }
+    maybeUpdateSnapshot(fixturePath, output);
 
     let expected = loadTextFixture(fixturePath);
 
@@ -90,6 +84,9 @@ describe('Acceptance: ember help', function () {
     let output = options.ui.output;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'foo.txt');
+
+    maybeUpdateSnapshot(fixturePath, output);
+
     let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
@@ -101,6 +98,9 @@ describe('Acceptance: ember help', function () {
     let output = options.ui.output;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate.txt');
+
+    maybeUpdateSnapshot(fixturePath, output);
+
     let expected = loadTextFixture(fixturePath);
 
     expect(output).to.contain(expected);
@@ -121,6 +121,9 @@ describe('Acceptance: ember help', function () {
     let output = options.ui.output;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-blueprint.txt');
+
+    maybeUpdateSnapshot(fixturePath, output);
+
     let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
@@ -136,6 +139,9 @@ describe('Acceptance: ember help', function () {
     let output = options.ui.output;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-with-addon.txt');
+
+    maybeUpdateSnapshot(fixturePath, output);
+
     let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
@@ -185,13 +191,22 @@ describe('Acceptance: ember help', function () {
 
 function loadTextFixture(path) {
   let content = fs.readFileSync(path, { encoding: 'utf8' });
-  let decoded = decodeUnicode(content);
+  let decoded = unescapeString(content);
   let processed = processHelpString(decoded);
-  return processed.replace(/\n/g, EOL);
+  return processed.replace(/\r?\n/g, EOL);
 }
 
-function decodeUnicode(str) {
-  return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
-    return String.fromCharCode(parseInt(grp, 16));
-  });
+// dear developer, don't try to update this logic to use jest snapshots, it's rabbit hole
+function maybeUpdateSnapshot(fixturePath, output) {
+  if (process.env.WRITE_HELP_FIXTURES) {
+    fs.writeFileSync(fixturePath, escapeString(output), { encoding: 'utf-8' });
+  }
+}
+
+function escapeString(word) {
+  return word.split('\x1B').join('[x1B]');
+}
+
+function unescapeString(word) {
+  return word.split('[x1B]').join('\x1B');
 }

@@ -1,23 +1,44 @@
+Requested ember-cli commands:
+
+ember generate [x1B][33m<blueprint>[x1B][39m [x1B][36m<options...>[x1B][39m
+  Generates new code from blueprints.
+  [x1B][90maliases: g[x1B][39m
+  [x1B][36m--dry-run[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -d[x1B][39m
+  [x1B][36m--verbose[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -v[x1B][39m
+  [x1B][36m--pod[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -p, -pods[x1B][39m
+  [x1B][36m--classic[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -c[x1B][39m
+  [x1B][36m--dummy[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: false)[x1B][39m
+    [x1B][90maliases: -dum, -id[x1B][39m
+  [x1B][36m--in-repo-addon[x1B][39m [x1B][36m(String)[x1B][39m [x1B][36m(Default: null)[x1B][39m
+    [x1B][90maliases: --in-repo <value>, -ir <value>[x1B][39m
+  [x1B][36m--lint-fix[x1B][39m [x1B][36m(Boolean)[x1B][39m [x1B][36m(Default: true)[x1B][39m
+  [x1B][36m--in[x1B][39m [x1B][36m(String)[x1B][39m [x1B][36m(Default: null)[x1B][39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
+
 
   Available blueprints:
     ember-cli:
-      addon \u001b[33m<name>\u001b[39m
-        \u001b[90mThe default blueprint for ember-cli addons.\u001b[39m
-      addon-import \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates an import wrapper.\u001b[39m
-      app \u001b[33m<name>\u001b[39m
-        \u001b[90mThe default blueprint for ember-cli projects.\u001b[39m
-      blueprint \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates a blueprint and definition.\u001b[39m
-      http-mock \u001b[33m<endpoint-path>\u001b[39m
-        \u001b[90mGenerates a mock api endpoint in /api prefix.\u001b[39m
-      http-proxy \u001b[33m<local-path> <remote-url>\u001b[39m
-        \u001b[90mGenerates a relative proxy to another server.\u001b[39m
-      in-repo-addon \u001b[33m<name>\u001b[39m
-        \u001b[90mThe blueprint for addon in repo ember-cli addons.\u001b[39m
-      lib \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates a lib directory for in-repo addons.\u001b[39m
-      server \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates a server directory for mocks and proxies.\u001b[39m
-      vendor-shim \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates an ES6 module shim for global libraries.\u001b[39m
+      addon [x1B][33m<name>[x1B][39m
+        [x1B][90mThe default blueprint for ember-cli addons.[x1B][39m
+      addon-import [x1B][33m<name>[x1B][39m
+        [x1B][90mGenerates an import wrapper.[x1B][39m
+      app [x1B][33m<name>[x1B][39m
+        [x1B][90mThe default blueprint for ember-cli projects.[x1B][39m
+      blueprint [x1B][33m<name>[x1B][39m
+        [x1B][90mGenerates a blueprint and definition.[x1B][39m
+      http-mock [x1B][33m<endpoint-path>[x1B][39m
+        [x1B][90mGenerates a mock api endpoint in /api prefix.[x1B][39m
+      http-proxy [x1B][33m<local-path> <remote-url>[x1B][39m
+        [x1B][90mGenerates a relative proxy to another server.[x1B][39m
+      in-repo-addon [x1B][33m<name>[x1B][39m
+        [x1B][90mThe blueprint for addon in repo ember-cli addons.[x1B][39m
+      lib [x1B][33m<name>[x1B][39m
+        [x1B][90mGenerates a lib directory for in-repo addons.[x1B][39m
+      server [x1B][33m<name>[x1B][39m
+        [x1B][90mGenerates a server directory for mocks and proxies.[x1B][39m
+      vendor-shim [x1B][33m<name>[x1B][39m
+        [x1B][90mGenerates an ES6 module shim for global libraries.[x1B][39m
+
