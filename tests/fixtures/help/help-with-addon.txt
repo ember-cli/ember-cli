@@ -56,6 +56,8 @@ ember destroy [33m<blueprint>[39m [36m<options...>[39m
   [36m--in-repo-addon[39m [36m(String)[39m [36m(Default: null)[39m
     [90maliases: --in-repo <value>, -ir <value>[39m
   [36m--in[39m [36m(String)[39m [36m(Default: null)[39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
+  [36m--typescript[39m [36m(Boolean)[39m Specifically destroys the TypeScript output of the `generate` command. Run `--no-typescript` to instead target the JavaScript output.
+    [90maliases: -ts[39m
 
 ember generate [33m<blueprint>[39m [36m<options...>[39m
   Generates new code from blueprints.
@@ -74,6 +76,8 @@ ember generate [33m<blueprint>[39m [36m<options...>[39m
     [90maliases: --in-repo <value>, -ir <value>[39m
   [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m
   [36m--in[39m [36m(String)[39m [36m(Default: null)[39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
+  [36m--typescript[39m [36m(Boolean)[39m Generates a version of the blueprint written in TypeScript (if available).
+    [90maliases: -ts[39m
 
 ember help [33m<command-name (Default: all)>[39m [36m<options...>[39m
   Outputs the usage instructions for all commands or the provided command
