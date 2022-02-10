@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "10"
+  - "12"
 
 dist: xenial
 
@@ -9,8 +9,7 @@ addons:
   chrome: stable
 
 cache:
-  directories:
-    - $HOME/.npm
+  yarn: true
 
 env:
   global:
@@ -21,5 +20,9 @@ branches:
   only:
     - master
 
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
 script:
-  - npm test
+  - yarn test

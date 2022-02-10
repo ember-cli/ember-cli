@@ -75,7 +75,15 @@ module.exports = {
           key: 'lang',
           description: "Sets the base human language of the addon's own test application via index.html",
           required: false
-        }
+        },
+        {
+          name: 'ci-provider',
+          key: 'ciProvider',
+          type: ['travis', 'github'],
+          default: 'github',
+          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false
+        },
       ],
       anonymousOptions: ['<addon-name>']
     },
@@ -203,6 +211,13 @@ module.exports = {
           description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
           key: 'in',
           required: false
+        },
+        {
+          name: 'typescript',
+          aliases: ['ts'],
+          description: 'Specifically destroys the TypeScript output of the `generate` command. Run `--no-typescript` to instead target the JavaScript output.',
+          key: 'typescript',
+          required: false
         }
       ],
       anonymousOptions: ['<blueprint>']
@@ -266,6 +281,13 @@ module.exports = {
           default: null,
           description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
           key: 'in',
+          required: false
+        },
+        {
+          name: 'typescript',
+          aliases: ['ts'],
+          description: 'Generates a version of the blueprint written in TypeScript (if available).',
+          key: 'typescript',
           required: false
         }
       ],
@@ -446,7 +468,15 @@ module.exports = {
           name: 'embroider',
           description: 'Enables the build system to use Embroider',
           required: false
-        }
+        },
+        {
+          name: 'ci-provider',
+          key: 'ciProvider',
+          type: ['travis', 'github'],
+          default: 'github',
+          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false,
+        },
       ],
       anonymousOptions: ['<glob-pattern>']
     },
@@ -478,11 +508,14 @@ module.exports = {
           required: false
         },
         {
-          name: 'yarn',
-          key: 'yarn',
+          aliases: [{ yarn: 'yarn' }, { pnpm: 'pnpm' }],
+          description:
+            'Use this option to force the usage of a specific package manager. By default, ember-cli will try to detect the right package manager from any lockfiles that exist in your project.',
+          key: 'packageManager',
+          name: 'package-manager',
           required: false,
-          description: 'Use --yarn to enforce yarn usage, or --no-yarn to enforce npm'
-        }
+          type: ['npm', 'pnpm', 'yarn'],
+        },
       ],
       anonymousOptions: ['<addon-name>']
     },
@@ -564,7 +597,15 @@ module.exports = {
           name: 'embroider',
           description: 'Enables the build system to use Embroider',
           required: false
-        }
+        },
+        {
+          name: 'ci-provider',
+          key: 'ciProvider',
+          type: ['travis', 'github'],
+          default: 'github',
+          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false,
+        },
       ],
       anonymousOptions: ['<app-name>']
     },

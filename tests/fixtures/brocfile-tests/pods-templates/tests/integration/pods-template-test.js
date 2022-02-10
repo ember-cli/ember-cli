@@ -11,6 +11,6 @@ module('pods based templates', function(hooks) {
     await visit('/');
 
     let actual = this.element.querySelector('#title').textContent
-    assert.equal(actual, 'ZOMG, PODS WORKS!!');
+    assert.strictEqual(actual, 'ZOMG, PODS WORKS!!');
   });
 });

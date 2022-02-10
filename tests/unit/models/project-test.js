@@ -347,6 +347,7 @@ describe('models/project.js', function () {
         'ember-non-root-addon',
         'ember-random-addon',
         'ember-super-button',
+        'ember-with-addon-main',
       ];
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
@@ -494,6 +495,7 @@ describe('models/project.js', function () {
 
   describe('reloadPkg', function () {
     let newProjectPath, oldPkg;
+
     beforeEach(function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       packageContents = require(path.join(projectPath, 'package.json'));
@@ -512,6 +514,14 @@ describe('models/project.js', function () {
       project.reloadPkg();
 
       expect(oldPkg).to.not.deep.equal(project.pkg);
+    });
+
+    it('reloads the pkginfo', function () {
+      let pkgInfo = project._packageInfo;
+
+      project.reloadPkg();
+
+      expect(pkgInfo).to.not.equal(project._packageInfo);
     });
   });
 
@@ -666,6 +676,24 @@ describe('models/project.js', function () {
       expect(project.generateTestFile()).to.equal('');
       expect(project.ui.output).to.contain(
         'Please install an Ember.js test framework addon or update your dependencies.'
+      );
+    });
+  });
+
+  describe('Project.closestSync', function () {
+    it('should use the `actual-project` specified by `ember-addon.projectRoot` in the top-level `package.json`', function () {
+      let cli = new MockCLI();
+      projectPath = path.resolve(__dirname, '../../fixtures/app/nested-project');
+      project = Project.closestSync(projectPath, cli.ui, cli);
+      expect(project.root).to.equal(path.resolve(__dirname, '../../fixtures/app/nested-project/actual-project'));
+    });
+
+    it('should throw if both `ember-addon.projectRoot` and `ember-cli-build.js` exist', function () {
+      let cli = new MockCLI();
+      projectPath = path.resolve(__dirname, '../../fixtures/app/project-root-with-ember-cli-build');
+
+      expect(() => Project.closestSync(projectPath, cli.ui, cli)).to.throw(
+        `Both \`ember-addon.projectRoot\` and \`ember-cli-build.js\` exist as part of \`${projectPath}\``
       );
     });
   });

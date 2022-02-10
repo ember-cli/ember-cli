@@ -43,7 +43,7 @@ const willInterruptProcess = require('../../lib/utilities/will-interrupt-process
 module.exports = function ember(args, options) {
   let cliInstance;
   let ui = (options && options.UI) || MockUI;
-  let pkg = (options && options.package) || path.resolve(__dirname, '..', '..');
+  let packagePath = (options && options.package) || path.resolve(__dirname, '..', '..');
   let disableDependencyChecker = (options && options.disableDependencyChecker) || true;
   let inputStream = [];
   let outputStream = [];
@@ -87,7 +87,7 @@ module.exports = function ember(args, options) {
       // This prevents ember-cli from detecting any other package.json files
       // forcing ember-cli to act as the globally installed package
       npmPackage: 'ember-cli',
-      root: pkg,
+      root: packagePath,
     },
   });
 

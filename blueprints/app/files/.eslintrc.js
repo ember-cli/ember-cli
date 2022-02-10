@@ -24,24 +24,18 @@ module.exports = {
     // node files
     {
       files: [
-        '.eslintrc.js',
-        '.prettierrc.js',
-        '.template-lintrc.js',
-        'ember-cli-build.js',<% if (blueprint !== 'app') { %>
-        'index.js',<% } %>
-        'testem.js',
-        'blueprints/*/index.js',
-        'config/**/*.js',<% if (blueprint === 'app') { %>
-        'lib/*/index.js',
-        'server/**/*.js',<% } else { %>
-        'tests/dummy/config/**/*.js',<% } %>
-      ],<% if (blueprint !== 'app') { %>
-      excludedFiles: [
-        'addon/**',
-        'addon-test-support/**',
-        'app/**',
-        'tests/dummy/app/**',
-      ],<% } %>
+        './.eslintrc.js',
+        './.prettierrc.js',
+        './.template-lintrc.js',
+        './ember-cli-build.js',<% if (blueprint !== 'app') { %>
+        './index.js',<% } %>
+        './testem.js',
+        './blueprints/*/index.js',
+        './config/**/*.js',<% if (blueprint === 'app') { %>
+        './lib/*/index.js',
+        './server/**/*.js',<% } else { %>
+        './tests/dummy/config/**/*.js',<% } %>
+      ],
       parserOptions: {
         sourceType: 'script',
       },
@@ -58,7 +52,7 @@ module.exports = {
       },<% } %>
     },
     {
-      // Test files:
+      // test files
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
     },

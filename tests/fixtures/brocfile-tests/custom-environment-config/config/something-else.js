@@ -3,7 +3,7 @@ module.exports = function() {
     modulePrefix: 'some-cool-app',
     fileUsed: 'config/something-else.js',
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
     APP: {
       autoboot: false
     }

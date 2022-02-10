@@ -210,8 +210,8 @@ updating or writing new documentation:
 
 #### Website
 
-The codebase for the website [ember-cli.com](https://ember-cli.com) is located
-at: https://github.com/ember-cli/ember-cli.github.io
+The codebase for the website [cli.emberjs.com](https://cli.emberjs.com) is located
+at: https://github.com/ember-learn/cli-guides
 
 #### Code Words
 
