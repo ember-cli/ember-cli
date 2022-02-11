@@ -303,6 +303,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
 
     let addonJSON = inRepoAddon.toJSON();
     Object.assign(this.files[addonRootDir], addonJSON);
+    return inRepoAddon;
   }
 
   /**
