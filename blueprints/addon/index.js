@@ -13,6 +13,7 @@ let date = new Date();
 
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
 const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
+const directoryForPackageName = require('../../lib/utilities/directory-for-package-name');
 const FileInfo = require('../../lib/models/file-info');
 
 const replacers = {
@@ -151,6 +152,7 @@ module.exports = {
     }
 
     return {
+      addonDirectory: directoryForPackageName(addonName),
       name,
       modulePrefix: name,
       namespace,
