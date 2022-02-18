@@ -106,7 +106,7 @@
     "morgan": "^1.10.0",
     "nopt": "^3.0.6",
     "npm-package-arg": "^8.1.5",
-    "p-defer": "^3.0.0",
+    "p-defer": "^4.0.0",
     "portfinder": "^1.0.28",
     "promise-map-series": "^0.3.0",
     "promise.hash.helper": "^1.0.7",
