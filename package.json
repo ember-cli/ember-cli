@@ -156,7 +156,7 @@
     "prettier": "2.5.1",
     "release-it": "^14.12.4",
     "rimraf": "^3.0.2",
-    "strip-ansi": "^6.0.0",
+    "strip-ansi": "^7.0.1",
     "supertest": "^6.1.6",
     "testdouble": "^3.16.4",
     "tmp": "^0.2.1",
