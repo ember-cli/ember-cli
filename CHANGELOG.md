@@ -21,6 +21,8 @@
 - [#9804](https://github.com/ember-cli/ember-cli/pull/9804) Fix formatting of CI file in app and addon blueprints [@bertdeblock](https://github.com/bertdeblock)
 - [#9817](https://github.com/ember-cli/ember-cli/pull/9817) update beta deps [@kellyselden](https://github.com/kellyselden)
 
+Thank you to all who took the time to contribute!
+
 ## v4.2.0
 
 #### Blueprint Changes
