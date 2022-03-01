@@ -1,5 +1,21 @@
 # ember-cli Changelog
 
+## v4.2.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.1.0...v4.2.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.1.0...v4.2.0-beta.1)
+
+#### Changelog
+
+- [#9681](https://github.com/ember-cli/ember-cli/pull/9681) Update URL to Ember CLI website everywhere [@bertdeblock](https://github.com/bertdeblock)
+- [#9726](https://github.com/ember-cli/ember-cli/pull/9726) Cancel stale workflows when starting a new one. [@rwjblue](https://github.com/rwjblue)
+- [#9731](https://github.com/ember-cli/ember-cli/pull/9731) Add an `assert` and a `deprecate` utility [@bertdeblock](https://github.com/bertdeblock)
+- [#9753](https://github.com/ember-cli/ember-cli/pull/9753) Upgrade to `ember-template-lint` v4 in blueprint [@bmish](https://github.com/bmish)
+
+Thank you to all who took the time to contribute!
+
 ## v4.1.1
 
 #### Blueprint Changes

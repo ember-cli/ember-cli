@@ -14,6 +14,10 @@ on:
   schedule:
     - cron:  '0 3 * * *' # daily, at 3am
 
+concurrency:
+   group: ci-${{ github.head_ref || github.ref }}
+   cancel-in-progress: true
+
 jobs:
   linting:
     name: Linting
@@ -21,7 +25,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: 12.x
           cache: 'yarn'
@@ -39,7 +43,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: 12.x
           cache: 'yarn'
@@ -61,7 +65,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
@@ -86,7 +90,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: 12.x
           cache: 'yarn'
