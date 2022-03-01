@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+## v4.3.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.2.0...v4.3.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.2.0...v4.3.0-beta.1)
+
+#### Changelog
+
+- [#9707](https://github.com/ember-cli/ember-cli/pull/9707) [RFC 772] Deprecate Bower support [@bertdeblock](https://github.com/bertdeblock)
+- [#9387](https://github.com/ember-cli/ember-cli/pull/9387) Add support for specifying a path for the generate command [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#9638](https://github.com/ember-cli/ember-cli/pull/9638) Update ember-cli's own dependencies to latest [@rwjblue](https://github.com/rwjblue)
+- [#9680](https://github.com/ember-cli/ember-cli/pull/9680) Ignore default folder name used by broccoli-debug [@notmessenger](https://github.com/notmessenger)
+- [#9683](https://github.com/ember-cli/ember-cli/pull/9683) chore: replace json-stable-stringify with safe-stable-stringify [@BridgeAR](https://github.com/BridgeAR)
+- [#9769](https://github.com/ember-cli/ember-cli/pull/9769) Update markdown-it to v12.3.2 to address vulnerabiliity [@locks](https://github.com/locks)
+- [#9781](https://github.com/ember-cli/ember-cli/pull/9781) [ENHANCEMENT] Remove `X-UA-Compatible` meta tag for IE browser [@bobisjan](https://github.com/bobisjan)
+- [#9790](https://github.com/ember-cli/ember-cli/pull/9790) Upgrade broccoli-merge-trees [@locks](https://github.com/locks)
+- [#9803](https://github.com/ember-cli/ember-cli/pull/9803) [RFC 637] Customizable test setups [@bertdeblock](https://github.com/bertdeblock)
+- [#9804](https://github.com/ember-cli/ember-cli/pull/9804) Fix formatting of CI file in app and addon blueprints [@bertdeblock](https://github.com/bertdeblock)
+- [#9817](https://github.com/ember-cli/ember-cli/pull/9817) update beta deps [@kellyselden](https://github.com/kellyselden)
+
 ## v4.2.0
 
 #### Blueprint Changes
