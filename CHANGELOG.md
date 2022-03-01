@@ -4,14 +4,11 @@
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.1.0...v4.2.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.1.0...v4.2.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.1.1...v4.2.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.1.1...v4.2.0)
 
 #### Changelog
 
-- [#9737](https://github.com/ember-cli/ember-cli/pull/9737) Remove jQuery integration scenario from ember-try [@NullVoxPopuli](https://github.com/NullVoxPopuli)
-- [#9739](https://github.com/ember-cli/ember-cli/pull/9739) Change blueprint to generate apps using 'history' location [@kategengler](https://github.com/kategengler)
-- [#9762](https://github.com/ember-cli/ember-cli/pull/9762) Update @embroider/* packages to 1.0.0. [@rwjblue](https://github.com/rwjblue)
 - [#9681](https://github.com/ember-cli/ember-cli/pull/9681) Update URL to Ember CLI website everywhere [@bertdeblock](https://github.com/bertdeblock)
 - [#9726](https://github.com/ember-cli/ember-cli/pull/9726) Cancel stale workflows when starting a new one. [@rwjblue](https://github.com/rwjblue)
 - [#9731](https://github.com/ember-cli/ember-cli/pull/9731) Add an `assert` and a `deprecate` utility [@bertdeblock](https://github.com/bertdeblock)
