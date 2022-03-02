@@ -6964,10 +6964,10 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
-safe-stable-stringify@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.2.0.tgz#26a52f13a6988de16a0d88e20248f38e8a7d840c"
-  integrity sha512-C6AuMdYPuPV/P1leplHNu0lgc2LAElq/g3TdoksDCIVtBhr78o/CH03bt/9SKqugFbKU9CUjsNlCu0fjtQzQUw==
+safe-stable-stringify@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.3.1.tgz#ab67cbe1fe7d40603ca641c5e765cb942d04fc73"
+  integrity sha512-kYBSfT+troD9cDA85VDnHZ1rpHC50O0g1e6WlGHVCz/g+JS+9WKLj+XwFYyR8UbrZN8ll9HUpDAAddY58MGisg==
 
 "safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0":
   version "2.1.2"
