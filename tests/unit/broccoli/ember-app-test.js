@@ -14,7 +14,7 @@ const createTempDir = broccoliTestHelper.createTempDir;
 const MockCLI = require('../../helpers/mock-cli');
 const { isExperimentEnabled } = require('../../../lib/experiments');
 const mergeTrees = require('../../../lib/broccoli/merge-trees');
-const BroccoliMergeTrees = require('broccoli-merge-trees');
+const BroccoliMergeTrees = require('broccoli-merge-trees').MergeTrees;
 
 let EmberApp = require('../../../lib/broccoli/ember-app');
 const Addon = require('../../../lib/models/addon');
@@ -825,7 +825,7 @@ describe('EmberApp', function () {
       });
 
       it('keeps ember-resolver.js in vendorFiles when npm ember-resolver is not installed, but is present in bower.json', function () {
-        project.bowerDependencies = function () {
+        project._bowerDependencies = function () {
           return { ember: {}, 'ember-resolver': {} };
         };
         let app = new EmberApp({
@@ -841,7 +841,7 @@ describe('EmberApp', function () {
       });
 
       it('removes ember-resolver.js from vendorFiles when not in bower.json and npm ember-resolver not installed', function () {
-        project.bowerDependencies = function () {
+        project._bowerDependencies = function () {
           return { ember: {} };
         };
         let app = new EmberApp({
