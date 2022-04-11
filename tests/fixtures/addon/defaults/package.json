@@ -39,7 +39,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^2.4.1",
     "ember-cli": "~<%= emberCLIVersion %>",
-    "ember-cli-dependency-checker": "^3.2.0",
+    "ember-cli-dependency-checker": "3.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
