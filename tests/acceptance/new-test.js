@@ -103,6 +103,12 @@ describe('Acceptance: ember new', function () {
     expect(file('app/templates/application.hbs')).to.contain('Welcome to Ember');
   });
 
+  it('ember new generates the correct directory name in `README.md` for scoped package names', async function () {
+    await ember(['new', '@foo/bar', '--skip-npm', '--skip-bower', '--skip-git']);
+
+    expect(file('README.md')).to.match(/\* `cd foo-bar`/);
+  });
+
   // ember new foo --lang
   // -------------------------------
   // Good: Correct Usage
@@ -415,6 +421,12 @@ describe('Acceptance: ember new', function () {
 
     let pkgJson = fs.readJsonSync('package.json');
     expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
+  });
+
+  it('ember addon generates the correct directory name in `CONTRIBUTING.md` for scoped package names', async function () {
+    await ember(['addon', '@foo/bar', '--skip-npm', '--skip-bower', '--skip-git']);
+
+    expect(file('CONTRIBUTING.md')).to.match(/\* `cd foo-bar`/);
   });
 
   if (!isExperimentEnabled('CLASSIC')) {
