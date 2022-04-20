@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Default Packager: Ember CLI Internal', function () {
@@ -55,7 +55,8 @@ describe('Default Packager: Ember CLI Internal', function () {
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageEmberCliInternalFiles());
+    output = createBuilder(defaultPackager.packageEmberCliInternalFiles());
+    await output.build();
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.not.equal(null);
     expect(defaultPackager._cachedEmberCliInternalTree._annotation).to.equal('Packaged Ember CLI Internal Files');
@@ -73,7 +74,8 @@ describe('Default Packager: Ember CLI Internal', function () {
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageEmberCliInternalFiles());
+    output = createBuilder(defaultPackager.packageEmberCliInternalFiles());
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -105,7 +107,8 @@ describe('Default Packager: Ember CLI Internal', function () {
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageEmberCliInternalFiles());
+    output = createBuilder(defaultPackager.packageEmberCliInternalFiles());
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -170,7 +173,8 @@ var runningTests = false;`);
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageEmberCliInternalFiles());
+    output = createBuilder(defaultPackager.packageEmberCliInternalFiles());
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -220,7 +224,8 @@ var runningTests = false;`);
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageEmberCliInternalFiles());
+    output = createBuilder(defaultPackager.packageEmberCliInternalFiles());
+    await output.build();
 
     let outputFiles = output.read();
 

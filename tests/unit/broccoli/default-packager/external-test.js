@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Default Packager: External', function () {
@@ -66,7 +66,8 @@ describe('Default Packager: External', function () {
       customTransformsMap,
     });
 
-    output = await buildOutput(defaultPackager.applyCustomTransforms(input.path()));
+    output = createBuilder(defaultPackager.applyCustomTransforms(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 

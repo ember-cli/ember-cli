@@ -6,7 +6,7 @@ const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
@@ -108,7 +108,8 @@ describe('Default Packager: Additional Assets', function () {
 
     expect(defaultPackager._cachedProcessedAdditionalAssets).to.equal(null);
 
-    output = await buildOutput(defaultPackager.importAdditionalAssets(input.path()));
+    output = createBuilder(defaultPackager.importAdditionalAssets(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedProcessedAdditionalAssets).to.not.equal(null);
     expect(defaultPackager._cachedProcessedAdditionalAssets._annotation).to.equal(
@@ -152,7 +153,8 @@ describe('Default Packager: Additional Assets', function () {
 
     expect(defaultPackager._cachedProcessedAdditionalAssets).to.equal(null);
 
-    output = await buildOutput(defaultPackager.importAdditionalAssets(input.path()));
+    output = createBuilder(defaultPackager.importAdditionalAssets(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 

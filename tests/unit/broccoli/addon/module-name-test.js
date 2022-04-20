@@ -8,7 +8,7 @@ const MockCLI = require('../../../helpers/mock-cli');
 const Project = require('../../../../lib/models/project');
 const Addon = require('../../../../lib/models/addon');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Addon - moduleName', function () {
@@ -56,7 +56,8 @@ describe('Addon - moduleName', function () {
       },
     });
 
-    output = await buildOutput(addon.treeForAddon(path.join(addon.root, '/addon')));
+    output = createBuilder(addon.treeForAddon(path.join(addon.root, '/addon')));
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       'totes-not-fake-addon': {

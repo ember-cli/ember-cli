@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Default Packager: Config', function () {
@@ -50,7 +50,8 @@ describe('Default Packager: Config', function () {
 
     expect(defaultPackager._cachedConfig).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageConfig());
+    output = createBuilder(defaultPackager.packageConfig());
+    await output.build();
 
     expect(defaultPackager._cachedConfig).to.not.equal(null);
     expect(defaultPackager._cachedConfig._annotation).to.equal('Packaged Config');
@@ -64,7 +65,8 @@ describe('Default Packager: Config', function () {
       areTestsEnabled: false,
     });
 
-    output = await buildOutput(defaultPackager.packageConfig());
+    output = createBuilder(defaultPackager.packageConfig());
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -87,7 +89,8 @@ describe('Default Packager: Config', function () {
       areTestsEnabled: true,
     });
 
-    output = await buildOutput(defaultPackager.packageConfig());
+    output = createBuilder(defaultPackager.packageConfig());
+    await output.build();
 
     let outputFiles = output.read();
 
