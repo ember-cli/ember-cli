@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Default Packager: Bower', function () {
@@ -43,7 +43,7 @@ describe('Default Packager: Bower', function () {
 
     expect(defaultPackager._cachedBower).to.equal(null);
 
-    await buildOutput(defaultPackager.packageBower(input.path()));
+    await createBuilder(defaultPackager.packageBower(input.path())).build();
 
     expect(defaultPackager._cachedBower).to.not.equal(null);
     expect(defaultPackager._cachedBower._annotation).to.equal('Packaged Bower');
@@ -52,7 +52,8 @@ describe('Default Packager: Bower', function () {
   it('packages bower files with default folder', async function () {
     let defaultPackager = new DefaultPackager();
 
-    let packagedBower = await buildOutput(defaultPackager.packageBower(input.path()));
+    let packagedBower = createBuilder(defaultPackager.packageBower(input.path()));
+    await packagedBower.build();
     let output = packagedBower.read();
 
     expect(output).to.deep.equal({
@@ -63,7 +64,8 @@ describe('Default Packager: Bower', function () {
   it('packages bower files with custom folder', async function () {
     let defaultPackager = new DefaultPackager();
 
-    let packagedBower = await buildOutput(defaultPackager.packageBower(input.path(), 'foobar'));
+    let packagedBower = createBuilder(defaultPackager.packageBower(input.path(), 'foobar'));
+    await packagedBower.build();
     let output = packagedBower.read();
 
     expect(output).to.deep.equal({

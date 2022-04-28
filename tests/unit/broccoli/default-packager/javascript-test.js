@@ -6,7 +6,7 @@ const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
@@ -142,7 +142,8 @@ describe('Default Packager: Javascript', function () {
 
     expect(defaultPackager._cachedJavascript).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageJavascript(input.path()));
+    output = createBuilder(defaultPackager.packageJavascript(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedJavascript).to.not.equal(null);
     expect(defaultPackager._cachedJavascript._annotation).to.equal('Packaged Javascript');
@@ -172,7 +173,8 @@ describe('Default Packager: Javascript', function () {
       project,
     });
 
-    output = await buildOutput(defaultPackager.packageJavascript(input.path()));
+    output = createBuilder(defaultPackager.packageJavascript(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -212,7 +214,8 @@ describe('Default Packager: Javascript', function () {
       project,
     });
 
-    output = await buildOutput(defaultPackager.packageJavascript(input.path()));
+    output = createBuilder(defaultPackager.packageJavascript(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -236,7 +239,8 @@ describe('Default Packager: Javascript', function () {
 
     expect(defaultPackager._cachedProcessedJavascript).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processJavascript(input.path()));
+    output = createBuilder(defaultPackager.processJavascript(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -287,7 +291,8 @@ describe('Default Packager: Javascript', function () {
 
     expect(defaultPackager._cachedProcessedJavascript).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processJavascript(input.path()));
+    output = createBuilder(defaultPackager.processJavascript(input.path()));
+    await output.build();
 
     expect(addonPreprocessTreeHookCalled).to.equal(true);
     expect(addonPostprocessTreeHookCalled).to.equal(true);

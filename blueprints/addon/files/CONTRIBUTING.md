@@ -3,7 +3,7 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd <%= addonName %>`
+* `cd <%= addonDirectory %>`
 * `<% if (yarn) { %>yarn<% } else { %>npm<% } %> install`
 
 ## Linting
