@@ -5,7 +5,7 @@ const path = require('path');
 const loadConfig = require('../../../lib/utilities/load-config');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('load-config', function () {
@@ -25,7 +25,7 @@ describe('load-config', function () {
       },
     });
 
-    await buildOutput(fixtureDirectoryPath);
+    await createBuilder(fixtureDirectoryPath).build();
   });
 
   after(async function () {

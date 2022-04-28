@@ -7,7 +7,7 @@ const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
@@ -154,7 +154,8 @@ describe('Default Packager: Tests', function () {
 
     expect(defaultPackager._cachedTests).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageTests(input.path()));
+    output = createBuilder(defaultPackager.packageTests(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedTests).to.not.equal(null);
   });
@@ -183,7 +184,8 @@ describe('Default Packager: Tests', function () {
       registry: setupRegistryFor('js', (tree) => tree),
     });
 
-    output = await buildOutput(defaultPackager.packageTests(input.path()));
+    output = createBuilder(defaultPackager.packageTests(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -231,7 +233,8 @@ describe('Default Packager: Tests', function () {
       registry: setupRegistryFor('js', (tree) => tree),
     });
 
-    output = await buildOutput(defaultPackager.packageTests(input.path()));
+    output = createBuilder(defaultPackager.packageTests(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -279,7 +282,8 @@ describe('Default Packager: Tests', function () {
       }),
     });
 
-    output = await buildOutput(defaultPackager.processTests(input.path()));
+    output = createBuilder(defaultPackager.processTests(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -354,7 +358,8 @@ describe('Default Packager: Tests', function () {
       }),
     });
 
-    output = await buildOutput(defaultPackager.processTests(input.path()));
+    output = createBuilder(defaultPackager.processTests(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -474,7 +479,8 @@ describe('Default Packager: Tests', function () {
       registry: setupRegistryFor('js', (tree) => tree),
     });
 
-    output = await buildOutput(defaultPackager.packageTests(input.path()));
+    output = createBuilder(defaultPackager.packageTests(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -516,7 +522,8 @@ describe('Default Packager: Tests', function () {
       registry: setupRegistryFor('js', (tree) => tree),
     });
 
-    output = await buildOutput(defaultPackager.packageTests(input.path()));
+    output = createBuilder(defaultPackager.packageTests(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -549,7 +556,8 @@ describe('Default Packager: Tests', function () {
       registry: setupRegistryFor('js', (tree) => tree),
     });
 
-    output = await buildOutput(defaultPackager.packageTests(input.path()));
+    output = createBuilder(defaultPackager.packageTests(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
