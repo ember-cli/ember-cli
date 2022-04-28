@@ -21,6 +21,7 @@ let commands = {
 };
 
 function AddonServeCommand() {
+  this.name = 'FakeAddon';
   return this;
 }
 AddonServeCommand.prototype.includedCommands = function () {
@@ -136,9 +137,10 @@ describe('cli/lookup-command.js', function () {
       ui,
     });
 
-    expect(ui.output).to.match(
-      /WARNING: An ember-addon has attempted to override the core command "serve"\. The core command will be used.*/
+    let re = new RegExp(
+      `WARNING: An ember-addon \\(${project.addons[0].name}\\) has attempted to override the core command "serve"\\. The core command will be used.*`
     );
+    expect(ui.output).to.match(re);
   });
 
   it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function () {
@@ -158,9 +160,10 @@ describe('cli/lookup-command.js', function () {
       ui,
     });
 
-    expect(ui.output).to.match(
-      /WARNING: An ember-addon has attempted to override the core command "serve"\. The addon command will be used as the overridding was explicit.*/
+    let re = new RegExp(
+      `WARNING: An ember-addon \\(${project.addons[0].name}\\) has attempted to override the core command "serve"\\. The addon command will be used as the overridding was explicit.*`
     );
+    expect(ui.output).to.match(re);
   });
 
   it('lookupCommand() should return UnknownCommand object when command name is not present.', function () {
