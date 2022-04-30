@@ -49,6 +49,9 @@ module.exports = {
     contents.dependencies = contents.dependencies || {};
     contents.devDependencies = contents.devDependencies || {};
 
+		// addon should depend on the ember-source that matches ember-cli
+    contents.dependencies['ember-source'] = contents.devDependencies['ember-cli'];
+
     // npm doesn't like it when we have something in both deps and devDeps
     // and dummy app still uses it when in deps
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];

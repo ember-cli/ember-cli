@@ -184,6 +184,19 @@ describe('blueprint - addon', function () {
         expect(json.dependencies).to.deep.equal({ a: '1', b: '1' });
         expect(json.devDependencies).to.deep.equal({ a: '1', b: '1' });
       });
+
+			it('copies ember-source into dependencies', function () {
+        let output = blueprint.updatePackageJson(
+          JSON.stringify({
+            devDependencies: {
+              'ember-source': '4.0.0',
+            },
+          })
+        );
+
+        let json = JSON.parse(output);
+        expect(json.dependencies['ember-source']).to.equal('4.0.0');
+      });
     });
   });
 });
