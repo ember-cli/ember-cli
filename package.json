@@ -100,7 +100,7 @@
     "js-yaml": "^3.14.0",
     "leek": "0.0.24",
     "lodash.template": "^4.5.0",
-    "markdown-it": "^12.2.0",
+    "markdown-it": "^13.0.0",
     "markdown-it-terminal": "0.2.1",
     "minimatch": "^5.0.1",
     "morgan": "^1.10.0",
