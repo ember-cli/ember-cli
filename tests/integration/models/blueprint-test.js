@@ -774,9 +774,9 @@ describe('Blueprint', function () {
     });
 
     it('looks up the `npm-install` task', function () {
-      NpmInstallTask = Task.extend({
-        run() {},
-      });
+      NpmInstallTask = class extends Task {
+        run() {}
+      };
 
       blueprint.addPackagesToProject([{ name: 'foo-bar' }]);
 
@@ -786,11 +786,11 @@ describe('Blueprint', function () {
     it('calls the task with package names', function () {
       let packages;
 
-      NpmInstallTask = Task.extend({
+      NpmInstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       blueprint.addPackagesToProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
@@ -800,11 +800,11 @@ describe('Blueprint', function () {
     it('calls the task with package names and versions', function () {
       let packages;
 
-      NpmInstallTask = Task.extend({
+      NpmInstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       blueprint.addPackagesToProject([
         { name: 'foo-bar', target: '^123.1.12' },
@@ -850,11 +850,11 @@ describe('Blueprint', function () {
     it('runs task with --save-dev', function () {
       let saveDev;
 
-      NpmInstallTask = Task.extend({
+      NpmInstallTask = class extends Task {
         run(options) {
           saveDev = options['save-dev'];
-        },
-      });
+        }
+      };
 
       blueprint.addPackagesToProject([
         { name: 'foo-bar', target: '^123.1.12' },
@@ -867,11 +867,11 @@ describe('Blueprint', function () {
     it('does not use verbose mode with the task', function () {
       let verbose;
 
-      NpmInstallTask = Task.extend({
+      NpmInstallTask = class extends Task {
         run(options) {
           verbose = options.verbose;
-        },
-      });
+        }
+      };
 
       blueprint.addPackagesToProject([
         { name: 'foo-bar', target: '^123.1.12' },
@@ -904,9 +904,9 @@ describe('Blueprint', function () {
     });
 
     it('looks up the `npm-uninstall` task', function () {
-      NpmUninstallTask = Task.extend({
-        run() {},
-      });
+      NpmUninstallTask = class extends Task {
+        run() {}
+      };
 
       project.dependencies = function () {
         return {
@@ -943,9 +943,9 @@ describe('Blueprint', function () {
     });
 
     it('looks up the `npm-uninstall` task', function () {
-      NpmUninstallTask = Task.extend({
-        run() {},
-      });
+      NpmUninstallTask = class extends Task {
+        run() {}
+      };
 
       blueprint.removePackagesFromProject([{ name: 'foo-bar' }]);
 
@@ -955,11 +955,11 @@ describe('Blueprint', function () {
     it('calls the task with only existing packages', function () {
       let packages;
 
-      NpmUninstallTask = Task.extend({
+      NpmUninstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       project.dependencies = function () {
         return {
@@ -976,11 +976,11 @@ describe('Blueprint', function () {
     it('skips uninstall if no matching package exists', function () {
       let packages;
 
-      NpmUninstallTask = Task.extend({
+      NpmUninstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       project.dependencies = function () {
         return {
@@ -997,11 +997,11 @@ describe('Blueprint', function () {
     it('calls the task with package names', function () {
       let packages;
 
-      NpmUninstallTask = Task.extend({
+      NpmUninstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       project.dependencies = function () {
         return {
@@ -1061,11 +1061,11 @@ describe('Blueprint', function () {
     it('runs task with --save-dev', function () {
       let saveDev;
 
-      NpmUninstallTask = Task.extend({
+      NpmUninstallTask = class extends Task {
         run(options) {
           saveDev = options['save-dev'];
-        },
-      });
+        }
+      };
 
       project.dependencies = function () {
         return {
@@ -1082,11 +1082,11 @@ describe('Blueprint', function () {
     it('does not use verbose mode with the task', function () {
       let verbose;
 
-      NpmUninstallTask = Task.extend({
+      NpmUninstallTask = class extends Task {
         run(options) {
           verbose = options.verbose;
-        },
-      });
+        }
+      };
 
       project.dependencies = function () {
         return {
@@ -1172,9 +1172,10 @@ describe('Blueprint', function () {
     });
 
     it('looks up the `bower-install` task', function () {
-      BowerInstallTask = Task.extend({
-        run() {},
-      });
+      BowerInstallTask = class extends Task {
+        run() {}
+      };
+
       blueprint.addBowerPackagesToProject([{ name: 'foo-bar' }]);
 
       expect(taskNameLookedUp).to.equal('bower-install');
@@ -1183,11 +1184,11 @@ describe('Blueprint', function () {
     it('calls the task with the package names', function () {
       let packages;
 
-      BowerInstallTask = Task.extend({
+      BowerInstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       blueprint.addBowerPackagesToProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
@@ -1197,11 +1198,11 @@ describe('Blueprint', function () {
     it('uses the provided target (version, range, sha, etc)', function () {
       let packages;
 
-      BowerInstallTask = Task.extend({
+      BowerInstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       blueprint.addBowerPackagesToProject([
         { name: 'foo-bar', target: '~1.0.0' },
@@ -1214,11 +1215,11 @@ describe('Blueprint', function () {
     it('properly parses a variety of bower package endpoints', function () {
       let packages;
 
-      BowerInstallTask = Task.extend({
+      BowerInstallTask = class extends Task {
         run(options) {
           packages = options.packages;
-        },
-      });
+        }
+      };
 
       blueprint.addBowerPackagesToProject([
         { name: '', source: 'jquery', target: '~2.0.0' },
@@ -1239,11 +1240,11 @@ describe('Blueprint', function () {
     it('uses uses verbose mode with the task', function () {
       let verbose;
 
-      BowerInstallTask = Task.extend({
+      BowerInstallTask = class extends Task {
         run(options) {
           verbose = options.verbose;
-        },
-      });
+        }
+      };
 
       blueprint.addBowerPackagesToProject([
         { name: 'foo-bar', target: '~1.0.0' },
@@ -1302,9 +1303,9 @@ describe('Blueprint', function () {
     });
 
     it('looks up the `addon-install` task', function () {
-      AddonInstallTask = Task.extend({
-        run() {},
-      });
+      AddonInstallTask = class extends Task {
+        run() {}
+      };
 
       blueprint.addAddonsToProject({ packages: ['foo-bar'] });
 
@@ -1314,11 +1315,11 @@ describe('Blueprint', function () {
     it('calls the task with package name', function () {
       let pkg;
 
-      AddonInstallTask = Task.extend({
+      AddonInstallTask = class extends Task {
         run(options) {
           pkg = options['packages'];
-        },
-      });
+        }
+      };
 
       blueprint.addAddonsToProject({ packages: ['foo-bar', 'baz-bat'] });
 
@@ -1328,13 +1329,13 @@ describe('Blueprint', function () {
     it('calls the task with correctly parsed options', function () {
       let pkg, args, bluOpts;
 
-      AddonInstallTask = Task.extend({
+      AddonInstallTask = class extends Task {
         run(options) {
           pkg = options['packages'];
           args = options['extraArgs'];
           bluOpts = options['blueprintOptions'];
-        },
-      });
+        }
+      };
 
       blueprint.addAddonsToProject({
         packages: [
