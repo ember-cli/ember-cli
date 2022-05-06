@@ -5,7 +5,7 @@ const path = require('path');
 const walkSync = require('walk-sync');
 const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
-const uniq = require('ember-cli-lodash-subset').uniq;
+const { uniq } = require('ember-cli-lodash-subset');
 const SilentError = require('silent-error');
 const sortPackageJson = require('sort-package-json');
 
