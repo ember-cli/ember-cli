@@ -29,7 +29,13 @@ module.exports = {
   },
 
   files() {
-    return ['server/index.js', this.hasJSHint() ? 'server/.jshintrc' : 'server/.eslintrc.js'];
+    let files = ['server/index.js'];
+
+    if (this.hasJSHint()) {
+      files.push('server/.jshintrc');
+    }
+
+    return files;
   },
 
   hasJSHint() {
