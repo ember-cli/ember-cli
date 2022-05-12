@@ -93,41 +93,6 @@ describe('findAddonByName', function () {
     expect(consoleOutput).to.deep.equal([]);
   });
 
-  it('matches unscoped name of scoped package when no exact match is found with logging', function () {
-    let addon = findAddonByName(addons, 'other');
-    expect(addon.pkg.name).to.equal('@scoped/other');
-    expect(consoleOutput).to.deep.equal([
-      [
-        'trace',
-        "Finding a scoped addon via its unscoped name is deprecated. You searched for `other` which we found as `@scoped/other` in 'node_modules/@scoped/other'",
-      ],
-    ]);
-  });
-
-  it('matches unscoped name of scoped package repeatedly when no exact match is found with logging', function () {
-    let addon = findAddonByName(addons, 'other');
-    expect(addon.pkg.name).to.equal('@scoped/other');
-
-    addon = findAddonByName(addons, 'other');
-    expect(addon.pkg.name).to.equal('@scoped/other');
-
-    addon = findAddonByName(addons, 'other');
-    expect(addon.pkg.name).to.equal('@scoped/other');
-
-    expect(consoleOutput).to.deep.equal([
-      [
-        'trace',
-        "Finding a scoped addon via its unscoped name is deprecated. You searched for `other` which we found as `@scoped/other` in 'node_modules/@scoped/other'",
-      ],
-    ]);
-  });
-
-  it('if exact match is found, it "wins" over unscoped matches', function () {
-    let addon = findAddonByName(addons, 'foo-bar');
-    expect(addon.pkg.name).to.equal('foo-bar');
-    expect(consoleOutput).to.deep.equal([]);
-  });
-
   it('if exact match by addon name is found, it "wins" with a warning', function () {
     let addon = findAddonByName(addons, 'thing');
     expect(addon.pkg.name).to.equal('@scope/thing');
