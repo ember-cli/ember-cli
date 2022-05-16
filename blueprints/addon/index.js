@@ -5,7 +5,7 @@ const path = require('path');
 const walkSync = require('walk-sync');
 const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
-const uniq = require('ember-cli-lodash-subset').uniq;
+const { uniq } = require('ember-cli-lodash-subset');
 const SilentError = require('silent-error');
 const sortPackageJson = require('sort-package-json');
 
@@ -66,9 +66,6 @@ module.exports = {
 
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
-
-    // addons should test _without_ jquery by default
-    delete contents.devDependencies['@ember/jquery'];
 
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
