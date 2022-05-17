@@ -138,7 +138,7 @@ describe('cli/lookup-command.js', function () {
     });
 
     let re = new RegExp(
-      `WARNING: An ember-addon \\(${project.addons[0].name}\\) has attempted to override the core command "serve"\\. The core command will be used.*`
+      `WARNING: An ember-addon \\(FakeAddon\\) has attempted to override the core command "serve"\\. The core command will be used`
     );
     expect(ui.output).to.match(re);
   });
@@ -161,7 +161,7 @@ describe('cli/lookup-command.js', function () {
     });
 
     let re = new RegExp(
-      `WARNING: An ember-addon \\(${project.addons[0].name}\\) has attempted to override the core command "serve"\\. The addon command will be used as the overridding was explicit.*`
+      `WARNING: An ember-addon \\(Other Ember CLI Addon Command To Test Intentional Core Command Override\\) has attempted to override the core command "serve"\\. The addon command will be used as the overridding was explicit.*`
     );
     expect(ui.output).to.match(re);
   });
