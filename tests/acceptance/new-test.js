@@ -271,7 +271,7 @@ describe('Acceptance: ember new', function () {
   });
 
   it('ember new with shorthand git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
-    this.timeout(20000); // relies on GH network stuff
+    this.timeout(60000); // relies on GH network stuff
 
     await ember([
       'new',
