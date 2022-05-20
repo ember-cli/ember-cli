@@ -1,5 +1,7 @@
 'use strict';
 
+const execa = require('execa');
+const semver = require('semver');
 const fs = require('fs-extra');
 const ember = require('../helpers/ember');
 const walkSync = require('walk-sync');
@@ -270,6 +272,13 @@ describe('Acceptance: ember new', function () {
   });
 
   it('ember new with shorthand git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
+    // Temporarily skipped for npm versions <= v6.0.0.
+    // See https://github.com/npm/cli/issues/4896 for more info.
+    let { stdout: npmVersion } = await execa('npm', ['-v']);
+    if (semver.major(npmVersion) <= 6) {
+      this.skip();
+    }
+
     this.timeout(20000); // relies on GH network stuff
 
     await ember([
