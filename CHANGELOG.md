@@ -1,5 +1,21 @@
 # ember-cli Changelog
 
+## v4.4.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.3.0...v4.4.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.3.0...v4.4.0-beta.1)
+
+#### Changelog
+
+- [#9611](https://github.com/ember-cli/ember-cli/pull/9611) use more standard markdown for addon readme [@mansona](https://github.com/mansona)
+- [#9818](https://github.com/ember-cli/ember-cli/pull/9818) Update actions/checkout action to v3 [@SergeAstapov](https://github.com/SergeAstapov)
+- [#9819](https://github.com/ember-cli/ember-cli/pull/9819) Update actions/setup-node action to v3 [@SergeAstapov](https://github.com/SergeAstapov)
+- [#9843](https://github.com/ember-cli/ember-cli/pull/9843) update beta deps [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 ## v4.3.0
 
 #### Blueprint Changes
