@@ -69,9 +69,12 @@ module.exports = {
       let newPathIndex = paths.indexOf(newPath);
       if (newPathIndex > -1) {
         paths.splice(newPathIndex, 1);
-        if (paths.length === 0) {
-          delete contents['ember-addon']['paths'];
-        }
+      }
+      if (paths.length === 0) {
+        delete contents['ember-addon']['paths'];
+      }
+      if (Object.keys(contents['ember-addon']).length === 0) {
+        delete contents['ember-addon'];
       }
     }
 
