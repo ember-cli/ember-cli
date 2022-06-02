@@ -157,7 +157,7 @@
     "release-it": "^14.14.0",
     "rimraf": "^3.0.2",
     "strip-ansi": "^6.0.0",
-    "supertest": "^6.1.6",
+    "supertest": "^6.2.3",
     "testdouble": "^3.16.5",
     "tmp": "^0.2.1",
     "websocket": "^1.0.32",
