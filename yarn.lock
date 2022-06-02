@@ -7701,10 +7701,10 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-testdouble@^3.16.4, testdouble@^3.2.6:
-  version "3.16.4"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.4.tgz#7da05f91df0077e38e40bba3da7758ef8c4396ad"
-  integrity sha512-NM8gzFurcf3tgf9miWx3ussoJWUxtT1MwJ7Xpe+sqJBbiwgqLDBqh64bnuDmGCHqhQ3Vou3Z5HtRjiAs7U/mug==
+testdouble@^3.16.5, testdouble@^3.2.6:
+  version "3.16.5"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.5.tgz#4e51407b56f542b8cb57c485fff87248eb24d66d"
+  integrity sha512-2/0vR503/X/6LuZzQObpcBtu+KycyEnw7AdX/NPboR7sam1NTuYc128UMW8n7tBDpOPGAKqCUtKVBzvgV6C3bA==
   dependencies:
     lodash "^4.17.15"
     quibble "^0.6.7"
