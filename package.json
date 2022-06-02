@@ -166,7 +166,7 @@
     "yuidocjs": "0.10.2"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 14"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
