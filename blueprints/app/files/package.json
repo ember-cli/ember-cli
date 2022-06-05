@@ -23,6 +23,7 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.2",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.7.0<% if (embroider) { %>",
     "@embroider/compat": "^1.6.0",
