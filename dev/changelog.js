@@ -99,7 +99,7 @@ async function processPages(res) {
   return res.data.commits
     .filter(excludeDependabot)
     .filter(isPullRequestMergeOrCherryPick)
-    .map(commitInfo => {
+    .map((commitInfo) => {
       let message = commitInfo.commit.message;
 
       let mergeFromBranchRegex = /#(\d+) from (.*)\//;
@@ -139,7 +139,7 @@ async function main() {
       head: branch,
     })
     .then(processPages)
-    .then(async contributions => {
+    .then(async (contributions) => {
       for (let entry of contributions) {
         if (entry.number) {
           let prInfo = await github.pulls.get({
@@ -160,8 +160,8 @@ async function main() {
 
       let changelogEntries = contributions
         // filters PR's _from_ dependabot that were merged manually
-        .filter(entry => entry.author !== 'dependabot-preview[bot]' && entry.author !== 'dependabot[bot]')
-        .map(pr => {
+        .filter((entry) => entry.author !== 'dependabot-preview[bot]' && entry.author !== 'dependabot[bot]')
+        .map((pr) => {
           let link;
           if (pr.number) {
             link = `[#${pr.number}](https://github.com/ember-cli/ember-cli/pull/${pr.number})`;
@@ -179,7 +179,7 @@ async function main() {
 
       console.log(changelog);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
 }
