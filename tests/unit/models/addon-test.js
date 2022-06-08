@@ -5,7 +5,6 @@ const path = require('path');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
 const expect = require('chai').expect;
-const findWhere = require('ember-cli-lodash-subset').find;
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
@@ -144,7 +143,7 @@ describe('models/addon.js', function () {
 
     describe('generated addon', function () {
       beforeEach(function () {
-        addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
+        addon = project.addons.find((addon) => addon.name === 'ember-generated-with-export-addon');
 
         // Clear the caches
         delete addon._moduleName;
@@ -260,7 +259,7 @@ describe('models/addon.js', function () {
 
     describe('addon with dependencies', function () {
       beforeEach(function () {
-        addon = findWhere(project.addons, { name: 'ember-addon-with-dependencies' });
+        addon = project.addons.find((addon) => addon.name === 'ember-addon-with-dependencies');
       });
 
       it("returns a listing of all dependencies in the addon's package.json", function () {
@@ -566,7 +565,7 @@ describe('models/addon.js', function () {
 
       project.initializeAddons();
 
-      addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
+      addon = project.addons.find((addon) => addon.name === 'ember-generated-with-export-addon');
     });
 
     it('should not throw an error if addon/templates is present but empty', function () {
@@ -588,7 +587,7 @@ describe('models/addon.js', function () {
 
       project.initializeAddons();
 
-      addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
+      addon = project.addons.find((addon) => addon.name === 'ember-generated-with-export-addon');
     });
 
     it('should not call _getAddonTemplatesTreeFiles when default treePath is used', function () {

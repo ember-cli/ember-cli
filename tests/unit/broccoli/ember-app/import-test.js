@@ -7,7 +7,7 @@ const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
 const EmberApp = require('../../../../lib/broccoli/ember-app');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 const getDefaultUnpackagedDist = defaultPackagerHelpers.getDefaultUnpackagedDist;
@@ -54,7 +54,8 @@ describe('EmberApp: Bower Dependencies', function () {
     let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
     // Then
-    output = await buildOutput(packagedApplicationJs);
+    output = createBuilder(packagedApplicationJs);
+    await output.build();
     let results = output.read();
 
     expect(() => {
@@ -82,7 +83,8 @@ describe('EmberApp: Bower Dependencies', function () {
     let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
     // Then
-    output = await buildOutput(packagedApplicationJs);
+    output = createBuilder(packagedApplicationJs);
+    await output.build();
     let results = output.read();
 
     expect(() => {
@@ -115,7 +117,8 @@ describe('EmberApp: Bower Dependencies', function () {
     let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
     // Then
-    output = await buildOutput(packagedApplicationJs);
+    output = createBuilder(packagedApplicationJs);
+    await output.build();
     let results = output.read();
 
     expect(() => {
@@ -144,7 +147,8 @@ describe('EmberApp: Bower Dependencies', function () {
     let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
     // Then
-    output = await buildOutput(packagedApplicationJs);
+    output = createBuilder(packagedApplicationJs);
+    await output.build();
     let results = output.read();
 
     expect(() => {

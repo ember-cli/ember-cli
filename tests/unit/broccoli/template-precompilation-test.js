@@ -12,7 +12,7 @@ const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
 const EmberApp = require('../../../lib/broccoli/ember-app');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('template preprocessors', function () {
@@ -105,7 +105,8 @@ describe('template preprocessors', function () {
         },
       });
 
-      output = await buildOutput(addon.treeForAddon(path.join(addon.root, '/addon')));
+      output = createBuilder(addon.treeForAddon(path.join(addon.root, '/addon')));
+      await output.build();
 
       expect(output.read()).to.deep.equal({
         'fake-addon': {
@@ -179,7 +180,8 @@ describe('template preprocessors', function () {
         },
       });
 
-      output = await buildOutput(app.toTree());
+      output = createBuilder(app.toTree());
+      await output.build();
 
       let expectedContent = `export default class {}\nexport const template = hbs\`<!-- flerpy -->\``;
       let actualContent = output.read().assets['fake-app-test.js'];

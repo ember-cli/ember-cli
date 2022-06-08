@@ -6,7 +6,7 @@ const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
@@ -59,7 +59,8 @@ describe('Default Packager: Templates', function () {
 
     expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processTemplates(input.path()));
+    output = createBuilder(defaultPackager.processTemplates(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedProcessedTemplates).to.not.equal(null);
   });
@@ -81,7 +82,8 @@ describe('Default Packager: Templates', function () {
 
     expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processTemplates(input.path()));
+    output = createBuilder(defaultPackager.processTemplates(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -135,7 +137,8 @@ describe('Default Packager: Templates', function () {
 
     expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processTemplates(input.path()));
+    output = createBuilder(defaultPackager.processTemplates(input.path()));
+    await output.build();
 
     expect(addonPreprocessTreeHookCalled).to.equal(true);
     expect(addonPostprocessTreeHookCalled).to.equal(true);

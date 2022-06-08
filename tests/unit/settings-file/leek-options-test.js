@@ -6,7 +6,7 @@ const Yam = require('yam');
 const cliEntry = require('../../../lib/cli');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('.ember-cli leek options', function () {
@@ -30,7 +30,7 @@ describe('.ember-cli leek options', function () {
 
     let primaryPath = leekConfigFolder.path();
 
-    await buildOutput(primaryPath);
+    await createBuilder(primaryPath).build();
 
     let mockedYam = new Yam('ember-cli', {
       primary: primaryPath,

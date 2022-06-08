@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Default Packager: Vendor', function () {
@@ -61,7 +61,8 @@ describe('Default Packager: Vendor', function () {
 
     expect(defaultPackager._cachedVendor).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageVendor(input.path()));
+    output = createBuilder(defaultPackager.packageVendor(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedVendor).to.not.equal(null);
     expect(defaultPackager._cachedVendor._annotation).to.equal('Packaged Vendor');
@@ -70,7 +71,8 @@ describe('Default Packager: Vendor', function () {
   it('packages vendor files', async function () {
     let defaultPackager = new DefaultPackager();
 
-    output = await buildOutput(defaultPackager.packageVendor(input.path()));
+    output = createBuilder(defaultPackager.packageVendor(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
