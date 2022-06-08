@@ -1,5 +1,39 @@
 # ember-cli Changelog
 
+## v4.5.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.4.0...v4.5.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.4.0...v4.5.0-beta.1)
+
+#### Changelog
+
+- [#9760](https://github.com/ember-cli/ember-cli/pull/9760) Add `timeout-minutes` to GitHub CI jobs in `app` and `addon` blueprints [@mansona](https://github.com/mansona)
+- [#9777](https://github.com/ember-cli/ember-cli/pull/9777) [DOC] Add bower note [@jenweber](https://github.com/jenweber)
+- [#9778](https://github.com/ember-cli/ember-cli/pull/9778) Prune lodash dependencies [@locks](https://github.com/locks)
+- [#9785](https://github.com/ember-cli/ember-cli/pull/9785) Generate correct directory name in `README.md` and `CONTRIBUTING.md` files [@bertdeblock](https://github.com/bertdeblock)
+- [#9805](https://github.com/ember-cli/ember-cli/pull/9805) Add Node v16 to `Node Support` docs [@bertdeblock](https://github.com/bertdeblock)
+- [#9823](https://github.com/ember-cli/ember-cli/pull/9823) [RFC 801] Deprecate `blacklist` and `whitelist` build options [@bertdeblock](https://github.com/bertdeblock)
+- [#9825](https://github.com/ember-cli/ember-cli/pull/9825) Remove `ember-export-application-global` addon from `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9848](https://github.com/ember-cli/ember-cli/pull/9848) Update `ember-cli-dependency-checker` to v3.3.1 [@gnclmorais](https://github.com/gnclmorais)
+- [#9857](https://github.com/ember-cli/ember-cli/pull/9857) Use `createBuilder` instead of deprecated `buildOutput` in test suite [@geneukum](https://github.com/geneukum)
+- [#9858](https://github.com/ember-cli/ember-cli/pull/9858) Remove `EXTEND_PROTOTYPES` object in the app's `config/environment.js` file [@bertdeblock](https://github.com/bertdeblock)
+- [#9859](https://github.com/ember-cli/ember-cli/pull/9859) Update `git.io` URLs [@bertdeblock](https://github.com/bertdeblock)
+- [#9860](https://github.com/ember-cli/ember-cli/pull/9860) Add inline comment RE: `runningTests` variable [@bertdeblock](https://github.com/bertdeblock)
+- [#9886](https://github.com/ember-cli/ember-cli/pull/9886) Remove deletion of `@ember/jquery` in addon blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9906](https://github.com/ember-cli/ember-cli/pull/9906) Drop support for Node v12 [@bertdeblock](https://github.com/bertdeblock)
+- [#9909](https://github.com/ember-cli/ember-cli/pull/9909) Deprecate support for `ember-cli-jshint` [@bertdeblock](https://github.com/bertdeblock)
+- [#9914](https://github.com/ember-cli/ember-cli/pull/9914) Temporarily skip failing ember new test for npm versions <= v6.0.0 [@bertdeblock](https://github.com/bertdeblock)
+- [#9770](https://github.com/ember-cli/ember-cli/pull/9770) Include the addon’s name in the warning when a core command is overridden [@davecombs](https://github.com/davecombs)
+- [#9890](https://github.com/ember-cli/ember-cli/pull/9890) Make sure addons are discovered only once [@wagenet](https://github.com/wagenet)
+- [#9898](https://github.com/ember-cli/ember-cli/pull/9898) Remove deprecated `addonJsFiles` method on `addon` model [@bertdeblock](https://github.com/bertdeblock)
+- [#9900](https://github.com/ember-cli/ember-cli/pull/9900) Remove unused CLI error class [@bertdeblock](https://github.com/bertdeblock)
+- [#9917](https://github.com/ember-cli/ember-cli/pull/9917) update beta deps [@kellyselden](https://github.com/kellyselden)
+- [#9919](https://github.com/ember-cli/ember-cli/pull/9919) Clean up `ember-addon` object in package file when destroying an in-repo addon [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v4.4.0
 
 #### Blueprint Changes
