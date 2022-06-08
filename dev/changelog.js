@@ -154,11 +154,13 @@ async function main() {
     } else {
       // didn't find a PR
       entry.title = entry.commitInfo.commit.message.split('\n\n')[0];
-      entry.author = entry.commitInfo.author.login;
+      entry.author = entry.commitInfo.author?.login;
     }
   }
 
   let changelogEntries = contributions
+    // For example `Merge branch 'master' into user/branch`
+    .filter((entry) => entry.author)
     // filters PR's _from_ dependabot that were merged manually
     .filter((entry) => entry.author !== 'dependabot-preview[bot]' && entry.author !== 'dependabot[bot]')
     .map((pr) => {
