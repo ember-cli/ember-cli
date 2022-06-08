@@ -2,6 +2,8 @@
 /blueprints/**/files/
 /common-tmp/
 /coverage/
+/docs/build/
+/node_modules/
 /tests/fixtures/
 /tmp/
 
@@ -11,4 +13,4 @@
 /lib/broccoli/vendor-*.js
 
 !.*
-/node_modules/
+/.git/
