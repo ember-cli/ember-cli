@@ -95,7 +95,7 @@ function comparePrNumber(a, b) {
   return 0;
 }
 
-async function processPages(res) {
+function processPages(res) {
   return res.data.commits
     .filter(excludeDependabot)
     .filter(isPullRequestMergeOrCherryPick)
@@ -131,57 +131,55 @@ async function processPages(res) {
 async function main() {
   let github = new Octokit({ version: '3.0.0', auth: process.env.GITHUB_AUTH });
 
-  github.repos
-    .compareCommits({
-      owner: 'ember-cli',
-      repo: 'ember-cli',
-      base: currentVersion,
-      head: branch,
-    })
-    .then(processPages)
-    .then(async (contributions) => {
-      for (let entry of contributions) {
-        if (entry.number) {
-          let prInfo = await github.pulls.get({
-            owner: 'ember-cli',
-            repo: 'ember-cli',
-            // eslint-disable-next-line
-          pull_number: entry.number
-          });
+  let res = await github.repos.compareCommits({
+    owner: 'ember-cli',
+    repo: 'ember-cli',
+    base: currentVersion,
+    head: branch,
+  });
 
-          entry.title = prInfo.data.title;
-          entry.author = prInfo.data.user.login;
-        } else {
-          // didn't find a PR
-          entry.title = entry.commitInfo.commit.message.split('\n\n')[0];
-          entry.author = entry.commitInfo.author.login;
-        }
+  let contributions = processPages(res);
+
+  for (let entry of contributions) {
+    if (entry.number) {
+      let prInfo = await github.pulls.get({
+        owner: 'ember-cli',
+        repo: 'ember-cli',
+        // eslint-disable-next-line camelcase
+        pull_number: entry.number,
+      });
+
+      entry.title = prInfo.data.title;
+      entry.author = prInfo.data.user.login;
+    } else {
+      // didn't find a PR
+      entry.title = entry.commitInfo.commit.message.split('\n\n')[0];
+      entry.author = entry.commitInfo.author.login;
+    }
+  }
+
+  let changelogEntries = contributions
+    // filters PR's _from_ dependabot that were merged manually
+    .filter((entry) => entry.author !== 'dependabot-preview[bot]' && entry.author !== 'dependabot[bot]')
+    .map((pr) => {
+      let link;
+      if (pr.number) {
+        link = `[#${pr.number}](https://github.com/ember-cli/ember-cli/pull/${pr.number})`;
+      } else {
+        link = `[${pr.commitInfo.sha}](${pr.commitInfo.html_url})`;
       }
+      let title = pr.title;
+      let author = `[@${pr.author}]` + `(https://github.com/${pr.author})`;
 
-      let changelogEntries = contributions
-        // filters PR's _from_ dependabot that were merged manually
-        .filter((entry) => entry.author !== 'dependabot-preview[bot]' && entry.author !== 'dependabot[bot]')
-        .map((pr) => {
-          let link;
-          if (pr.number) {
-            link = `[#${pr.number}](https://github.com/ember-cli/ember-cli/pull/${pr.number})`;
-          } else {
-            link = `[${pr.commitInfo.sha}](${pr.commitInfo.html_url})`;
-          }
-          let title = pr.title;
-          let author = `[@${pr.author}]` + `(https://github.com/${pr.author})`;
-
-          return `- ${link} ${title} ${author}`;
-        })
-        .join('\n');
-
-      let changelog = generateChangelog(changelogEntries);
-
-      console.log(changelog);
+      return `- ${link} ${title} ${author}`;
     })
-    .catch((err) => {
-      console.error(err);
-    });
+    .join('\n');
+
+  let changelog = generateChangelog(changelogEntries);
+
+  console.log(changelog);
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+});
