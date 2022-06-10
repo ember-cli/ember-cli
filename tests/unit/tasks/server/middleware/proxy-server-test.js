@@ -17,7 +17,7 @@ describe('proxy-server', function () {
       liveReloadPrefix: 'test/',
     };
     let req = {
-      url: 'test/livereload',
+      url: '/test/livereload',
     };
     expect(proxyServer.handleProxiedRequest({ req, options })).to.undefined;
   });
