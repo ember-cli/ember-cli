@@ -12,25 +12,21 @@ describe('build command', function () {
 
   beforeEach(function () {
     tasks = {
-      Build: Task.extend({
+      Build: class extends Task {
         init() {
-          this._super.init && this._super.init.apply(this, arguments);
+          super.init(...arguments);
           buildTaskInstance = this;
-        },
-      }),
+        }
+      },
 
-      BuildWatch: Task.extend({
+      BuildWatch: class extends Task {
         init() {
-          this._super.init && this._super.init.apply(this, arguments);
+          super.init(...arguments);
           buildWatchTaskInstance = this;
-        },
-      }),
+        }
+      },
 
-      ShowAssetSizes: Task.extend({
-        init() {
-          this._super.init && this._super.init.apply(this, arguments);
-        },
-      }),
+      ShowAssetSizes: class extends Task {},
     };
 
     options = commandOptions({

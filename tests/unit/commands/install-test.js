@@ -50,21 +50,25 @@ describe('install command', function () {
 
     tasks = {
       AddonInstall,
-      NpmInstall: Task.extend({
-        project,
+      NpmInstall: class extends Task {
         init() {
-          this._super.apply(this, arguments);
-          npmInstance = this;
-        },
-      }),
+          super.init(...arguments);
 
-      GenerateFromBlueprint: Task.extend({
-        project,
+          this.project = project;
+
+          npmInstance = this;
+        }
+      },
+
+      GenerateFromBlueprint: class extends Task {
         init() {
-          this._super.apply(this, arguments);
+          super.init(...arguments);
+
+          this.project = project;
+
           generateBlueprintInstance = this;
-        },
-      }),
+        }
+      },
     };
 
     let options = commandOptions({
