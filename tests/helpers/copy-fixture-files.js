@@ -6,5 +6,8 @@ const path = require('path');
 let rootPath = process.cwd();
 
 module.exports = function copyFixtureFiles(sourceDir) {
-  return fs.copy(path.join(rootPath, 'tests', 'fixtures', sourceDir), '.', { overwrite: true });
+  return fs.copy(path.join(rootPath, 'tests', 'fixtures', sourceDir), '.', {
+    dereference: true,
+    overwrite: true,
+  });
 };
