@@ -52,7 +52,3 @@ describe('asset-sizes command', function () {
     });
   });
 });
-
-describe.skip('default options config file', function () {
-  it('reads default options from .ember-cli file', function () {});
-});
