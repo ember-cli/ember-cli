@@ -33,7 +33,7 @@ Node.js](https://github.com/nodejs/LTS#lts_schedule).
 * v14: Released as stable version then converted to LTS.
   * Supported by ember-cli/ember-cli#master until: 2023-04-30.
 * v16: Released as stable version then converted to LTS.
-  * Supported by ember-cli/ember-cli#master until: 2024-04-30.
+  * Supported by ember-cli/ember-cli#master until: 2023-09-11.
 
 ## Release Process and Support Policy
 
