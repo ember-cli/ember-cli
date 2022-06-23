@@ -21,6 +21,7 @@ describe('platform-checker', function () {
     check('v14.0.0', { isTested: true, isDeprecated: false, isValid: true });
     check('v15.0.0', { isTested: false, isDeprecated: false, isValid: true });
     check('v16.0.0', { isTested: true, isDeprecated: false, isValid: true });
+    check('v18.0.0', { isTested: true, isDeprecated: false, isValid: true });
   });
 
   it('checkIsDeprecated', function () {
