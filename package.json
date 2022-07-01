@@ -95,7 +95,7 @@
     "http-proxy": "^1.18.1",
     "inflection": "^1.13.1",
     "is-git-url": "^1.0.0",
-    "is-language-code": "^3.1.0",
+    "is-language-code": "^4.0.14",
     "isbinaryfile": "^5.0.0",
     "js-yaml": "^3.14.0",
     "leek": "0.0.24",
