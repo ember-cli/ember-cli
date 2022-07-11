@@ -7,7 +7,7 @@ const EmberApp = require('../../../../lib/broccoli/ember-app');
 const MockCLI = require('../../../helpers/mock-cli');
 const Project = require('../../../../lib/models/project');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const walkSync = require('walk-sync');
 
@@ -127,7 +127,8 @@ describe('EmberApp#appAndDependencies', function () {
       });
     };
 
-    output = await buildOutput(app.getExternalTree());
+    output = createBuilder(app.getExternalTree());
+    await output.build();
     let actualFiles = getFiles(output.path());
 
     expect(actualFiles).to.contain('addon-tree-output/modules/my-addon/index.js');

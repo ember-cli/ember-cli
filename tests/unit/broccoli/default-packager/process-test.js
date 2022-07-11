@@ -6,7 +6,7 @@ const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
@@ -113,7 +113,8 @@ describe('Default Packager: Process Javascript', function () {
 
     expect(defaultPackager._cachedProcessedAppAndDependencies).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processAppAndDependencies(input.path()));
+    output = createBuilder(defaultPackager.processAppAndDependencies(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedProcessedAppAndDependencies).to.not.equal(null);
     expect(defaultPackager._cachedProcessedAppAndDependencies._annotation).to.equal(

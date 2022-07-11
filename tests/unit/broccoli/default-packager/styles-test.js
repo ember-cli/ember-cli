@@ -6,7 +6,7 @@ const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
@@ -107,7 +107,8 @@ describe('Default Packager: Styles', function () {
 
     expect(defaultPackager._cachedProcessedStyles).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageStyles(input.path()));
+    output = createBuilder(defaultPackager.packageStyles(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedProcessedStyles).to.not.equal(null);
     expect(defaultPackager._cachedProcessedStyles._annotation).to.equal('Packaged Styles');
@@ -142,7 +143,8 @@ describe('Default Packager: Styles', function () {
 
     expect(defaultPackager._cachedProcessedStyles).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageStyles(input.path()));
+    output = createBuilder(defaultPackager.packageStyles(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -180,7 +182,8 @@ describe('Default Packager: Styles', function () {
 
     expect(defaultPackager._cachedProcessedStyles).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageStyles(input.path()));
+    output = createBuilder(defaultPackager.packageStyles(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -226,7 +229,8 @@ describe('Default Packager: Styles', function () {
 
     expect(defaultPackager._cachedProcessedStyles).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageStyles(input.path()));
+    output = createBuilder(defaultPackager.packageStyles(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -262,7 +266,8 @@ describe('Default Packager: Styles', function () {
 
     expect(defaultPackager._cachedProcessedStyles).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageStyles(input.path()));
+    output = createBuilder(defaultPackager.packageStyles(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 
@@ -320,7 +325,8 @@ describe('Default Packager: Styles', function () {
 
     expect(defaultPackager._cachedProcessedStyles).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageStyles(input.path()));
+    output = createBuilder(defaultPackager.packageStyles(input.path()));
+    await output.build();
 
     expect(addonPreprocessTreeHookCalled).to.equal(true);
     expect(addonPostprocessTreeHookCalled).to.equal(true);
@@ -363,7 +369,8 @@ describe('Default Packager: Styles', function () {
 
     expect(defaultPackager._cachedProcessedStyles).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packageStyles(input.path()));
+    output = createBuilder(defaultPackager.packageStyles(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 

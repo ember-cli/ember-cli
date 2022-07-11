@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Default Packager: Public', function () {
@@ -40,7 +40,8 @@ describe('Default Packager: Public', function () {
 
     expect(defaultPackager._cachedPublic).to.equal(null);
 
-    output = await buildOutput(defaultPackager.packagePublic(input.path()));
+    output = createBuilder(defaultPackager.packagePublic(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedPublic).to.not.equal(null);
   });
@@ -48,7 +49,8 @@ describe('Default Packager: Public', function () {
   it('packages public files', async function () {
     let defaultPackager = new DefaultPackager();
 
-    output = await buildOutput(defaultPackager.packagePublic(input.path()));
+    output = createBuilder(defaultPackager.packagePublic(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
 

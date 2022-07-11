@@ -8,7 +8,7 @@ const td = require('testdouble');
 const broccoliTestHelper = require('broccoli-test-helper');
 const { WatchedDir, UnwatchedDir } = require('broccoli-source');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 const MockCLI = require('../../helpers/mock-cli');
@@ -125,7 +125,8 @@ describe('EmberApp', function () {
         });
         mockTemplateRegistry(app);
 
-        output = await buildOutput(app.toTree());
+        output = createBuilder(app.toTree());
+        await output.build();
 
         let outputFiles = output.read();
 
@@ -162,7 +163,8 @@ describe('EmberApp', function () {
 
         app.getAppJavascript = () => js.path();
 
-        output = await buildOutput(app.toTree());
+        output = createBuilder(app.toTree());
+        await output.build();
 
         let outputFiles = output.read();
 
@@ -217,7 +219,8 @@ describe('EmberApp', function () {
           packageTests: td.function(),
         };
 
-        output = await buildOutput(app.toTree());
+        output = createBuilder(app.toTree());
+        await output.build();
 
         td.verify(app.getAppJavascript(false));
         td.verify(app.getStyles());
@@ -250,7 +253,8 @@ describe('EmberApp', function () {
           },
         });
 
-        output = await buildOutput(app.toTree());
+        output = createBuilder(app.toTree());
+        await output.build();
 
         let outputFiles = output.read();
 
@@ -279,7 +283,8 @@ describe('EmberApp', function () {
 
       app.addonTreesFor = () => [];
 
-      let output = await buildOutput(app.getStyles());
+      let output = createBuilder(app.getStyles());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles).to.deep.equal({
@@ -306,7 +311,8 @@ describe('EmberApp', function () {
       let addonFoo = new AddonFoo(app, project);
       app.project.addons.push(addonFoo);
 
-      let output = await buildOutput(app.getStyles());
+      let output = createBuilder(app.getStyles());
+      await output.build();
       let outputFiles = output.read();
 
       let expectedOutput = {};
@@ -341,7 +347,8 @@ describe('EmberApp', function () {
       let addonFoo = new AddonFoo(app, project);
       app.project.addons.push(addonFoo);
 
-      let output = await buildOutput(app.getStyles());
+      let output = createBuilder(app.getStyles());
+      await output.build();
       let outputFiles = output.read();
 
       let expectedOutput = {
@@ -383,7 +390,8 @@ describe('EmberApp', function () {
         return [addonFooStyles.path(), addonBarStyles.path()];
       };
 
-      let output = await buildOutput(app.getStyles());
+      let output = createBuilder(app.getStyles());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles).to.deep.equal({
@@ -408,7 +416,8 @@ describe('EmberApp', function () {
       });
       app.addonTreesFor = () => [];
 
-      let output = await buildOutput(app.getStyles());
+      let output = createBuilder(app.getStyles());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles).to.deep.equal({});
@@ -443,7 +452,8 @@ describe('EmberApp', function () {
         return [addonFooPublic.path(), addonBarPublic.path()];
       };
 
-      let output = await buildOutput(app.getPublic());
+      let output = createBuilder(app.getPublic());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles).to.deep.equal({
@@ -487,7 +497,8 @@ describe('EmberApp', function () {
         return [addonFooPublic.path(), addonBarPublic.path()];
       };
 
-      let output = await buildOutput(app.getPublic());
+      let output = createBuilder(app.getPublic());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles).to.deep.equal({
@@ -527,7 +538,8 @@ describe('EmberApp', function () {
         return [addonFooTemplates.path(), addonBarTemplates.path()];
       };
 
-      let output = await buildOutput(app.getAddonTemplates());
+      let output = createBuilder(app.getAddonTemplates());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles['test-project'].templates).to.deep.equal({
@@ -585,7 +597,8 @@ describe('EmberApp', function () {
         return [];
       };
 
-      let output = await buildOutput(app.getTests());
+      let output = createBuilder(app.getTests());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles.tests).to.deep.equal({
@@ -640,7 +653,8 @@ describe('EmberApp', function () {
         return [];
       };
 
-      let output = await buildOutput(app.getTests());
+      let output = createBuilder(app.getTests());
+      await output.build();
       let outputFiles = output.read();
 
       expect(outputFiles.tests).to.deep.equal({
