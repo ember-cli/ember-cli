@@ -1,5 +1,45 @@
 # ember-cli Changelog
 
+## v4.6.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.5.0...v4.6.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.5.0...v4.6.0-beta.1)
+
+#### Changelog
+
+- [#9890](https://github.com/ember-cli/ember-cli/pull/9890) Make sure addons are discovered only once [@wagenet](https://github.com/wagenet)
+- [#9770](https://github.com/ember-cli/ember-cli/pull/9770) Include the addon’s name in the warning when a core command is overridden [@davecombs](https://github.com/davecombs)
+- [#9863](https://github.com/ember-cli/ember-cli/pull/9863) [INTERNAL] Add `.prettierignore` file to Ember CLI repo [@bertdeblock](https://github.com/bertdeblock)
+- [#9872](https://github.com/ember-cli/ember-cli/pull/9872) [INTERNAL] Use native classes for tasks in test suite [@bertdeblock](https://github.com/bertdeblock)
+- [#9885](https://github.com/ember-cli/ember-cli/pull/9885) [CLEANUP] Remove `ie 11` from default targets [@bertdeblock](https://github.com/bertdeblock)
+- [#9898](https://github.com/ember-cli/ember-cli/pull/9898) Remove deprecated `addonJsFiles` method on `addon` model [@bertdeblock](https://github.com/bertdeblock)
+- [#9899](https://github.com/ember-cli/ember-cli/pull/9899) Remove deprecated internal `silent` error [@bertdeblock](https://github.com/bertdeblock)
+- [#9900](https://github.com/ember-cli/ember-cli/pull/9900) Remove unused CLI error class [@bertdeblock](https://github.com/bertdeblock)
+- [#9902](https://github.com/ember-cli/ember-cli/pull/9902) Remove support for `ember-cli-inject-live-reload` < v1.10.0 [@bertdeblock](https://github.com/bertdeblock)
+- [#9903](https://github.com/ember-cli/ember-cli/pull/9903) Deprecate `vendor-shim` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9904](https://github.com/ember-cli/ember-cli/pull/9904) Update Node compatibility warning [@bertdeblock](https://github.com/bertdeblock)
+- [#9906](https://github.com/ember-cli/ember-cli/pull/9906) Drop support for Node v12 [@bertdeblock](https://github.com/bertdeblock)
+- [#9907](https://github.com/ember-cli/ember-cli/pull/9907) Remove ESLint config file from `server` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#9908](https://github.com/ember-cli/ember-cli/pull/9908) Remove support for finding an addon by its unscoped name [@bertdeblock](https://github.com/bertdeblock)
+- [#9909](https://github.com/ember-cli/ember-cli/pull/9909) Deprecate support for `ember-cli-jshint` [@bertdeblock](https://github.com/bertdeblock)
+- [#9917](https://github.com/ember-cli/ember-cli/pull/9917) update beta deps [@kellyselden](https://github.com/kellyselden)
+- [#9919](https://github.com/ember-cli/ember-cli/pull/9919) Clean up `ember-addon` object in package file when destroying an in-repo addon [@bertdeblock](https://github.com/bertdeblock)
+- [#9935](https://github.com/ember-cli/ember-cli/pull/9935) Update dev changelog script [@kellyselden](https://github.com/kellyselden)
+- [#9938](https://github.com/ember-cli/ember-cli/pull/9938) [INTERNAL] Fix internal `sequence` util [@bertdeblock](https://github.com/bertdeblock)
+- [#9939](https://github.com/ember-cli/ember-cli/pull/9939) Update `fs-extra` to v10 [@bertdeblock](https://github.com/bertdeblock)
+- [#9937](https://github.com/ember-cli/ember-cli/pull/9937) [INTERNAL] Remove old `deprecate` utility [@bertdeblock](https://github.com/bertdeblock)
+- [#9941](https://github.com/ember-cli/ember-cli/pull/9941) Update `filesize` to v9 [@bertdeblock](https://github.com/bertdeblock)
+- [#9942](https://github.com/ember-cli/ember-cli/pull/9942) Update `isbinaryfile` to v5 [@bertdeblock](https://github.com/bertdeblock)
+- [#9944](https://github.com/ember-cli/ember-cli/pull/9944) Add support for Node v18 [@ddzz](https://github.com/ddzz)
+- [#9947](https://github.com/ember-cli/ember-cli/pull/9947) [DOC] Update EOL date for Node v16 in `Node Support` doc [@bertdeblock](https://github.com/bertdeblock)
+- [#9953](https://github.com/ember-cli/ember-cli/pull/9953) Update `resolve-package-path` to v4 [@bertdeblock](https://github.com/bertdeblock)
+- [#9954](https://github.com/ember-cli/ember-cli/pull/9954) Update `jsdom` to v20 [@bertdeblock](https://github.com/bertdeblock)
+- [#9969](https://github.com/ember-cli/ember-cli/pull/9969) update ember source beta [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
 ## v4.5.0
 
 #### Blueprint Changes
