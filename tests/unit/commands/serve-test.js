@@ -17,7 +17,7 @@ describe('serve command', function () {
 
   beforeEach(function () {
     tasks = {
-      Serve: Task.extend(),
+      Serve: class extends Task {},
     };
 
     options = commandOptions({

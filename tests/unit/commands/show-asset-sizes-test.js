@@ -17,7 +17,7 @@ describe('asset-sizes command', function () {
 
   beforeEach(function () {
     tasks = {
-      ShowAssetSizes: Task.extend({}),
+      ShowAssetSizes: class extends Task {},
     };
 
     options = commandOptions({
