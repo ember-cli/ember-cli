@@ -25,7 +25,7 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function () {
-  this.timeout(30000);
+  this.timeout(300000);
   let ORIGINAL_PROCESS_ENV_CI;
 
   beforeEach(async function () {
@@ -43,10 +43,10 @@ describe('Acceptance: ember new', function () {
     return tmp.teardown(tmpDir);
   });
 
-  function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo') {
+  function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', ext = 'js') {
     let blueprintPath = path.join(root, blueprintDir, 'files');
     // ignore .travis.yml
-    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] });
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] }).map((name) => name.replace('__ext__', ext));
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
@@ -479,7 +479,7 @@ describe('Acceptance: ember new', function () {
       let namespace = 'app';
       let fixturePath = `${namespace}/defaults`;
 
-      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
+      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md', '.ember-cli'].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
@@ -512,6 +512,7 @@ describe('Acceptance: ember new', function () {
         '.github/workflows/ci.yml',
         'README.md',
         'CONTRIBUTING.md',
+        '.ember-cli',
       ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
@@ -631,6 +632,60 @@ describe('Acceptance: ember new', function () {
       expect(file('.github/workflows/ci.yml')).to.not.exist;
 
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+    });
+
+    it('app + typescript', async function () {
+      // This is a very slow test, as the blueprint installs ember-cli-typescript, which requires installing all dependencies,
+      // regardless of --skip-npm
+      this.timeout(600000);
+
+      // we have to use yarn here, as npm fails on unresolvable peer dependencies, see https://github.com/emberjs/ember-test-helpers/issues/1236
+      await ember(['new', 'foo', '--typescript', '--skip-npm', '--skip-bower', '--skip-git', '--yarn']);
+
+      let fixturePath = 'app/typescript';
+
+      // check fixtures
+      ['.ember-cli'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
+      });
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
+      checkEslintConfig(fixturePath);
+
+      // smoke test for the existence of essential TypeScript features...
+      // we are deliberately *not* comparing the package.json against a fixture here, as we have delegated essential
+      // TS setup to ember-cli-typescript's own blueprint. Instead, we are relying on its own test coverage, otherwise
+      // we would get very brittle tests
+      let pkgJson = fs.readJsonSync('package.json');
+      expect(pkgJson.scripts['lint:ts']).to.equal('tsc --noEmit');
+      expect(pkgJson.devDependencies['ember-cli-typescript']).to.exist;
+      expect(pkgJson.devDependencies['typescript']).to.exist;
+      expect(Object.keys(pkgJson.devDependencies).some((pkgName) => pkgName.match(/^@types/))).to.be.true;
+
+      expect(file('tsconfig.json')).to.exist;
+    });
+
+    it('addon + typescript', async function () {
+      this.timeout(600000);
+
+      await ember(['addon', 'foo', '--typescript', '--skip-npm', '--skip-bower', '--skip-git', '--yarn']);
+
+      let fixturePath = 'addon/typescript';
+
+      // check fixtures
+      ['.ember-cli'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
+      });
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+      checkEslintConfig(fixturePath);
+
+      // smoke test for the existence of essential TypeScript features... (see app test)
+      let pkgJson = fs.readJsonSync('package.json');
+      expect(pkgJson.scripts['lint:ts']).to.equal('tsc --noEmit');
+      expect(pkgJson.devDependencies['ember-cli-typescript']).to.exist;
+      expect(pkgJson.devDependencies['typescript']).to.exist;
+      expect(Object.keys(pkgJson.devDependencies).some((pkgName) => pkgName.match(/^@types/))).to.be.true;
+
+      expect(file('tsconfig.json')).to.exist;
     });
   });
 

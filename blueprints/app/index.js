@@ -37,6 +37,7 @@ module.exports = {
           options.yarn && '"--yarn"',
           embroider && '"--embroider"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+          options.typescript && `"--typescript"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -56,6 +57,8 @@ module.exports = {
       embroider,
       lang: options.lang,
       ciProvider: options.ciProvider,
+      typescript: options.typescript,
+      ext: options.typescript ? 'ts' : 'js',
     };
   },
 
@@ -74,6 +77,14 @@ module.exports = {
     return this._files;
   },
 
+  fileMapTokens(options) {
+    let { ext } = options.locals;
+
+    return {
+      __ext__: () => ext,
+    };
+  },
+
   beforeInstall() {
     const version = require('../../package.json').version;
     const prependEmoji = require('../../lib/utilities/prepend-emoji');
@@ -81,5 +92,11 @@ module.exports = {
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
+  },
+
+  async afterInstall(options) {
+    if (options.typescript) {
+      await this.addAddonToProject({ name: 'ember-cli-typescript', blueprintOptions: options });
+    }
   },
 };

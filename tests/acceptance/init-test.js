@@ -47,10 +47,12 @@ describe('Acceptance: ember init', function () {
     process.chdir(root);
   });
 
-  function confirmBlueprinted() {
+  function confirmBlueprinted(ext = 'js') {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
     // ignore .travis.yml
-    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] }).sort();
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] })
+      .map((name) => name.replace('__ext__', ext))
+      .sort();
     let actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function (destFile, srcFile) {

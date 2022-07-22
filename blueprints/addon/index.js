@@ -100,13 +100,17 @@ module.exports = {
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
   },
 
-  afterInstall() {
+  async afterInstall(options) {
     let packagePath = path.join(this.path, 'files', 'package.json');
     let bowerPath = path.join(this.path, 'files', 'bower.json');
 
     [packagePath, bowerPath].forEach((filePath) => {
       fs.removeSync(filePath);
     });
+
+    if (options.typescript) {
+      await this.addAddonToProject({ name: 'ember-cli-typescript', blueprintOptions: options });
+    }
   },
 
   locals(options) {
@@ -132,6 +136,7 @@ module.exports = {
           options.welcome && '"--welcome"',
           options.yarn && '"--yarn"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+          options.typescript && `"--typescript"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -154,6 +159,16 @@ module.exports = {
       embroider: false,
       lang: options.lang,
       ciProvider: options.ciProvider,
+      typescript: options.typescript,
+      ext: options.typescript ? 'ts' : 'js',
+    };
+  },
+
+  fileMapTokens(options) {
+    let { ext } = options.locals;
+
+    return {
+      __ext__: () => ext,
     };
   },
 
