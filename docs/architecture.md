@@ -161,15 +161,17 @@ So, tasks don't have a return value per design.
 
 The file format of a task looks like this:
 ``` JavaScript
-// tasks/npm-install.js
+// ./lib/tasks/npm-install.js
 
-let Task = require('../task');
+'use strict';
 
-module.exports = Task.extend({
-  run(options) {
+const Task = require('../models/task');
+
+module.exports = class NpmInstallTask extends Task {
+  run(/* options */) {
     // return promise
   }
-});
+};
 ```
 
 `requireAsHash()` assembles from the files in `tasks/` a hash that looks like this:
@@ -263,13 +265,18 @@ when that task is invoked, not for `ember help` `ember version` or even
 `ember server`. This introduces a 200ms-300ms startup penalty.
 
 ```js
-let npm = require('npm');
+// ./lib/tasks/npm-install.js
 
-module.exports = Task.extend({
+'use strict';
+
+const npm = require('npm');
+const Task = require('../models/task');
+
+module.exports = class NpmInstallTask extends Task {
   run() {
-    npm.install() // or something
+    npm.install(); // or something
   }
-});
+};
 ```
 
 If a dependency (like bower or npm) turns out to have high startup cost,
@@ -280,14 +287,21 @@ refactoring can likely automate this process.
 example:
 
 ```js
-module.exports = Task.extend({
+// ./lib/tasks/npm-install.js
+
+'use strict';
+
+const Task = require('../models/task');
+
+module.exports = class NpmInstallTask extends Task {
   init() {
     this.npm = this.npm || require('npm');
-  },
-  run() {
-    this.npm.install() // or something
   }
-});
+
+  run() {
+    this.npm.install(); // or something
+  }
+};
 ```
 
 ### Sync vs async

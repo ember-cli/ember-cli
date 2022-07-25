@@ -16,10 +16,12 @@ describe('platform-checker', function () {
 
     check('v8.0.0', { isTested: false, isDeprecated: true, isValid: false });
     check('v10.0.0', { isTested: false, isDeprecated: true, isValid: false });
-    check('v12.0.0', { isTested: true, isDeprecated: false, isValid: true });
-    check('v13.0.0', { isTested: false, isDeprecated: false, isValid: true });
+    check('v12.0.0', { isTested: false, isDeprecated: true, isValid: false });
+    check('v13.0.0', { isTested: false, isDeprecated: true, isValid: false });
     check('v14.0.0', { isTested: true, isDeprecated: false, isValid: true });
     check('v15.0.0', { isTested: false, isDeprecated: false, isValid: true });
+    check('v16.0.0', { isTested: true, isDeprecated: false, isValid: true });
+    check('v18.0.0', { isTested: true, isDeprecated: false, isValid: true });
   });
 
   it('checkIsDeprecated', function () {

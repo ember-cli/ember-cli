@@ -85,11 +85,11 @@ describe('new command', function () {
   });
 
   it('passes command options through to init command', async function () {
-    command.tasks.CreateAndStepIntoDirectory = Task.extend({
+    command.tasks.CreateAndStepIntoDirectory = class extends Task {
       run() {
         return Promise.resolve();
-      },
-    });
+      }
+    };
 
     command.commands.Init = Command.extend({
       run(commandOptions) {

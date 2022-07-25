@@ -282,7 +282,7 @@ describe('models/project.js', function () {
 
       it('returns the default targets', function () {
         expect(project.targets).to.deep.equal({
-          browsers: ['ie 11', 'last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'],
+          browsers: ['last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'],
         });
       });
     });
@@ -294,8 +294,6 @@ describe('models/project.js', function () {
       packageContents = require(path.join(projectPath, 'package.json'));
 
       makeProject();
-
-      project.initializeAddons();
     });
 
     it("returns a listing of all dependencies in the project's package.json", function () {
@@ -331,6 +329,8 @@ describe('models/project.js', function () {
     });
 
     it('returns a listing of all ember-cli-addons directly depended on by the project', function () {
+      project.initializeAddons();
+
       let expected = [
         'amd-transform',
         'broccoli-serve-files',
@@ -349,10 +349,13 @@ describe('models/project.js', function () {
         'ember-super-button',
         'ember-with-addon-main',
       ];
+
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
 
     it('returns instances of the addons', function () {
+      project.initializeAddons();
+
       let addons = project.addons;
 
       expect(addons[8].name).to.equal('ember-before-blueprint-addon');
@@ -362,12 +365,16 @@ describe('models/project.js', function () {
     });
 
     it('addons get passed the project instance', function () {
+      project.initializeAddons();
+
       let addons = project.addons;
 
       expect(addons[1].project).to.equal(project);
     });
 
     it('returns an instance of an addon that uses `ember-addon-main`', function () {
+      project.initializeAddons();
+
       let addons = project.addons;
 
       expect(addons[10].name).to.equal('ember-random-addon');
@@ -380,6 +387,8 @@ describe('models/project.js', function () {
     });
 
     it('returns a listing of all addon blueprints paths ordered by last loaded when called once', function () {
+      project.initializeAddons();
+
       let loadedBlueprintPaths = [
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
@@ -394,6 +403,8 @@ describe('models/project.js', function () {
     });
 
     it('returns a listing of all addon blueprints paths ordered by last loaded when called twice', function () {
+      project.initializeAddons();
+
       let loadedBlueprintPaths = [
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
@@ -409,6 +420,8 @@ describe('models/project.js', function () {
     });
 
     it('returns a listing of all blueprints paths', function () {
+      project.initializeAddons();
+
       let expected = [
         project.root + path.normalize('/blueprints'),
         project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
@@ -428,6 +441,8 @@ describe('models/project.js', function () {
     });
 
     it('returns an instance of an addon with an object export', function () {
+      project.initializeAddons();
+
       let addons = project.addons;
 
       expect(addons[13] instanceof Addon).to.equal(true);

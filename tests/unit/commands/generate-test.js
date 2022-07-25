@@ -34,12 +34,17 @@ describe('generate command', function () {
       project,
 
       tasks: {
-        GenerateFromBlueprint: Task.extend({
-          project,
+        GenerateFromBlueprint: class extends Task {
+          init() {
+            super.init(...arguments);
+
+            this.project = project;
+          }
+
           run(options) {
             return Promise.resolve(options);
-          },
-        }),
+          }
+        },
       },
     });
 
