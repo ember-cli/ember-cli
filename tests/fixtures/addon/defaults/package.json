@@ -27,12 +27,12 @@
   },
   "dependencies": {
     "ember-cli-babel": "^7.26.11",
-    "ember-cli-htmlbars": "^6.0.1"
+    "ember-cli-htmlbars": "^6.1.0"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
-    "@embroider/test-setup": "^1.8.0",
+    "@embroider/test-setup": "^1.8.3",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "babel-eslint": "^10.1.0",
@@ -48,22 +48,22 @@
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
-    "ember-source": "~4.6.0-beta.2",
+    "ember-source": "~4.7.0-beta.1",
     "ember-source-channel-url": "^3.0.0",
-    "ember-template-lint": "^4.10.0",
+    "ember-template-lint": "^4.10.1",
     "ember-try": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-ember": "^11.0.2",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-qunit": "^7.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-qunit": "^7.3.1",
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "qunit": "^2.19.1",
     "qunit-dom": "^2.0.0",
-    "webpack": "^5.73.0"
+    "webpack": "^5.74.0"
   },
   "engines": {
     "node": "14.* || >= 16"

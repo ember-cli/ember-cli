@@ -1,11 +1,24 @@
 # ember-cli Changelog
 
-## v4.6.0-beta.1
+## v4.7.0-beta.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.5.0...v4.6.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.5.0...v4.6.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.6.0...v4.7.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.6.0...v4.7.0-beta.0)
+
+#### Changelog
+
+- [#9974](https://github.com/ember-cli/ember-cli/pull/9974) update beta deps [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
+## v4.6.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.5.0...v4.6.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.5.0...v4.6.0)
 
 #### Changelog
 
