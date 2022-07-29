@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"lifeart.vscode-ember-unstable",
+		"EditorConfig.EditorConfig",
+		"lifeart.vscode-glimmer-syntax",
+		"chiragpat.vscode-glimmer",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+	]
+}
