@@ -1,10 +1,18 @@
 {
+	// See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
+	// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
+
+	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-		"lifeart.vscode-ember-unstable",
-		"EditorConfig.EditorConfig",
-		"lifeart.vscode-glimmer-syntax",
-		"chiragpat.vscode-glimmer",
+    "EditorConfig.EditorConfig",
 		"esbenp.prettier-vscode",
 		"dbaeumer.vscode-eslint",
+		"lifeart.vscode-ember-unstable",
+		"lifeart.vscode-glimmer-syntax",
+		"chiragpat.vscode-glimmer",
+	],
+	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
+	"unwantedRecommendations": [
+
 	]
 }
