@@ -49,8 +49,8 @@ describe('Acceptance: ember init', function () {
 
   function confirmBlueprinted() {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    // ignore .travis.yml
-    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] }).sort();
+    // ignore .travis.yml and .vscode
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml', '.vscode'] }).sort();
     let actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
@@ -195,5 +195,17 @@ describe('Acceptance: ember init', function () {
 
     expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
     expect(file('.github/workflows/ci.yml')).to.not.exist;
+  });
+
+  it('should not create .vscode folder', async function () {
+    await ember(['init', '--skip-npm', '--skip-bower']);
+
+    expect(dir('.vscode')).to.not.exist;
+  });
+
+  it('should create .vscode folder', async function () {
+    await ember(['init', '--code-editor=vscode', '--skip-npm', '--skip-bower']);
+
+    expect(dir('.vscode')).to.exist;
   });
 });

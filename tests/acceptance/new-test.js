@@ -46,7 +46,7 @@ describe('Acceptance: ember new', function () {
   function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo') {
     let blueprintPath = path.join(root, blueprintDir, 'files');
     // ignore .travis.yml
-    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] });
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml', '.vscode'] });
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
@@ -645,6 +645,18 @@ describe('Acceptance: ember new', function () {
       expect(file('.github/workflows/ci.yml')).to.not.exist;
 
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+    });
+
+    it('should not create .vscode folder', async function () {
+      await ember(['init', '--skip-npm', '--skip-bower']);
+
+      expect(dir('.vscode')).to.not.exist;
+    });
+
+    it('should create .vscode folder', async function () {
+      await ember(['init', '--code-editor=vscode', '--skip-npm', '--skip-bower']);
+
+      expect(dir('.vscode')).to.exist;
     });
   });
 

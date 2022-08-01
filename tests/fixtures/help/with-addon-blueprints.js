@@ -84,6 +84,14 @@ module.exports = {
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
           required: false
         },
+        {
+          name: 'code-editor',
+          key: 'codeEditor',
+          type: ['vscode'],
+          default: false,
+          description: 'Installs the default workspace settings. Only Visual Studio Code is supported.',
+          required: false
+        },
       ],
       anonymousOptions: ['<addon-name>']
     },
@@ -509,6 +517,14 @@ module.exports = {
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
           required: false,
         },
+        {
+          name: 'code-editor',
+          key: 'codeEditor',
+          type: ['vscode'],
+          default: false,
+          description: 'Installs the default workspace settings. Only Visual Studio Code is supported.',
+          required: false
+        },
       ],
       anonymousOptions: ['<glob-pattern>']
     },
@@ -637,6 +653,14 @@ module.exports = {
           default: 'github',
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
           required: false,
+        },
+        {
+          name: 'code-editor',
+          key: 'codeEditor',
+          type: ['vscode'],
+          default: false,
+          description: 'Installs the default workspace settings. Only Visual Studio Code is supported.',
+          required: false
         },
       ],
       anonymousOptions: ['<app-name>']

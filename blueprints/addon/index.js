@@ -130,7 +130,7 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
 
-    let hasOptions = options.welcome || options.yarn || options.ciProvider;
+    let hasOptions = options.welcome || options.yarn || options.ciProvider || options.codeEditor;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
@@ -142,6 +142,7 @@ module.exports = {
           options.welcome && '"--welcome"',
           options.yarn && '"--yarn"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+          options.codeEditor && `"--code-editor=${options.codeEditor}"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -164,6 +165,7 @@ module.exports = {
       embroider: false,
       lang: options.lang,
       ciProvider: options.ciProvider,
+      codeEditor: options.codeEditor,
     };
   },
 
@@ -172,7 +174,7 @@ module.exports = {
     let addonFilesPath = this.filesPath(this.options);
     let ignoredCITemplate = this.options.ciProvider !== 'travis' ? '.travis.yml' : '.github';
 
-    let addonFiles = walkSync(addonFilesPath, { ignore: [ignoredCITemplate] });
+    let addonFiles = walkSync(addonFilesPath, { ignore: [ignoredCITemplate, '.vscode'] });
 
     return uniq(appFiles.concat(addonFiles));
   },

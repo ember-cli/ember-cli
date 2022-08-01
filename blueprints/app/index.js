@@ -24,7 +24,7 @@ module.exports = {
     let namespace = stringUtil.classify(rawName);
     let embroider = isExperimentEnabled('EMBROIDER') || options.embroider;
 
-    let hasOptions = !options.welcome || options.yarn || embroider || options.ciProvider;
+    let hasOptions = !options.welcome || options.yarn || embroider || options.ciProvider || options.codeEditor;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
@@ -37,6 +37,7 @@ module.exports = {
           options.yarn && '"--yarn"',
           embroider && '"--embroider"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+          options.codeEditor && `"--code-editor=${options.codeEditor}"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -56,6 +57,7 @@ module.exports = {
       embroider,
       lang: options.lang,
       ciProvider: options.ciProvider,
+      codeEditor: options.codeEditor,
     };
   },
 
@@ -69,6 +71,10 @@ module.exports = {
       this._files = files.filter((file) => file !== '.travis.yml');
     } else {
       this._files = files.filter((file) => file.indexOf('.github') < 0);
+    }
+
+    if (options.codeEditor !== 'vscode') {
+      this._files = files.filter((file) => file.indexOf('.vscode') < 0);
     }
 
     return this._files;
