@@ -12,8 +12,8 @@
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}",
       "sourceMapPathOverrides": {
-        "test-app/*": "${workspaceRoot}/app/*",
-        "test-app/tests/*": "${workspaceFolder}/tests/*",
+        "<%= name %>/*": "${workspaceRoot}/app/*",
+        "<%= name %>/tests/*": "${workspaceFolder}/tests/*",
       },
     },
     {
@@ -23,8 +23,8 @@
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}",
       "sourceMapPathOverrides": {
-        "test-app/*": "${workspaceRoot}/app/*",
-        "test-app/tests/*": "${workspaceFolder}/tests/*",
+        "<%= name %>/*": "${workspaceRoot}/app/*",
+        "<%= name %>/tests/*": "${workspaceFolder}/tests/*",
       }
     },
   ]
