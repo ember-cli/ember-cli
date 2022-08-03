@@ -478,6 +478,20 @@ describe('models/builder.js', function () {
       await expect(builder.build()).to.be.rejected;
       expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildError']);
     });
+
+    it('sets `isBuilderError` on handled addon errors', async function () {
+      addon.postBuild = function () {
+        return Promise.reject(new Error('preBuild Error'));
+      };
+
+      let error;
+      try {
+        await builder.build();
+      } catch (e) {
+        error = e;
+      }
+      expect(error).to.haveOwnProperty('isBuilderError', true);
+    });
   });
 
   describe('fallback from broccoli 2 to broccoli-builder', function () {
