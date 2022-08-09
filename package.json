@@ -107,7 +107,7 @@
     "nopt": "^3.0.6",
     "npm-package-arg": "^9.0.2",
     "p-defer": "^3.0.0",
-    "portfinder": "^1.0.28",
+    "portfinder": "^1.0.29",
     "promise-map-series": "^0.3.0",
     "promise.hash.helper": "^1.0.8",
     "quick-temp": "^0.1.8",
