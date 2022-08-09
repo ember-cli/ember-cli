@@ -8227,10 +8227,10 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-testdouble@^3.16.5, testdouble@^3.2.6:
-  version "3.16.5"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.5.tgz#4e51407b56f542b8cb57c485fff87248eb24d66d"
-  integrity sha512-2/0vR503/X/6LuZzQObpcBtu+KycyEnw7AdX/NPboR7sam1NTuYc128UMW8n7tBDpOPGAKqCUtKVBzvgV6C3bA==
+testdouble@^3.16.6, testdouble@^3.2.6:
+  version "3.16.6"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.6.tgz#3e3fce4a5c8681378b6c7a6d18884746a9dfb1e8"
+  integrity sha512-mijMgc9y7buK9IG9zSVhzlXsFMqWbLQHRei4SLX7F7K4Qtrcnglg6lIMTCmNs6RwDUyLGWtpIe+TzkugYHB+qA==
   dependencies:
     lodash "^4.17.15"
     quibble "^0.6.7"
