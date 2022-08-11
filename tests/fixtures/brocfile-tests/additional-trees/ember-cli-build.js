@@ -3,7 +3,7 @@ const Funnel = require('broccoli-funnel');
 const { isExperimentEnabled } = require('ember-cli/lib/experiments');
 
 module.exports = function (defaults) {
-  let app = new EmberApp(defaults, {});
+  const app = new EmberApp(defaults, {});
 
   let funnel = new Funnel('vendor', {
     srcDir: '/',
