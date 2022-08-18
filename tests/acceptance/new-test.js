@@ -642,7 +642,12 @@ describe('Acceptance: ember new', function () {
       // we have to use yarn here, as npm fails on unresolvable peer dependencies, see https://github.com/emberjs/ember-test-helpers/issues/1236
       await ember(['new', 'foo', '--typescript', '--skip-npm', '--skip-bower', '--skip-git', '--yarn']);
 
-      let fixturePath = 'app/typescript';
+      let fixturePath;
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/typescript-embroider';
+      } else {
+        fixturePath = 'app/typescript';
+      }
 
       // check fixtures
       ['.ember-cli'].forEach((filePath) => {
