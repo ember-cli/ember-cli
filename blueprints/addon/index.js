@@ -29,6 +29,8 @@ module.exports = {
   description,
   appBlueprintName: 'app',
 
+  shouldTransformTypeScript: true,
+
   filesToRemove: [
     'tests/dummy/app/styles/.gitkeep',
     'tests/dummy/app/templates/.gitkeep',
@@ -160,15 +162,6 @@ module.exports = {
       lang: options.lang,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
-      ext: options.typescript ? 'ts' : 'js',
-    };
-  },
-
-  fileMapTokens(options) {
-    let { ext } = options.locals;
-
-    return {
-      __ext__: () => ext,
     };
   },
 

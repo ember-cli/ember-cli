@@ -8,6 +8,8 @@ const directoryForPackageName = require('../../lib/utilities/directory-for-packa
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
 
+  shouldTransformTypeScript: true,
+
   filesToRemove: [
     'app/styles/.gitkeep',
     'app/templates/.gitkeep',
@@ -58,7 +60,6 @@ module.exports = {
       lang: options.lang,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
-      ext: options.typescript ? 'ts' : 'js',
     };
   },
 
@@ -75,14 +76,6 @@ module.exports = {
     }
 
     return this._files;
-  },
-
-  fileMapTokens(options) {
-    let { ext } = options.locals;
-
-    return {
-      __ext__: () => ext,
-    };
   },
 
   beforeInstall() {

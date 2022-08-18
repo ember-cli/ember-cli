@@ -43,10 +43,13 @@ describe('Acceptance: ember new', function () {
     return tmp.teardown(tmpDir);
   });
 
-  function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', ext = 'js') {
+  function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', typescript = false) {
     let blueprintPath = path.join(root, blueprintDir, 'files');
     // ignore .travis.yml
-    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] }).map((name) => name.replace('__ext__', ext));
+    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] }).map((name) =>
+      typescript ? name : name.replace(/\.ts$/, '.js')
+    );
+
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
