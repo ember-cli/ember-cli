@@ -108,8 +108,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(errorArray.length).to.equal(1);
     });
 
-    // TODO: the input to this test is polluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
-    it.skip('shows projectPackageInfo error is "3 dependencies missing"', function () {
+    it('shows projectPackageInfo error is "3 dependencies missing"', function () {
       let errorArray = projectPackageInfo.errors.getErrors();
       let error = errorArray[0];
       expect(error.type).to.equal('dependenciesMissing');
@@ -124,8 +123,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(dependencyPackages['something-else']).to.exist;
     });
 
-    // TODO: the input to this test is polluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
-    it.skip('shows projectPackageInfo has 8 devDependencyPackages', function () {
+    it('shows projectPackageInfo has 8 devDependencyPackages', function () {
       let devDependencyPackages = projectPackageInfo.devDependencyPackages;
       expect(devDependencyPackages).to.exist;
       expect(Object.keys(devDependencyPackages).length).to.equal(8);
@@ -174,8 +172,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(internalAddons.length).to.equal(7);
     });
 
-    // TODO: the input to this test is polluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
-    it.skip('shows projectPackageInfo has 9 node-module entries', function () {
+    it('shows projectPackageInfo has 9 node-module entries', function () {
       let nodeModules = projectPackageInfo.nodeModules;
       expect(nodeModules).to.exist;
       expect(nodeModules.entries).to.exist;
