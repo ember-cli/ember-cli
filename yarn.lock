@@ -8910,13 +8910,12 @@ watch-detector@^0.1.0:
     semver "^5.4.1"
     silent-error "^1.1.0"
 
-watch-detector@^1.0.0, watch-detector@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-1.0.1.tgz#3106a6b489284ec2ecaef0e65cf1b8ec9117296e"
-  integrity sha512-8sJ8rvNfg2ciqCa5IxIdmdxU/vuUe9V/jw+thXbdreELSv3+Cq6k8K42cLEL86W2td1PMmfNCWZuAhrZ/sD4mw==
+watch-detector@^1.0.0, watch-detector@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-1.0.2.tgz#95deb9189f8c89c0a9f211739cef6d01cffcf452"
+  integrity sha512-MrJK9z7kD5Gl3jHBnnBVHvr1saVGAfmkyyrvuNzV/oe0Gr1nwZTy5VSA0Gw2j2Or0Mu8HcjUa44qlBvC2Ofnpg==
   dependencies:
     heimdalljs-logger "^0.1.10"
-    semver "^6.3.0"
     silent-error "^1.1.1"
     tmp "^0.1.0"
 

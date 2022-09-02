@@ -126,7 +126,7 @@
     "tree-sync": "^2.1.0",
     "uuid": "^8.3.2",
     "walk-sync": "^3.0.0",
-    "watch-detector": "^1.0.1",
+    "watch-detector": "^1.0.2",
     "workerpool": "^6.2.1",
     "yam": "^1.0.0"
   },
