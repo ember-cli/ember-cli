@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v4.4.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.4.0...v4.4.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.4.0...v4.4.1)
+
+#### Changelog
+
+- [#10010](https://github.com/ember-cli/ember-cli/pull/10010) [BUGFIX] Handle rebuild failures without exiting [@bendemboski](https://github.com/bendemboski)
+
+Thank you to all who took the time to contribute!
+
 ## v4.4.0
 
 #### Blueprint Changes
