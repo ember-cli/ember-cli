@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+## v4.8.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.7.0...v4.8.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.7.0...v4.8.0-beta.0)
+
+#### Changelog
+
+- [#9920](https://github.com/ember-cli/ember-cli/pull/9920) [BUGFIX] Make sure a blueprint’s options object and project instance are always available for all public hooks [@bertdeblock](https://github.com/bertdeblock)
+- [#9945](https://github.com/ember-cli/ember-cli/pull/9945) [ENHANCEMENT/BREAKING] Add Node v18 to `engines` in `app` and `addon` blueprint (removes support for Node v17) [@bertdeblock](https://github.com/bertdeblock)
+- [#9946](https://github.com/ember-cli/ember-cli/pull/9946) [INTERNAL] Unskip `package-info-cache` tests [@bertdeblock](https://github.com/bertdeblock)
+- [#9951](https://github.com/ember-cli/ember-cli/pull/9951) Update `js-yaml` to v4 [@bertdeblock](https://github.com/bertdeblock)
+- [#9952](https://github.com/ember-cli/ember-cli/pull/9952) Update `walk-sync` to v3 [@bertdeblock](https://github.com/bertdeblock)
+- [#9971](https://github.com/ember-cli/ember-cli/pull/9971) Add Ember 4.4 LTS to addon blueprint, remove 3.24 [@simonihmig](https://github.com/simonihmig)
+- [#9975](https://github.com/ember-cli/ember-cli/pull/9975) [ENHANCEMENT] Fix `prefer-const` lint violations in `app` and `addon` blueprints [@bmish](https://github.com/bmish)
+- [#9987](https://github.com/ember-cli/ember-cli/pull/9987) [BUGFIX] Handle rebuild failures without exiting [@bendemboski](https://github.com/bendemboski)
+- [#9988](https://github.com/ember-cli/ember-cli/pull/9988) [BUGFIX] - Address npm-run-all and Yarn 3 conflict & Removed warning [@christianarty](https://github.com/christianarty)
+
+Thank you to all who took the time to contribute!
+
 ## v4.7.0
 
 #### Blueprint Changes
