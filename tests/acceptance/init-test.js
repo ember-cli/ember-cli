@@ -92,7 +92,7 @@ describe('Acceptance: ember init', function () {
 
   function pickSync(filePath, pattern) {
     return glob
-      .sync(path.join('**', pattern), {
+      .sync(`**/${pattern}`, {
         cwd: filePath,
         dot: true,
         mark: true,
