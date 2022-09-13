@@ -392,7 +392,7 @@ describe('Blueprint', function () {
       await blueprint.install(options);
       let actualFiles = walkSync(tmpdir).sort();
       let globFiles = glob
-        .sync(path.join('**', '*.txt'), {
+        .sync('**/*.txt', {
           cwd: tmpdir,
           dot: true,
           mark: true,
