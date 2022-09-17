@@ -691,7 +691,7 @@ module.exports = {
         },
         {
           aliases: ['lrbu'],
-          description: 'Defaults to baseURL',
+          description: 'Defaults to rootURL',
           key: 'liveReloadBaseUrl',
           name: 'live-reload-base-url',
           required: false

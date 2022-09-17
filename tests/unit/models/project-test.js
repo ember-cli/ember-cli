@@ -38,7 +38,7 @@ describe('models/project.js', function () {
       projectPath = 'tmp/test-app';
       return tmp.setup(projectPath).then(function () {
         touch(`${projectPath}/config/environment.js`, {
-          baseURL: '/foo/bar',
+          rootURL: '/foo/bar',
         });
 
         project = new Project(projectPath, {}, cli.ui, cli);
@@ -56,15 +56,15 @@ describe('models/project.js', function () {
       called = false;
       return tmp.setup(projectPath).then(function () {
         touch(`${projectPath}/config/environment.js`, {
-          baseURL: '/foo/bar',
+          rootURL: '/foo/bar',
         });
 
         touch(`${projectPath}/config/a.js`, {
-          baseURL: '/a',
+          rootURL: '/a',
         });
 
         touch(`${projectPath}/config/b.js`, {
-          baseURL: '/b',
+          rootURL: '/b',
         });
 
         makeProject();

@@ -163,7 +163,7 @@ ember serve [36m<options...>[39m
     [90maliases: -lr[39m
   [36m--live-reload-host[39m [36m(String)[39m Defaults to host
     [90maliases: -lrh <value>[39m
-  [36m--live-reload-base-url[39m [36m(String)[39m Defaults to baseURL
+  [36m--live-reload-base-url[39m [36m(String)[39m Defaults to rootURL
     [90maliases: -lrbu <value>[39m
   [36m--live-reload-port[39m [36m(Number)[39m Defaults to same port as ember app
     [90maliases: -lrp <value>[39m

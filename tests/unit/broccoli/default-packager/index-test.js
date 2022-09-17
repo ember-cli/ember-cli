@@ -26,7 +26,7 @@ describe('Default Packager: Index', function () {
   };
 
   let META_TAG =
-    '/best-url-ever/\n<meta name="the-best-app-ever/config/environment" content="{"rootURL":"/best-url-ever/","modulePrefix":"the-best-app-ever"}" />';
+    '/best-url-ever/<meta name="the-best-app-ever/config/environment" content="{"rootURL":"/best-url-ever/","modulePrefix":"the-best-app-ever"}" />';
 
   before(async function () {
     input = await createTempDir();
