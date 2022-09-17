@@ -105,7 +105,7 @@ describe('serve command', function () {
     });
   });
 
-  it('has correct liveLoadPort', function () {
+  it('has correct liveReloadPort', function () {
     return command.validateAndRun(['--port', '0', '--live-reload-port', '4001']).then(function () {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
@@ -113,7 +113,7 @@ describe('serve command', function () {
     });
   });
 
-  it('has correct liveReloadLoadHost', function () {
+  it('has correct liveReloadHost', function () {
     return command.validateAndRun(['--port', '0', '--live-reload-host', '127.0.0.1']).then(function () {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
@@ -121,7 +121,7 @@ describe('serve command', function () {
     });
   });
 
-  it('has correct liveLoadBaseUrl', function () {
+  it('has correct liveReloadBaseUrl', function () {
     return command
       .validateAndRun(['--port', '0', '--live-reload-base-url', 'http://127.0.0.1:4200/'])
       .then(function () {
