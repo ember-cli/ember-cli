@@ -111,7 +111,10 @@ module.exports = {
     });
 
     if (options.typescript) {
-      await this.addAddonToProject({ name: 'ember-cli-typescript', blueprintOptions: { ...options, save: true } });
+      await this.addAddonToProject({
+        name: 'ember-cli-typescript',
+        blueprintOptions: { ...options, save: true },
+      });
     }
   },
 
