@@ -653,7 +653,7 @@ describe('Acceptance: ember new', function () {
       }
 
       // check fixtures
-      ['.ember-cli'].forEach((filePath) => {
+      ['.ember-cli', 'tests/helpers/index.ts'].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
