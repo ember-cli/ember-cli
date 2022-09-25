@@ -664,7 +664,7 @@ describe('Acceptance: ember new', function () {
       // TS setup to ember-cli-typescript's own blueprint. Instead, we are relying on its own test coverage, otherwise
       // we would get very brittle tests
       let pkgJson = fs.readJsonSync('package.json');
-      expect(pkgJson.scripts['lint:ts']).to.equal('tsc --noEmit');
+      expect(pkgJson.scripts['lint:types']).to.equal('tsc --noEmit');
       expect(pkgJson.devDependencies['ember-cli-typescript']).to.exist;
       expect(pkgJson.devDependencies['typescript']).to.exist;
       expect(Object.keys(pkgJson.devDependencies).some((pkgName) => pkgName.match(/^@types/))).to.be.true;
@@ -688,7 +688,7 @@ describe('Acceptance: ember new', function () {
 
       // smoke test for the existence of essential TypeScript features... (see app test)
       let pkgJson = fs.readJsonSync('package.json');
-      expect(pkgJson.scripts['lint:ts']).to.equal('tsc --noEmit');
+      expect(pkgJson.scripts['lint:types']).to.equal('tsc --noEmit');
       expect(pkgJson.dependencies['ember-cli-typescript']).to.exist;
       expect(pkgJson.devDependencies['typescript']).to.exist;
       expect(Object.keys(pkgJson.devDependencies).some((pkgName) => pkgName.match(/^@types/))).to.be.true;
