@@ -184,6 +184,23 @@ describe('blueprint - addon', function () {
         expect(json.dependencies).to.deep.equal({ a: '1', b: '1' });
         expect(json.devDependencies).to.deep.equal({ a: '1', b: '1' });
       });
+
+      it('adds `ember-source` to `peerDependencies`', function () {
+        let output = blueprint.updatePackageJson(
+          JSON.stringify({
+            peerDependencies: {
+              'foo-bar': '^1.0.0',
+            },
+          })
+        );
+
+        let json = JSON.parse(output);
+
+        expect(json.peerDependencies).to.deep.equal({
+          'ember-source': '^3.28.0 || ^4.0.0',
+          'foo-bar': '^1.0.0',
+        });
+      });
     });
   });
 });

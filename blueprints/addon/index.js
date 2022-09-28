@@ -5,7 +5,7 @@ const path = require('path');
 const walkSync = require('walk-sync');
 const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
-const { uniq } = require('ember-cli-lodash-subset');
+const { merge, uniq } = require('ember-cli-lodash-subset');
 const SilentError = require('silent-error');
 const sortPackageJson = require('sort-package-json');
 
@@ -22,7 +22,7 @@ const replacers = {
   },
 };
 
-const ADDITIONAL_DEV_DEPENDENCIES = require('./additional-dev-dependencies.json').devDependencies;
+const ADDITIONAL_PACKAGE = require('./additional-package.json');
 
 const description = 'The default blueprint for ember-cli addons.';
 module.exports = {
@@ -43,9 +43,9 @@ module.exports = {
 
     contents.name = stringUtil.dasherize(this.options.entity.name);
     contents.description = this.description;
+
     delete contents.private;
-    contents.scripts = contents.scripts || {};
-    contents.keywords = contents.keywords || [];
+
     contents.dependencies = contents.dependencies || {};
     contents.devDependencies = contents.devDependencies || {};
 
@@ -67,17 +67,7 @@ module.exports = {
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
 
-    if (contents.keywords.indexOf('ember-addon') === -1) {
-      contents.keywords.push('ember-addon');
-    }
-
-    Object.assign(contents.devDependencies, ADDITIONAL_DEV_DEPENDENCIES);
-
-    // add `ember-compatibility` script in addons
-    contents.scripts['test:ember-compatibility'] = 'ember try:each';
-
-    contents['ember-addon'] = contents['ember-addon'] || {};
-    contents['ember-addon'].configPath = 'tests/dummy/config';
+    merge(contents, ADDITIONAL_PACKAGE);
 
     return stringifyAndNormalize(sortPackageJson(contents));
   },
