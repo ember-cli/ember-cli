@@ -7,6 +7,7 @@ const NewCommand = require('../../../lib/commands/new');
 const Blueprint = require('../../../lib/models/blueprint');
 const Command = require('../../../lib/models/command');
 const Task = require('../../../lib/models/task');
+const InteractiveNewTask = require('../../../lib/tasks/interactive-new');
 const td = require('testdouble');
 
 describe('new command', function () {
@@ -105,5 +106,115 @@ describe('new command', function () {
 
     let reason = await command.validateAndRun(['foo', '--custom-option=customValue']);
     expect(reason).to.equal('Called run');
+  });
+
+  describe('interactive', function () {
+    it('interactive new is entered when no app/addon name is provided', async function () {
+      class InteractiveNewTaskMock extends InteractiveNewTask {
+        run(newCommandOptions) {
+          return super.run(newCommandOptions, {
+            blueprint: 'addon',
+            name: 'foo',
+            langSelection: 'en-US',
+            packageManager: 'npm',
+            ciProvider: 'github',
+          });
+        }
+      }
+
+      class CreateAndStepIntoDirectoryTask extends Task {
+        run() {}
+      }
+
+      class InitCommand extends Command {
+        run(commandOptions) {
+          expect(commandOptions).to.deep.include({
+            blueprint: 'addon',
+            name: 'foo',
+            lang: 'en-US',
+            yarn: false,
+            ciProvider: 'github',
+          });
+        }
+      }
+
+      command.tasks.InteractiveNew = InteractiveNewTaskMock;
+      command.tasks.CreateAndStepIntoDirectory = CreateAndStepIntoDirectoryTask;
+      command.commands.Init = InitCommand;
+
+      expect(command.validateAndRun([])).to.be.fulfilled;
+    });
+
+    it('interactive new is entered when the `--interactive` flag is provided', async function () {
+      class InteractiveNewTaskMock extends InteractiveNewTask {
+        run(newCommandOptions) {
+          return super.run(newCommandOptions, {
+            blueprint: 'app',
+            name: newCommandOptions.name,
+            langSelection: 'nl-BE',
+            packageManager: 'yarn',
+            ciProvider: 'travis',
+          });
+        }
+      }
+
+      class CreateAndStepIntoDirectoryTask extends Task {
+        run() {}
+      }
+
+      class InitCommand extends Command {
+        run(commandOptions) {
+          expect(commandOptions).to.deep.include({
+            blueprint: 'app',
+            name: 'bar',
+            lang: 'nl-BE',
+            yarn: true,
+            ciProvider: 'travis',
+          });
+        }
+      }
+
+      command.tasks.InteractiveNew = InteractiveNewTaskMock;
+      command.tasks.CreateAndStepIntoDirectory = CreateAndStepIntoDirectoryTask;
+      command.commands.Init = InitCommand;
+
+      expect(command.validateAndRun(['bar', '--interactive'])).to.be.fulfilled;
+    });
+
+    it('interactive new is entered when the `-i` flag is provided', async function () {
+      class InteractiveNewTaskMock extends InteractiveNewTask {
+        run(newCommandOptions) {
+          return super.run(newCommandOptions, {
+            blueprint: 'app',
+            name: newCommandOptions.name,
+            langSelection: 'fr-BE',
+            packageManager: null,
+            ciProvider: null,
+          });
+        }
+      }
+
+      class CreateAndStepIntoDirectoryTask extends Task {
+        run() {}
+      }
+
+      class InitCommand extends Command {
+        run(commandOptions) {
+          expect(commandOptions).does.not.have.key('yarn');
+          expect(commandOptions).to.deep.include({
+            blueprint: 'app',
+            name: 'baz',
+            lang: 'fr-BE',
+            ciProvider: 'github',
+          });
+        }
+      }
+
+      command.tasks.InteractiveNew = InteractiveNewTaskMock;
+      command.tasks.CreateAndStepIntoDirectory = CreateAndStepIntoDirectoryTask;
+      command.commands.Init = InitCommand;
+
+      expect(command.validateAndRun(['baz', '-i'])).to.be.fulfilled;
+    });
   });
 });

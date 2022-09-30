@@ -170,20 +170,6 @@ describe('Acceptance: ember new', function () {
     expect(blueprintTargets).to.have.same.deep.members(defaultTargets);
   });
 
-  it('ember new with empty app name fails with a warning', async function () {
-    let err = await expect(ember(['new', ''])).to.be.rejected;
-
-    expect(err.name).to.equal('SilentError');
-    expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
-  });
-
-  it('ember new without app name fails with a warning', async function () {
-    let err = await expect(ember(['new'])).to.be.rejected;
-
-    expect(err.name).to.equal('SilentError');
-    expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
-  });
-
   it('ember new with app name creates new directory and has a dasherized package name', async function () {
     await ember(['new', 'FooApp', '--skip-npm', '--skip-bower', '--skip-git']);
 
