@@ -2,7 +2,7 @@
 
 module.exports = function (environment) {
   const ENV = {
-    modulePrefix: '<%= modulePrefix %>',
+    modulePrefix: <%= name === 'dummy' ? "'dummy'" : "require('../package').name" %>,
     environment,
     rootURL: '/',
     locationType: 'history',
