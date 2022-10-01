@@ -109,7 +109,7 @@
     "npm-package-arg": "^9.1.0",
     "os-locale": "^5.0.0",
     "p-defer": "^3.0.0",
-    "portfinder": "^1.0.29",
+    "portfinder": "^1.0.32",
     "promise-map-series": "^0.3.0",
     "promise.hash.helper": "^1.0.8",
     "quick-temp": "^0.1.8",
