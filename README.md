@@ -1,5 +1,4 @@
-ember-cli
-==============================================================================
+# ember-cli
 
 [![Latest npm release][npm-badge]][npm-badge-url]
 [![GitHub Actions CI][github-actions-badge]][github-actions-ci-url]
@@ -18,9 +17,7 @@ ember-cli
 
 The Ember.js command line utility.
 
-
-Features
-------------------------------------------------------------------------------
+## Features
 
 - Asset build pipeline using [Broccoli.js](https://broccoli.build/)
 - ES6 transpilation using [Babel](https://babeljs.io/)
@@ -31,16 +28,13 @@ Features
   [Testem](https://github.com/testem/testem)
 - Powerful addon system for extensibility
 
-
-Installation
-------------------------------------------------------------------------------
+## Installation
 
 ```
 npm install -g ember-cli
 ```
 
-Usage
-------------------------------------------------------------------------------
+## Usage
 
 After installation the `ember` CLI tool will be available to you. It is the
 entrypoint for all the functionality mentioned above.
@@ -49,26 +43,20 @@ You can call `ember <command> --help` to find out more about [all of the
 following commands](https://cli.emberjs.com/release/basic-use/cli-commands/) or visit <https://cli.emberjs.com/release/> to read
 the in-depth documentation.
 
+## Documentation
 
-Documentation
-------------------------------------------------------------------------------
 Please refer to the [CLI guides](https://cli.emberjs.com/release/) for help using Ember CLI.
 
-Contributing
-------------------------------------------------------------------------------
+## Contributing
+
 Please see the [contributing guidelines](https://github.com/ember-cli/ember-cli/blob/master/CONTRIBUTING.md)
 
-
-Community
-------------------------------------------------------------------------------
+## Community
 
 - Discord: [Get your invite](https://discord.gg/emberjs)
 - Issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
 - Documentation: [cli.emberjs.com](https://cli.emberjs.com/release/)
 
-
-
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE).

@@ -23,7 +23,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: yarn test:cover
-          coverageLocations: "coverage/lcov.info:lcov"
+          coverageLocations: 'coverage/lcov.info:lcov'
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

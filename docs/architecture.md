@@ -3,16 +3,20 @@
 ![embercli architecture](./assets/architecture/Ember-CLI%20architecture.png)
 
 ## Overview
+
 - **cli** parses args and calls the respective **command**
 - **command** calls a sequence of **tasks**
 - **tasks** do the actual work
 
 ## The different components of ember-cli
+
 ### cli()
+
 cli is a small function that gets everything going.
 
 Usage:
-``` JavaScript
+
+```JavaScript
 let cli = require('./cli');
 
 cli({
@@ -24,6 +28,7 @@ cli({
 ```
 
 ## UI
+
 In ember-cli we pass a `UI` instance around. Instead of calling
 `console.log` or writing things directly to `process.stdout` we access
 those through this wrapper. This makes our code testing friendly
@@ -43,6 +48,7 @@ text input.
 stream. Also nice for testing, e.g. simulating input.
 
 ### Commands
+
 Located in `lib/commands/`. They get picked up by `requireAsHash()`
 automatically.
 
@@ -53,7 +59,7 @@ be constructed and wired up via a dependency injection container.
 The following file structure is expected (Demonstrated on the imaginary
 command `develop-ember-cli`):
 
-``` JavaScript
+```JavaScript
 // e.g. commands/develop-ember-cli.js
 
 let Command = require('../models/command');
@@ -108,12 +114,12 @@ The promise returned by `run()` should either
 - resolve to `undefined`
 - reject with an `Error` instance if the error is unhandled
 - or reject with `undefined` if it was handled. In this case the command
-should log something via the `ui` first.
+  should log something via the `ui` first.
 
 `requireAsHash()` assembles from the files in `commands/` a hash that looks
 like this:
 
-``` JavaScript
+```JavaScript
 {
   DevelopEmberCLI: require('commands/develop-ember-cli'),
   ...
@@ -121,6 +127,7 @@ like this:
 ```
 
 #### Usage instructions formatting
+
 ```
 ember serve <arg-option (Default: something)>
   --port (Default: 4200) Description 1
@@ -128,6 +135,7 @@ ember serve <arg-option (Default: something)>
 ```
 
 ##### Formatting colors
+
 - white: `ember serve`
 - yellow: `<arg-option `, `>`
 - cyan: `--port`, `--important-option`
@@ -136,6 +144,7 @@ ember serve <arg-option (Default: something)>
 - cyan: `(Required)`
 
 ### Tasks
+
 Located in `lib/tasks`. They get picked up by `requireAsHash()` automatically.
 
 Tasks do the real work. They should also do only one thing: For example there
@@ -152,15 +161,17 @@ A task's `run` method has to return a promise which resolves or rejects
 depending on whether it ran through successfully or not.
 
 The promise of a task should either
+
 - fulfill to `undefined`
 - reject with an `Error` instance if the error is unhandled
 - or reject with `undefined` if it was handled. In this case the task should
-log something via the `ui` first.
+  log something via the `ui` first.
 
 So, tasks don't have a return value per design.
 
 The file format of a task looks like this:
-``` JavaScript
+
+```JavaScript
 // ./lib/tasks/npm-install.js
 
 'use strict';
@@ -175,7 +186,8 @@ module.exports = class NpmInstallTask extends Task {
 ```
 
 `requireAsHash()` assembles from the files in `tasks/` a hash that looks like this:
-``` JavaScript
+
+```JavaScript
 {
   NpmInstall: require('tasks/npm-install'),
   ...
@@ -183,6 +195,7 @@ module.exports = class NpmInstallTask extends Task {
 ```
 
 ## Style guide
+
 - Everything async (except require)
 - Short files
 - Tests, tests, tests
@@ -213,7 +226,8 @@ mandatory semicolons and other rules are omitted).
 ### Indentation
 
 #### Multi-line return statement
-``` JavaScript
+
+```JavaScript
 // Correct
 return someFunction(
     someArgument,
@@ -227,7 +241,7 @@ return someFunction(
 );
 ```
 
-``` JavaScript
+```JavaScript
 // Correct
 return returnsAPromise()
   .then(...)
@@ -239,9 +253,10 @@ return retursAPromise().then(...)
 ```
 
 ### Custom errors
+
 Custom error classes should end with the suffix "Error".
 
-``` JavaScript
+```JavaScript
 function CustomError() {
   this.stack = (new Error()).stack;
 }
@@ -252,8 +267,8 @@ CustomError.prototype.name = 'CustomError';
 
 Also a `message` property should be set: Either in the constructor or as a property on `CustomError.prototype`.
 
-
 ### Dependencies
+
 When requiring modules, we should be aware of their effect on startup
 time. If they introduce a noticeable penalty, and are not needed except
 for some task/command we should require them lazily. Obviously a few
@@ -305,6 +320,7 @@ module.exports = class NpmInstallTask extends Task {
 ```
 
 ### Sync vs async
+
 Since [JavaScript uses an event loop](https://nodejs.org/about/), the use of
 blocking and compute intensive operations is discouraged. The general
 recommendation is to use asynchronous operations.

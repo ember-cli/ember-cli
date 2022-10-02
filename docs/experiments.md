@@ -5,9 +5,7 @@
 They are defined in `lib/experiments/index.js`. For example:
 
 ```javascript
-const availableExperiments = [
-  'CONFIG_CACHING',
-];
+const availableExperiments = ['CONFIG_CACHING'];
 ```
 
 When a new feature is added, all supporting code and tests **must** be guarded
@@ -37,7 +35,6 @@ above while running tests you would run the following command:
 ```
 EMBER_CLI_CONFIG_CACHING=true yarn test
 ```
-
 
 ## Unsupported
 
