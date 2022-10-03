@@ -124,19 +124,6 @@ describe('blueprint - addon', function () {
         expect(json.keywords).to.deep.equal(['ember-addon']);
       });
 
-      it('overwrites any version of `ember-disable-prototype-extensions`', function () {
-        let output = blueprint.updatePackageJson(
-          JSON.stringify({
-            devDependencies: {
-              'ember-disable-prototype-extensions': '1.1.2',
-            },
-          })
-        );
-
-        let json = JSON.parse(output);
-        expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.3');
-      });
-
       it('adds `scripts.test:all`', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
@@ -176,7 +163,6 @@ describe('blueprint - addon', function () {
         );
 
         let json = JSON.parse(output);
-        delete json.devDependencies['ember-disable-prototype-extensions'];
         delete json.devDependencies['eslint-plugin-node'];
         delete json.devDependencies['ember-try'];
         delete json.devDependencies['ember-source-channel-url'];
