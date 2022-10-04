@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const merge = require('ember-cli-lodash-subset').merge;
+const { merge } = require('ember-cli-lodash-subset');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const Command = require('../../../lib/models/command');

@@ -211,6 +211,13 @@ module.exports = {
           description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
           key: 'in',
           required: false
+        },
+        {
+          name: 'typescript',
+          aliases: ['ts'],
+          description: 'Specifically destroys the TypeScript output of the `generate` command. Run `--no-typescript` to instead target the JavaScript output.',
+          key: 'typescript',
+          required: false
         }
       ],
       anonymousOptions: ['<blueprint>']
@@ -275,7 +282,14 @@ module.exports = {
           description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
           key: 'in',
           required: false
-        }
+        },
+        {
+          name: 'typescript',
+          aliases: ['ts'],
+          description: 'Generates a version of the blueprint written in TypeScript (if available).',
+          key: 'typescript',
+          required: false
+        },
       ],
       anonymousOptions: ['<blueprint>'],
       availableBlueprints: [
@@ -620,8 +634,15 @@ module.exports = {
           name: 'ci-provider',
           key: 'ciProvider',
           type: ['travis', 'github'],
-          default: 'github',
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false,
+        },
+        {
+          name: 'interactive',
+          default: false,
+          aliases: ['i'],
+          description: 'Create a new Ember app/addon in an interactive way.',
+          key: 'interactive',
           required: false,
         },
       ],

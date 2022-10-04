@@ -1,5 +1,7 @@
 'use strict';
 
+const execa = require('execa');
+const semver = require('semver');
 const fs = require('fs-extra');
 const ember = require('../helpers/ember');
 const walkSync = require('walk-sync');
@@ -17,13 +19,13 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;
-const forEach = require('ember-cli-lodash-subset').forEach;
+const { forEach } = require('ember-cli-lodash-subset');
 const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function () {
-  this.timeout(10000);
+  this.timeout(30000);
   let ORIGINAL_PROCESS_ENV_CI;
 
   beforeEach(async function () {
@@ -103,6 +105,12 @@ describe('Acceptance: ember new', function () {
     expect(file('app/templates/application.hbs')).to.contain('Welcome to Ember');
   });
 
+  it('ember new generates the correct directory name in `README.md` for scoped package names', async function () {
+    await ember(['new', '@foo/bar', '--skip-npm', '--skip-bower', '--skip-git']);
+
+    expect(file('README.md')).to.match(/\* `cd foo-bar`/);
+  });
+
   // ember new foo --lang
   // -------------------------------
   // Good: Correct Usage
@@ -160,20 +168,6 @@ describe('Acceptance: ember new', function () {
     const defaultTargets = ['last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'];
     const blueprintTargets = require(path.resolve('config/targets.js')).browsers;
     expect(blueprintTargets).to.have.same.deep.members(defaultTargets);
-  });
-
-  it('ember new with empty app name fails with a warning', async function () {
-    let err = await expect(ember(['new', ''])).to.be.rejected;
-
-    expect(err.name).to.equal('SilentError');
-    expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
-  });
-
-  it('ember new without app name fails with a warning', async function () {
-    let err = await expect(ember(['new'])).to.be.rejected;
-
-    expect(err.name).to.equal('SilentError');
-    expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
   });
 
   it('ember new with app name creates new directory and has a dasherized package name', async function () {
@@ -271,6 +265,13 @@ describe('Acceptance: ember new', function () {
   });
 
   it('ember new with shorthand git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
+    // Temporarily skipped for npm versions <= v6.0.0.
+    // See https://github.com/npm/cli/issues/4896 for more info.
+    let { stdout: npmVersion } = await execa('npm', ['-v']);
+    if (semver.major(npmVersion) <= 6) {
+      this.skip();
+    }
+
     this.timeout(20000); // relies on GH network stuff
 
     await ember([
@@ -415,6 +416,12 @@ describe('Acceptance: ember new', function () {
 
     let pkgJson = fs.readJsonSync('package.json');
     expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
+  });
+
+  it('ember addon generates the correct directory name in `CONTRIBUTING.md` for scoped package names', async function () {
+    await ember(['addon', '@foo/bar', '--skip-npm', '--skip-bower', '--skip-git']);
+
+    expect(file('CONTRIBUTING.md')).to.match(/\* `cd foo-bar`/);
   });
 
   if (!isExperimentEnabled('CLASSIC')) {

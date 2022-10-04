@@ -7,7 +7,7 @@ const MockCLI = require('../../../helpers/mock-cli');
 const Project = require('../../../../lib/models/project');
 const Addon = require('../../../../lib/models/addon');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Addon - linting', function () {
@@ -52,7 +52,8 @@ describe('Addon - linting', function () {
     addon.jshintAddonTree();
     expect(lintTrees.length).to.equal(1);
 
-    output = await buildOutput(lintTrees[0]);
+    output = createBuilder(lintTrees[0]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       app: {
@@ -71,7 +72,8 @@ describe('Addon - linting', function () {
     addon.jshintAddonTree();
     expect(lintTrees.length).to.equal(2);
 
-    output = await buildOutput(lintTrees[0]);
+    output = createBuilder(lintTrees[0]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       addon: {
@@ -81,7 +83,8 @@ describe('Addon - linting', function () {
 
     await output.dispose();
 
-    output = await buildOutput(lintTrees[1]);
+    output = createBuilder(lintTrees[1]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       addon: {
@@ -102,13 +105,15 @@ describe('Addon - linting', function () {
     addon.jshintAddonTree();
     expect(lintTrees.length).to.equal(2);
 
-    output = await buildOutput(lintTrees[0]);
+    output = createBuilder(lintTrees[0]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({});
 
     await output.dispose();
 
-    output = await buildOutput(lintTrees[1]);
+    output = createBuilder(lintTrees[1]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       addon: {
@@ -132,7 +137,8 @@ describe('Addon - linting', function () {
     addon.jshintAddonTree();
     expect(lintTrees.length).to.equal(2);
 
-    output = await buildOutput(lintTrees[0]);
+    output = createBuilder(lintTrees[0]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       addon: {
@@ -142,7 +148,8 @@ describe('Addon - linting', function () {
 
     await output.dispose();
 
-    output = await buildOutput(lintTrees[1]);
+    output = createBuilder(lintTrees[1]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       addon: {
@@ -163,7 +170,8 @@ describe('Addon - linting', function () {
     addon.jshintAddonTree();
     expect(lintTrees.length).to.equal(1);
 
-    output = await buildOutput(lintTrees[0]);
+    output = createBuilder(lintTrees[0]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       'addon-test-support': {
@@ -182,7 +190,8 @@ describe('Addon - linting', function () {
     addon.jshintAddonTree();
     expect(lintTrees.length).to.equal(1);
 
-    output = await buildOutput(lintTrees[0]);
+    output = createBuilder(lintTrees[0]);
+    await output.build();
 
     expect(output.read()).to.deep.equal({
       'test-support': {
@@ -214,7 +223,9 @@ describe('Addon - linting', function () {
     };
     input.write(addonRootContents);
 
-    output = await buildOutput(addon.jshintAddonTree());
+    output = createBuilder(addon.jshintAddonTree());
+    await output.build();
+
     expect(output.read()).to.deep.equal({
       first: {
         tests: addonRootContents,

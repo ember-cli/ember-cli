@@ -17,7 +17,7 @@ describe('asset-sizes command', function () {
 
   beforeEach(function () {
     tasks = {
-      ShowAssetSizes: Task.extend({}),
+      ShowAssetSizes: class extends Task {},
     };
 
     options = commandOptions({
@@ -51,8 +51,4 @@ describe('asset-sizes command', function () {
       expect(captor.value.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
     });
   });
-});
-
-describe.skip('default options config file', function () {
-  it('reads default options from .ember-cli file', function () {});
 });

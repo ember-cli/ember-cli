@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 
-const buildOutput = broccoliTestHelper.buildOutput;
+const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Default Packager: Index', function () {
@@ -77,7 +77,8 @@ describe('Default Packager: Index', function () {
 
     expect(defaultPackager._cachedProcessedIndex).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processIndex(input.path()));
+    output = createBuilder(defaultPackager.processIndex(input.path()));
+    await output.build();
 
     expect(defaultPackager._cachedProcessedIndex).to.not.equal(null);
   });
@@ -100,7 +101,8 @@ describe('Default Packager: Index', function () {
 
     expect(defaultPackager._cachedProcessedIndex).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processIndex(input.path()));
+    output = createBuilder(defaultPackager.processIndex(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
     let indexContent = decodeURIComponent(outputFiles.custom['index.html'].trim());
@@ -126,7 +128,8 @@ describe('Default Packager: Index', function () {
 
     expect(defaultPackager._cachedProcessedIndex).to.equal(null);
 
-    output = await buildOutput(defaultPackager.processIndex(input.path()));
+    output = createBuilder(defaultPackager.processIndex(input.path()));
+    await output.build();
 
     let outputFiles = output.read();
     let indexContent = decodeURIComponent(outputFiles['index.html'].trim());

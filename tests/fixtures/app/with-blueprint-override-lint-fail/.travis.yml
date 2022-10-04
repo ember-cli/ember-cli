@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "12"
+  - "14"
 
 dist: xenial
 
@@ -14,7 +14,7 @@ cache:
 
 env:
   global:
-    # See https://git.io/vdao3 for details.
+    # See https://github.com/ember-cli/ember-cli/blob/master/docs/build-concurrency.md for details.
     - JOBS=1
 
 branches:

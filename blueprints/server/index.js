@@ -1,6 +1,7 @@
 'use strict';
 
 const isPackageMissing = require('ember-cli-is-package-missing');
+const { deprecate } = require('../../lib/debug');
 
 module.exports = {
   description: 'Generates a server directory for mocks and proxies.',
@@ -28,12 +29,28 @@ module.exports = {
   },
 
   files() {
-    return ['server/index.js', this.hasJSHint() ? 'server/.jshintrc' : 'server/.eslintrc.js'];
+    let files = ['server/index.js'];
+
+    if (this.hasJSHint()) {
+      files.push('server/.jshintrc');
+    }
+
+    return files;
   },
 
   hasJSHint() {
-    if (this.project) {
-      return 'ember-cli-jshint' in this.project.dependencies();
-    }
+    let hasJSHint = Boolean(this.project) && 'ember-cli-jshint' in this.project.dependencies();
+
+    deprecate('Support for `ember-cli-jshint` is deprecated. We recommend using `eslint` instead.', !hasJSHint, {
+      for: 'ember-cli',
+      id: 'ember-cli.ember-cli-jshint-support',
+      since: {
+        available: '4.6.0',
+        enabled: '4.6.0',
+      },
+      until: '5.0.0',
+    });
+
+    return hasJSHint;
   },
 };

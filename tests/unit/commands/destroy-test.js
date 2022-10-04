@@ -21,12 +21,17 @@ describe('destroy command', function () {
     options = commandOptions({
       project,
       tasks: {
-        DestroyFromBlueprint: Task.extend({
-          project,
+        DestroyFromBlueprint: class extends Task {
+          init() {
+            super.init(...arguments);
+
+            this.project = project;
+          }
+
           run(options) {
             return Promise.resolve(options);
-          },
-        }),
+          }
+        },
       },
     });
 

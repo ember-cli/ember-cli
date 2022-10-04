@@ -5,7 +5,7 @@ const path = require('path');
 const quickTemp = require('quick-temp');
 const Configstore = require('configstore');
 const CommandGenerator = require('./command-generator');
-const stableStringify = require('json-stable-stringify');
+const stableStringify = require('safe-stable-stringify');
 const symlinkOrCopySync = require('symlink-or-copy').sync;
 
 let originalWorkingDirectory = process.cwd();

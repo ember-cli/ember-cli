@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const merge = require('ember-cli-lodash-subset').merge;
+const { merge } = require('ember-cli-lodash-subset');
 const FixturifyProject = require('fixturify-project');
 const Project = require('../../lib/models/project');
 const MockCLI = require('./mock-cli');
@@ -303,6 +303,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
 
     let addonJSON = inRepoAddon.toJSON();
     Object.assign(this.files[addonRootDir], addonJSON);
+    return inRepoAddon;
   }
 
   /**

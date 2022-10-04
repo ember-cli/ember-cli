@@ -3,7 +3,7 @@ language: node_js
 node_js:
   # we recommend testing addons with the same minimum supported node version as Ember CLI
   # so that your addon works for all apps
-  - "12"
+  - "14"
 
 dist: xenial
 
@@ -16,7 +16,7 @@ cache:
 
 env:
   global:
-    # See https://git.io/vdao3 for details.
+    # See https://github.com/ember-cli/ember-cli/blob/master/docs/build-concurrency.md for details.
     - JOBS=1
 
 branches:
@@ -26,7 +26,7 @@ branches:
     - /^v\d+\.\d+\.\d+/
 
 jobs:
-  fast_finish: true
+  fast_finish: false
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
@@ -47,12 +47,11 @@ jobs:
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
-    - env: EMBER_TRY_SCENARIO=ember-lts-3.20
-    - env: EMBER_TRY_SCENARIO=ember-lts-3.24
+    - env: EMBER_TRY_SCENARIO=ember-lts-3.28
+    - env: EMBER_TRY_SCENARIO=ember-lts-4.4
     - env: EMBER_TRY_SCENARIO=ember-release
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
-    - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
     - env: EMBER_TRY_SCENARIO=ember-classic
     - env: EMBER_TRY_SCENARIO=embroider-safe
     - env: EMBER_TRY_SCENARIO=embroider-optimized

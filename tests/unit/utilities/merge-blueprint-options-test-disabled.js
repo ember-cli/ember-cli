@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const map = require('ember-cli-lodash-subset').map;
+const { map } = require('ember-cli-lodash-subset');
 const Blueprint = require('../../../lib/models/blueprint');
 const Project = require('../../../lib/models/project');
 const Command = require('../../../lib/models/command');

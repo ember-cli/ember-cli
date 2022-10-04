@@ -16,9 +16,9 @@ describe('test command', function () {
 
   beforeEach(function () {
     tasks = {
-      Build: Task.extend(),
-      Test: Task.extend(),
-      TestServer: Task.extend(),
+      Build: class extends Task {},
+      Test: class extends Task {},
+      TestServer: class extends Task {},
     };
 
     let project = new MockProject();

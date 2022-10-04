@@ -1,6 +1,6 @@
 'use strict';
 
-const defaults = require('ember-cli-lodash-subset').defaults;
+const { defaults } = require('ember-cli-lodash-subset');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../helpers/mock-analytics');
 const MockProject = require('../helpers/mock-project');

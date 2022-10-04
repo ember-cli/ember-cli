@@ -42,4 +42,7 @@ cli({
 
   logger.info('Quitting "ember-cli" with exit code: %j', exitCode);
   exit(exitCode);
+}, function(err) {
+  console.log(err);
+  process.exit(-1);
 });

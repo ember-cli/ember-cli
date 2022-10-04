@@ -25,7 +25,7 @@ describe('NpmTask', function () {
     });
 
     it('resolves with warning when a newer version is found', async function () {
-      td.when(task.npm(['--version'])).thenResolve({ stdout: '7.0.0' });
+      td.when(task.npm(['--version'])).thenResolve({ stdout: '9.0.0' });
 
       await task.checkNpmVersion();
       expect(ui.output).to.contain('WARNING');
@@ -88,9 +88,18 @@ describe('NpmTask', function () {
       expect(ui.errors).to.be.empty;
     });
 
-    it('resolves with warning when yarn >=2.0.0 is found', async function () {
-      td.when(task.yarn(['--version'])).thenResolve({ stdout: '2.0.0' });
+    it('resolves when yarn >=2.0.0 is found and using node_modules', async function () {
+      td.when(task.yarn(['--version'])).thenResolve({ stdout: '3.2.2' });
+      td.when(task.yarn(['config', 'get', 'nodeLinker'])).thenResolve({ stdout: 'node-modules' });
 
+      await task.checkYarn();
+      expect(ui.output).to.be.empty;
+      expect(ui.errors).to.be.empty;
+    });
+
+    it('resolves with warning when yarn >=2.0.0 is found and not using node_modules', async function () {
+      td.when(task.yarn(['--version'])).thenResolve({ stdout: '2.0.0' });
+      td.when(task.yarn(['config', 'get', 'nodeLinker'])).thenResolve({ stdout: 'pnp' });
       await task.checkYarn();
       expect(ui.output).to.contain('WARNING');
       expect(ui.errors).to.be.empty;

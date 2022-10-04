@@ -132,7 +132,6 @@ const DEFAULT_SOURCE = {
       'ember-cli-sri': '^2.1.0',
       'ember-cli-uglify': '^2.0.0',
       'ember-data': '~3.0.0-beta.1',
-      'ember-export-application-global': '^2.0.0',
       'ember-load-initializers': '^1.0.0',
       'ember-qunit': '^3.4.1',
       'ember-resolver': '^4.0.0',
