@@ -60,12 +60,10 @@ describe('models/asset-size-printer', function () {
     await sizePrinter.print();
 
     expect(sizePrinter.ui.output).to.include('File sizes:');
-    expect(sizePrinter.ui.output).to.include('some-project.css: ');
-    expect(sizePrinter.ui.output).to.include('some-project.js: ');
-    expect(sizePrinter.ui.output).to.include('24 B');
-    expect(sizePrinter.ui.output).to.include('32 B');
-    expect(sizePrinter.ui.output).to.include('(44 B gzipped)');
-    expect(sizePrinter.ui.output).to.include('(52 B gzipped)');
+    expect(sizePrinter.ui.output).to.include('some-project.css');
+    expect(sizePrinter.ui.output).to.include('some-project.js');
+    expect(sizePrinter.ui.output).to.include('24 B │ 44 B        │ 22 B');
+    expect(sizePrinter.ui.output).to.include('32 B │ 52 B        │ 24 B');
   });
 
   it('does not print gzipped file sizes of empty files', async function () {
@@ -75,7 +73,8 @@ describe('models/asset-size-printer', function () {
     });
 
     await sizePrinter.print();
-    expect(sizePrinter.ui.output).to.not.include('0 B gzipped)');
+
+    expect(sizePrinter.ui.output).to.include('0 B  │ /           │ /');
   });
 
   it('does not print project test helper file sizes', async function () {
@@ -119,7 +118,7 @@ describe('models/asset-size-printer', function () {
     expect(output.files[1].name).to.include('nested-asset.js');
     expect(output.files[1].size).to.equal(32);
     expect(output.files[1].gzipSize).to.equal(52);
-    expect(output.files[0]).to.not.have.property('showGzipped');
+    expect(output.files[1].brotliSize).to.equal(24);
   });
 
   it('creates an array of asset objects', async function () {
@@ -133,7 +132,7 @@ describe('models/asset-size-printer', function () {
 
     assetObjectKeys = Object.keys(assetObject[0]);
 
-    expect(assetObjectKeys).to.deep.equal(['name', 'size', 'gzipSize', 'showGzipped']);
+    expect(assetObjectKeys).to.deep.equal(['brotliSize', 'gzipSize', 'name', 'size']);
     expect(assetObject[0].name).to.include('nested-asset.css');
     expect(assetObject[1].name).to.include('nested-asset.js');
     expect(assetObject[2].name).to.include('empty.js');
@@ -151,7 +150,7 @@ describe('models/asset-size-printer', function () {
 
     return expect(sizePrinter.print()).to.be.rejectedWith(
       Error,
-      `No asset files found in the path provided: ${outputPath}`
+      `No asset files found in the provided path: ${outputPath}`
     );
   });
 });
