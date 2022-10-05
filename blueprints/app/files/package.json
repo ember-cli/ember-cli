@@ -17,7 +17,8 @@
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix",
+    "lint:js:fix": "eslint . --fix",<% if (typescript) { %>
+    "lint:types": "tsc --noEmit",<% } %>
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
@@ -29,8 +30,10 @@
     "@embroider/core": "^1.8.3",
     "@embroider/webpack": "^1.8.3<% } %>",
     "@glimmer/component": "^1.1.2",
-    "@glimmer/tracking": "^1.1.2",
-    "babel-eslint": "^10.1.0",
+    "@glimmer/tracking": "^1.1.2",<% if (typescript) { %>
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",<% } else { %>
+    "babel-eslint": "^10.1.0",<% } %>
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^7.4.0",
     "ember-auto-import": "^2.4.2",

@@ -1296,6 +1296,11 @@ describe('Blueprint', function () {
         taskNameLookedUp = name;
         return new AddonInstallTask();
       };
+      blueprint.project = {
+        isEmberCLIProject() {
+          return true;
+        },
+      };
     });
 
     afterEach(async function () {
