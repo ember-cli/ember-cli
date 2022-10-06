@@ -2,18 +2,15 @@
 
 module.exports = {
   root: true,
-  parser: '<%= typescript ? '@typescript-eslint/parser' : 'babel-eslint' %>',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
-    requireConfigFile: false,
-    babelOptions: {
-      plugins: [
-        ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
-      ],
+    ecmaFeatures: {
+      legacyDecorators: true,
     },
   },
-  plugins: ['ember'<% if (typescript) { %>, '@typescript-eslint'<% } %>],
+  plugins: ['ember', '@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:ember/recommended',
@@ -24,7 +21,7 @@ module.exports = {
   },
   rules: {},
   overrides: [
-<% if (typescript) { %>    // ts files
+    // ts files
     {
       files: ['**/*.ts'],
       extends: [
@@ -33,20 +30,18 @@ module.exports = {
       ],
       rules: {},
     },
-<% } %>    // node files
+    // node files
     {
       files: [
         './.eslintrc.js',
         './.prettierrc.js',
         './.template-lintrc.js',
-        './ember-cli-build.js',<% if (blueprint !== 'app') { %>
-        './index.js',<% } %>
+        './ember-cli-build.js',
+        './index.js',
         './testem.js',
         './blueprints/*/index.js',
-        './config/**/*.js',<% if (blueprint === 'app') { %>
-        './lib/*/index.js',
-        './server/**/*.js',<% } else { %>
-        './tests/dummy/config/**/*.js',<% } %>
+        './config/**/*.js',
+        './tests/dummy/config/**/*.js',
       ],
       parserOptions: {
         sourceType: 'script',
@@ -56,12 +51,7 @@ module.exports = {
         node: true,
       },
       plugins: ['node'],
-      extends: ['plugin:node/recommended'],<% if (blueprint === 'app') {%>
-      rules: {
-        // this can be removed once the following is fixed
-        // https://github.com/mysticatea/eslint-plugin-node/issues/77
-        'node/no-unpublished-require': 'off',
-      },<% } %>
+      extends: ['plugin:node/recommended'],
     },
     {
       // test files
