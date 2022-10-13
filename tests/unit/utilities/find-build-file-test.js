@@ -26,7 +26,7 @@ describe('find-build-file', function () {
   it('does not throw an error when the file is valid syntax', function () {
     fs.writeFileSync(tmpFilename, "module.exports = function() {return {'a': 'A', 'b': 'B'};}", { encoding: 'utf8' });
 
-    let result = findBuildFile(tmpFilename);
+    let result = findBuildFile();
     expect(result).to.be.a('function');
     expect(result()).to.deep.equal({ a: 'A', b: 'B' });
   });
@@ -35,12 +35,12 @@ describe('find-build-file', function () {
     fs.writeFileSync(tmpFilename, "module.exports = function() {return {'a': 'A' 'b': 'B'};}", { encoding: 'utf8' });
 
     expect(() => {
-      findBuildFile(tmpFilename);
+      findBuildFile();
     }).to.throw(SyntaxError, /Could not require '.*':/);
   });
 
-  it('does not throw an error when the file is mss', function () {
-    let result = findBuildFile('missing-file.js');
+  it('does not throw an error when the file is missing', function () {
+    let result = findBuildFile(tmpPath);
     expect(result).to.be.null;
   });
 });

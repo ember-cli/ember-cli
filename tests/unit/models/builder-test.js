@@ -231,6 +231,26 @@ describe('models/builder.js', function () {
       expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
     });
 
+    // packages using node's module support (via type=module) need to have
+    // ember-cli-build.cjs rather than ember-cli.js in order for require to
+    // work correctly
+    it('builds packages using ESM', async function () {
+      const project = new MockProject();
+      project.root += '/tests/fixtures/build/node-esm';
+      const setupBuilder = () =>
+        new Builder({
+          project,
+          ui: project.ui,
+          copyToOutputPath() {
+            return [];
+          },
+        });
+
+      let result = await setupBuilder().build();
+
+      expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
+    });
+
     it('returns {directory, graph} as the result object', async function () {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
