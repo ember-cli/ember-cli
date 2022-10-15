@@ -13,14 +13,51 @@ const ONLINE_EDITOR_FILES = path.join(__dirname, 'online-editors');
 
 let tmpdir = tmp.dirSync();
 
+/**
+ * To debug this script without interacting with git, specify
+ * DEV_DEBUG="-git"
+ *
+ * example
+ *   DEV_DEBUG="-git" node ./dev/update-output-repos.js
+ *   DEV_DEBUG="-git,-new-output,+online-editors" node ./dev/update-output-repos.js
+ *
+ * available DEV_DEBUG flags:
+ *   -git
+ *   -new-output
+ *   +online-editors
+ *   -online-editors
+ *
+ * flags are comma separated
+ */
+const { DEV_DEBUG } = process.env;
+
+const debugFlags = (DEV_DEBUG || '').split(',').filter(Boolean);
+const hasFlag = (flag) => debugFlags.some((x) => x === flag);
+const WITHOUT_GIT = hasFlag('-git');
+const WITHOUT_NEW_OUTPUT = hasFlag('-new-output');
+const WITH_ONLINE_EDITORS = hasFlag('+online-editors') && !hasFlag('-online-editors');
+
+const GIT_MODIFICATIONS_ENABLED = !WITHOUT_GIT;
+
+if (debugFlags.length > 0) {
+  console.log('DEV_DEBUG flags present');
+  console.log(`\t${debugFlags}`);
+}
+
 async function updateOnlineEditorRepos() {
-  if (!isStable) {
-    return;
+  if (!WITH_ONLINE_EDITORS) {
+    if (!isStable) {
+      return;
+    }
   }
 
   let repo = 'git@github.com:ember-cli/editor-output.git';
-  let onlineEditors = ['stackblitz'];
+  let onlineEditors = ['stackblitz', 'codesandbox'];
 
+  /**
+   * NOTE: this can't be parallelized because we need to
+   *   - interact with git (which doesn't allow concurrent modifications on the same repo)
+   */
   for (let command of ['new', 'addon']) {
     let tmpdir = tmp.dirSync();
     await fs.mkdirp(tmpdir.name);
@@ -39,8 +76,10 @@ async function updateOnlineEditorRepos() {
     for (let onlineEditor of onlineEditors) {
       let editorBranch = `${onlineEditor}-${projectType}-output`;
       let outputRepoPath = path.join(tmpdir.name, 'editor-output');
+      let logPrefix = `[${onlineEditor}]`;
+      let log = (msg) => console.log(`${logPrefix} ${msg}`);
 
-      console.log(`cloning ${repo} in to ${tmpdir.name}`);
+      log(`cloning ${repo} in to ${tmpdir.name}`);
       try {
         await execa('git', ['clone', repo, `--branch=${editorBranch}`], {
           cwd: tmpdir.name,
@@ -52,36 +91,68 @@ async function updateOnlineEditorRepos() {
         });
       }
 
-      console.log('preparing updates for online editors');
+      log(`preparing updates for online editors`);
       await execa('git', ['switch', '-C', editorBranch], { cwd: outputRepoPath });
 
-      console.log(`clearing ${repo} in ${outputRepoPath}`);
+      log(`clearing ${repo} in ${outputRepoPath}`);
       await execa(`git`, [`rm`, `-rf`, `.`], {
         cwd: outputRepoPath,
       });
 
-      console.log('copying generated contents to output repo');
+      log(`copying generated contents to output repo`);
       await fs.copy(generatedOutputPath, outputRepoPath);
 
-      console.log('copying online editor files');
-      await fs.copy(path.join(ONLINE_EDITOR_FILES, onlineEditor), outputRepoPath);
+      log(`copying online editor files`);
+      let localEditorFiles = path.join(ONLINE_EDITOR_FILES, onlineEditor);
+      await fs.copy(localEditorFiles, outputRepoPath, {
+        filter(src) {
+          return !src.includes('__transforms__');
+        },
+      });
 
-      console.log('commiting updates');
-      await execa('git', ['add', '--all'], { cwd: outputRepoPath });
-      await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
+      let transformsPath = path.join(localEditorFiles, '__transforms__');
+      if (await fs.pathExists(transformsPath)) {
+        let transformPath = path.join(transformsPath, `${projectType}.js`);
 
-      console.log('pushing commit');
-      try {
-        await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
-      } catch (e) {
-        // branch may not exist yet
-        await execa('git', ['push', '-u', 'origin', editorBranch], { cwd: outputRepoPath });
+        if (await fs.pathExists(transformPath)) {
+          log(`applying transforms for ${onlineEditor}...`);
+
+          // Supported since Node 13
+          // eslint-disable-next-line node/no-unsupported-features/es-syntax
+          let transform = await import(transformPath);
+
+          await transform.default(outputRepoPath);
+        }
+      }
+
+      if (GIT_MODIFICATIONS_ENABLED) {
+        log(`commiting updates`);
+        await execa('git', ['add', '--all'], { cwd: outputRepoPath });
+        await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
+      } else {
+        log('skipping committing updates');
+      }
+
+      if (GIT_MODIFICATIONS_ENABLED) {
+        log(`pushing commit`);
+        try {
+          await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
+        } catch (e) {
+          // branch may not exist yet
+          await execa('git', ['push', '-u', 'origin', editorBranch], { cwd: outputRepoPath });
+        }
+      } else {
+        log('skipping pushing commit');
       }
     }
   }
 }
 
 async function updateRepo(repoName) {
+  if (WITHOUT_NEW_OUTPUT) {
+    return;
+  }
+
   let command = repoName === 'ember-new-output' ? 'new' : 'addon';
   let name = repoName === 'ember-new-output' ? 'my-app' : 'my-addon';
   let outputRepoPath = path.join(tmpdir.name, repoName);
@@ -115,14 +186,22 @@ async function updateRepo(repoName) {
     await execa('git', ['checkout', '-B', 'master'], { cwd: outputRepoPath });
   }
 
-  console.log('commiting updates');
-  await execa('git', ['add', '--all'], { cwd: outputRepoPath });
-  await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
-  await execa('git', ['tag', `v${currentVersion}`], { cwd: outputRepoPath });
+  if (GIT_MODIFICATIONS_ENABLED) {
+    console.log('commiting updates');
+    await execa('git', ['add', '--all'], { cwd: outputRepoPath });
+    await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
+    await execa('git', ['tag', `v${currentVersion}`], { cwd: outputRepoPath });
+  } else {
+    console.log('skipping committing updates');
+  }
 
-  console.log('pushing commit & tag');
-  await execa('git', ['push', 'origin', `v${currentVersion}`], { cwd: outputRepoPath });
-  await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
+  if (GIT_MODIFICATIONS_ENABLED) {
+    console.log('pushing commit & tag');
+    await execa('git', ['push', 'origin', `v${currentVersion}`], { cwd: outputRepoPath });
+    await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
+  } else {
+    console.log('skipping pushing commit & tag');
+  }
 }
 
 async function main() {
