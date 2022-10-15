@@ -141,6 +141,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-files": "^1.4.0",
     "chai-jest-snapshot": "^2.0.0",
+    "ember-apply": "^2.4.4",
     "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-internal-test-helpers": "^0.9.1",
     "eslint": "^8.24.0",
