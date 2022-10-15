@@ -74,13 +74,20 @@ async function updateOnlineEditorRepos() {
     let generatedOutputPath = path.join(updatedOutputTmpDir.name, name);
 
     for (let onlineEditor of onlineEditors) {
-      let editorBranch = `${onlineEditor}-${projectType}-output`;
-      let outputRepoPath = path.join(tmpdir.name, 'editor-output');
       let logPrefix = `[${onlineEditor}]`;
       let log = (msg) => console.log(`${logPrefix} ${msg}`);
 
+      let editorBranch = `${onlineEditor}-${projectType}-output`;
+      let outputRepoPath = path.join(tmpdir.name, 'editor-output');
+
+      if (await fs.pathExists(outputRepoPath)) {
+        await fs.rm(outputRepoPath, { recursive: true });
+      }
+
       log(`cloning ${repo} in to ${tmpdir.name}`);
       try {
+        // Clear the folder from a previous iteration, so that we can
+        // start fresh for each editor
         await execa('git', ['clone', repo, `--branch=${editorBranch}`], {
           cwd: tmpdir.name,
         });
