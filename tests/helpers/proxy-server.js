@@ -1,7 +1,7 @@
 'use strict';
 
 const http = require('http');
-/* eslint-disable node/no-unpublished-require */
+// eslint-disable-next-line n/no-unpublished-require
 const WebSocketServer = require('websocket').server;
 
 class ProxyServer {
