@@ -1,14 +1,15 @@
 # ember-cli Changelog
 
-## v4.8.0-beta.0
+## v4.8.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.7.0...v4.8.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.7.0...v4.8.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.7.0...v4.8.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.7.0...v4.8.0)
 
 #### Changelog
 
+- [#10014](https://github.com/ember-cli/ember-cli/pull/10014) [BUGFIX release] Make sure newly installed addons are discovered when running `ember install` [@bertdeblock](https://github.com/bertdeblock)
 - [#9920](https://github.com/ember-cli/ember-cli/pull/9920) [BUGFIX] Make sure a blueprint’s options object and project instance are always available for all public hooks [@bertdeblock](https://github.com/bertdeblock)
 - [#9945](https://github.com/ember-cli/ember-cli/pull/9945) [ENHANCEMENT/BREAKING] Add Node v18 to `engines` in `app` and `addon` blueprint (removes support for Node v17) [@bertdeblock](https://github.com/bertdeblock)
 - [#9946](https://github.com/ember-cli/ember-cli/pull/9946) [INTERNAL] Unskip `package-info-cache` tests [@bertdeblock](https://github.com/bertdeblock)
