@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  parser: '<%= typescript ? '@typescript-eslint/parser' : 'babel-eslint' %>',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -10,7 +10,7 @@ module.exports = {
       legacyDecorators: true,
     },
   },
-  plugins: ['ember'],
+  plugins: ['ember'<% if (typescript) { %>, '@typescript-eslint'<% } %>],
   extends: [
     'eslint:recommended',
     'plugin:ember/recommended',
@@ -21,7 +21,16 @@ module.exports = {
   },
   rules: {},
   overrides: [
-    // node files
+<% if (typescript) { %>    // ts files
+    {
+      files: ['**/*.ts'],
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+      rules: {},
+    },
+<% } %>    // node files
     {
       files: [
         './.eslintrc.js',

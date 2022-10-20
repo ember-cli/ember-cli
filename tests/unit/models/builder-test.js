@@ -21,7 +21,7 @@ let Builder;
 describe('models/builder.js', function () {
   let addon, builder, buildResults, tmpdir;
 
-  function setupBroccoliBuilder() {
+  async function setupBroccoliBuilder() {
     this.broccoliBuilderFallback = false;
     this.builder = {
       outputPath: 'build results',
@@ -231,6 +231,26 @@ describe('models/builder.js', function () {
       expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
     });
 
+    // packages using node's module support (via type=module) need to have
+    // ember-cli-build.cjs rather than ember-cli.js in order for require to
+    // work correctly
+    it('builds packages using ESM', async function () {
+      const project = new MockProject();
+      project.root += '/tests/fixtures/build/node-esm';
+      const setupBuilder = () =>
+        new Builder({
+          project,
+          ui: project.ui,
+          copyToOutputPath() {
+            return [];
+          },
+        });
+
+      let result = await setupBuilder().build();
+
+      expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
+    });
+
     it('returns {directory, graph} as the result object', async function () {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
@@ -258,10 +278,15 @@ describe('models/builder.js', function () {
         project,
         ui: project.ui,
         setupBroccoliBuilder,
+        copyToOutputPath() {
+          return [];
+        },
       });
     });
 
     it('is idempotent', async function () {
+      await builder.build();
+
       let cleanupCount = 0;
       builder.builder.cleanup = function () {
         cleanupCount++;
@@ -308,8 +333,8 @@ describe('models/builder.js', function () {
       project.addons = [addon];
 
       builder = new Builder({
-        setupBroccoliBuilder() {
-          setupBroccoliBuilder.call(this);
+        async setupBroccoliBuilder() {
+          await setupBroccoliBuilder.call(this);
           let originalBuild = this.builder.build;
           this.builder.build = () => {
             hooksCalled.push('build');
@@ -425,6 +450,7 @@ describe('models/builder.js', function () {
         receivedBuildError = errorThrown;
       };
 
+      await builder.setupBroccoliBuilder();
       builder.builder.build = function () {
         hooksCalled.push('build');
 
@@ -447,6 +473,7 @@ describe('models/builder.js', function () {
     });
 
     it('calls buildError and does not call postBuild or outputReady when build fails', async function () {
+      await builder.setupBroccoliBuilder();
       builder.builder.build = function () {
         hooksCalled.push('build');
 
@@ -495,7 +522,7 @@ describe('models/builder.js', function () {
   });
 
   describe('fallback from broccoli 2 to broccoli-builder', function () {
-    it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', function () {
+    it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', async function () {
       let project = new MockProject();
       const builder = new Builder({
         project,
@@ -508,6 +535,7 @@ describe('models/builder.js', function () {
         },
       });
 
+      await builder.setupBroccoliBuilder();
       expect(builder.broccoliBuilderFallback).to.be.true;
 
       expect(project.ui.output).to.include(
@@ -521,15 +549,14 @@ describe('models/builder.js', function () {
     it('errors for an invalid node', function () {
       let project = new MockProject();
       expect(
-        () =>
-          new Builder({
-            project,
-            ui: project.ui,
-            readBuildFile() {
-              return {};
-            },
-          })
-      ).to.throw('[object Object] is not a Broccoli node\nused as output node');
+        new Builder({
+          project,
+          ui: project.ui,
+          readBuildFile() {
+            return {};
+          },
+        }).setupBroccoliBuilder()
+      ).to.be.rejectedWith('[object Object] is not a Broccoli node\nused as output node');
     });
   });
 });

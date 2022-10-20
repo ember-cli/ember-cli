@@ -43,7 +43,7 @@ const OPTIONS = nopt({
 
 const PACKAGE_FILES = [
   '../blueprints/app/files/package.json',
-  '../blueprints/addon/additional-dev-dependencies.json',
+  '../blueprints/addon/additional-package.json',
   '../tests/fixtures/app/defaults/package.json',
   '../tests/fixtures/app/npm/package.json',
   '../tests/fixtures/app/yarn/package.json',

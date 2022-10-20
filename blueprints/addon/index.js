@@ -5,7 +5,7 @@ const path = require('path');
 const walkSync = require('walk-sync');
 const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
-const { uniq } = require('ember-cli-lodash-subset');
+const { merge, uniq } = require('ember-cli-lodash-subset');
 const SilentError = require('silent-error');
 const sortPackageJson = require('sort-package-json');
 
@@ -22,12 +22,14 @@ const replacers = {
   },
 };
 
-const ADDITIONAL_DEV_DEPENDENCIES = require('./additional-dev-dependencies.json').devDependencies;
+const ADDITIONAL_PACKAGE = require('./additional-package.json');
 
 const description = 'The default blueprint for ember-cli addons.';
 module.exports = {
   description,
   appBlueprintName: 'app',
+
+  shouldTransformTypeScript: true,
 
   filesToRemove: [
     'tests/dummy/app/styles/.gitkeep',
@@ -43,9 +45,9 @@ module.exports = {
 
     contents.name = stringUtil.dasherize(this.options.entity.name);
     contents.description = this.description;
+
     delete contents.private;
-    contents.scripts = contents.scripts || {};
-    contents.keywords = contents.keywords || [];
+
     contents.dependencies = contents.dependencies || {};
     contents.devDependencies = contents.devDependencies || {};
 
@@ -67,17 +69,7 @@ module.exports = {
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
 
-    if (contents.keywords.indexOf('ember-addon') === -1) {
-      contents.keywords.push('ember-addon');
-    }
-
-    Object.assign(contents.devDependencies, ADDITIONAL_DEV_DEPENDENCIES);
-
-    // add `ember-compatibility` script in addons
-    contents.scripts['test:ember-compatibility'] = 'ember try:each';
-
-    contents['ember-addon'] = contents['ember-addon'] || {};
-    contents['ember-addon'].configPath = 'tests/dummy/config';
+    merge(contents, ADDITIONAL_PACKAGE);
 
     return stringifyAndNormalize(sortPackageJson(contents));
   },
@@ -110,13 +102,20 @@ module.exports = {
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
   },
 
-  afterInstall() {
+  async afterInstall(options) {
     let packagePath = path.join(this.path, 'files', 'package.json');
     let bowerPath = path.join(this.path, 'files', 'bower.json');
 
     [packagePath, bowerPath].forEach((filePath) => {
       fs.removeSync(filePath);
     });
+
+    if (options.typescript) {
+      await this.addAddonToProject({
+        name: 'ember-cli-typescript',
+        blueprintOptions: { ...options, save: true },
+      });
+    }
   },
 
   locals(options) {
@@ -142,6 +141,7 @@ module.exports = {
           options.welcome && '"--welcome"',
           options.yarn && '"--yarn"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+          options.typescript && `"--typescript"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -164,6 +164,7 @@ module.exports = {
       embroider: false,
       lang: options.lang,
       ciProvider: options.ciProvider,
+      typescript: options.typescript,
     };
   },
 
@@ -188,8 +189,7 @@ module.exports = {
     '^config.*': 'tests/dummy/:path',
     '^public.*': 'tests/dummy/:path',
 
-    '^addon-config/environment.js': 'config/environment.js',
-    '^addon-config/ember-try.js': 'config/ember-try.js',
+    '^addon-config/ember-try.js': 'tests/dummy/config/ember-try.js',
 
     '^npmignore': '.npmignore',
   },

@@ -8,6 +8,8 @@ const directoryForPackageName = require('../../lib/utilities/directory-for-packa
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
 
+  shouldTransformTypeScript: true,
+
   filesToRemove: [
     'app/styles/.gitkeep',
     'app/templates/.gitkeep',
@@ -37,6 +39,7 @@ module.exports = {
           options.yarn && '"--yarn"',
           embroider && '"--embroider"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+          options.typescript && `"--typescript"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -56,6 +59,7 @@ module.exports = {
       embroider,
       lang: options.lang,
       ciProvider: options.ciProvider,
+      typescript: options.typescript,
     };
   },
 
@@ -81,5 +85,11 @@ module.exports = {
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
+  },
+
+  async afterInstall(options) {
+    if (options.typescript) {
+      await this.addAddonToProject({ name: 'ember-cli-typescript', blueprintOptions: options });
+    }
   },
 };

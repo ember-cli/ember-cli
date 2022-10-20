@@ -84,6 +84,13 @@ module.exports = {
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
           required: false
         },
+        {
+          default: false,
+          key: 'typescript',
+          name: 'typescript',
+          description: 'Set up the addon to use TypeScript',
+          required: false,
+        },
       ],
       anonymousOptions: ['<addon-name>']
     },
@@ -509,6 +516,13 @@ module.exports = {
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
           required: false,
         },
+        {
+          default: false,
+          key: 'typescript',
+          name: 'typescript',
+          description: 'Set up the app to use TypeScript',
+          required: false,
+        },
       ],
       anonymousOptions: ['<glob-pattern>']
     },
@@ -634,8 +648,22 @@ module.exports = {
           name: 'ci-provider',
           key: 'ciProvider',
           type: ['travis', 'github'],
-          default: 'github',
           description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          required: false,
+        },
+        {
+          name: 'interactive',
+          default: false,
+          aliases: ['i'],
+          description: 'Create a new Ember app/addon in an interactive way.',
+          key: 'interactive',
+          required: false,
+        },
+        {
+          default: false,
+          key: 'typescript',
+          name: 'typescript',
+          description: 'Set up the app to use TypeScript',
           required: false,
         },
       ],

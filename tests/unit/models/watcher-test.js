@@ -35,18 +35,20 @@ describe('Watcher', function () {
     },
   };
 
-  beforeEach(function () {
+  beforeEach(async function () {
     ui = new MockUI();
     analytics = new MockAnalytics();
 
     watcher = new MockBroccoliWatcher();
 
-    subject = new Watcher({
-      ui,
-      analytics,
-      builder,
-      watcher,
-    });
+    subject = (
+      await Watcher.build({
+        ui,
+        analytics,
+        builder,
+        watcher,
+      })
+    ).watcher;
   });
 
   describe('watcher strategy selection', function () {
@@ -136,29 +138,31 @@ describe('Watcher', function () {
   describe('output', function () {
     this.timeout(40000);
 
-    it('with ssl', function () {
-      let subject = new Watcher({
-        ui,
-        analytics,
-        builder,
-        watcher,
-        serving: true,
-        options: {
-          host: undefined,
-          port: '1337',
-          ssl: true,
-          sslCert: 'tests/fixtures/ssl/server.crt',
-          sslKey: 'tests/fixtures/ssl/server.key',
-          environment: 'development',
-          project: {
-            config() {
-              return {
-                rootURL: '/',
-              };
+    it('with ssl', async function () {
+      let subject = (
+        await Watcher.build({
+          ui,
+          analytics,
+          builder,
+          watcher,
+          serving: true,
+          options: {
+            host: undefined,
+            port: '1337',
+            ssl: true,
+            sslCert: 'tests/fixtures/ssl/server.crt',
+            sslKey: 'tests/fixtures/ssl/server.key',
+            environment: 'development',
+            project: {
+              config() {
+                return {
+                  rootURL: '/',
+                };
+              },
             },
           },
-        },
-      });
+        })
+      ).watcher;
 
       subject.didChange(mockResult);
 
@@ -166,26 +170,28 @@ describe('Watcher', function () {
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on https://localhost:1337/`);
     });
 
-    it('with baseURL', function () {
-      let subject = new Watcher({
-        ui,
-        analytics,
-        builder,
-        watcher,
-        serving: true,
-        options: {
-          host: undefined,
-          port: '1337',
-          environment: 'development',
-          project: {
-            config() {
-              return {
-                baseURL: '/foo',
-              };
+    it('with baseURL', async function () {
+      let subject = (
+        await Watcher.build({
+          ui,
+          analytics,
+          builder,
+          watcher,
+          serving: true,
+          options: {
+            host: undefined,
+            port: '1337',
+            environment: 'development',
+            project: {
+              config() {
+                return {
+                  baseURL: '/foo',
+                };
+              },
             },
           },
-        },
-      });
+        })
+      ).watcher;
 
       subject.didChange(mockResult);
 
@@ -196,26 +202,28 @@ describe('Watcher', function () {
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
-    it('with rootURL', function () {
-      let subject = new Watcher({
-        ui,
-        analytics,
-        builder,
-        watcher,
-        serving: true,
-        options: {
-          host: undefined,
-          port: '1337',
-          environment: 'development',
-          project: {
-            config() {
-              return {
-                rootURL: '/foo',
-              };
+    it('with rootURL', async function () {
+      let subject = (
+        await Watcher.build({
+          ui,
+          analytics,
+          builder,
+          watcher,
+          serving: true,
+          options: {
+            host: undefined,
+            port: '1337',
+            environment: 'development',
+            project: {
+              config() {
+                return {
+                  rootURL: '/foo',
+                };
+              },
             },
           },
-        },
-      });
+        })
+      ).watcher;
 
       subject.didChange(mockResult);
 
@@ -227,27 +235,29 @@ describe('Watcher', function () {
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
-    it('with empty rootURL', function () {
-      let subject = new Watcher({
-        ui,
-        analytics,
-        builder,
-        watcher,
-        serving: true,
-        options: {
-          host: undefined,
-          port: '1337',
-          rootURL: '',
-          environment: 'development',
-          project: {
-            config() {
-              return {
-                rootURL: '',
-              };
+    it('with empty rootURL', async function () {
+      let subject = (
+        await Watcher.build({
+          ui,
+          analytics,
+          builder,
+          watcher,
+          serving: true,
+          options: {
+            host: undefined,
+            port: '1337',
+            rootURL: '',
+            environment: 'development',
+            project: {
+              config() {
+                return {
+                  rootURL: '',
+                };
+              },
             },
           },
-        },
-      });
+        })
+      ).watcher;
 
       subject.didChange(mockResult);
 
@@ -256,27 +266,29 @@ describe('Watcher', function () {
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
-    it('with customURL', function () {
-      let subject = new Watcher({
-        ui,
-        analytics,
-        builder,
-        watcher,
-        serving: true,
-        options: {
-          host: undefined,
-          port: '1337',
-          rootURL: '',
-          environment: 'development',
-          project: {
-            config() {
-              return {
-                rootURL: '',
-              };
+    it('with customURL', async function () {
+      let subject = (
+        await Watcher.build({
+          ui,
+          analytics,
+          builder,
+          watcher,
+          serving: true,
+          options: {
+            host: undefined,
+            port: '1337',
+            rootURL: '',
+            environment: 'development',
+            project: {
+              config() {
+                return {
+                  rootURL: '',
+                };
+              },
             },
           },
-        },
-      });
+        })
+      ).watcher;
       subject.serveURL = function () {
         return `http://customurl.com/`;
       };
