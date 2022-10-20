@@ -1,5 +1,35 @@
 # ember-cli Changelog
 
+## v4.9.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.8.0...v4.9.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.8.0...v4.9.0-beta.0)
+
+#### Changelog
+
+- [#10015](https://github.com/ember-cli/ember-cli/pull/10015) Update `glob` to v8 [@bertdeblock](https://github.com/bertdeblock)
+- [#10016](https://github.com/ember-cli/ember-cli/pull/10016) Fix indentation in `.ember-cli` file in `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10017](https://github.com/ember-cli/ember-cli/pull/10017) [ENHANCEMENT] Disable prototype extensions by default in `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10018](https://github.com/ember-cli/ember-cli/pull/10018) Trap unhandled failures [@ef4](https://github.com/ef4)
+- [#10020](https://github.com/ember-cli/ember-cli/pull/10020) [INTERNAL] Fix typos in `serve` command test [@bertdeblock](https://github.com/bertdeblock)
+- [#10021](https://github.com/ember-cli/ember-cli/pull/10021) [CLEANUP] Drop support for using `usePods: true` and the `--pod` flag simultaneously [@bertdeblock](https://github.com/bertdeblock)
+- [#10022](https://github.com/ember-cli/ember-cli/pull/10022) [ENHANCEMENT] Use `concurrently` instead of `npm-run-all` in `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10024](https://github.com/ember-cli/ember-cli/pull/10024) [ENHANCEMENT] Add `ember-source` to `peerDependencies` in `addon` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10025](https://github.com/ember-cli/ember-cli/pull/10025) [ENHANCEMENT] Update NPM version constraints [@bertdeblock](https://github.com/bertdeblock)
+- [#10026](https://github.com/ember-cli/ember-cli/pull/10026) [ENHANCEMENT] Display info message when running the `lint:fix` script post blueprint generation [@bertdeblock](https://github.com/bertdeblock)
+- [#10038](https://github.com/ember-cli/ember-cli/pull/10038) Update `filesize` to v10 [@bertdeblock](https://github.com/bertdeblock)
+- [#10041](https://github.com/ember-cli/ember-cli/pull/10041) [INTERNAL] Remove end year from copyright notice [@bertdeblock](https://github.com/bertdeblock)
+- [#10049](https://github.com/ember-cli/ember-cli/pull/10049) [ENHANCEMENT] Remove the `config/environment.js` file from the `addon` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10050](https://github.com/ember-cli/ember-cli/pull/10050) [ENHANCEMENT] Remove `vendor` folder from `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10051](https://github.com/ember-cli/ember-cli/pull/10051) [ENHANCEMENT] Move `ember-try.js` config file to `tests/dummy/config/ember-try.js` for addons [@bertdeblock](https://github.com/bertdeblock)
+- [#10053](https://github.com/ember-cli/ember-cli/pull/10053) Add support for node ESM addons [@hjdivad](https://github.com/hjdivad)
+- [#9824](https://github.com/ember-cli/ember-cli/pull/9824) [RFC 638] Interactive way to create new Ember apps and addons [@bertdeblock](https://github.com/bertdeblock)
+- [#9972](https://github.com/ember-cli/ember-cli/pull/9972) [ENHANCEMENT] Add support for `--typescript` flag to `app` and `addon` blueprints [@simonihmig](https://github.com/simonihmig)
+
+Thank you to all who took the time to contribute!
+
 ## v4.8.0
 
 #### Blueprint Changes
