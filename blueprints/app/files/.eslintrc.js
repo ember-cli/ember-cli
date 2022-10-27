@@ -4,11 +4,11 @@ module.exports = {
   root: true,
   parser: '<%= typescript ? '@typescript-eslint/parser' : 'babel-eslint' %>',
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2018,<% if (!typescript) { %>
     sourceType: 'module',
     ecmaFeatures: {
       legacyDecorators: true,
-    },
+    },<% } %>
   },
   plugins: ['ember'<% if (typescript) { %>, '@typescript-eslint'<% } %>],
   extends: [
@@ -45,10 +45,10 @@ module.exports = {
         './server/**/*.js',<% } else { %>
         './tests/dummy/config/**/*.js',<% } %>
       ],
-      parserOptions: {
+<% if (!typescript) { %>      parserOptions: {
         sourceType: 'script',
       },
-      env: {
+<% } %>      env: {
         browser: false,
         node: true,
       },
