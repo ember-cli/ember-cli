@@ -5,10 +5,6 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module',
-    ecmaFeatures: {
-      legacyDecorators: true,
-    },
   },
   plugins: ['ember', '@typescript-eslint'],
   extends: [
@@ -43,9 +39,6 @@ module.exports = {
         './lib/*/index.js',
         './server/**/*.js',
       ],
-      parserOptions: {
-        sourceType: 'script',
-      },
       env: {
         browser: false,
         node: true,
