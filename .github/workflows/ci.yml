@@ -34,12 +34,8 @@ jobs:
       - run: yarn lint
 
   basic-tests:
-    name: "Basic Tests - ${{ matrix.os }}"
-    runs-on: "${{ matrix.os }}-latest"
-
-    strategy:
-      matrix:
-        os: [ubuntu, macOS, windows]
+    name: "Basic Tests"
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -52,7 +48,7 @@ jobs:
       - run: yarn test
 
   tests:
-    name: "Node ${{ matrix.node-version }} - ${{ matrix.os }} "
+    name: "Node ${{ matrix.node-version }} - ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}-latest"
 
     needs: [linting, basic-tests]
