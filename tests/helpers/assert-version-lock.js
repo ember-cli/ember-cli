@@ -1,6 +1,6 @@
 'use strict';
 
-// eslint-disable-next-line node/no-unpublished-require
+// eslint-disable-next-line n/no-unpublished-require
 const expect = require('chai').expect;
 const semver = require('semver');
 

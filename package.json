@@ -147,7 +147,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-chai-expect": "^3.0.0",
     "eslint-plugin-mocha": "^10.1.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-prettier": "^4.2.1",
     "fixturify": "^2.1.0",
     "jsdom": "^20.0.0",
