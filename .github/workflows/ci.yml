@@ -51,7 +51,7 @@ jobs:
     name: "Node ${{ matrix.node-version }} - ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}-latest"
 
-    needs: [linting, basic-tests]
+    needs: [linting]
 
     strategy:
       fail-fast: false
@@ -73,7 +73,7 @@ jobs:
     name: "Feature: ${{ matrix.feature-flag }}"
     runs-on: ubuntu-latest
 
-    needs: [linting, basic-tests]
+    needs: [linting]
 
     strategy:
       fail-fast: false
