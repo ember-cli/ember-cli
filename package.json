@@ -134,7 +134,7 @@
   },
   "devDependencies": {
     "@ember/edition-utils": "^1.2.0",
-    "@octokit/rest": "^19.0.4",
+    "@octokit/rest": "^19.0.5",
     "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.3.6",
