@@ -150,7 +150,7 @@ if (module === require.main) {
 
     console.error(error.stack);
 
-    /* eslint-disable-next-line no-process-exit */
+    // eslint-disable-next-line n/no-process-exit
     process.exit(1);
   });
 

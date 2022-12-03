@@ -510,7 +510,7 @@ describe('Acceptance: ember new', function () {
       let fixturePath = `${namespace}/defaults`;
 
       [
-        'config/ember-try.js',
+        'tests/dummy/config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
         '.github/workflows/ci.yml',
         'README.md',
@@ -579,7 +579,7 @@ describe('Acceptance: ember new', function () {
       let fixturePath = 'addon/yarn';
 
       [
-        'config/ember-try.js',
+        'tests/dummy/config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
         '.github/workflows/ci.yml',
         'README.md',

@@ -44,8 +44,7 @@ module.exports = {
         browser: false,
         node: true,
       },
-      plugins: ['node'],
-      extends: ['plugin:node/recommended'],
+      extends: ['plugin:n/recommended'],
     },
     {
       // test files

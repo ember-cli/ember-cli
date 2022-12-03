@@ -4,8 +4,6 @@ const Project = require('../../lib/models/project');
 const Instrumentation = require('../../lib/models/instrumentation');
 const MockUI = require('console-ui/mock');
 
-// eslint-disable-next-line node/no-unpublished-require
-
 class MockProject extends Project {
   constructor(options = {}) {
     let root = options.root || process.cwd();

@@ -61,6 +61,34 @@ describe('Acceptance: brocfile-smoke-test', function () {
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
+  it('builds with an ES modules ember-cli-build.js', async function () {
+    await fs.writeFile(
+      'ember-cli-build.js',
+      `
+      import EmberApp from 'ember-cli/lib/broccoli/ember-app.js';
+
+      export default async function (defaults) {
+        const app = new EmberApp(defaults, { });
+
+        return app.toTree();
+      };
+    `
+    );
+
+    let appPackageJson = await fs.readJson('package.json');
+    appPackageJson.type = 'module';
+    await fs.writeJson('package.json', appPackageJson);
+
+    // lib/utilities/find-build-file.js uses await import and so can handle ES module ember-cli-build.js
+    //
+    // However, broccoli-config-loader uses require, so files like
+    // config/environment.js must be in commonjs format. The way to mix ES and
+    // commonjs formats in node is with multiple `package.json`s
+    await fs.writeJson('config/package.json', { type: 'commonjs' });
+    console.log(process.cwd());
+    await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+  });
+
   it('without app/templates', async function () {
     await copyFixtureFiles('brocfile-tests/pods-templates');
     await fs.remove(path.join(process.cwd(), 'app/templates'));
