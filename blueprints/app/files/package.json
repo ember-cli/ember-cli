@@ -24,9 +24,9 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
-    <% if (!typescript) { %>"@babel/eslint-parser": "^7.19.1",
-    "@babel/plugin-proposal-decorators": "^7.20.5",<% } %>
-    "@ember/optional-features": "^2.0.0",
+    "<% if (!typescript) { %>@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-proposal-decorators": "^7.20.5",
+    "<% } %>@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1<% if (embroider) { %>",
     "@embroider/compat": "^1.9.0",
     "@embroider/core": "^1.9.0",
