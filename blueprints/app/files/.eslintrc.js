@@ -6,9 +6,6 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,<% if (!typescript) { %>
     sourceType: 'module',
-    ecmaFeatures: {
-      legacyDecorators: true,
-    },
     requireConfigFile: false,
     babelOptions: {
       plugins: [
