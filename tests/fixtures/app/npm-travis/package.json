@@ -49,7 +49,7 @@
     "ember-resolver": "^8.0.2",
     "ember-source": "~3.27.2",
     "ember-template-lint": "^4.0.0",
-    "eslint": "^8.24.0",
+    "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^11.1.0",
     "eslint-plugin-n": "^15.4.0",

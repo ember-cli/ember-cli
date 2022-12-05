@@ -49,7 +49,7 @@
     "ember-source": "~3.27.0-beta.3",
     "ember-template-lint": "^4.0.0",
     "ember-welcome-page": "^5.0.0",
-    "eslint": "^8.24.0",
+    "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^11.1.0",
     "eslint-plugin-n": "^15.4.0",
