@@ -12,12 +12,12 @@ describe('Server Watcher', function () {
   let analytics;
   let watcher;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     ui = new MockUI();
     analytics = new MockAnalytics();
     watcher = new MockServerWatcher();
 
-    new ServerWatcher({
+    await ServerWatcher.build({
       ui,
       analytics,
       watcher,

@@ -146,7 +146,7 @@ describe('Acceptance: addon-smoke-test', function () {
       return handleError(error, 'tar');
     }
 
-    let necessaryFiles = ['package.json', 'index.js', 'LICENSE.md', 'README.md', 'config/environment.js'];
+    let necessaryFiles = ['package.json', 'index.js', 'LICENSE.md', 'README.md'];
 
     let unnecessaryFiles = [
       '.gitkeep',

@@ -1,46 +1,60 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const fs = require('fs-extra');
+const os = require('os');
 const path = require('path');
-const tmp = require('../../helpers/tmp');
 const findBuildFile = require('../../../lib/utilities/find-build-file');
 
 describe('find-build-file', function () {
-  let tmpPath = 'tmp/find-build-file-test';
+  let tmpPath;
   let tmpFilename = 'ember-cli-build.js';
+  let ROOT = process.cwd();
 
   beforeEach(function () {
-    return tmp.setup(tmpPath).then(function () {
-      process.chdir(tmpPath);
-    });
+    tmpPath = fs.mkdtempSync(path.join(os.tmpdir(), 'find-build-file-test'));
+    process.chdir(tmpPath);
   });
 
   afterEach(function () {
-    let tmpFilePath = path.resolve(tmpFilename);
-    delete require.cache[require.resolve(tmpFilePath)];
-
-    return tmp.teardown(tmpPath);
+    process.chdir(ROOT);
+    fs.removeSync(tmpPath);
   });
 
-  it('does not throw an error when the file is valid syntax', function () {
+  it('does not throw an error when the file is valid commonjs syntax', async function () {
     fs.writeFileSync(tmpFilename, "module.exports = function() {return {'a': 'A', 'b': 'B'};}", { encoding: 'utf8' });
 
-    let result = findBuildFile(tmpFilename);
+    let result = await findBuildFile();
     expect(result).to.be.a('function');
     expect(result()).to.deep.equal({ a: 'A', b: 'B' });
   });
 
-  it('throws a SyntaxError if the file contains a syntax mistake', function () {
-    fs.writeFileSync(tmpFilename, "module.exports = function() {return {'a': 'A' 'b': 'B'};}", { encoding: 'utf8' });
+  it('does not throw an error when the file is valid ES module syntax', async function () {
+    fs.writeFileSync('package.json', JSON.stringify({ type: 'module' }), { encoding: 'utf8' });
+    fs.writeFileSync(tmpFilename, "export default function() {return {'a': 'A', 'b': 'B'};}", { encoding: 'utf8' });
 
-    expect(() => {
-      findBuildFile(tmpFilename);
-    }).to.throw(SyntaxError, /Could not require '.*':/);
+    let result = await findBuildFile();
+    expect(result).to.be.a('function');
+    expect(result()).to.deep.equal({ a: 'A', b: 'B' });
   });
 
-  it('does not throw an error when the file is mss', function () {
-    let result = findBuildFile('missing-file.js');
+  it('throws a SyntaxError if the file contains a syntax mistake', async function () {
+    fs.writeFileSync(tmpFilename, 'module.exports = ', { encoding: 'utf8' });
+
+    let error = null;
+    try {
+      await findBuildFile();
+    } catch (e) {
+      error = e;
+    }
+
+    expect(error).to.not.equal(null);
+    expect(error.constructor).to.equal(SyntaxError);
+    expect(error.message).to.match(/Could not `import\('.*ember-cli-build.*'\)`/);
+  });
+
+  it('does not throw an error when the file is missing', async function () {
+    let result = await findBuildFile(tmpPath);
     expect(result).to.be.null;
   });
 });

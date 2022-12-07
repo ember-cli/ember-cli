@@ -1,0 +1,19 @@
+{
+  "keywords": [
+    "ember-addon"
+  ],
+  "scripts": {
+    "test:ember-compatibility": "ember try:each"
+  },
+  "devDependencies": {
+    "@embroider/test-setup": "^2.0.2",
+    "ember-source-channel-url": "^3.0.0",
+    "ember-try": "^2.0.0"
+  },
+  "peerDependencies": {
+    "ember-source": "^3.28.0 || ^4.0.0"
+  },
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  }
+}

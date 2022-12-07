@@ -25,7 +25,7 @@ describe('NpmTask', function () {
     });
 
     it('resolves with warning when a newer version is found', async function () {
-      td.when(task.npm(['--version'])).thenResolve({ stdout: '7.0.0' });
+      td.when(task.npm(['--version'])).thenResolve({ stdout: '9.0.0' });
 
       await task.checkNpmVersion();
       expect(ui.output).to.contain('WARNING');
