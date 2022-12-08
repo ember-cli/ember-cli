@@ -5,10 +5,6 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module',
-    ecmaFeatures: {
-      legacyDecorators: true,
-    },
   },
   plugins: ['ember', '@typescript-eslint'],
   extends: [
@@ -43,15 +39,11 @@ module.exports = {
         './config/**/*.js',
         './tests/dummy/config/**/*.js',
       ],
-      parserOptions: {
-        sourceType: 'script',
-      },
       env: {
         browser: false,
         node: true,
       },
-      plugins: ['node'],
-      extends: ['plugin:node/recommended'],
+      extends: ['plugin:n/recommended'],
     },
     {
       // test files

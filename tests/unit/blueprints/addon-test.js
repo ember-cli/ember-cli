@@ -163,7 +163,7 @@ describe('blueprint - addon', function () {
         );
 
         let json = JSON.parse(output);
-        delete json.devDependencies['eslint-plugin-node'];
+        delete json.devDependencies['eslint-plugin-n'];
         delete json.devDependencies['ember-try'];
         delete json.devDependencies['ember-source-channel-url'];
         delete json.devDependencies['@embroider/test-setup'];

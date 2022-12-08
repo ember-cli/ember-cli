@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable node/shebang */
+/* eslint-disable n/shebang */
 
 'use strict';
 
