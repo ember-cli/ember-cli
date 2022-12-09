@@ -5978,16 +5978,15 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it-terminal@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/markdown-it-terminal/-/markdown-it-terminal-0.2.1.tgz#670fd5ea824a7dcaa1591dcbeef28bf70aff1705"
-  integrity sha512-e8hbK9L+IyFac2qY05R7paP+Fqw1T4pSQW3miK3VeG9QmpqBjg5Qzjv/v6C7YNxSNRS2Kp8hUFtm5lWU9eK4lw==
+markdown-it-terminal@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-terminal/-/markdown-it-terminal-0.4.0.tgz#d58466e3de0a638d6a5bd7e16ca51d8e55f3a3ac"
+  integrity sha512-NeXtgpIK6jBciHTm9UhiPnyHDdqyVIdRPJ+KdQtZaf/wR74gvhCNbw5li4TYsxRp5u3ZoHEF4DwpECeZqyCw+w==
   dependencies:
     ansi-styles "^3.0.0"
     cardinal "^1.0.0"
     cli-table "^0.3.1"
     lodash.merge "^4.6.2"
-    markdown-it "^8.3.1"
 
 markdown-it@^13.0.1:
   version "13.0.1"
@@ -6011,7 +6010,7 @@ markdown-it@^4.3.0:
     mdurl "~1.0.0"
     uc.micro "^1.0.0"
 
-markdown-it@^8.0.0, markdown-it@^8.3.1:
+markdown-it@^8.0.0:
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
   integrity sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==
