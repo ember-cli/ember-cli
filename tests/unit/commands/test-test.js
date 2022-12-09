@@ -188,7 +188,11 @@ describe('test command', function () {
           buildCleanupWasCalled = true;
         },
       });
-      options.Watcher = CoreObject.extend();
+      options.Watcher = class Watcher extends CoreObject {
+        static build() {
+          return { watcher: new this(...arguments) };
+        }
+      };
 
       buildCommand();
     });
