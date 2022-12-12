@@ -1,5 +1,29 @@
 # ember-cli Changelog
 
+## v4.9.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.9.1...v4.9.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.9.1...v4.9.2)
+
+#### Changelog
+
+- [#10108](https://github.com/ember-cli/ember-cli/pull/10108) [BUGFIX release] Correctly instantiate server watcher [@bertdeblock](https://github.com/bertdeblock)
+
+## v4.9.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.9.0...v4.9.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.9.0...v4.9.1)
+
+#### Changelog
+
+- [#10101](https://github.com/ember-cli/ember-cli/pull/10101) [BUGFIX release] Correctly instantiate `Watcher` instance when running `ember test --serve` [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v4.10.0-beta.0
 
 #### Blueprint Changes
@@ -14,19 +38,6 @@
 - [#10056](https://github.com/ember-cli/ember-cli/pull/10056) [INTERNAL] Use `eslint-plugin-n` instead of `eslint-plugin-node` [@bertdeblock](https://github.com/bertdeblock)
 - [#10060](https://github.com/ember-cli/ember-cli/pull/10060) [ENHANCEMENT] Replace `eslint-plugin-node` with `eslint-plugin-n` in blueprints [@Windvis](https://github.com/Windvis)
 - [#10062](https://github.com/ember-cli/ember-cli/pull/10062) [ENHANCEMENT] Update Prettier config in blueprints to only use single quotes for `.js` and `.ts` files [@Windvis](https://github.com/Windvis)
-
-Thank you to all who took the time to contribute!
-
-## v4.9.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.9.0...v4.9.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.9.0...v4.9.1)
-
-#### Changelog
-
-- [#10101](https://github.com/ember-cli/ember-cli/pull/10101) [BUGFIX release] Correctly instantiate `Watcher` instance when running `ember test --serve` [@bertdeblock](https://github.com/bertdeblock)
 
 Thank you to all who took the time to contribute!
 
