@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v4.9.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.9.1...v4.9.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.9.1...v4.9.2)
+
+#### Changelog
+
+- [#10108](https://github.com/ember-cli/ember-cli/pull/10108) [BUGFIX release] Correctly instantiate server watcher [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v4.9.1
 
 #### Blueprint Changes
