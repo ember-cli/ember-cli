@@ -17,10 +17,17 @@ describe('Server Watcher', function () {
     analytics = new MockAnalytics();
     watcher = new MockServerWatcher();
 
-    await ServerWatcher.build({
+    class ServerWatcherMock extends ServerWatcher {
+      setupBroccoliWatcher() {
+        this.watcher = watcher;
+
+        return super.setupBroccoliWatcher(...arguments);
+      }
+    }
+
+    await ServerWatcherMock.build({
       ui,
       analytics,
-      watcher,
     });
   });
 
