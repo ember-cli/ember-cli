@@ -173,9 +173,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "greenkeeper": {
-    "ignore": []
-  },
   "release-it": {
     "hooks": {
       "after:release": "node ./dev/update-output-repos.js"
