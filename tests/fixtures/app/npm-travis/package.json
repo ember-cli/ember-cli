@@ -58,7 +58,8 @@
     "loader.js": "^4.7.0",
     "prettier": "^2.3.0",
     "qunit": "^2.15.0",
-    "qunit-dom": "^1.6.0"
+    "qunit-dom": "^1.6.0",
+    "tracked-built-ins": "^3.1.0"
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
