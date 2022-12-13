@@ -66,6 +66,10 @@ module.exports = {
     delete contents.devDependencies['ember-data'];
     delete contents.devDependencies['ember-fetch'];
 
+    // Per RFC #811, addons should not have this dependency.
+    // @see https://github.com/emberjs/rfcs/blob/master/text/0811-element-modifiers.md#detailed-design
+    delete contents.devDependencies['ember-modifier'];
+
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
 
