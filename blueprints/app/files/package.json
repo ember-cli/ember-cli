@@ -35,6 +35,7 @@
     "@typescript-eslint/parser": "^5.45.1<% } else { %>",
     "babel-eslint": "^10.1.0<% } %>",
     "broccoli-asset-rev": "^3.0.0",
+    "broccoli-plugin": "^4.0.3",
     "concurrently": "^7.6.0",
     "ember-auto-import": "^2.5.0",
     "ember-cli": "~<%= emberCLIVersion %>",
