@@ -7,7 +7,6 @@ const execa = require('execa');
 const chalk = require('chalk');
 
 const runCommand = require('../helpers/run-command');
-const ember = require('../helpers/ember');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
 const acceptance = require('../helpers/acceptance');
 let createTestTargets = acceptance.createTestTargets;
@@ -59,8 +58,9 @@ describe('Acceptance: addon-smoke-test', function () {
     expect(packageContents['ember-addon']).to.deep.equal({ configPath: 'tests/dummy/config' });
   });
 
-  it('ember addon foo, clean from scratch', function () {
-    return ember(['test']);
+  it('ember addon foo, clean from scratch', async function () {
+    let result = await runCommand('node_modules/ember-cli/bin/ember', 'test');
+    expect(result.code).to.eql(0);
   });
 
   it('works in most common scenarios for an example addon', async function () {
