@@ -48,7 +48,7 @@
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^6.0.0",
-    "ember-resolver": "^8.0.3",
+    "ember-resolver": "^10.0.0",
     "ember-source": "~4.10.0-beta.2",
     "ember-template-lint": "^5.2.0",
     "ember-welcome-page": "^6.2.0",
