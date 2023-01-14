@@ -516,6 +516,26 @@
   dependencies:
     "@octokit/openapi-types" "^14.0.0"
 
+"@pnpm/constants@6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/@pnpm/constants/-/constants-6.2.0.tgz#13068883d5a2c95b20caeb4a1e93c590bc425801"
+  integrity sha512-GlDVUkeTR2WK0oZAM+wtDY6RBMLw6b0Z/5qKgBbDszx4e+R7CHyfG7JofyypogRCfeWXeAXp2C2FkFTh+sNgIg==
+
+"@pnpm/error@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@pnpm/error/-/error-4.0.1.tgz#a75ecaadde28bcdec3d8dad21e47cc34822f6dba"
+  integrity sha512-6UFakGqUDhnZVzYCfN+QaG1epxtBVS1M9mb9RzoBuvWxcimBYTT04fdYuyk1Nay8y/TvAVl3AVB/lCziWG0+2w==
+  dependencies:
+    "@pnpm/constants" "6.2.0"
+
+"@pnpm/find-workspace-dir@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnpm/find-workspace-dir/-/find-workspace-dir-5.0.1.tgz#9e8b53ab021f7806c174a3bcee3b65657fe6c30c"
+  integrity sha512-oi0robLrR07GzNkVBsJiYTTxqEks4pcUD5lCwBR8BGd0evOuy9fpIbxNwCcuTvJNN1FXhS2ZqRqtRcvGFp4TgQ==
+  dependencies:
+    "@pnpm/error" "4.0.1"
+    find-up "^5.0.0"
+
 "@pnpm/network.ca-file@^1.0.1":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@pnpm/network.ca-file/-/network.ca-file-1.0.2.tgz#2ab05e09c1af0cdf2fcf5035bea1484e222f7983"
