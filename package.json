@@ -106,7 +106,7 @@
     "minimatch": "^5.1.0",
     "morgan": "^1.10.0",
     "nopt": "^3.0.6",
-    "npm-package-arg": "^9.1.2",
+    "npm-package-arg": "^10.1.0",
     "os-locale": "^5.0.0",
     "p-defer": "^3.0.0",
     "portfinder": "^1.0.32",
