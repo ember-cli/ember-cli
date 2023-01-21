@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-// eslint-disable-next-line node/no-unpublished-require
+// eslint-disable-next-line n/no-unpublished-require
 const jsdom = require('jsdom');
 const { AssertionError } = require('assert');
 

@@ -5,8 +5,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
-  plugins: ['node', 'prettier'],
-  extends: ['eslint:recommended', 'plugin:node/recommended', 'plugin:prettier/recommended'],
+  plugins: ['prettier'],
+  extends: ['eslint:recommended', 'plugin:n/recommended', 'plugin:prettier/recommended'],
   env: {
     browser: false,
     node: true,

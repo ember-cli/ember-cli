@@ -51,12 +51,13 @@
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-ember": "^10.2.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^15.4.0",
     "eslint-plugin-prettier": "^3.3.1",
     "loader.js": "^4.7.0",
     "prettier": "^2.2.1",
     "qunit": "^2.14.1",
-    "qunit-dom": "^1.6.0"
+    "qunit-dom": "^1.6.0",
+    "tracked-built-ins": "^3.1.0"
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
