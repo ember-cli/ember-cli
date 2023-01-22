@@ -46,6 +46,7 @@
     "ember-data": "~4.9.1",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
+    "ember-modifier": "^4.0.0",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^6.1.1",
     "ember-resolver": "^10.0.0",
