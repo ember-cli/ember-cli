@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## v4.11.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.10.0...v4.11.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.10.0...v4.11.0-beta.0)
+
+#### Changelog
+
+- [#10103](https://github.com/ember-cli/ember-cli/pull/10103) Update `markdown-it-terminal` to v0.4.0 (resolve `markdown-it` vulnerability) [@bertdeblock](https://github.com/bertdeblock)
+- [#10109](https://github.com/ember-cli/ember-cli/pull/10109) [RFC 811] Add `ember-modifier` dependency to app blueprint [@SergeAstapov](https://github.com/SergeAstapov)
+- [#10110](https://github.com/ember-cli/ember-cli/pull/10110) [RFC 812] Add `tracked-built-ins` dependency to app blueprint [@SergeAstapov](https://github.com/SergeAstapov)
+
+Thank you to all who took the time to contribute!
+
 ## v4.10.0
 
 #### Blueprint Changes
