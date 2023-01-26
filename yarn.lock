@@ -635,6 +635,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/fs-extra@^9.0.13":
+  version "9.0.13"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
+  integrity sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/glob@*":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-8.0.0.tgz#321607e9cbaec54f687a0792b2d1d370739455d2"
@@ -690,6 +697,14 @@
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@types/rimraf/-/rimraf-2.0.5.tgz#368fb04d59630b727fc05a74d2ca557f64a8ef98"
   integrity sha512-YyP+VfeaqAyFmXoTh3HChxOQMyjByRMsHU7kc5KOJkSlXudhMhQIALbYV7rHh/l8d2lX3VUQzprrcAgWdRuU8g==
+  dependencies:
+    "@types/glob" "*"
+    "@types/node" "*"
+
+"@types/rimraf@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/rimraf/-/rimraf-3.0.2.tgz#a63d175b331748e5220ad48c901d7bbf1f44eef8"
+  integrity sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==
   dependencies:
     "@types/glob" "*"
     "@types/node" "*"
@@ -3686,6 +3701,18 @@ fixturify@^2.1.0:
     fs-extra "^8.1.0"
     matcher-collection "^2.0.1"
     walk-sync "^2.0.2"
+
+fixturify@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/fixturify/-/fixturify-3.0.0.tgz#cbe73965203614b9a06e20aaef131e45e80d79ed"
+  integrity sha512-PFOf/DT9/t2NCiVyiQ5cBMJtGZfWh3aeOV8XVqQQOPBlTv8r6l0k75/hm36JOaiJlrWFk/8aYFyOKAvOkrkjrw==
+  dependencies:
+    "@types/fs-extra" "^9.0.13"
+    "@types/minimatch" "^3.0.3"
+    "@types/rimraf" "^3.0.2"
+    fs-extra "^10.1.0"
+    matcher-collection "^2.0.1"
+    walk-sync "^3.0.0"
 
 flat-cache@^3.0.4:
   version "3.0.4"
