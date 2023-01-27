@@ -96,7 +96,7 @@
     "inflection": "^2.0.1",
     "inquirer": "^8.2.1",
     "is-git-url": "^1.0.0",
-    "is-language-code": "^3.1.0",
+    "is-language-code": "^5.0.3",
     "isbinaryfile": "^5.0.0",
     "js-yaml": "^4.1.0",
     "leek": "0.0.24",
