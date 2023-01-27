@@ -56,6 +56,11 @@ module.exports = {
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
     delete contents.devDependencies['ember-cli-babel'];
 
+    // Addons must bring in their own version of `@babel/core`
+    // when using `ember-cli-babel` >= v8.
+    contents.dependencies['@babel/core'] = contents.devDependencies['@babel/core'];
+    delete contents.devDependencies['@babel/core'];
+
     // Move ember-cli-htmlbars into the dependencies of the addon blueprint by default
     // to prevent error:
     // `Addon templates were detected but there are no template compilers registered for (addon-name)`
