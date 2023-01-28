@@ -25,6 +25,8 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-proposal-decorators": "^7.20.13",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^2.9.3",
@@ -33,7 +35,6 @@
     "@embroider/webpack": "^2.0.2",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^7.6.0",
     "ember-auto-import": "^2.5.0",
@@ -54,7 +55,7 @@
     "ember-resolver": "^10.0.0",
     "ember-source": "~4.11.0-beta.1",
     "ember-template-lint": "^5.3.2",
-    "eslint": "^7.32.0",
+    "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-ember": "^11.4.3",
     "eslint-plugin-n": "^15.6.1",
