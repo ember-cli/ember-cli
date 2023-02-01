@@ -45,7 +45,6 @@
     "ember-cli-htmlbars": "^6.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
-    "ember-cli-terser": "^4.0.2",
     "ember-data": "~4.10.0-beta.3",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
