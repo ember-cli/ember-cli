@@ -234,4 +234,17 @@ describe('Acceptance: ember generate', function () {
 
     td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
   });
+
+  it('successfully generates a blueprint with a scoped name', async function () {
+    await initApp();
+    await ember(['g', 'blueprint', '@foo/bar']);
+    await outputFile('blueprints/@foo/bar/files/__name__.js', '');
+    await ember(['g', '@foo/bar', 'baz']);
+
+    expect(file('baz.js')).to.exist;
+  });
+
+  it(`throws the unknown blueprint error when \`name\` matches a folder's name, but doesn't include the \`${path.sep}\` char`, async function () {
+    await expect(generate(['tests'])).to.be.rejectedWith('Unknown blueprint: tests');
+  });
 });
