@@ -1,7 +1,7 @@
 'use strict';
 
 const FixturifyProject = require('../../helpers/fixturify-project');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('models/instatiate-addons.js', function () {
   let fixturifyProject;

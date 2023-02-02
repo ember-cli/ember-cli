@@ -6,7 +6,7 @@ const temp = require('temp');
 const EOL = require('os').EOL;
 const insertIntoFile = require('../../../lib/utilities/insert-into-file');
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('insertIntoFile()', function () {
   let tempDir, filePath;

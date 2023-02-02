@@ -2,7 +2,7 @@
 
 const MockProject = require('../../../../helpers/mock-project');
 const ProxyServerAddon = require('../../../../../lib/tasks/server/middleware/proxy-server');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('proxy-server', function () {
   let project, proxyServer;

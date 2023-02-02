@@ -2,7 +2,7 @@
 
 const path = require('path');
 const broccoliTestHelper = require('broccoli-test-helper');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 const MockCLI = require('../../../helpers/mock-cli');
 const Project = require('../../../../lib/models/project');

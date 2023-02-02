@@ -4,7 +4,7 @@ const path = require('path');
 const Project = require('../../../lib/models/project');
 const EmberAddon = require('../../../lib/broccoli/ember-addon');
 const EmberApp = require('../../../lib/broccoli/ember-app');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockCLI = require('../../helpers/mock-cli');
 
 describe('EmberAddon', function () {

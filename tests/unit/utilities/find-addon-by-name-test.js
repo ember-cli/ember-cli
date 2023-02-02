@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const findAddonByName = require('../../../lib/utilities/find-addon-by-name');
 const clearCaches = findAddonByName._clearCaches;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const td = require('testdouble');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const lintAddonsByType = require('../../../lib/utilities/lint-addons-by-type');
 
 describe('lintAddonsByType', function () {

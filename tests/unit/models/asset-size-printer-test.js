@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUi = require('console-ui/mock');
 const AssetSizePrinter = require('../../../lib/models/asset-size-printer');
 const path = require('path');

@@ -1,7 +1,7 @@
 'use strict';
 
 // eslint-disable-next-line n/no-unpublished-require
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const semver = require('semver');
 
 module.exports = function assertVersionLock(_deps) {

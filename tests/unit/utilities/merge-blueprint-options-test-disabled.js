@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const Blueprint = require('../../../lib/models/blueprint');
 const Project = require('../../../lib/models/project');
 const Command = require('../../../lib/models/command');

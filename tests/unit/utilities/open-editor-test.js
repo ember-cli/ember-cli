@@ -2,7 +2,7 @@
 
 const openEditor = require('../../../lib/utilities/open-editor');
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const td = require('testdouble');
 
 describe('open-editor', function () {

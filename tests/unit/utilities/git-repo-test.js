@@ -1,7 +1,7 @@
 'use strict';
 
 const isGitRepo = require('is-git-url');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('is-git-url', function () {
   it('recognizes git-style urls in various formats', function () {

@@ -4,7 +4,7 @@
  * Tests for the various proxies and instances once the project has initialized
  * its addons
  */
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const FixturifyProject = require('../../helpers/fixturify-project');
 
 describe('Unit | host-addons-utils', function () {
