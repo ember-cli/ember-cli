@@ -9,11 +9,6 @@ let root = process.cwd();
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmpRoot = path.join(root, 'tmp');
 
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
-
 describe('models/asset-size-printer', function () {
   let storedTmpDir, assetDir, assetChildDir;
 
