@@ -4,6 +4,7 @@ const captureExit = require('capture-exit');
 captureExit.captureExit();
 
 const chaiJestSnapshot = require('chai-jest-snapshot');
+const ciInfo = require('ci-info');
 const glob = require('glob');
 const Mocha = require('mocha');
 const expect = require('./chai').expect;
@@ -15,8 +16,7 @@ if (process.env.EOLNEWLINE) {
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`
-let isCI = process.env.CI || process.env.GITHUB_ACTIONS;
-let reporter = process.env.MOCHA_REPORTER || (isCI ? 'tap' : 'spec');
+let reporter = process.env.MOCHA_REPORTER || (ciInfo.isCI ? 'tap' : 'spec');
 let mocha = new Mocha({
   timeout: 5000,
   reporter,
