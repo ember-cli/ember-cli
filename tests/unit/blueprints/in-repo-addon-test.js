@@ -2,11 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
-let setupTestHooks = blueprintHelpers.setupTestHooks;
-let emberNew = blueprintHelpers.emberNew;
-let emberGenerate = blueprintHelpers.emberGenerate;
-let emberDestroy = blueprintHelpers.emberDestroy;
+const { emberDestroy, emberGenerate, emberNew, setupTestHooks } = require('ember-cli-blueprint-test-helpers/helpers');
 const td = require('testdouble');
 
 const { expect } = require('chai');
