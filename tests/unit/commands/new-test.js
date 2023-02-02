@@ -1,7 +1,6 @@
 'use strict';
 
 const expect = require('../../chai').expect;
-const { map } = require('ember-cli-lodash-subset');
 const commandOptions = require('../../factories/command-options');
 const NewCommand = require('../../../lib/commands/new');
 const Blueprint = require('../../../lib/models/blueprint');
@@ -82,7 +81,7 @@ describe('new command', function () {
     });
 
     command.beforeRun(['app']);
-    expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
+    expect(command.availableOptions.map(({ name }) => name)).to.contain('custom-blueprint-option');
   });
 
   it('passes command options through to init command', async function () {
