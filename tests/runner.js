@@ -3,11 +3,17 @@
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const chaiFiles = require('chai-files');
 const chaiJestSnapshot = require('chai-jest-snapshot');
 const ciInfo = require('ci-info');
 const glob = require('glob');
 const Mocha = require('mocha');
-const expect = require('./chai').expect;
+
+chai.use(chaiFiles);
+chai.use(chaiAsPromised);
+chai.use(chaiJestSnapshot);
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
@@ -58,7 +64,7 @@ function runMocha() {
   // ensure that at the end of every test, we are in the correct current
   // working directory
   mocha.suite.afterEach(function () {
-    expect(process.cwd()).to.equal(ROOT);
+    chai.expect(process.cwd()).to.equal(ROOT);
   });
 
   console.time('Mocha Tests Running Time');
