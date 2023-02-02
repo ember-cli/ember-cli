@@ -10,7 +10,7 @@ const os = require('os');
 let root = process.cwd();
 const util = require('util');
 const minimatch = require('minimatch');
-const { intersection: intersect, remove, forEach } = require('ember-cli-lodash-subset');
+const { intersection: intersect, remove } = require('ember-cli-lodash-subset');
 const EOL = require('os').EOL;
 const td = require('testdouble');
 const lintFix = require('../../lib/utilities/lint-fix');
@@ -55,8 +55,8 @@ describe('Acceptance: ember init', function () {
       .sort();
     let actual = walkSync('.').sort();
 
-    forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
-      expected[expected.indexOf(srcFile)] = destFile;
+    Object.keys(Blueprint.renamedFiles).forEach((srcFile) => {
+      expected[expected.indexOf(srcFile)] = Blueprint.renamedFiles[srcFile];
     });
 
     removeIgnored(expected);
