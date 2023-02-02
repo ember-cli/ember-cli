@@ -6,14 +6,11 @@ captureExit.captureExit();
 const chaiJestSnapshot = require('chai-jest-snapshot');
 const glob = require('glob');
 const Mocha = require('mocha');
-const fs = require('fs-extra');
 const expect = require('./chai').expect;
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
-
-fs.removeSync('.deps-tmp');
 
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
