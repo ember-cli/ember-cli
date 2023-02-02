@@ -15,10 +15,8 @@ const chalk = require('chalk');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { isExperimentEnabled } = require('../../lib/experiments');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
+const { expect } = require('chai');
+const { dir, file } = require('chai-files');
 const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';

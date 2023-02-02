@@ -13,9 +13,8 @@ const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/di
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 
 describe('Acceptance: ember generate with typescript blueprints', function () {
   this.timeout(20000);

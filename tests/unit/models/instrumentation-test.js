@@ -2,7 +2,7 @@
 
 const Heimdall = require('heimdalljs/heimdall');
 const heimdallGraph = require('heimdalljs-graph');
-const chai = require('../../chai');
+const { expect } = require('chai');
 const td = require('testdouble');
 const fs = require('fs');
 const path = require('path');
@@ -15,7 +15,6 @@ const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const hwinfo = require('../../../lib/models/hardware-info');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
-const expect = chai.expect;
 const any = td.matchers.anything;
 const contains = td.matchers.contains;
 

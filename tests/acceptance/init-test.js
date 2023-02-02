@@ -15,10 +15,8 @@ const EOL = require('os').EOL;
 const td = require('testdouble');
 const lintFix = require('../../lib/utilities/lint-fix');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let dir = chai.dir;
-let file = chai.file;
+const { expect } = require('chai');
+const { dir, file } = require('chai-files');
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 

@@ -2,9 +2,8 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const chai = require('../../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 const walkSync = require('walk-sync');
 const BuildTask = require('../../../lib/tasks/build');
 const MockProject = require('../../helpers/mock-project');

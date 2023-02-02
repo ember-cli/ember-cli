@@ -3,7 +3,7 @@
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const Blueprint = require('../../../lib/models/blueprint');

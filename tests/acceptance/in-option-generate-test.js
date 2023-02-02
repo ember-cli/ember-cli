@@ -11,9 +11,8 @@ const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 const initApp = require('../helpers/init-app');
 const generateUtils = require('../helpers/generate-utils');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 
 describe('Acceptance: ember generate with --in option', function () {
   this.timeout(20000);

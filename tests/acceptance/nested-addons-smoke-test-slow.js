@@ -12,9 +12,8 @@ let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
 let cleanupRun = acceptance.cleanupRun;
 
-const chai = require('../chai');
-let expect = chai.expect;
-let dir = chai.dir;
+const { expect } = require('chai');
+const { dir } = require('chai-files');
 
 let appName = 'some-cool-app';
 let appRoot;

@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const Yam = require('yam');

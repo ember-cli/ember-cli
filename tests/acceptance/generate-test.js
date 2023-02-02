@@ -15,10 +15,8 @@ const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const lintFix = require('../../lib/utilities/lint-fix');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
+const { expect } = require('chai');
+const { dir, file } = require('chai-files');
 
 describe('Acceptance: ember generate', function () {
   this.timeout(20000);
