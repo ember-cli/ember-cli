@@ -9,8 +9,8 @@ let emberGenerate = blueprintHelpers.emberGenerate;
 let emberDestroy = blueprintHelpers.emberDestroy;
 const td = require('testdouble');
 
-const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
-const file = require('ember-cli-blueprint-test-helpers/chai').file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function () {
   setupTestHooks(this, {

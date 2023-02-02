@@ -7,9 +7,8 @@ let emberNew = blueprintHelpers.emberNew;
 let emberGenerate = blueprintHelpers.emberGenerate;
 let modifyPackages = blueprintHelpers.modifyPackages;
 
-const chai = require('ember-cli-blueprint-test-helpers/chai');
-let expect = chai.expect;
-let file = chai.file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 
 describe('Acceptance: ember generate and destroy server', function () {
   setupTestHooks(this, {
