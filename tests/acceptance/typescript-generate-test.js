@@ -1,11 +1,8 @@
 'use strict';
 
-const util = require('util');
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
-let outputFile = util.promisify(fs.outputFile);
+const { outputFile, remove, writeJSON } = require('fs-extra');
 const path = require('path');
-let remove = util.promisify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
@@ -86,7 +83,7 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
 
   it('outputs typescript when isTypeScriptProject is true', async function () {
     await initApp();
-    await fs.writeJSON('.ember-cli', {
+    await writeJSON('.ember-cli', {
       isTypeScriptProject: true,
     });
 
@@ -131,7 +128,7 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
 
   it('outputs typescript {typescript: true} is present in .ember-cli', async function () {
     await initApp();
-    await fs.writeJSON('.ember-cli', {
+    await writeJSON('.ember-cli', {
       typescript: true,
     });
 
@@ -248,7 +245,7 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
   it('does not generate typescript when the `--no-typescript` flag, even if isTypeScriptProject is true', async function () {
     await initApp();
 
-    await fs.writeJSON('.ember-cli', {
+    await writeJSON('.ember-cli', {
       isTypeScriptProject: true,
     });
 

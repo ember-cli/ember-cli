@@ -1,11 +1,8 @@
 'use strict';
 
-const util = require('util');
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
-let outputFile = util.promisify(fs.outputFile);
+const { outputFile, readJsonSync, remove, writeJsonSync } = require('fs-extra');
 const path = require('path');
-let remove = util.promisify(fs.remove);
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -47,9 +44,9 @@ describe('Acceptance: ember generate', function () {
   }
 
   function addJSHint() {
-    let pkg = fs.readJsonSync('package.json');
+    let pkg = readJsonSync('package.json');
     pkg.devDependencies['ember-cli-jshint'] = '*';
-    fs.writeJsonSync('package.json', pkg);
+    writeJsonSync('package.json', pkg);
   }
 
   function generate(args) {

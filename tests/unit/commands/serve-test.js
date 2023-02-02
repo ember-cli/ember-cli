@@ -4,11 +4,8 @@ const { expect } = require('chai');
 const EOL = require('os').EOL;
 const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
-const util = require('util');
 const td = require('testdouble');
-const PortFinder = require('portfinder');
-
-const getPort = util.promisify(PortFinder.getPort);
+const { getPortPromise } = require('portfinder');
 
 const ServeCommand = require('../../../lib/commands/serve');
 
@@ -43,7 +40,7 @@ describe('serve command', function () {
   });
 
   it('setting --port without --live-reload-port', function () {
-    return getPort().then(function (port) {
+    return getPortPromise().then(function (port) {
       return command.validateAndRun(['--port', `${port}`]).then(function () {
         let captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
@@ -54,7 +51,7 @@ describe('serve command', function () {
   });
 
   it('setting both --port and --live-reload-port', function () {
-    return getPort().then(function (port) {
+    return getPortPromise().then(function (port) {
       return command.validateAndRun(['--port', `${port}`, '--live-reload-port', '8005']).then(function () {
         let captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });

@@ -1,11 +1,8 @@
 'use strict';
 
-const util = require('util');
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
+const { outputFile, remove } = require('fs-extra');
 const path = require('path');
-let outputFile = util.promisify(fs.outputFile);
-let remove = util.promisify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
