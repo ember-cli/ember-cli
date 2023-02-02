@@ -183,11 +183,11 @@ describe('test command', function () {
     let buildCleanupWasCalled;
     beforeEach(function () {
       buildCleanupWasCalled = false;
-      options.Builder = CoreObject.extend({
+      options.Builder = class Builder extends CoreObject {
         cleanup() {
           buildCleanupWasCalled = true;
-        },
-      });
+        }
+      };
       options.Watcher = class Watcher extends CoreObject {
         static build() {
           return { watcher: new this(...arguments) };
