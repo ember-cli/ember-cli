@@ -74,7 +74,6 @@
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^3.3.0",
     "ember-cli-string-utils": "^1.1.0",
-    "ember-source-channel-url": "^3.0.0",
     "ensure-posix-path": "^1.1.1",
     "execa": "^5.1.1",
     "exit": "^0.1.2",
@@ -133,7 +132,6 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
-    "@ember/edition-utils": "^1.2.0",
     "@octokit/rest": "^19.0.7",
     "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
