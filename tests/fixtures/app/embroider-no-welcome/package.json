@@ -35,7 +35,6 @@
     "@embroider/webpack": "^2.0.2",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^7.6.0",
     "ember-auto-import": "^2.5.0",
     "ember-cli": "~<%= emberCLIVersion %>",
