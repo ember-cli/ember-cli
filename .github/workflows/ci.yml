@@ -7,16 +7,16 @@ on:
       - beta
       - release
       - next
-      - 'v*'
-      - 'release-*'
-      - 'lts-*'
+      - "v*"
+      - "release-*"
+      - "lts-*"
   pull_request:
   schedule:
-    - cron:  '0 3 * * *' # daily, at 3am
+    - cron: "0 3 * * *" # daily, at 3am
 
 concurrency:
-   group: ci-${{ github.head_ref || github.ref }}
-   cancel-in-progress: true
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   linting:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14.x
-          cache: 'yarn'
+          cache: "yarn"
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn lint
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14.x
-          cache: 'yarn'
+          cache: "yarn"
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test
@@ -68,7 +68,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: "yarn"
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all
@@ -93,7 +93,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14.x
-          cache: 'yarn'
+          cache: "yarn"
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all

@@ -4,16 +4,14 @@
 
 They are defined in `lib/experiments/index.js`. For example:
 
-```javascript
-const availableExperiments = [
-  'CONFIG_CACHING',
-];
+```js
+const availableExperiments = ["CONFIG_CACHING"];
 ```
 
 When a new feature is added, all supporting code and tests **must** be guarded
 to ensure all tests pass when the feature is enabled _or_ disabled:
 
-```javascript
+```js
 const { isExperimentEnabled } = require('../experiments');
 
 // ...snip...
@@ -37,7 +35,6 @@ above while running tests you would run the following command:
 ```
 EMBER_CLI_CONFIG_CACHING=true yarn test
 ```
-
 
 ## Unsupported
 

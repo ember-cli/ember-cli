@@ -179,7 +179,7 @@ function getDefaultUnpackagedDist(name, options) {
 /*
  * Validates that passed-in object has the following shape:
  *
- * ```javascript
+ * ```js
  * {
  *   assets: {
  *     [name].js
@@ -212,7 +212,7 @@ function validateDefaultPackagedDist(name, obj) {
  * Generates an object that represents a "dependency" on the disk. Could be used
  * both for generating bower and node dependencies.
  *
- * ```javascript
+ * ```js
  * getDependencyFor('moment', {
  *   'file1.js: 'content',
  *   'file2.js': 'content'
