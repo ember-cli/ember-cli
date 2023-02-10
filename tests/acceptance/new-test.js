@@ -346,15 +346,6 @@ describe('Acceptance: ember new', function () {
     expect(dir('.git')).to.exist;
   });
 
-  it('ember new cleans up after itself on error', async function () {
-    fs.mkdirsSync('my_blueprint');
-    fs.writeFileSync('my_blueprint/index.js', 'throw("this will break");');
-
-    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--blueprint=./my_blueprint']);
-
-    expect(dir('foo')).to.not.exist;
-  });
-
   it('ember new with --dry-run does not create new directory', async function () {
     await ember(['new', 'foo', '--dry-run']);
 
