@@ -1,7 +1,7 @@
 'use strict';
 
 const ember = require('../helpers/ember');
-const { outputFile, readJsonSync, remove, writeJsonSync } = require('fs-extra');
+const { outputFile, remove } = require('fs-extra');
 const path = require('path');
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 let root = process.cwd();
@@ -40,13 +40,7 @@ describe('Acceptance: ember generate', function () {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']).then(addJSHint);
-  }
-
-  function addJSHint() {
-    let pkg = readJsonSync('package.json');
-    pkg.devDependencies['ember-cli-jshint'] = '*';
-    writeJsonSync('package.json', pkg);
+    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
   }
 
   function generate(args) {
@@ -90,8 +84,6 @@ describe('Acceptance: ember generate', function () {
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
     expect(file('server/mocks/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('http-mock foo-bar', async function () {
@@ -100,8 +92,6 @@ describe('Acceptance: ember generate', function () {
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
     expect(file('server/mocks/foo-bar.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('http-proxy foo', async function () {
@@ -110,8 +100,6 @@ describe('Acceptance: ember generate', function () {
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
 
     expect(file('server/proxies/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('uses blueprints from the project directory', async function () {

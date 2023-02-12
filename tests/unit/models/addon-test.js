@@ -92,7 +92,6 @@ describe('models/addon.js', function () {
 
         // TODO: fix config story...
         addon.app = {
-          options: { jshintrc: {} },
           addonLintTree(type, tree) {
             return tree;
           },
