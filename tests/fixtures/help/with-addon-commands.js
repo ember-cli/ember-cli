@@ -364,13 +364,6 @@ module.exports = {
               availableOptions: [],
               anonymousOptions: ['name'],
               overridden: false
-            },
-            {
-              name: 'vendor-shim',
-              description: 'Generates an ES6 module shim for global libraries.',
-              availableOptions: [],
-              anonymousOptions: ['name'],
-              overridden: false
             }
           ]
         }

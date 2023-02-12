@@ -19,5 +19,3 @@
         \u001b[90mGenerates a lib directory for in-repo addons.\u001b[39m
       server \u001b[33m<name>\u001b[39m
         \u001b[90mGenerates a server directory for mocks and proxies.\u001b[39m
-      vendor-shim \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates an ES6 module shim for global libraries.\u001b[39m
