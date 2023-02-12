@@ -2,7 +2,7 @@
 
 const Task = require('../../../lib/models/task');
 const AddonInstallTask = require('../../../lib/tasks/addon-install');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUi = require('console-ui/mock');
 
 describe('addon install task', function () {

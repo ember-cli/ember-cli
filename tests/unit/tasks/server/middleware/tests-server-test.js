@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
 
 describe('TestServerAddon', function () {

@@ -1,11 +1,8 @@
 'use strict';
 
-const util = require('util');
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
-let outputFile = util.promisify(fs.outputFile);
+const { outputFile, readJsonSync, remove, writeJsonSync } = require('fs-extra');
 const path = require('path');
-let remove = util.promisify(fs.remove);
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -15,10 +12,8 @@ const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const lintFix = require('../../lib/utilities/lint-fix');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
+const { expect } = require('chai');
+const { dir, file } = require('chai-files');
 
 describe('Acceptance: ember generate', function () {
   this.timeout(20000);
@@ -49,9 +44,9 @@ describe('Acceptance: ember generate', function () {
   }
 
   function addJSHint() {
-    let pkg = fs.readJsonSync('package.json');
+    let pkg = readJsonSync('package.json');
     pkg.devDependencies['ember-cli-jshint'] = '*';
-    fs.writeJsonSync('package.json', pkg);
+    writeJsonSync('package.json', pkg);
   }
 
   function generate(args) {

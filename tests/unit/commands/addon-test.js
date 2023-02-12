@@ -1,8 +1,7 @@
 'use strict';
 
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const commandOptions = require('../../factories/command-options');
-const { map } = require('ember-cli-lodash-subset');
 const AddonCommand = require('../../../lib/commands/addon');
 const Blueprint = require('../../../lib/models/blueprint');
 const td = require('testdouble');
@@ -87,6 +86,6 @@ describe('addon command', function () {
     });
 
     command.beforeRun(['addon']);
-    expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
+    expect(command.availableOptions.map(({ name }) => name)).to.contain('custom-blueprint-option');
   });
 });

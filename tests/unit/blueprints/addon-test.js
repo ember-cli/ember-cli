@@ -2,7 +2,7 @@
 
 const Blueprint = require('../../../lib/models/blueprint');
 const MockProject = require('../../helpers/mock-project');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('blueprint - addon', function () {
   describe('Blueprint.lookup', function () {

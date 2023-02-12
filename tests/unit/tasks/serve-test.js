@@ -3,7 +3,7 @@
 const ServeTask = require('../../../lib/tasks/serve');
 const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('serve task', function () {
   let task, ui;

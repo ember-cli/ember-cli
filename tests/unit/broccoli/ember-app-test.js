@@ -3,7 +3,7 @@
 const path = require('path');
 const FixturifyProject = require('../../helpers/fixturify-project');
 const Project = require('../../../lib/models/project');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const td = require('testdouble');
 const broccoliTestHelper = require('broccoli-test-helper');
 const { WatchedDir, UnwatchedDir } = require('broccoli-source');

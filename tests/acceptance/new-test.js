@@ -15,11 +15,8 @@ const chalk = require('chalk');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { isExperimentEnabled } = require('../../lib/experiments');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
-const { forEach } = require('ember-cli-lodash-subset');
+const { expect } = require('chai');
+const { dir, file } = require('chai-files');
 const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
@@ -53,8 +50,8 @@ describe('Acceptance: ember new', function () {
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
-    forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
-      expected[expected.indexOf(srcFile)] = destFile;
+    Object.keys(Blueprint.renamedFiles).forEach((srcFile) => {
+      expected[expected.indexOf(srcFile)] = Blueprint.renamedFiles[srcFile];
     });
 
     expected.sort();

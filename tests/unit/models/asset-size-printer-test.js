@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUi = require('console-ui/mock');
 const AssetSizePrinter = require('../../../lib/models/asset-size-printer');
 const path = require('path');
@@ -8,11 +8,6 @@ const fs = require('fs-extra');
 let root = process.cwd();
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmpRoot = path.join(root, 'tmp');
-
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
 
 describe('models/asset-size-printer', function () {
   let storedTmpDir, assetDir, assetChildDir;

@@ -4,7 +4,7 @@
  * Tests for checking that the list of 'bundle hosts' in the cache is correct.
  * A 'bundle host' is either the project or a lazy engine.
  */
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const Project = require('../../../../lib/models/project');
 
 const { createStandardCacheFixture } = require('../../../../tests/helpers/per-bundle-addon-cache');

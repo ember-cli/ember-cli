@@ -2,7 +2,7 @@
 
 const BowerInstallTask = require('../../../lib/tasks/bower-install');
 const MockUI = require('console-ui/mock');
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const td = require('testdouble');
 
 describe('BowerInstallTask', function () {

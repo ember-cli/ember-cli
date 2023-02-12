@@ -4,7 +4,6 @@
 /docs/build/
 /node_modules/
 /tmp/
-/.deps-tmp/
 *.log
 *.tgz
 *.pem

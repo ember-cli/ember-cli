@@ -2,7 +2,7 @@
 
 const NpmInstallTask = require('../../../lib/tasks/npm-install');
 const MockUI = require('console-ui/mock');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('npm install task', function () {
   let npmInstallTask;

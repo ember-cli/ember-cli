@@ -1,7 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
-const { map } = require('ember-cli-lodash-subset');
+const { expect } = require('chai');
 const Blueprint = require('../../../lib/models/blueprint');
 const Project = require('../../../lib/models/project');
 const Command = require('../../../lib/models/command');
@@ -41,7 +40,7 @@ describe('merge-blueprint-options', function () {
     command = buildCommand();
     command.beforeRun(['test-blueprint']);
 
-    availableOptions = map(command.availableOptions, 'name');
+    availableOptions = command.availableOptions.map(({ name }) => name);
     expect(availableOptions).to.contain('verbose');
     expect(availableOptions).to.contain('custom-blueprint-option');
   });

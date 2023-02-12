@@ -2,7 +2,7 @@
 
 const NpmTask = require('../../../lib/tasks/npm-task');
 const MockUI = require('console-ui/mock');
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const td = require('testdouble');
 const SilentError = require('silent-error');
 

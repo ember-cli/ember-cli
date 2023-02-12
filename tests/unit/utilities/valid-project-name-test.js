@@ -1,7 +1,7 @@
 'use strict';
 
 const isValidProjectName = require('../../../lib/utilities/valid-project-name');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('lib/utilities/valid-project-name', function () {
   describe('isValidProjectName', function () {
