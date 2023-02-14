@@ -497,7 +497,7 @@ describe('EmberApp', function () {
         project,
       });
 
-      expect(app.bowerDirectory).to.equal(project.bowerDirectory);
+      expect(app.bowerDirectory).to.equal(project._bowerDirectory);
       expect(app.bowerDirectory).to.equal('bower_components');
     });
 

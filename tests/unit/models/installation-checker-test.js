@@ -19,7 +19,7 @@ describe('Installation Checker', function () {
     it('works when installation directory exist', function () {
       let project = {
         root: fixturePath('installation-checker/valid-bower-installation'),
-        bowerDirectory: fixturePath('installation-checker/valid-bower-installation/bower_components'),
+        _bowerDirectory: fixturePath('installation-checker/valid-bower-installation/bower_components'),
       };
       installationChecker = new InstallationChecker({ project });
 
@@ -29,7 +29,7 @@ describe('Installation Checker', function () {
     it("fails when installation directory doesn't exist", function () {
       let project = {
         root: fixturePath('installation-checker/invalid-bower-installation'),
-        bowerDirectory: fixturePath('installation-checker/invalid-bower-installation/bower_components'),
+        _bowerDirectory: fixturePath('installation-checker/invalid-bower-installation/bower_components'),
       };
       installationChecker = new InstallationChecker({ project });
 
@@ -61,7 +61,7 @@ describe('Installation Checker', function () {
     it('fails reporting both dependencies', function () {
       let project = {
         root: fixturePath('installation-checker/invalid-bower-and-npm'),
-        bowerDirectory: fixturePath('installation-checker/invalid-bower-and-npm/bower_components'),
+        _bowerDirectory: fixturePath('installation-checker/invalid-bower-and-npm/bower_components'),
       };
       installationChecker = new InstallationChecker({ project });
 
@@ -71,7 +71,7 @@ describe('Installation Checker', function () {
     it('ignores directories without bower.js and package.json files', function () {
       let project = {
         root: fixturePath('installation-checker/empty'),
-        bowerDirectory: fixturePath('installation-checker/empty/bower_components'),
+        _bowerDirectory: fixturePath('installation-checker/empty/bower_components'),
       };
       installationChecker = new InstallationChecker({ project });
 
