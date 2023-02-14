@@ -325,7 +325,7 @@ describe('models/project.js', function () {
         qunit: '~1.15.0',
       };
 
-      expect(project.bowerDependencies()).to.deep.equal(expected);
+      expect(project._bowerDependencies()).to.deep.equal(expected);
     });
 
     it('returns a listing of all ember-cli-addons directly depended on by the project', function () {
