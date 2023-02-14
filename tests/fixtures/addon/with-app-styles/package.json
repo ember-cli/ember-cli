@@ -4,10 +4,7 @@
   "dependencies": {
     "something-else": "latest"
   },
-  "ember-addon": {
-    "paths": ["./lib/ember-super-button"]
-  },
-    "devDependencies": {
+  "devDependencies": {
     "ember-resolver": "^7.0.0",
     "ember-cli": "latest",
     "ember-random-addon": "latest",
