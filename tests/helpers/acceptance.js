@@ -64,9 +64,7 @@ function createTestTargets(projectName, options) {
   options = options || {};
   options.command = options.command || 'new';
 
-  return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', `--directory=${outputDir}`).catch(
-    handleResult
-  );
+  return applyCommand(options.command, projectName, '--skip-npm', `--directory=${outputDir}`).catch(handleResult);
 }
 
 /**

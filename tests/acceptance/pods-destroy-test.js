@@ -40,7 +40,7 @@ describe('Acceptance: ember destroy pod', function () {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
+    return ember(['init', '--name=my-app', '--skip-npm']);
   }
 
   function generate(args) {

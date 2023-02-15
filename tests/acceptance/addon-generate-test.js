@@ -34,7 +34,7 @@ describe('Acceptance: ember generate in-addon', function () {
   });
 
   function initAddon(name) {
-    return ember(['addon', name, '--skip-npm', '--skip-bower']);
+    return ember(['addon', name, '--skip-npm']);
   }
 
   function generateInAddon(args) {
