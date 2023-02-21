@@ -78,6 +78,12 @@ describe('addon command', function () {
     });
   });
 
+  it('throws when no addon name is provided', async function () {
+    expect(command.validateAndRun([])).to.be.rejectedWith(
+      'The `ember addon` command requires a name to be specified. For more details, run `ember help`.'
+    );
+  });
+
   it('registers blueprint options in beforeRun', function () {
     td.replace(Blueprint, 'lookup', td.function());
 
