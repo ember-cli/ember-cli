@@ -4,7 +4,7 @@ module.exports = {
   root: true,
   parser: '<%= typescript ? '@typescript-eslint/parser' : '@babel/eslint-parser' %>',
   parserOptions: {
-    ecmaVersion: 2018,<% if (!typescript) { %>
+    ecmaVersion: 'latest',<% if (!typescript) { %>
     sourceType: 'module',
     requireConfigFile: false,
     babelOptions: {
