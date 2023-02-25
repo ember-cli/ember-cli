@@ -62,7 +62,6 @@ describe('EmberApp: Bower Dependencies', function () {
       validateDefaultPackagedDist('the-best-app-ever', results);
     }).not.to.throw();
     expect(results.assets['vendor.js']).to.contain('window.Ember = {');
-    expect(results.assets['vendor.js']).to.contain('window.$ = function() {');
     expect(results.assets['vendor.js']).to.not.contain('window.moment');
   });
 
@@ -91,7 +90,6 @@ describe('EmberApp: Bower Dependencies', function () {
       validateDefaultPackagedDist('the-best-app-ever', results);
     }).not.to.throw();
     expect(results.assets['vendor.js']).to.contain('window.Ember = {');
-    expect(results.assets['vendor.js']).to.contain('window.$ = function() {');
     expect(results.assets['vendor.js']).to.contain('window.moment');
   });
 

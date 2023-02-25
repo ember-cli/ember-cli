@@ -72,9 +72,6 @@ const DEFAULT_VENDOR = {
     'loader.js': 'W',
   },
   ember: {
-    jquery: {
-      'jquery.js': 'window.$ = function() {}',
-    },
     'ember.js': 'window.Ember = {};',
     'ember.debug.js': 'window.Ember = {};',
   },
