@@ -777,9 +777,7 @@ describe('EmberApp', function () {
 
         app._defaultPackager.packageJavascript = td.function();
         app._defaultPackager.packageStyles = td.function();
-        app._legacyAddonCompile = td.function();
 
-        td.when(app._legacyAddonCompile(), { ignoreExtraArgs: true }).thenReturn('batman');
         td.when(app._defaultPackager.packageJavascript(), { ignoreExtraArgs: true }).thenReturn('batman');
         td.when(app._defaultPackager.packageStyles(), { ignoreExtraArgs: true }).thenReturn('batman');
 
@@ -848,14 +846,12 @@ describe('EmberApp', function () {
 
         app.index = td.function();
         app.getTests = td.function();
-        app._legacyAddonCompile = td.function();
         app._defaultPackager.processTemplates = td.function();
 
         td.when(app._defaultPackager.processTemplates(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
         td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
         td.when(app.getTests(), { ignoreExtraArgs: true }).thenReturn(null);
-        td.when(app._legacyAddonCompile(), { ignoreExtraArgs: true }).thenReturn(null);
 
         expect(app.toTree()).to.equal('blap');
 
