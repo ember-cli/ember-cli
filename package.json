@@ -184,5 +184,9 @@
       "tokenRef": "GITHUB_AUTH"
     }
   },
-  "trackingCode": "UA-49225444-1"
+  "trackingCode": "UA-49225444-1",
+  "volta": {
+    "node": "14.21.3",
+    "yarn": "1.22.19"
+  }
 }
