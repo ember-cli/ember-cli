@@ -56,9 +56,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
   push-editors:
-    name: "Push to editor output repos"
+    name: "Push to editor output repos (${{ matrix.variant }})"
     if: github.ref_type == 'branch'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant: ["javascript", "typescript"]
+
 
     steps:
       - uses: actions/checkout@v3
@@ -72,13 +76,8 @@ jobs:
         run: |
           git config --global user.name "${{ env.GIT_NAME }}"
           git config --global user.email "${{ env.GIT_EMAIL }}"
-      - name: Publish JavaScript branches
+      - name: Publish ${{ matrix.variant }} branches
         run: node ./dev/update-editor-output-repos.js
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          VARIANT: javascript
-      - name: Publish TypeScript branches
-        run: node ./dev/update-editor-output-repos.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          VARIANT: typescript
+          VARIANT: ${{ matrix.variant }}
