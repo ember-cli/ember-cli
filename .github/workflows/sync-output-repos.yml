@@ -1,0 +1,61 @@
+# This Workflow requires a GITHUB_AUTH token that can push to the editor output repos
+# - https://github.com/ember-cli/ember-addon-output
+# - https://github.com/ember-cli/ember-new-output
+# - https://github.com/ember-cli/editor-output
+#
+# NOTE:
+#   ember-addon-output and ember-new-output have tags for each release, as well as branches
+#   for each lts, master (beta), and stable (release)
+#
+#   editor-output has a branch per-editor / scenario.
+#   so branches form the pattern ${service}-{addon|app}-output{-typescript ?}
+name: Sync Output Repos
+
+on:
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-only-when-a-push-of-specific-tags-occurs
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushbranchestagsbranches-ignoretags-ignore
+  push:
+    # for addon and new output
+    tags:
+      - 'v*'
+    # for editor output
+    branches:
+      - 'release-*'
+
+# https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+# https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+#
+#  GITHUB_REF      - github.ref      - refs/tags/<tag-name>
+#  GITHUB_REF_NAME - github.ref_name - <tag-name>
+#  GITHUB_REF_TYPE - github.ref_type - branch or tag
+
+jobs:
+  push-addon-app:
+    name: "Push to addon/app output repos"
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile --non-interactive
+      - run: node ./dev/update-output-repos.js
+
+  push-editors:
+    name: "Push to editor output repos"
+    if: github.ref_type == 'branch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile --non-interactive
+      - run: node ./dev/update-editor-output-repos.js
