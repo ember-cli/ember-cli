@@ -18,7 +18,7 @@ jobs:
       - run: yarn install --frozen-lockfile --non-interactive
 
       - name: Test && Report to Code Climate
-        uses: paambaati/codeclimate-action@v3
+        uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
