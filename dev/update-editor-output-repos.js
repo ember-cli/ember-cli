@@ -90,11 +90,7 @@ async function updateOnlineEditorRepos() {
 }
 
 async function main() {
-  try {
-    await updateOnlineEditorRepos();
-  } catch (error) {
-    console.log(error);
-  }
+  await updateOnlineEditorRepos();
 }
 
 main();

@@ -57,12 +57,8 @@ async function updateRepo(repoName) {
 }
 
 async function main() {
-  try {
-    await updateRepo('ember-new-output');
-    await updateRepo('ember-addon-output');
-  } catch (error) {
-    console.log(error);
-  }
+  await updateRepo('ember-new-output');
+  await updateRepo('ember-addon-output');
 }
 
 main();
