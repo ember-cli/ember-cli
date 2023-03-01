@@ -30,7 +30,7 @@ async function updateRepo(repoName) {
   console.log(`cloning ${repoName}`);
   await execa(
     'git',
-    ['clone', `https://${GITHUB_TOKEN}@github.com:ember-cli/${repoName}.git`, `--branch=${branchToClone}`],
+    ['clone', `https://${GITHUB_TOKEN}@github.com/ember-cli/${repoName}.git`, `--branch=${branchToClone}`],
     {
       cwd: tmpdir.name,
     }
