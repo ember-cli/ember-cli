@@ -29,6 +29,10 @@ on:
 #  GITHUB_REF_NAME - github.ref_name - <tag-name>
 #  GITHUB_REF_TYPE - github.ref_type - branch or tag
 
+env:
+  GIT_NAME: 'github-actions[bot]'
+  GIT_EMAIL: 'github-actions[bot]@users.noreply.github.com'
+
 jobs:
   push-addon-app:
     name: "Push to addon/app output repos"
@@ -43,6 +47,11 @@ jobs:
           cache: 'yarn'
 
       - run: yarn install --frozen-lockfile --non-interactive
+      - name: "Configure Git"
+        run: |
+          git config --unset-all http.https://github.com/.extraheader
+          git config user.name ${{ env.GIT_NAME }}
+          git config user.email ${{ env.GIT_EMAIL }}
       - run: node ./dev/update-output-repos.js
 
   push-editors:
@@ -58,4 +67,9 @@ jobs:
           cache: 'yarn'
 
       - run: yarn install --frozen-lockfile --non-interactive
+      - name: "Configure Git"
+        run: |
+          git config --unset-all http.https://github.com/.extraheader
+          git config user.name ${{ env.GIT_NAME }}
+          git config user.email ${{ env.GIT_EMAIL }}
       - run: node ./dev/update-editor-output-repos.js
