@@ -125,7 +125,7 @@
     "testem": "^3.10.1",
     "tiny-lr": "^2.0.0",
     "tree-sync": "^2.1.0",
-    "uuid": "^8.3.2",
+    "uuid": "^9.0.0",
     "walk-sync": "^3.0.0",
     "watch-detector": "^1.0.2",
     "workerpool": "^6.4.0",
