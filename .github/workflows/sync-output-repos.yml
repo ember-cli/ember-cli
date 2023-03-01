@@ -60,6 +60,7 @@ jobs:
     if: github.ref_type == 'branch'
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         variant: ["javascript", "typescript"]
 
