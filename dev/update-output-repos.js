@@ -12,6 +12,12 @@ const isStable = !currentVersion.includes('-beta');
 
 let tmpdir = tmp.dirSync();
 
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+if (!GITHUB_TOKEN) {
+  throw new Error('GITHUB_TOKEN must be set');
+}
+
 async function updateRepo(repoName) {
   let command = repoName === 'ember-new-output' ? 'new' : 'addon';
   let name = repoName === 'ember-new-output' ? 'my-app' : 'my-addon';
@@ -22,9 +28,13 @@ async function updateRepo(repoName) {
   let branchToClone = shouldUpdateMasterFromStable ? 'stable' : outputRepoBranch;
 
   console.log(`cloning ${repoName}`);
-  await execa('git', ['clone', `git@github.com:ember-cli/${repoName}.git`, `--branch=${branchToClone}`], {
-    cwd: tmpdir.name,
-  });
+  await execa(
+    'git',
+    ['clone', `https://${GITHUB_TOKEN}@github.com:ember-cli/${repoName}.git`, `--branch=${branchToClone}`],
+    {
+      cwd: tmpdir.name,
+    }
+  );
 
   console.log(`clearing ${repoName}`);
   await execa(`git`, [`rm`, `-rf`, `.`], {

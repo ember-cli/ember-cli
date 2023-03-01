@@ -11,13 +11,19 @@ const EMBER_PATH = require.resolve('../bin/ember');
 const isStable = !currentVersion.includes('-beta');
 const ONLINE_EDITOR_FILES = path.join(__dirname, 'online-editors');
 
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+if (!GITHUB_TOKEN) {
+  throw new Error('GITHUB_TOKEN must be set');
+}
+
 async function updateOnlineEditorRepos() {
   if (!isStable) {
     console.log(`Current version is ${currentVersion}, which is not considered stable.`);
     return;
   }
 
-  let repo = 'git@github.com:ember-cli/editor-output.git';
+  let repo = `https://${GITHUB_TOKEN}@github.com:ember-cli/editor-output.git`;
   let onlineEditors = ['stackblitz'];
   let variants = ['javascript', 'typescript'];
 
