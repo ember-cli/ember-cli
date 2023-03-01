@@ -102,7 +102,7 @@
     "lodash.template": "^4.5.0",
     "markdown-it": "^13.0.1",
     "markdown-it-terminal": "^0.4.0",
-    "minimatch": "^5.1.0",
+    "minimatch": "^7.3.0",
     "morgan": "^1.10.0",
     "nopt": "^3.0.6",
     "npm-package-arg": "^10.1.0",
