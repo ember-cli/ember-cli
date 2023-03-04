@@ -134,8 +134,10 @@ describe('Blueprint', function () {
 
         let output = blueprint.printBasicHelp();
 
-        let testString = processHelpString('\
-      \u001b[90m(overridden) my-blueprint\u001b[39m');
+        let testString = processHelpString(
+          '\
+      \u001b[90m(overridden) my-blueprint\u001b[39m'
+        );
 
         expect(output).to.equal(testString);
 
@@ -147,8 +149,10 @@ describe('Blueprint', function () {
 
         let output = blueprint.printBasicHelp();
 
-        let testString = processHelpString('\
-      my-blueprint command printed');
+        let testString = processHelpString(
+          '\
+      my-blueprint command printed'
+        );
 
         expect(output).to.equal(testString);
       });
