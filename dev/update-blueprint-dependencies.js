@@ -172,3 +172,5 @@ if (module === require.main) {
     return;
   }
 }
+
+module.exports = { updateDependencies };
