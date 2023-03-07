@@ -4,6 +4,7 @@ const stringUtil = require('ember-cli-string-utils');
 const chalk = require('chalk');
 const { isExperimentEnabled } = require('../../lib/experiments');
 const directoryForPackageName = require('../../lib/utilities/directory-for-package-name');
+const { TypeScriptSupport } = require('./typescript-support');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
@@ -18,6 +19,12 @@ module.exports = {
     'Brocfile.js',
     'testem.json',
   ],
+
+  init() {
+    this._super(...arguments);
+
+    this.ts = new TypeScriptSupport(this);
+  },
 
   locals(options) {
     let entity = options.entity;
@@ -60,6 +67,7 @@ module.exports = {
       lang: options.lang,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
+      ...this.ts.additionalLocals(options),
     };
   },
 
@@ -75,7 +83,18 @@ module.exports = {
       this._files = files.filter((file) => file.indexOf('.github') < 0);
     }
 
+    this._files = this.ts.filterFiles(this._files);
+
     return this._files;
+  },
+
+  fileMapTokens(/* options */) {
+    return {
+      // eslint-disable-next-line camelcase
+      __app_name__(options) {
+        return options.dasherizedModuleName;
+      },
+    };
   },
 
   beforeInstall() {
@@ -85,11 +104,7 @@ module.exports = {
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
-  },
 
-  async afterInstall(options) {
-    if (options.typescript) {
-      await this.addAddonToProject({ name: 'ember-cli-typescript', blueprintOptions: options });
-    }
+    this.ts.addPackages();
   },
 };
