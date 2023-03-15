@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const stringifyAndNormalize = require('../../../lib/utilities/stringify-and-normalize');
 
 describe('stringify-and-normalize', function () {

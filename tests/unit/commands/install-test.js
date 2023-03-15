@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const MockProject = require('../../helpers/mock-project');
 const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');

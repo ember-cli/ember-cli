@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const isLiveReloadRequest = require('../../../lib/utilities/is-live-reload-request');
 
 describe('isLiveReloadRequest()', function () {

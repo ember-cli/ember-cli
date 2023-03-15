@@ -1,7 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
-const { merge } = require('ember-cli-lodash-subset');
+const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const Command = require('../../../lib/models/command');
@@ -47,7 +46,7 @@ describe('.ember-cli', function () {
     let args = command.parseArgs();
 
     expect(args.options).to.include(
-      merge(homeSettings, {
+      Object.assign(homeSettings, {
         port: 999,
         liveReload: false,
       })

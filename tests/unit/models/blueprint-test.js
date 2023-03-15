@@ -1,7 +1,7 @@
 'use strict';
 
 const processHelpString = require('../../helpers/process-help-string');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const path = require('path');
 const EOL = require('os').EOL;
 const MarkdownColor = require('../../../lib/utilities/markdown-color');

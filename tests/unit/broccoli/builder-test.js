@@ -1,7 +1,7 @@
 'use strict';
 
 const broccoliTestHelper = require('broccoli-test-helper');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 const MockProject = require('../../helpers/mock-project');
 const Builder = require('../../../lib/models/builder');

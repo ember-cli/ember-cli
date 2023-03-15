@@ -9,9 +9,8 @@ const fixturify = require('fixturify');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
-const chai = require('../../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 
 let root = process.cwd();
 let tmpRoot = path.join(root, 'tmp');

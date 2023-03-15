@@ -3,8 +3,7 @@
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
-const expect = require('../../chai').expect;
-const { map } = require('ember-cli-lodash-subset');
+const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const Blueprint = require('../../../lib/models/blueprint');
@@ -209,7 +208,7 @@ describe('init command', function () {
     buildCommand();
 
     command.beforeRun(['app']);
-    expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
+    expect(command.availableOptions.map(({ name }) => name)).to.contain('custom-blueprint-option');
   });
 
   it('Passes command options through to the install blueprint task', function () {

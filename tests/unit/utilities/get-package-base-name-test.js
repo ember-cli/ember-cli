@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const getPackageBaseName = require('../../../lib/utilities/get-package-base-name');
 
 describe('getPackageBaseName', function () {

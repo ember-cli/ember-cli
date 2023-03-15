@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const EOL = require('os').EOL;
 const MockProject = require('../../helpers/mock-project');
 const processHelpString = require('../../helpers/process-help-string');

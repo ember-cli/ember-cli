@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const PackageInfo = require('../../../../lib/models/package-info-cache/package-info');
 const Project = require('../../../../lib/models/project');
 const addonFixturePath = path.resolve(__dirname, '../../../fixtures/addon');

@@ -2,7 +2,7 @@
 
 const Blueprint = require('../../../lib/models/blueprint');
 const MockProject = require('../../helpers/mock-project');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('blueprint - addon', function () {
   describe('Blueprint.lookup', function () {
@@ -183,7 +183,7 @@ describe('blueprint - addon', function () {
         let json = JSON.parse(output);
 
         expect(json.peerDependencies).to.deep.equal({
-          'ember-source': '^3.28.0 || ^4.0.0',
+          'ember-source': '^4.0.0',
           'foo-bar': '^1.0.0',
         });
       });

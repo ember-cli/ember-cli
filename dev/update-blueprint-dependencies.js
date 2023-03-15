@@ -104,12 +104,14 @@ async function latestVersion(packageName) {
 }
 
 async function updateDependencies(dependencies) {
-  for (let dependency in dependencies) {
-    if (!shouldCheckDependency(dependency)) {
+  for (let dependencyKey in dependencies) {
+    let dependencyName = removeTemplateExpression(dependencyKey);
+
+    if (!shouldCheckDependency(dependencyName)) {
       continue;
     }
 
-    let previousValue = dependencies[dependency];
+    let previousValue = dependencies[dependencyKey];
 
     // grab the first char (~ or ^)
     let prefix = previousValue[0];
@@ -122,9 +124,17 @@ async function updateDependencies(dependencies) {
     let hasVersion = previousValue[1] !== '<';
 
     if (hasVersion && isValidPrefix) {
-      dependencies[dependency] = `${prefix}${await latestVersion(dependency)}${templateSuffix}`;
+      dependencies[dependencyKey] = `${prefix}${await latestVersion(dependencyName)}${templateSuffix}`;
     }
   }
+}
+
+function removeTemplateExpression(dependency) {
+  if (dependency.includes('<') === false) {
+    return dependency;
+  }
+
+  return dependency.replace(dependency.substring(dependency.indexOf('<'), dependency.indexOf('>') + 1), '');
 }
 
 async function main() {
@@ -162,3 +172,5 @@ if (module === require.main) {
     return;
   }
 }
+
+module.exports = { updateDependencies };

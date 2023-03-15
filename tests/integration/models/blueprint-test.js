@@ -1,14 +1,13 @@
 'use strict';
 
-const fs = require('fs-extra');
+const { existsSync, readFile, remove } = require('fs-extra');
 const Task = require('../../../lib/models/task');
 const MockProject = require('../../helpers/mock-project');
 const MockUI = require('console-ui/mock');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const path = require('path');
 const glob = require('glob');
 const walkSync = require('walk-sync');
-const util = require('util');
 
 const EOL = require('os').EOL;
 let root = process.cwd();
@@ -17,8 +16,6 @@ const SilentError = require('silent-error');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const Blueprint = require('../../../lib/models/blueprint');
-
-const remove = util.promisify(fs.remove);
 
 let localsCalled;
 let normalizeEntityNameCalled;
@@ -281,7 +278,7 @@ describe('Blueprint', function () {
       expect(output.length).to.equal(0);
       expect(actualFiles).to.deep.equal(basicBlueprintFiles);
       expect(() => {
-        fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function (err, content) {
+        readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function (err, content) {
           if (err) {
             throw 'error';
           }
@@ -656,7 +653,7 @@ describe('Blueprint', function () {
 
       expect(actualFiles.length).to.equal(0);
 
-      expect(fs.existsSync(path.join(tmpdir, 'test.txt'))).to.be.false;
+      expect(existsSync(path.join(tmpdir, 'test.txt'))).to.be.false;
     });
 
     it("uninstall doesn't remove non-empty folders", async function () {

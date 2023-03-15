@@ -1,6 +1,6 @@
 'use strict';
 
-const { expect } = require('../../chai');
+const { expect } = require('chai');
 const execa = require('execa');
 const fs = require('fs');
 const os = require('os');

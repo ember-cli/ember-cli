@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const cleanRemove = require('../../../lib/utilities/clean-remove');
 const temp = require('temp');
 const path = require('path');

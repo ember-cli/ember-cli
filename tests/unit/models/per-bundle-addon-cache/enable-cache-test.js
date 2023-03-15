@@ -3,7 +3,7 @@
 /**
  * Tests for enabling and disabling per-bundle-addon-cache support
  */
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const { createStandardCacheFixture } = require('../../../../tests/helpers/per-bundle-addon-cache');
 const Project = require('../../../../lib/models/project');
 

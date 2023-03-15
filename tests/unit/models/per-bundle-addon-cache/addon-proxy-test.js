@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 const { getAddonProxy } = require('../../../../lib/models/per-bundle-addon-cache/addon-proxy');
 const { TARGET_INSTANCE } = require('../../../../lib/models/per-bundle-addon-cache/target-instance');

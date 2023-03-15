@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const broccoliTestHelper = require('broccoli-test-helper');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const BroccoliPlugin = require('broccoli-plugin');
 const walkSync = require('walk-sync');
 
