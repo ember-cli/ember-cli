@@ -1,5 +1,36 @@
 # ember-cli Changelog
 
+## v4.11.1-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.11.0...v4.11.1-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.11.0...v4.11.1-beta.0)
+
+#### Changelog
+
+- [#10039](https://github.com/ember-cli/ember-cli/pull/10039) [CLEANUP] Remove unused test fixtures [@bertdeblock](https://github.com/bertdeblock)
+- [#10040](https://github.com/ember-cli/ember-cli/pull/10040) [CLEANUP] Remove MU-related debug code [@bertdeblock](https://github.com/bertdeblock)
+- [#10091](https://github.com/ember-cli/ember-cli/pull/10091) [BUGFIX] Fix looking up the default blueprint for scoped addons [@GendelfLugansk](https://github.com/GendelfLugansk)
+- [#10107](https://github.com/ember-cli/ember-cli/pull/10107) [INTERNAL] Remove old `uninstall:npm` command [@bertdeblock](https://github.com/bertdeblock)
+- [#10122](https://github.com/ember-cli/ember-cli/pull/10122) [ENHANCEMENT] Add Stylelint setup to `app` and `addon` blueprints [RFC 814] [@bmish](https://github.com/bmish)
+- [#10142](https://github.com/ember-cli/ember-cli/pull/10142) [ENHANCEMENT] Update ESLint to v8 in `app` and `addon` blueprints [@bertdeblock](https://github.com/bertdeblock)
+- [#10157](https://github.com/ember-cli/ember-cli/pull/10157) [ENHANCEMENT] Exclude `ember-cli-terser` when generating apps using the `--embroider` option [@bertdeblock](https://github.com/bertdeblock)
+- [#10159](https://github.com/ember-cli/ember-cli/pull/10159) [ENHANCEMENT] Exclude `ember-cli-sri` when generating apps using the `--embroider` option [@bertdeblock](https://github.com/bertdeblock)
+- [#10161](https://github.com/ember-cli/ember-cli/pull/10161) [ENHANCEMENT] Remove NPM version checking [@bertdeblock](https://github.com/bertdeblock)
+- [#10166](https://github.com/ember-cli/ember-cli/pull/10166) [INTERNAL] Remove unused dependencies [@bertdeblock](https://github.com/bertdeblock)
+- [#10169](https://github.com/ember-cli/ember-cli/pull/10169) [ENHANCEMENT] Remove `app.import` comment in `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10172](https://github.com/ember-cli/ember-cli/pull/10172) [PERFORMANCE] Lazy require heavier packages [@bertdeblock](https://github.com/bertdeblock)
+- [#10173](https://github.com/ember-cli/ember-cli/pull/10173) [ENHANCEMENT] Don't delete the newly-generated app directory when an error occurs [@ef4](https://github.com/ef4)
+- [#10174](https://github.com/ember-cli/ember-cli/pull/10174) [INTERNAL] Clean up removal of `bower.json` and `package.json` files in `addon` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10180](https://github.com/ember-cli/ember-cli/pull/10180) [ENHANCEMENT] Update `ember-welcome-page` to v7 in `app` blueprint [@ijlee2](https://github.com/ijlee2)
+- [#10188](https://github.com/ember-cli/ember-cli/pull/10188) [ENHANCEMENT] Update ESLint parser `ecmaVersion` to `latest` in `app` blueprint [@elwayman02](https://github.com/elwayman02)
+- [#10189](https://github.com/ember-cli/ember-cli/pull/10189) [ENHANCEMENT] Add v4.8 LTS to `addon` blueprint - Remove v3.28 LTS and `ember-classic` scenario [@bertdeblock](https://github.com/bertdeblock)
+- [#10192](https://github.com/ember-cli/ember-cli/pull/10192) [BUGFIX] The `addon` command should throw when no addon name is provided [@bertdeblock](https://github.com/bertdeblock)
+- [#10198](https://github.com/ember-cli/ember-cli/pull/10198) [INTERNAL] Output TypeScript apps and addons for StackBlitz [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v4.11.0
 
 #### Blueprint Changes
