@@ -34,13 +34,7 @@ describe('Acceptance: ember generate in-addon-dummy', function () {
   });
 
   function initAddon() {
-    return ember(['addon', 'my-addon', '--skip-npm', '--skip-bower']).then(addJSHint);
-  }
-
-  function addJSHint() {
-    let pkg = fs.readJsonSync('package.json');
-    pkg.devDependencies['ember-cli-jshint'] = '*';
-    fs.writeJsonSync('package.json', pkg);
+    return ember(['addon', 'my-addon', '--skip-npm', '--skip-bower']);
   }
 
   function generateInAddon(args) {
@@ -69,8 +63,6 @@ describe('Acceptance: ember generate in-addon-dummy', function () {
     expect(file('server/index.js').content).to.matchSnapshot();
 
     expect(file('server/mocks/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc').content).to.matchSnapshot();
   });
 
   it('dummy http-mock foo-bar', async function () {
@@ -79,8 +71,6 @@ describe('Acceptance: ember generate in-addon-dummy', function () {
     expect(file('server/index.js').content).to.matchSnapshot();
 
     expect(file('server/mocks/foo-bar.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc').content).to.matchSnapshot();
   });
 
   it('dummy http-proxy foo', async function () {
@@ -89,8 +79,6 @@ describe('Acceptance: ember generate in-addon-dummy', function () {
     expect(file('server/index.js').content).to.matchSnapshot();
 
     expect(file('server/proxies/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc').content).to.matchSnapshot();
   });
 
   it('dummy server', async function () {
