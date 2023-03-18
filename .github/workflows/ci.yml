@@ -84,7 +84,6 @@ jobs:
       matrix:
         feature-flag:
           - ENABLE_ALL_EXPERIMENTS
-          - PACKAGER
           - EMBROIDER
           - CLASSIC
 
