@@ -193,7 +193,6 @@ describe('models/addon.js', function () {
 
         it('addon', function () {
           let app = {
-            importWhitelist: {},
             options: {},
           };
           addon.registry = {

@@ -944,84 +944,6 @@ describe('EmberApp', function () {
         });
       });
 
-      describe('blacklist', function () {
-        it('prevents addons to be added to the project', function () {
-          process.env.EMBER_ENV = 'foo';
-
-          let app = new EmberApp({
-            project,
-            addons: {
-              blacklist: ['ember-foo-env-addon'],
-            },
-          });
-
-          expect(app._addonDisabledByExclude({ name: 'ember-foo-env-addon' })).to.be.true;
-          expect(app._addonDisabledByExclude({ name: 'Ember Random Addon' })).to.be.false;
-          expect(app.project.addons.length).to.equal(8);
-        });
-
-        it('throws if unavailable addon is specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-
-            new EmberApp({
-              project,
-              addons: {
-                blacklist: ['ember-cli-self-troll'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Addon "ember-cli-self-troll" defined in "blacklist" is not found');
-        });
-      });
-
-      describe('whitelist', function () {
-        it('prevents non-whitelisted addons to be added to the project', function () {
-          process.env.EMBER_ENV = 'foo';
-
-          let app = new EmberApp({
-            project,
-            addons: {
-              whitelist: ['ember-foo-env-addon'],
-            },
-          });
-
-          expect(app._addonDisabledByInclude({ name: 'ember-foo-env-addon' })).to.be.false;
-          expect(app._addonDisabledByInclude({ name: 'Ember Random Addon' })).to.be.true;
-          expect(app.project.addons.length).to.equal(1);
-        });
-
-        it('throws if unavailable addon is specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-            app = new EmberApp({
-              project,
-              addons: {
-                whitelist: ['ember-cli-self-troll'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Addon "ember-cli-self-troll" defined in "whitelist" is not found');
-        });
-      });
-
-      describe('blacklist wins over whitelist', function () {
-        it('prevents addon to be added to the project', function () {
-          process.env.EMBER_ENV = 'foo';
-          app = new EmberApp({
-            project,
-            addons: {
-              whitelist: ['ember-foo-env-addon'],
-              blacklist: ['ember-foo-env-addon'],
-            },
-          });
-
-          expect(app.project.addons.length).to.equal(0);
-        });
-      });
-
       describe('exclude', function () {
         it('prevents addons to be added to the project', function () {
           process.env.EMBER_ENV = 'foo';
@@ -1101,42 +1023,6 @@ describe('EmberApp', function () {
           expect(app.project.addons.length).to.equal(0);
         });
       });
-
-      describe('blacklist and exclude', function () {
-        it('throws when both are specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-
-            new EmberApp({
-              project,
-              addons: {
-                blacklist: ['ember-foo-env-addon'],
-                exclude: ['ember-foo-env-addon'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Specifying both "blacklist" and "exclude" is not supported. Please use only one.');
-        });
-      });
-
-      describe('whitelist and include', function () {
-        it('throws when both are specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-
-            new EmberApp({
-              project,
-              addons: {
-                whitelist: ['ember-foo-env-addon'],
-                include: ['ember-foo-env-addon'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Specifying both "whitelist" and "include" is not supported. Please use only one.');
-        });
-      });
     });
 
     describe('addon instance bundle caching validation (when used within the project)', function () {
@@ -1149,66 +1035,6 @@ describe('EmberApp', function () {
 
       afterEach(function () {
         fixturifyProject.dispose();
-      });
-
-      it('throws an error if an addon `whitelist` is specified', function () {
-        fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
-        fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
-          callback: (inRepoAddon) => {
-            inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
-          },
-        });
-
-        fixturifyProject.writeSync();
-
-        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
-        projectWithBundleCaching.initializeAddons();
-
-        expect(() => {
-          new EmberApp({
-            project: projectWithBundleCaching,
-            addons: {
-              whitelist: ['foo'],
-            },
-          });
-        }).to.throw(
-          [
-            '[ember-cli] addon bundle caching is disabled for apps that specify an addon "whitelist"',
-            '',
-            'All addons using bundle caching:',
-            projectWithBundleCaching.addons.find((addon) => addon.name === 'foo').packageRoot,
-          ].join('\n')
-        );
-      });
-
-      it('throws an error if an addon `blacklist` is specified', function () {
-        fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
-        fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
-          callback: (inRepoAddon) => {
-            inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
-          },
-        });
-
-        fixturifyProject.writeSync();
-
-        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
-        projectWithBundleCaching.initializeAddons();
-
-        expect(() => {
-          new EmberApp({
-            project: projectWithBundleCaching,
-            addons: {
-              blacklist: ['foo'],
-            },
-          });
-        }).to.throw(
-          [
-            '[ember-cli] addon bundle caching is disabled for apps that specify an addon "blacklist"',
-            '',
-            'All addons using bundle caching:',
-            projectWithBundleCaching.addons.find((addon) => addon.name === 'foo').packageRoot,
-          ].join('\n')
-        );
       });
 
       it('throws an error if an addon `include` is specified', function () {
