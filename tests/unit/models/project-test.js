@@ -642,38 +642,38 @@ describe('models/project.js', function () {
     });
   });
 
-  describe('bowerDirectory', function () {
+  describe('_bowerDirectory', function () {
     beforeEach(function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       makeProject();
     });
 
     it('should be initialized in constructor', function () {
-      expect(project.bowerDirectory).to.equal('bower_components');
+      expect(project._bowerDirectory).to.equal('bower_components');
     });
 
     it('should be set to directory property in .bowerrc', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-with-directory');
       makeProject();
-      expect(project.bowerDirectory).to.equal('vendor');
+      expect(project._bowerDirectory).to.equal('vendor');
     });
 
     it('should default to ‘bower_components’ unless directory property is set in .bowerrc', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-without-directory');
       makeProject();
-      expect(project.bowerDirectory).to.equal('bower_components');
+      expect(project._bowerDirectory).to.equal('bower_components');
     });
 
     it('should default to ‘bower_components’ if .bowerrc is not present', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/no-bowerrc');
       makeProject();
-      expect(project.bowerDirectory).to.equal('bower_components');
+      expect(project._bowerDirectory).to.equal('bower_components');
     });
 
     it('should default to ‘bower_components’ if .bowerrc json is invalid', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/invalid-bowerrc');
       makeProject();
-      expect(project.bowerDirectory).to.equal('bower_components');
+      expect(project._bowerDirectory).to.equal('bower_components');
     });
   });
 
