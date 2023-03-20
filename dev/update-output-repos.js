@@ -34,13 +34,9 @@ async function updateOnlineEditorRepos() {
 
       let updatedOutputTmpDir = tmp.dirSync();
       console.log(`Running ember ${command} ${name} (for ${variant})`);
-      await execa(
-        EMBER_PATH,
-        [command, name, `--skip-bower`, `--skip-npm`, `--skip-git`, ...(isTypeScript ? ['--typescript'] : [])],
-        {
-          cwd: updatedOutputTmpDir.name,
-        }
-      );
+      await execa(EMBER_PATH, [command, name, `--skip-npm`, `--skip-git`, ...(isTypeScript ? ['--typescript'] : [])], {
+        cwd: updatedOutputTmpDir.name,
+      });
 
       let generatedOutputPath = path.join(updatedOutputTmpDir.name, name);
 
@@ -111,7 +107,7 @@ async function updateRepo(repoName) {
 
   let updatedOutputTmpDir = tmp.dirSync();
   console.log(`Running ember ${command} ${name}`);
-  await execa(EMBER_PATH, [command, name, `--skip-bower`, `--skip-npm`, `--skip-git`], {
+  await execa(EMBER_PATH, [command, name, `--skip-npm`, `--skip-git`], {
     cwd: updatedOutputTmpDir.name,
   });
 

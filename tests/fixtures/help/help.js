@@ -46,13 +46,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'skip-bower',
-          default: false,
-          aliases: ['sb'],
-          key: 'skipBower',
-          required: false
-        },
-        {
           name: 'skip-git',
           default: false,
           aliases: ['sg'],
@@ -425,13 +418,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'skip-bower',
-          default: false,
-          aliases: ['sb'],
-          key: 'skipBower',
-          required: false
-        },
-        {
           name: 'lint-fix',
           default: true,
           key: 'lintFix',
@@ -558,13 +544,6 @@ module.exports = {
           default: false,
           aliases: ['sn'],
           key: 'skipNpm',
-          required: false
-        },
-        {
-          name: 'skip-bower',
-          default: false,
-          aliases: ['sb'],
-          key: 'skipBower',
           required: false
         },
         {

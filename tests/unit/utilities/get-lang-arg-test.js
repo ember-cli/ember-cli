@@ -196,8 +196,6 @@ describe('lib/utilities/get-lang-arg', function () {
       '-b',
       '--skip-npm',
       '-sn',
-      '--skip-bower',
-      '-sb',
       '--welcome',
       '--no-welcome',
       '--yarn',
