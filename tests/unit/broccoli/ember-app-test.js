@@ -1234,7 +1234,7 @@ describe('EmberApp', function () {
   });
 
   describe('vendorFiles', function () {
-    let defaultVendorFiles = ['jquery.js', 'ember.js', 'app-shims.js'];
+    let defaultVendorFiles = ['jquery.js', 'ember.js'];
 
     describe('handlebars.js', function () {
       it('does not app.import handlebars if not present in bower.json', function () {
@@ -1472,32 +1472,6 @@ describe('EmberApp', function () {
   });
 
   describe('deprecations', function () {
-    it('shows ember-cli-shims deprecation', function () {
-      let root = path.resolve(__dirname, '../../fixtures/app/npm');
-      let project = setupProject(root);
-      project.require = function () {
-        return {
-          version: '5.0.0',
-        };
-      };
-      project.initializeAddons = function () {
-        this.addons = [
-          {
-            name: 'ember-cli-babel',
-            pkg: { version: '5.0.0' },
-          },
-        ];
-      };
-
-      app = new EmberApp({
-        project,
-      });
-
-      expect(project.ui.output).to.contain(
-        "You have not included `ember-cli-shims` in your project's `bower.json` or `package.json`."
-      );
-    });
-
     describe('jQuery integration', function () {
       it('shows deprecation', function () {
         project.initializeAddons = function () {
