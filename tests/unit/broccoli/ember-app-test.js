@@ -1196,7 +1196,7 @@ describe('EmberApp', function () {
   });
 
   describe('vendorFiles', function () {
-    let defaultVendorFiles = ['jquery.js', 'ember.js'];
+    let defaultVendorFiles = ['ember.js'];
 
     it('defines vendorFiles by default', function () {
       app = new EmberApp({
@@ -1225,35 +1225,6 @@ describe('EmberApp', function () {
         },
       });
       expect(Object.keys(app.vendorFiles)).to.deep.equal(defaultVendorFiles);
-    });
-
-    it('does not include jquery if the app has `@ember/jquery` installed', function () {
-      project.initializeAddons = function () {
-        this.addons = [{ name: '@ember/jquery' }];
-      };
-      app = new EmberApp({ project });
-      let filesWithoutJQuery = defaultVendorFiles.filter((e) => e !== 'jquery.js');
-      expect(Object.keys(app.vendorFiles)).to.deep.equal(filesWithoutJQuery);
-    });
-
-    it('does not include jquery if the app has `@ember/optional-features` with the `jquery-integration` FF turned off', function () {
-      project.initializeAddons = function () {
-        this.addons = [
-          {
-            name: 'ember-source',
-            paths: { jquery: 'foo', testing: null },
-          },
-          {
-            name: '@ember/optional-features',
-            isFeatureEnabled() {
-              return false;
-            },
-          },
-        ];
-      };
-      app = new EmberApp({ project, vendorFiles: { 'ember-testing.js': null } });
-      let filesWithoutJQuery = defaultVendorFiles.filter((e) => e !== 'jquery.js');
-      expect(Object.keys(app.vendorFiles)).to.deep.equal(filesWithoutJQuery);
     });
 
     it('removes dependency in vendorFiles', function () {
@@ -1395,49 +1366,6 @@ describe('EmberApp', function () {
         expect(app.legacyTestFilesToAppend).to.deep.equal(['files/d.js', 'files/a.js', 'files/b.js', 'files/c.js']);
 
         expect(app.vendorTestStaticStyles).to.deep.equal(['files/a.css', 'files/b.css', 'files/c.css', 'files/d.css']);
-      });
-    });
-  });
-
-  describe('deprecations', function () {
-    describe('jQuery integration', function () {
-      it('shows deprecation', function () {
-        project.initializeAddons = function () {
-          this.addons = [{ name: 'ember-source', paths: {} }];
-        };
-        app = new EmberApp({ project });
-
-        expect(project.ui.output).to.contain(
-          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
-        );
-      });
-
-      it('does not show deprecation if the app has `@ember/jquery` installed', function () {
-        project.initializeAddons = function () {
-          this.addons = [{ name: 'ember-source', paths: {} }, { name: '@ember/jquery' }];
-        };
-        app = new EmberApp({ project });
-        expect(project.ui.output).to.not.contain(
-          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
-        );
-      });
-
-      it('does not show deprecation if the app has `@ember/optional-features` with the `jquery-integration` FF turned off', function () {
-        project.initializeAddons = function () {
-          this.addons = [
-            { name: 'ember-source', paths: {} },
-            {
-              name: '@ember/optional-features',
-              isFeatureEnabled() {
-                return false;
-              },
-            },
-          ];
-        };
-        app = new EmberApp({ project, vendorFiles: { 'ember-testing.js': null } });
-        expect(project.ui.output).to.not.contain(
-          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
-        );
       });
     });
   });
