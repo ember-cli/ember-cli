@@ -619,44 +619,6 @@ describe('EmberApp', function () {
       });
     });
 
-    describe('ember-resolver npm vs Bower', function () {
-      it('does not load ember-resolver.js as bower dep when ember-resolver is present in registry.availablePlugins', function () {
-        let app = new EmberApp({ project });
-        expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
-      });
-
-      it('keeps ember-resolver.js in vendorFiles when npm ember-resolver is not installed, but is present in bower.json', function () {
-        project._bowerDependencies = function () {
-          return { ember: {}, 'ember-resolver': {} };
-        };
-        let app = new EmberApp({
-          project,
-          registry: {
-            add() {},
-            availablePlugins: {},
-          },
-        });
-        expect(app.vendorFiles['ember-resolver.js'][0]).to.equal(
-          'bower_components/ember-resolver/dist/modules/ember-resolver.js'
-        );
-      });
-
-      it('removes ember-resolver.js from vendorFiles when not in bower.json and npm ember-resolver not installed', function () {
-        project._bowerDependencies = function () {
-          return { ember: {} };
-        };
-        let app = new EmberApp({
-          project,
-          registry: {
-            add() {},
-            availablePlugins: {},
-          },
-        });
-
-        expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
-      });
-    });
-
     describe('options.babel.sourceMaps', function () {
       it('disables babel sourcemaps by default', function () {
         let app = new EmberApp({
