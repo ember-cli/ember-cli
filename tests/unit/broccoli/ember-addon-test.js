@@ -7,6 +7,18 @@ const EmberApp = require('../../../lib/broccoli/ember-app');
 const { expect } = require('chai');
 const MockCLI = require('../../helpers/mock-cli');
 
+const EMBER_SOURCE_ADDON = {
+  name: 'ember-source',
+  paths: {
+    debug: 'vendor/ember/ember.js',
+    prod: 'vendor/ember/ember.js',
+    testing: 'vendor/ember/ember-testing.js',
+  },
+  pkg: {
+    name: 'ember-source',
+  },
+};
+
 describe('EmberAddon', function () {
   let project, emberAddon, projectPath;
 
@@ -19,7 +31,7 @@ describe('EmberAddon', function () {
       return function () {};
     };
     project.initializeAddons = function () {
-      this.addons = [];
+      this.addons = [EMBER_SOURCE_ADDON];
     };
 
     return project;

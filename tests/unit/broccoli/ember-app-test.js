@@ -31,6 +31,18 @@ function mockTemplateRegistry(app) {
   };
 }
 
+const EMBER_SOURCE_ADDON = {
+  name: 'ember-source',
+  paths: {
+    debug: 'vendor/ember/ember.js',
+    prod: 'vendor/ember/ember.js',
+    testing: 'vendor/ember/ember-testing.js',
+  },
+  pkg: {
+    name: 'ember-source',
+  },
+};
+
 describe('EmberApp', function () {
   let project, projectPath, app, addon;
 
@@ -43,7 +55,7 @@ describe('EmberApp', function () {
       return function () {};
     };
     project.initializeAddons = function () {
-      this.addons = [];
+      this.addons = [EMBER_SOURCE_ADDON];
     };
 
     return project;
@@ -601,7 +613,7 @@ describe('EmberApp', function () {
         addonsApp = null;
         addonsAppIncluded = null;
         project.initializeAddons = function () {};
-        project.addons = [addon];
+        project.addons = [EMBER_SOURCE_ADDON, addon];
       });
 
       it('should set the app on the addons', function () {
@@ -669,7 +681,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         let app = new EmberApp({
@@ -684,7 +696,7 @@ describe('EmberApp', function () {
         delete addon.included;
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         expect(() => {
@@ -703,7 +715,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         app = new EmberApp({
@@ -793,7 +805,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         app = new EmberApp({
@@ -869,7 +881,17 @@ describe('EmberApp', function () {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
         const packageContents = require(path.join(projectPath, 'package.json'));
         let cli = new MockCLI();
-        project = new Project(projectPath, packageContents, cli.ui, cli);
+        project = new (class extends Project {
+          initializeAddons() {
+            if (this._addonsInitialized) {
+              return;
+            }
+
+            super.initializeAddons();
+
+            this.addons.push(EMBER_SOURCE_ADDON);
+          }
+        })(projectPath, packageContents, cli.ui, cli);
       });
 
       afterEach(function () {
@@ -891,7 +913,7 @@ describe('EmberApp', function () {
             emberFooEnvAddonFixture.app = app;
             expect(app._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-            expect(app.project.addons.length).to.equal(8);
+            expect(app.project.addons.length).to.equal(9);
           });
 
           it('foo', function () {
@@ -901,7 +923,7 @@ describe('EmberApp', function () {
             emberFooEnvAddonFixture.app = app;
             expect(app._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
 
-            expect(app.project.addons.length).to.equal(9);
+            expect(app.project.addons.length).to.equal(10);
           });
         });
       });
@@ -919,7 +941,7 @@ describe('EmberApp', function () {
 
           expect(app._addonDisabledByExclude({ name: 'ember-foo-env-addon' })).to.be.true;
           expect(app._addonDisabledByExclude({ name: 'Ember Random Addon' })).to.be.false;
-          expect(app.project.addons.length).to.equal(8);
+          expect(app.project.addons.length).to.equal(9);
         });
 
         it('throws if unavailable addon is specified', function () {
@@ -1011,6 +1033,7 @@ describe('EmberApp', function () {
 
         let projectWithBundleCaching = fixturifyProject.buildProjectModel();
         projectWithBundleCaching.initializeAddons();
+        projectWithBundleCaching.addons.push(EMBER_SOURCE_ADDON);
 
         expect(() => {
           new EmberApp({
@@ -1041,6 +1064,7 @@ describe('EmberApp', function () {
 
         let projectWithBundleCaching = fixturifyProject.buildProjectModel();
         projectWithBundleCaching.initializeAddons();
+        projectWithBundleCaching.addons.push(EMBER_SOURCE_ADDON);
 
         expect(() => {
           new EmberApp({
@@ -1067,7 +1091,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         app = new EmberApp({
@@ -1196,7 +1220,7 @@ describe('EmberApp', function () {
   });
 
   describe('vendorFiles', function () {
-    let defaultVendorFiles = ['ember.js'];
+    let defaultVendorFiles = ['ember.js', 'ember-testing.js'];
 
     it('defines vendorFiles by default', function () {
       app = new EmberApp({
@@ -1237,28 +1261,6 @@ describe('EmberApp', function () {
       });
       let vendorFiles = Object.keys(app.vendorFiles);
       expect(vendorFiles).to.not.contain('ember.js');
-    });
-
-    it('defaults to ember.debug.js if exists in bower_components', function () {
-      let root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
-
-      app = new EmberApp({
-        project: setupProject(root),
-      });
-
-      let files = app.vendorFiles['ember.js'];
-      expect(files.development).to.equal('bower_components/ember/ember.debug.js');
-    });
-
-    it('switches the default ember.debug.js to ember.js if it does not exist', function () {
-      let root = path.resolve(__dirname, '../../fixtures/app/without-ember-debug');
-
-      app = new EmberApp({
-        project: setupProject(root),
-      });
-
-      let files = app.vendorFiles['ember.js'];
-      expect(files.development).to.equal('bower_components/ember/ember.js');
     });
 
     it('does not clobber an explicitly configured ember development file', function () {
@@ -1363,7 +1365,13 @@ describe('EmberApp', function () {
         app.import('files/d.css', { type: 'test' });
         app.import('files/d.css', { type: 'test' });
 
-        expect(app.legacyTestFilesToAppend).to.deep.equal(['files/d.js', 'files/a.js', 'files/b.js', 'files/c.js']);
+        expect(app.legacyTestFilesToAppend).to.deep.equal([
+          'files/d.js',
+          'files/a.js',
+          'vendor/ember/ember-testing.js',
+          'files/b.js',
+          'files/c.js',
+        ]);
 
         expect(app.vendorTestStaticStyles).to.deep.equal(['files/a.css', 'files/b.css', 'files/c.css', 'files/d.css']);
       });

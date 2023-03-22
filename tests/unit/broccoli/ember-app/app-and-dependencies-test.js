@@ -11,6 +11,18 @@ const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 const walkSync = require('walk-sync');
 
+const EMBER_SOURCE_ADDON = {
+  name: 'ember-source',
+  paths: {
+    debug: 'vendor/ember/ember.js',
+    prod: 'vendor/ember/ember.js',
+    testing: 'vendor/ember/ember-testing.js',
+  },
+  pkg: {
+    name: 'ember-source',
+  },
+};
+
 describe('EmberApp#appAndDependencies', function () {
   let input, output;
 
@@ -69,7 +81,17 @@ describe('EmberApp#appAndDependencies', function () {
     };
 
     let cli = new MockCLI();
-    let project = new Project(input.path(), pkg, cli.ui, cli);
+    let project = new (class extends Project {
+      initializeAddons() {
+        if (this._addonsInitialized) {
+          return;
+        }
+
+        super.initializeAddons();
+
+        this.addons.push(EMBER_SOURCE_ADDON);
+      }
+    })(input.path(), pkg, cli.ui, cli);
 
     return new EmberApp(
       {
