@@ -1236,38 +1236,6 @@ describe('EmberApp', function () {
   describe('vendorFiles', function () {
     let defaultVendorFiles = ['jquery.js', 'ember.js'];
 
-    describe('handlebars.js', function () {
-      it('does not app.import handlebars if not present in bower.json', function () {
-        let app = new EmberApp({
-          project,
-        });
-
-        expect(app.vendorFiles).not.to.include.keys('handlebars.js');
-      });
-
-      it('includes handlebars if present in bower.json', function () {
-        projectPath = path.resolve(__dirname, '../../fixtures/project-with-handlebars');
-        project = setupProject(projectPath);
-
-        let app = new EmberApp({
-          project,
-        });
-
-        expect(app.vendorFiles).to.include.keys('handlebars.js');
-      });
-
-      it('includes handlebars if present in provided `vendorFiles`', function () {
-        let app = new EmberApp({
-          project,
-          vendorFiles: {
-            'handlebars.js': 'some/path/whatever.js',
-          },
-        });
-
-        expect(app.vendorFiles).to.include.keys('handlebars.js');
-      });
-    });
-
     it('defines vendorFiles by default', function () {
       app = new EmberApp({
         project,
@@ -1332,12 +1300,10 @@ describe('EmberApp', function () {
 
         vendorFiles: {
           'ember.js': null,
-          'handlebars.js': null,
         },
       });
       let vendorFiles = Object.keys(app.vendorFiles);
       expect(vendorFiles).to.not.contain('ember.js');
-      expect(vendorFiles).to.not.contain('handlebars.js');
     });
 
     it('defaults to ember.debug.js if exists in bower_components', function () {
