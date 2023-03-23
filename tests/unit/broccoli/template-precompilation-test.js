@@ -15,6 +15,18 @@ const EmberApp = require('../../../lib/broccoli/ember-app');
 const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
+const EMBER_SOURCE_ADDON = {
+  name: 'ember-source',
+  paths: {
+    debug: 'vendor/ember/ember.js',
+    prod: 'vendor/ember/ember.js',
+    testing: 'vendor/ember/ember-testing.js',
+  },
+  pkg: {
+    name: 'ember-source',
+  },
+};
+
 describe('template preprocessors', function () {
   let input, output, addon;
 
@@ -125,7 +137,17 @@ describe('template preprocessors', function () {
       input = await createTempDir();
       let cli = new MockCLI();
       let pkg = { name: 'fake-app-test', devDependencies: { 'ember-cli': '*' } };
-      project = new Project(input.path(), pkg, cli.ui, cli);
+      project = new (class extends Project {
+        initializeAddons() {
+          if (this._addonsInitialized) {
+            return;
+          }
+
+          super.initializeAddons();
+
+          this.addons.push(EMBER_SOURCE_ADDON);
+        }
+      })(input.path(), pkg, cli.ui, cli);
     });
 
     afterEach(async function () {
