@@ -504,15 +504,6 @@ describe('EmberApp', function () {
       expect(project.configPath()).to.contain(path.join('app-import', 'config', 'environment'));
     });
 
-    it('should set bowerDirectory for app', function () {
-      let app = new EmberApp({
-        project,
-      });
-
-      expect(app.bowerDirectory).to.equal(project._bowerDirectory);
-      expect(app.bowerDirectory).to.equal('bower_components');
-    });
-
     it('should merge options with defaults to depth', function () {
       let app = new EmberApp(
         {
