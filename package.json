@@ -163,7 +163,7 @@
     "yuidocjs": "0.10.2"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 16"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -183,7 +183,7 @@
   },
   "trackingCode": "UA-49225444-1",
   "volta": {
-    "node": "14.21.3",
+    "node": "16.19.1",
     "yarn": "1.22.19"
   }
 }

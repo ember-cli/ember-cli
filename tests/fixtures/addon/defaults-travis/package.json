@@ -72,7 +72,7 @@
     "stylelint-prettier": "^2.0.0"
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": "16.* || >= 18"
   },
   "ember": {
     "edition": "octane"
