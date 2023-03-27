@@ -547,27 +547,20 @@ describe('EmberApp', function () {
           project,
         },
         {
-          minifyJS: {
+          minifyCSS: {
             enabled: true,
             options: {
-              exclusions: ['hey', 'you'],
+              processImport: true,
             },
           },
         }
       );
 
-      expect(app.options.minifyJS).to.deep.equal({
+      expect(app.options.minifyCSS).to.deep.equal({
         enabled: true,
         options: {
-          exclusions: ['hey', 'you'],
-          compress: {
-            // eslint-disable-next-line camelcase
-            negate_iife: false,
-            sequences: 30,
-          },
-          output: {
-            semicolons: false,
-          },
+          processImport: true,
+          relativeTo: 'assets',
         },
       });
     });
