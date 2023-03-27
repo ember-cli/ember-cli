@@ -619,9 +619,8 @@ describe('models/project.js', function () {
       td.verify(project.initializeAddons(), { ignoreExtraArgs: true });
     });
 
-    it('generally should work and defer to findAddonByName utlity', function () {
-      let addon;
-      addon = project.findAddonByName('foo');
+    it('finds addons by their `package.json` name', function () {
+      let addon = project.findAddonByName('foo');
       expect(addon.name).to.equal('foo', 'should have found the foo addon');
 
       addon = project.findAddonByName('bar-pkg');
