@@ -14,7 +14,6 @@ const { dir, file } = require('chai-files');
 describe('PackageCache', function () {
   let testPackageCache;
 
-  let bower = td.function('bower');
   let npm = td.function('npm');
   let yarn = td.function('yarn');
 
@@ -24,7 +23,6 @@ describe('PackageCache', function () {
 
     testPackageCache.__setupForTesting({
       commands: {
-        bower: { invoke: bower },
         npm: { invoke: npm },
         yarn: { invoke: yarn },
       },
@@ -91,18 +89,6 @@ describe('PackageCache', function () {
       },
     });
 
-    // Confirm it writes the file.
-    testPackageCache._writeManifest('bower', 'bower', manifest);
-    let firstWrite = testPackageCache.dirs['bower'];
-    let manifestFilePath = path.join(firstWrite, 'bower.json');
-    expect(file(manifestFilePath)).to.exist;
-    expect(file(manifestFilePath)).to.equal(manifest);
-
-    // Confirm that it reuses directories.
-    testPackageCache._writeManifest('bower', 'bower', manifest);
-    let secondWrite = testPackageCache.dirs['bower'];
-    expect(firstWrite).to.equal(secondWrite);
-
     // Confirm that it removes a yarn.lock file if present and type is yarn.
     testPackageCache._writeManifest('yarn', 'yarn', manifest);
     let yarn = testPackageCache.dirs['yarn'];
@@ -121,7 +107,6 @@ describe('PackageCache', function () {
     testPackageCache._writeManifest('yarn', 'yarn', manifest);
     expect(file(lockFileLocation)).to.not.exist;
 
-    testPackageCache.destroy('bower');
     testPackageCache.destroy('yarn');
   });
 
@@ -151,14 +136,14 @@ describe('PackageCache', function () {
       devDependencies: {},
     });
 
-    testPackageCache._writeManifest('bower', 'bower', manifest);
+    testPackageCache._writeManifest('yarn', 'yarn', manifest);
 
-    expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
-    expect(testPackageCache._checkManifest('bower', 'bower', manifestShuffled)).to.be.true;
-    expect(testPackageCache._checkManifest('bower', 'bower', manifestEmptyKey)).to.be.true;
-    expect(testPackageCache._checkManifest('bower', 'bower', '{ "dependencies": "different" }')).to.be.false;
+    expect(testPackageCache._checkManifest('yarn', 'yarn', manifest)).to.be.true;
+    expect(testPackageCache._checkManifest('yarn', 'yarn', manifestShuffled)).to.be.true;
+    expect(testPackageCache._checkManifest('yarn', 'yarn', manifestEmptyKey)).to.be.true;
+    expect(testPackageCache._checkManifest('yarn', 'yarn', '{ "dependencies": "different" }')).to.be.false;
 
-    testPackageCache.destroy('bower');
+    testPackageCache.destroy('yarn');
   });
 
   it('_removeLinks', function () {
@@ -481,61 +466,6 @@ describe('PackageCache', function () {
     });
   });
 
-  describe('_upgrade (bower)', function () {
-    // We're only going to test the invocation pattern boundary.
-    // Don't want to wait for the install to execute.
-    let testCounter = 0;
-    let label;
-
-    beforeEach(function () {
-      label = `bower-upgrade-test-${testCounter++}`;
-      testPackageCache._conf.set(label, 'hello');
-    });
-
-    afterEach(function () {
-      td.reset();
-      testPackageCache.destroy(label);
-    });
-
-    it('Trigger upgrade.', function () {
-      testPackageCache._upgrade(label, 'bower');
-      td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
-    });
-
-    it('Make sure it unlinks, updates, re-links.', function () {
-      // Add a link.
-      testPackageCache._writeManifest(
-        label,
-        'bower',
-        JSON.stringify({
-          _packageCache: {
-            links: ['ember-cli'],
-          },
-        })
-      );
-      testPackageCache._upgrade(label, 'bower');
-      td.verify(bower('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower(), { times: 3, ignoreExtraArgs: true });
-    });
-
-    it('Make sure multiple invocations lock out.', function () {
-      testPackageCache._upgrade(label, 'bower');
-      testPackageCache._upgrade(label, 'bower');
-      td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
-    });
-
-    it('locks out _upgrade after _install', function () {
-      testPackageCache._install(label, 'bower');
-      testPackageCache._upgrade(label, 'bower');
-      td.verify(bower('install', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
-    });
-  });
-
   it('create', function () {
     td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     let dir = testPackageCache.create('npm', 'npm', '{}');
@@ -602,10 +532,10 @@ describe('PackageCache', function () {
   });
 
   it('destroy', function () {
-    testPackageCache._writeManifest('label', 'bower', '{}');
+    testPackageCache._writeManifest('label', 'yarn', '{}');
 
     let dir = testPackageCache.get('label');
-    let manifestFilePath = path.join(dir, 'bower.json');
+    let manifestFilePath = path.join(dir, 'package.json');
     expect(file(manifestFilePath)).to.exist; // Sanity check.
 
     testPackageCache.destroy('label');
@@ -614,15 +544,15 @@ describe('PackageCache', function () {
   });
 
   it('clone', function () {
-    testPackageCache._writeManifest('from', 'bower', '{}');
+    testPackageCache._writeManifest('from', 'yarn', '{}');
 
     let fromDir = testPackageCache.dirs['from'];
     let toDir = testPackageCache.clone('from', 'to');
 
     expect(fromDir).to.not.equal(toDir);
 
-    let fromManifest = testPackageCache._readManifest('from', 'bower');
-    let toManifest = testPackageCache._readManifest('to', 'bower');
+    let fromManifest = testPackageCache._readManifest('from', 'yarn');
+    let toManifest = testPackageCache._readManifest('to', 'yarn');
 
     expect(fromManifest).to.equal(toManifest);
 

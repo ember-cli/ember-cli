@@ -23,18 +23,6 @@ cases where we use this.
 let DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
 
 /**
- * The `bower` command helper.
- *
- * @private
- * @method bower
- * @param {String} subcommand The subcommand to be passed into bower.
- * @param {String} [...arguments] Arguments to be passed into the bower subcommand.
- * @param {Object} [options={}] The options passed into child_process.spawnSync.
- *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
- */
-let bower = new CommandGenerator('bower');
-
-/**
  * The `npm` command helper.
  *
  * @private
@@ -61,7 +49,6 @@ let yarn = new CommandGenerator('yarn');
 // This lookup exists to make it possible to look the commands up based upon context.
 let originals;
 let commands = {
-  bower,
   npm,
   yarn,
 };
@@ -69,17 +56,14 @@ let commands = {
 // The definition list of translation terms.
 let lookups = {
   manifest: {
-    bower: 'bower.json',
     npm: 'package.json',
     yarn: 'package.json',
   },
   path: {
-    bower: 'bower_components',
     npm: 'node_modules',
     yarn: 'node_modules',
   },
   upgrade: {
-    bower: 'update',
     npm: 'install',
     yarn: 'upgrade',
   },
@@ -92,7 +76,7 @@ let lookups = {
  *
  * @private
  * @method translate
- * @param {String} type Either 'bower', 'npm', or 'yarn'.
+ * @param {String} type Either 'npm' or 'yarn'.
  * @param {String} lookup Either 'manifest', 'path', or 'upgrade'.
  */
 function translate(type, lookup) {
@@ -217,7 +201,6 @@ function translate(type, lookup) {
  * is "best effort" only. Be sure to review upstream behavior to identify if you
  * rely on those features for your code to function:
  *
- * - [bower](https://github.com/bower/bower/blob/master/lib/commands/link.js)
  * - [npm](https://github.com/npm/npm/blob/latest/lib/link.js)
  * - [yarn](https://github.com/yarnpkg/yarn/blob/master/src/cli/commands/link.js)
  *
@@ -570,7 +553,7 @@ module.exports = class PackageCache {
   }
 
   _canUpgrade(label, type) {
-    return type === 'bower' || (type === 'yarn' && fs.existsSync(path.join(this.dirs[label], 'yarn.lock')));
+    return type === 'yarn' && fs.existsSync(path.join(this.dirs[label], 'yarn.lock'));
   }
 
   // PUBLIC API BELOW

@@ -9,8 +9,8 @@ const execa = require('../../lib/utilities/execa');
  * Usage:
  *
  * ```
- * var bower = new CommandGenerator(require.resolve('bower/bin/bower'));
- * bower.invoke('install', 'ember');
+ * let npm = new CommandGenerator('npm');
+ * npm.invoke('install', 'ember-source', '--save-dev');
  * ```
  *
  * @private

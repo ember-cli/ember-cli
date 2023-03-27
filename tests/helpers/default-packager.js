@@ -10,7 +10,6 @@ const assert = require('assert');
 const DEFAULT_ADDON_MODULES = {
   'ember-cli-foobar': '^1.0.0',
 };
-const DEFAULT_BOWER_COMPONENTS = {};
 
 const DEFAULT_NODE_MODULES = {
   'broccoli-asset-rev': {
@@ -148,7 +147,7 @@ const DEFAULT_SOURCE = {
 
 /*
  * Generates an object that represents an unpackaged Ember application tree,
- * including application source, addons, vendor, bower (empty) and node.js files.
+ * including application source, addons, vendor and node.js files.
  *
  * @param {String} name The name of the app
  * @param {Object} options Customize output object
@@ -159,14 +158,12 @@ function getDefaultUnpackagedDist(name, options) {
   options = options || {};
 
   const addonModules = Object.assign({}, DEFAULT_ADDON_MODULES, options.addonModules);
-  const bowerComponents = options.bowerComponents || DEFAULT_BOWER_COMPONENTS;
   const nodeModules = options.nodeModules || DEFAULT_NODE_MODULES;
   const application = Object.assign({}, DEFAULT_SOURCE, options.source);
   const vendor = Object.assign({}, DEFAULT_VENDOR, options.vendor);
 
   return {
     'addon-modules': addonModules,
-    bower_components: bowerComponents,
     node_modules: nodeModules,
     [name]: application,
     vendor,
@@ -206,8 +203,8 @@ function validateDefaultPackagedDist(name, obj) {
 }
 
 /*
- * Generates an object that represents a "dependency" on the disk. Could be used
- * both for generating bower and node dependencies.
+ * Generates an object that represents a "dependency" on the disk.
+ * Could be used for generating node dependencies.
  *
  * ```javascript
  * getDependencyFor('moment', {

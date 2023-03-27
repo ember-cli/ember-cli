@@ -138,11 +138,10 @@ ember serve <arg-option (Default: something)>
 ### Tasks
 Located in `lib/tasks`. They get picked up by `requireAsHash()` automatically.
 
-Tasks do the real work. They should also do only one thing: For example there
-are separate `bower-install` and `npm-install` tasks, not just one unified
-`install` task. And they should not call other tasks: For example
-`install-blueprint` shouldn't call `npm-install` directly. That's because the
-task sequence is determined by the command and thus should be declared there.
+Tasks do the real work. They should also do only one thing and they should not
+call other tasks: For example `install-blueprint` shouldn't call `npm-install`
+directly. That's because the task sequence is determined by the command and thus
+should be declared there.
 
 The command constructs task instances with dependencies including ui,
 analytics, project, etc. The plan is for these to eventually
@@ -257,7 +256,7 @@ Also a `message` property should be set: Either in the constructor or as a prope
 When requiring modules, we should be aware of their effect on startup
 time. If they introduce a noticeable penalty, and are not needed except
 for some task/command we should require them lazily. Obviously a few
-small modules won't make a difference, but eagerly requiring npm + bower
+small modules won't make a difference, but eagerly requiring npm
 and all of lodash will add a second to startup time.
 
 The following example eagerly requires npm, but only truly requires it
@@ -279,7 +278,7 @@ module.exports = class NpmInstallTask extends Task {
 };
 ```
 
-If a dependency (like bower or npm) turns out to have high startup cost,
+If a dependency (like npm) turns out to have high startup cost,
 we should require them lazily. This also allows us to inject
 alternative dependencies at construction time. Some future DI
 refactoring can likely automate this process.

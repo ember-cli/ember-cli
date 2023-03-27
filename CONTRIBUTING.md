@@ -171,7 +171,7 @@ We love pull requests. Here's a quick guide:
    the changes you made. For new features make sure to explain a standard use
    case to us.
 
-   If a change requires a user to change their configuration, `bower.json`,
+   If a change requires a user to change their configuration,
    `package.json` or `Brocfile.js` also add a BREAKING tag within the brackets
    before any other tags (example [BREAKING BUGFIX]).
 
