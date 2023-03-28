@@ -159,15 +159,15 @@ describe('Acceptance: ember init', function () {
   });
 
   it('init multiple files by glob patterns', async function () {
-    await ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm']);
+    await ember(['init', 'app/**', 'package.json', 'resolver.js', '--skip-npm']);
 
-    confirmGlobBlueprinted('{app/**,{package,bower}.json,resolver.js}');
+    confirmGlobBlueprinted('{app/**,package.json,resolver.js}');
   });
 
   it("init multiple files by glob patterns on already init'd folder", async function () {
     await ember(['init', '--skip-npm']);
 
-    await ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm']);
+    await ember(['init', 'app/**', 'package.json', 'resolver.js', '--skip-npm']);
 
     confirmBlueprinted();
   });

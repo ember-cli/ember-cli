@@ -25,10 +25,9 @@ applications (200kloc js + 3000 modules).
 
   * rebuild of JS in app/ <--- Largely our focus, as this is likely the most common.
   * rebuild of CSS/Sass/Less in app/: largely depends on 3 factors
-    * the size of bower_components (we have plans to largely mitigate this one)
     * which preprocessor is being used (libsass vs ruby-sass vs less vs ...)
     * the amount of css
-  * rebuild of vendor/, bower_components/ <--- somewhat costly still, due to
+  * rebuild of vendor/ <--- somewhat costly still, due to
     how slow available sourceMap Libraries are. We have WIP with a more v8/JIT
     friendly sourceMap lib, already showing some very nice improvements.
 
@@ -238,7 +237,7 @@ To generate visualization:
 
 
 Each build will generate an additional graph, `instrumentation.build.<build-number>.json`
-  
+
 Alternatively, you can upload the JSON file to https://heimdalljs.github.io/heimdalljs-visualizer/
 
 #### in-depth look

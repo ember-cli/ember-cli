@@ -15,7 +15,7 @@ module.exports = {
     // disabled because describe(), it(), etc. should not use arrow functions
     'prefer-arrow-callback': 0,
 
-    camelcase: ['error', { allow: ['bower_components', 'node_modules'] }],
+    camelcase: ['error', { allow: ['node_modules'] }],
 
     /*** chai-expect ***/
 
