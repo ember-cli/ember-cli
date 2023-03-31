@@ -31,21 +31,18 @@ describe('models/addon.js', function () {
   });
 
   describe('old core object compat', function () {
-    it('treeGenerator works without .project', function () {
-      let warning;
+    it('treeGenerator throws when `.project` is missing', function () {
       let TheAddon = Addon.extend({
         name: 'such name',
         root: path.resolve(fixturePath, 'simple'),
         packageRoot: path.resolve(fixturePath, 'simple'),
-        _warn(message) {
-          warning = `${message}`;
-        },
       });
+
       let addon = new TheAddon();
+
       expect(() => {
         addon.treeGenerator('foo');
-      }).to.not.throw();
-      expect(warning).to.match(/Addon: `such name` is missing addon.project/);
+      }).to.throw(/Addon `such name` is missing `addon.project`/);
     });
   });
 
