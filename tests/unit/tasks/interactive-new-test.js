@@ -14,6 +14,25 @@ describe('interactive new task', function () {
     interactiveNewTask = null;
   });
 
+  it('it runs', async function () {
+    const newCommandOptions = {};
+    const answers = await interactiveNewTask.run(newCommandOptions, {
+      blueprint: 'app',
+      name: 'foo',
+      langSelection: 'en-US',
+      packageManager: 'yarn',
+      ciProvider: 'github',
+    });
+
+    expect(answers).to.deep.equal({
+      blueprint: 'app',
+      name: 'foo',
+      lang: 'en-US',
+      packageManager: 'yarn',
+      ciProvider: 'github',
+    });
+  });
+
   it('it only displays the `name` question when no app/addon name is provided', async function () {
     let questions = await interactiveNewTask.getQuestions();
     let question = getQuestion('name', questions);
