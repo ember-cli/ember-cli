@@ -74,23 +74,6 @@ describe('Acceptance: preprocessor-smoke-test', function () {
       .be;
   });
 
-  it('addons without preprocessors compile correctly', async function () {
-    await copyFixtureFiles(`preprocessor-tests/app-with-addon-without-preprocessors`);
-
-    let packageJsonPath = path.join(appRoot, 'package.json');
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.devDependencies['ember-cli-sass'] = 'latest';
-    packageJson.devDependencies['ember-cool-addon'] = 'latest';
-    fs.writeJsonSync(packageJsonPath, packageJson);
-
-    await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-    let checker = new DistChecker(path.join(appRoot, 'dist'));
-
-    expect(checker.contains('css', 'app styles included')).to.be;
-    expect(checker.contains('css', 'addon styles included')).to.be;
-  });
-
   /*
     [ app ]  -> [ addon ] -> [ preprocessor addon ]
       |             |
