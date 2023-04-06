@@ -57,7 +57,7 @@ jobs:
 
   push-editors:
     name: "Push to editor output repos (${{ matrix.variant }})"
-    if: github.ref_type == 'branch'
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
