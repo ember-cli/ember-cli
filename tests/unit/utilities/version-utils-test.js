@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const versionUtils = require('../../../lib/utilities/version-utils');
 
 describe('version-utils', function () {

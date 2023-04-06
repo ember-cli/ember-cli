@@ -1,7 +1,7 @@
 'use strict';
 
 const getLangArg = require('../../../lib/utilities/get-lang-arg');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 
 describe('lib/utilities/get-lang-arg', function () {

@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');

@@ -1,15 +1,10 @@
 'use strict';
 
 const path = require('path');
-const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
-let setupTestHooks = blueprintHelpers.setupTestHooks;
-let emberNew = blueprintHelpers.emberNew;
-let emberGenerate = blueprintHelpers.emberGenerate;
-let modifyPackages = blueprintHelpers.modifyPackages;
+const { emberGenerate, emberNew, modifyPackages, setupTestHooks } = require('ember-cli-blueprint-test-helpers/helpers');
 
-const chai = require('ember-cli-blueprint-test-helpers/chai');
-let expect = chai.expect;
-let file = chai.file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 
 describe('Acceptance: ember generate and destroy server', function () {
   setupTestHooks(this, {

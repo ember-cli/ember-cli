@@ -3,23 +3,26 @@
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const chaiFiles = require('chai-files');
 const chaiJestSnapshot = require('chai-jest-snapshot');
+const ciInfo = require('ci-info');
 const glob = require('glob');
 const Mocha = require('mocha');
-const fs = require('fs-extra');
-const expect = require('./chai').expect;
+
+chai.use(chaiFiles);
+chai.use(chaiAsPromised);
+chai.use(chaiJestSnapshot);
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
 
-fs.removeSync('.deps-tmp');
-
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`
-let isCI = process.env.CI || process.env.GITHUB_ACTIONS;
-let reporter = process.env.MOCHA_REPORTER || (isCI ? 'tap' : 'spec');
+let reporter = process.env.MOCHA_REPORTER || (ciInfo.isCI ? 'tap' : 'spec');
 let mocha = new Mocha({
   timeout: 5000,
   reporter,
@@ -61,7 +64,7 @@ function runMocha() {
   // ensure that at the end of every test, we are in the correct current
   // working directory
   mocha.suite.afterEach(function () {
-    expect(process.cwd()).to.equal(ROOT);
+    chai.expect(process.cwd()).to.equal(ROOT);
   });
 
   console.time('Mocha Tests Running Time');

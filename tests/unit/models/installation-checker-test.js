@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const InstallationChecker = require('../../../lib/models/installation-checker');
 const path = require('path');
 

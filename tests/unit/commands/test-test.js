@@ -2,7 +2,7 @@
 
 const path = require('path');
 const CoreObject = require('core-object');
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const MockProject = require('../../helpers/mock-project');
 const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
@@ -183,11 +183,11 @@ describe('test command', function () {
     let buildCleanupWasCalled;
     beforeEach(function () {
       buildCleanupWasCalled = false;
-      options.Builder = CoreObject.extend({
+      options.Builder = class Builder extends CoreObject {
         cleanup() {
           buildCleanupWasCalled = true;
-        },
-      });
+        }
+      };
       options.Watcher = class Watcher extends CoreObject {
         static build() {
           return { watcher: new this(...arguments) };

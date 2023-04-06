@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const isLazyEngine = require(`../../../lib/utilities/is-lazy-engine`);
 
 describe('Unit | is-lazy-engine', function () {

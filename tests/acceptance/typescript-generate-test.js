@@ -1,11 +1,8 @@
 'use strict';
 
-const util = require('util');
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
-let outputFile = util.promisify(fs.outputFile);
+const { outputFile, remove, writeJson } = require('fs-extra');
 const path = require('path');
-let remove = util.promisify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
@@ -13,9 +10,8 @@ const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/di
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { expect } = require('chai');
+const { file } = require('chai-files');
 
 describe('Acceptance: ember generate with typescript blueprints', function () {
   this.timeout(20000);
@@ -87,7 +83,7 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
 
   it('outputs typescript when isTypeScriptProject is true', async function () {
     await initApp();
-    await fs.writeJSON('.ember-cli', {
+    await writeJson('.ember-cli', {
       isTypeScriptProject: true,
     });
 
@@ -132,7 +128,7 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
 
   it('outputs typescript {typescript: true} is present in .ember-cli', async function () {
     await initApp();
-    await fs.writeJSON('.ember-cli', {
+    await writeJson('.ember-cli', {
       typescript: true,
     });
 
@@ -249,7 +245,7 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
   it('does not generate typescript when the `--no-typescript` flag, even if isTypeScriptProject is true', async function () {
     await initApp();
 
-    await fs.writeJSON('.ember-cli', {
+    await writeJson('.ember-cli', {
       isTypeScriptProject: true,
     });
 

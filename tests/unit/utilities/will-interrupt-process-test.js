@@ -5,8 +5,7 @@ let MockProcess = require('../../helpers/mock-process');
 let captureExit;
 
 let td = require('testdouble');
-let chai = require('../../chai');
-let expect = chai.expect;
+const { expect } = require('chai');
 
 describe('will interrupt process', function () {
   let cb;

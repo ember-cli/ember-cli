@@ -2,7 +2,7 @@
 
 const path = require('path');
 const broccoliTestHelper = require('broccoli-test-helper');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
 const EmberApp = require('../../../../lib/broccoli/ember-app');

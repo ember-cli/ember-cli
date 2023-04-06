@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const NodeModulesList = require('../../../../lib/models/package-info-cache/node-modules-list');
 
 describe('models/package-info-cache/node-modules-list-test', function () {

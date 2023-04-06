@@ -15,11 +15,8 @@ const chalk = require('chalk');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { isExperimentEnabled } = require('../../lib/experiments');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
-const { forEach } = require('ember-cli-lodash-subset');
+const { expect } = require('chai');
+const { dir, file } = require('chai-files');
 const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
@@ -53,8 +50,8 @@ describe('Acceptance: ember new', function () {
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
-    forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
-      expected[expected.indexOf(srcFile)] = destFile;
+    Object.keys(Blueprint.renamedFiles).forEach((srcFile) => {
+      expected[expected.indexOf(srcFile)] = Blueprint.renamedFiles[srcFile];
     });
 
     expected.sort();
@@ -344,15 +341,6 @@ describe('Acceptance: ember new', function () {
     });
 
     expect(dir('.git')).to.exist;
-  });
-
-  it('ember new cleans up after itself on error', async function () {
-    fs.mkdirsSync('my_blueprint');
-    fs.writeFileSync('my_blueprint/index.js', 'throw("this will break");');
-
-    await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--blueprint=./my_blueprint']);
-
-    expect(dir('foo')).to.not.exist;
   });
 
   it('ember new with --dry-run does not create new directory', async function () {

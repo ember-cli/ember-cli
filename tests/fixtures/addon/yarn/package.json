@@ -15,6 +15,8 @@
   "scripts": {
     "build": "ember build --environment=production",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:css:fix": "concurrently \"npm:lint:css -- --fix\"",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
@@ -30,16 +32,17 @@
     "ember-cli-htmlbars": "^6.2.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.21.3",
+    "@babel/plugin-proposal-decorators": "^7.21.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^2.9.3",
     "@embroider/test-setup": "^2.1.1",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^7.6.0",
-    "ember-auto-import": "^2.6.1",
+    "concurrently": "^8.0.1",
+    "ember-auto-import": "^2.6.3",
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-dependency-checker": "^3.3.1",
     "ember-cli-inject-live-reload": "^2.1.0",
@@ -49,25 +52,29 @@
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^6.2.0",
     "ember-resolver": "^10.0.0",
-    "ember-source": "~4.11.0",
+    "ember-source": "~4.12.0",
     "ember-source-channel-url": "^3.0.0",
-    "ember-template-lint": "^5.6.0",
+    "ember-template-lint": "^5.7.2",
     "ember-try": "^2.0.0",
     "ember-welcome-page": "^7.0.1",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-ember": "^11.4.7",
-    "eslint-plugin-n": "^15.6.1",
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-ember": "^11.5.0",
+    "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-qunit": "^7.3.4",
     "loader.js": "^4.7.0",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.7",
     "qunit": "^2.19.4",
     "qunit-dom": "^2.0.0",
-    "webpack": "^5.75.0"
+    "stylelint": "^15.4.0",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^32.0.0",
+    "stylelint-prettier": "^3.0.0",
+    "webpack": "^5.78.0"
   },
   "peerDependencies": {
-    "ember-source": "^3.28.0 || ^4.0.0"
+    "ember-source": "^4.0.0"
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"

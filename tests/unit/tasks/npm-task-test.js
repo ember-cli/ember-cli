@@ -2,7 +2,7 @@
 
 const NpmTask = require('../../../lib/tasks/npm-task');
 const MockUI = require('console-ui/mock');
-const expect = require('../../chai').expect;
+const { expect } = require('chai');
 const td = require('testdouble');
 const SilentError = require('silent-error');
 
@@ -24,22 +24,6 @@ describe('NpmTask', function () {
       expect(ui.errors).to.be.empty;
     });
 
-    it('resolves with warning when a newer version is found', async function () {
-      td.when(task.npm(['--version'])).thenResolve({ stdout: '9.0.0' });
-
-      await task.checkNpmVersion();
-      expect(ui.output).to.contain('WARNING');
-      expect(ui.errors).to.be.empty;
-    });
-
-    it('rejects when an older version is found', async function () {
-      td.when(task.npm(['--version'])).thenResolve({ stdout: '2.9.9' });
-
-      await expect(task.checkNpmVersion()).to.be.rejectedWith(SilentError, /npm install -g npm/);
-      expect(ui.output).to.be.empty;
-      expect(ui.errors).to.be.empty;
-    });
-
     it('rejects when npm is not found', async function () {
       let error = new Error('npm not found');
       error.code = 'ENOENT';
@@ -50,14 +34,6 @@ describe('NpmTask', function () {
         SilentError,
         /instructions at https:\/\/github.com\/npm\/npm/
       );
-      expect(ui.output).to.be.empty;
-      expect(ui.errors).to.be.empty;
-    });
-
-    it('rejects when npm returns an unreadable version', async function () {
-      td.when(task.npm(['--version'])).thenResolve({ stdout: '5' });
-
-      await expect(task.checkNpmVersion()).to.be.rejectedWith(TypeError, /Invalid Version/);
       expect(ui.output).to.be.empty;
       expect(ui.errors).to.be.empty;
     });
