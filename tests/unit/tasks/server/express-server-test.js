@@ -17,7 +17,7 @@ const WebSocket = require('websocket').w3cwebsocket;
 const FixturifyProject = require('../../../helpers/fixturify-project');
 
 function checkMiddlewareOptions(options) {
-  expect(options).to.satisfy((option) => option.baseURL || option.rootURL);
+  expect(options).to.satisfy((option) => option.rootURL);
 }
 
 function sleep(timeout) {
@@ -1012,8 +1012,7 @@ describe('express-server', function () {
 
       it('calls processAppMiddlewares upon start', function () {
         let realOptions = {
-          baseURL: '/',
-          rootURL: undefined,
+          rootURL: '/',
           host: undefined,
           port: '1337',
         };
@@ -1026,8 +1025,7 @@ describe('express-server', function () {
 
       it('calls processAppMiddlewares upon restart', function () {
         let realOptions = {
-          baseURL: '/',
-          rootURL: undefined,
+          rootURL: '/',
           host: undefined,
           port: '1337',
         };

@@ -34,13 +34,7 @@ describe('Acceptance: ember generate in-addon', function () {
   });
 
   function initAddon(name) {
-    return ember(['addon', name, '--skip-npm', '--skip-bower']).then(addJSHint);
-  }
-
-  function addJSHint() {
-    let pkg = fs.readJsonSync('package.json');
-    pkg.devDependencies['ember-cli-jshint'] = '*';
-    fs.writeJsonSync('package.json', pkg);
+    return ember(['addon', name, '--skip-npm']);
   }
 
   function generateInAddon(args) {
@@ -114,8 +108,6 @@ describe('Acceptance: ember generate in-addon', function () {
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
     expect(file('server/mocks/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('in-addon http-mock foo-bar', async function () {
@@ -124,8 +116,6 @@ describe('Acceptance: ember generate in-addon', function () {
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
     expect(file('server/mocks/foo-bar.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('in-addon http-proxy foo', async function () {
@@ -134,8 +124,6 @@ describe('Acceptance: ember generate in-addon', function () {
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
 
     expect(file('server/proxies/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('in-addon server', async function () {

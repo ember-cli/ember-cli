@@ -63,26 +63,6 @@ describe('TestServerAddon', function () {
       });
     });
 
-    it('allows baseURL containing `+` character', function (done) {
-      mockRequest.path = '/braden/+/tests/any-old-file';
-      mockRequest.headers.accept = ['*/*'];
-      addon.serverMiddleware({
-        app,
-        options: {
-          watcher: Promise.resolve({ directory: 'nothing' }),
-          baseURL: '/braden/+',
-        },
-        finally() {
-          try {
-            expect(mockRequest.url).to.equal('/braden/+/tests/index.html');
-            done();
-          } catch (e) {
-            done(e);
-          }
-        },
-      });
-    });
-
     it('allows rootURL containing `+` character', function (done) {
       mockRequest.path = '/grayson/+/tests/any-old-file';
       mockRequest.headers.accept = ['text/html'];

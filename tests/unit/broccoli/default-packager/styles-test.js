@@ -16,7 +16,7 @@ describe('Default Packager: Styles', function () {
   let styleOutputFiles = {
     '/assets/vendor.css': [
       'vendor/font-awesome/css/font-awesome.css',
-      'bower_components/hint.css/hint.css',
+      'vendor/hint.css/hint.css',
       'vendor/1.css',
       'vendor/2.css',
       'vendor/3.css',
@@ -44,19 +44,17 @@ describe('Default Packager: Styles', function () {
       },
       templates: {},
     },
-    bower_components: {
-      'hint.css': {
-        'hint.css': '',
-      },
+    vendor: {
       '1.css': '.first {}',
       '2.css': '.second {}',
       '3.css': '.third { position: absolute; }',
-    },
-    vendor: {
       'font-awesome': {
         css: {
           'font-awesome.css': 'body { height: 100%; }',
         },
+      },
+      'hint.css': {
+        'hint.css': '',
       },
     },
   };
@@ -149,7 +147,9 @@ describe('Default Packager: Styles', function () {
     let outputFiles = output.read();
 
     expect(Object.keys(outputFiles.assets)).to.deep.equal(['extra.css', 'the-best-app-ever.css', 'vendor.css']);
-    expect(outputFiles.assets['vendor.css'].trim()).to.equal('body { height: 100%; }');
+    expect(outputFiles.assets['vendor.css'].trim()).to.equal(
+      'body { height: 100%; }\n\n.first {}\n.second {}\n.third { position: absolute; }'
+    );
     expect(outputFiles.assets['the-best-app-ever.css'].trim()).to.equal('@import "extra.css";\nhtml { height: 100%; }');
   });
 
@@ -334,12 +334,7 @@ describe('Default Packager: Styles', function () {
 
   it('prevents duplicate inclusion, maintains order: CSS', async function () {
     let importFilesMap = {
-      '/assets/vendor.css': [
-        'bower_components/1.css',
-        'bower_components/2.css',
-        'bower_components/3.css',
-        'bower_components/1.css',
-      ],
+      '/assets/vendor.css': ['vendor/1.css', 'vendor/2.css', 'vendor/3.css', 'vendor/1.css'],
     };
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',

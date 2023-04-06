@@ -46,13 +46,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'skip-bower',
-          default: false,
-          aliases: ['sb'],
-          key: 'skipBower',
-          required: false
-        },
-        {
           name: 'skip-git',
           default: false,
           aliases: ['sg'],
@@ -364,13 +357,6 @@ module.exports = {
               availableOptions: [],
               anonymousOptions: ['name'],
               overridden: false
-            },
-            {
-              name: 'vendor-shim',
-              description: 'Generates an ES6 module shim for global libraries.',
-              availableOptions: [],
-              anonymousOptions: ['name'],
-              overridden: false
             }
           ]
         }
@@ -429,13 +415,6 @@ module.exports = {
           default: false,
           aliases: ['sn'],
           key: 'skipNpm',
-          required: false
-        },
-        {
-          name: 'skip-bower',
-          default: false,
-          aliases: ['sb'],
-          key: 'skipBower',
           required: false
         },
         {
@@ -565,13 +544,6 @@ module.exports = {
           default: false,
           aliases: ['sn'],
           key: 'skipNpm',
-          required: false
-        },
-        {
-          name: 'skip-bower',
-          default: false,
-          aliases: ['sb'],
-          key: 'skipBower',
           required: false
         },
         {
@@ -719,7 +691,7 @@ module.exports = {
         },
         {
           aliases: ['lrbu'],
-          description: 'Defaults to baseURL',
+          description: 'Defaults to rootURL',
           key: 'liveReloadBaseUrl',
           name: 'live-reload-base-url',
           required: false

@@ -1,0 +1,79 @@
+# This Workflow requires a GITHUB_AUTH token that can push to the editor output repos
+# - https://github.com/ember-cli/ember-addon-output
+# - https://github.com/ember-cli/ember-new-output
+# - https://github.com/ember-cli/editor-output
+#
+# NOTE:
+#   ember-addon-output and ember-new-output have tags for each release, as well as branches
+#   for each lts, master (beta), and stable (release)
+#
+#   editor-output has a branch per-editor / scenario.
+#   so branches form the pattern ${service}-{addon|app}-output{-typescript ?}
+name: Sync Output Repos
+
+on:
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-only-when-a-push-of-specific-tags-occurs
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushbranchestagsbranches-ignoretags-ignore
+  push:
+    # for addon and new output
+    tags:
+      - 'v*'
+
+# https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+# https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+#
+#  GITHUB_REF      - github.ref      - refs/tags/<tag-name>
+#  GITHUB_REF_NAME - github.ref_name - <tag-name>
+#  GITHUB_REF_TYPE - github.ref_type - branch or tag
+
+env:
+  GIT_NAME: 'github-actions[bot]'
+  GIT_EMAIL: 'github-actions+bot@users.noreply.github.com'
+
+jobs:
+  push-addon-app:
+    name: "Push to addon/app output repos"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile --non-interactive
+      - name: "Configure Git"
+        run: |
+          git config --global user.name "${{ env.GIT_NAME }}"
+          git config --global user.email "${{ env.GIT_EMAIL }}"
+      - run: node ./dev/update-output-repos.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
+  push-editors:
+    name: "Push to editor output repos (${{ matrix.variant }})"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: ["javascript", "typescript"]
+
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile --non-interactive
+      - name: "Configure Git"
+        run: |
+          git config --global user.name "${{ env.GIT_NAME }}"
+          git config --global user.email "${{ env.GIT_EMAIL }}"
+      - name: Publish ${{ matrix.variant }} branches
+        run: node ./dev/update-editor-output-repos.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          VARIANT: ${{ matrix.variant }}

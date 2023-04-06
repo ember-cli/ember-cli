@@ -38,13 +38,7 @@ describe('Acceptance: ember generate pod', function () {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']).then(addJSHint);
-  }
-
-  function addJSHint() {
-    let pkg = fs.readJsonSync('package.json');
-    pkg.devDependencies['ember-cli-jshint'] = '*';
-    fs.writeJsonSync('package.json', pkg);
+    return ember(['init', '--name=my-app', '--skip-npm']);
   }
 
   function generate(args) {
@@ -82,8 +76,6 @@ describe('Acceptance: ember generate pod', function () {
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
     expect(file('server/mocks/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('http-mock foo-bar --pod', async function () {
@@ -92,8 +84,6 @@ describe('Acceptance: ember generate pod', function () {
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
     expect(file('server/mocks/foo-bar.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('http-proxy foo --pod', async function () {
@@ -102,8 +92,6 @@ describe('Acceptance: ember generate pod', function () {
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
 
     expect(file('server/proxies/foo.js').content).to.matchSnapshot();
-
-    expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
   it('uses blueprints from the project directory', async function () {

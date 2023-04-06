@@ -50,6 +50,4 @@ ember generate [33m<blueprint>[39m [36m<options...>[39m
         [90mGenerates a lib directory for in-repo addons.[39m
       server [33m<name>[39m
         [90mGenerates a server directory for mocks and proxies.[39m
-      vendor-shim [33m<name>[39m
-        [90mGenerates an ES6 module shim for global libraries.[39m
 

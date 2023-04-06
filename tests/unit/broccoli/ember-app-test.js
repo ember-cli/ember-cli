@@ -12,8 +12,6 @@ const createBuilder = broccoliTestHelper.createBuilder;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 const MockCLI = require('../../helpers/mock-cli');
-const { isExperimentEnabled } = require('../../../lib/experiments');
-const mergeTrees = require('../../../lib/broccoli/merge-trees');
 const BroccoliMergeTrees = require('broccoli-merge-trees').MergeTrees;
 
 let EmberApp = require('../../../lib/broccoli/ember-app');
@@ -33,6 +31,18 @@ function mockTemplateRegistry(app) {
   };
 }
 
+const EMBER_SOURCE_ADDON = {
+  name: 'ember-source',
+  paths: {
+    debug: 'vendor/ember/ember.js',
+    prod: 'vendor/ember/ember.js',
+    testing: 'vendor/ember/ember-testing.js',
+  },
+  pkg: {
+    name: 'ember-source',
+  },
+};
+
 describe('EmberApp', function () {
   let project, projectPath, app, addon;
 
@@ -45,7 +55,7 @@ describe('EmberApp', function () {
       return function () {};
     };
     project.initializeAddons = function () {
-      this.addons = [];
+      this.addons = [EMBER_SOURCE_ADDON];
     };
 
     return project;
@@ -55,217 +65,6 @@ describe('EmberApp', function () {
     projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
     project = setupProject(projectPath);
   });
-
-  if (isExperimentEnabled('PACKAGER')) {
-    describe('packager hook', function () {
-      let js, input, output;
-
-      before(async function () {
-        js = await createTempDir();
-        js.write({
-          fake: {
-            javascript: '// javascript.js',
-          },
-        });
-      });
-
-      beforeEach(async function () {
-        input = await createTempDir();
-      });
-
-      afterEach(async function () {
-        await input.dispose();
-        if (output) {
-          await output.dispose();
-        }
-      });
-
-      after(async function () {
-        await js.dispose();
-      });
-
-      it('sets `_isPackageHookSupplied` to `false` if `package` hook is not a function', function () {
-        let app = new EmberApp({
-          project,
-          package: false,
-        });
-
-        expect(app._isPackageHookSupplied).to.equal(false);
-      });
-
-      it('sets `_isPackageHookSupplied` to `false` if `package` hook is not supplied', function () {
-        let app = new EmberApp({
-          project,
-        });
-
-        expect(app._isPackageHookSupplied).to.equal(false);
-      });
-
-      it('sets `_isPackageHookSupplied` to `true` if `package` hook is supplied', function () {
-        let app = new EmberApp({
-          project,
-          package: () => input.path(),
-        });
-
-        expect(app._isPackageHookSupplied).to.equal(true);
-      });
-
-      it('overrides the output of the build', async function () {
-        input.write({
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-          },
-        });
-
-        let app = new EmberApp({
-          project,
-          package: () => input.path(),
-        });
-        mockTemplateRegistry(app);
-
-        output = createBuilder(app.toTree());
-        await output.build();
-
-        let outputFiles = output.read();
-
-        expect(outputFiles).to.deep.equal({
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-          },
-        });
-      });
-
-      it('receives a full tree as an argument', async function () {
-        let appStyles = await createTempDir();
-        appStyles.write({
-          'app.css': '// css styles',
-        });
-        input.write({
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-          },
-        });
-
-        let app = new EmberApp({
-          project,
-          package: (tree) => mergeTrees([tree, input.path()]),
-          trees: {
-            styles: appStyles.path(),
-          },
-        });
-        mockTemplateRegistry(app);
-
-        app.getAppJavascript = () => js.path();
-
-        output = createBuilder(app.toTree());
-        await output.build();
-
-        let outputFiles = output.read();
-
-        expect(outputFiles).to.deep.equal({
-          'addon-tree-output': {},
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-            javascript: '// javascript.js',
-          },
-          app: {
-            styles: {
-              'app.css': '// css styles',
-            },
-          },
-          'test-project': {
-            templates: {},
-          },
-          tests: {
-            '.gitkeep': '',
-            'addon-test-support': {},
-            lint: {},
-          },
-          public: {},
-          vendor: {
-            '.gitkeep': '',
-          },
-        });
-      });
-
-      it('prints a warning if `package` is not a function and falls back to default packaging', async function () {
-        let app = new EmberApp({
-          project,
-          package: {},
-        });
-
-        app.project.ui.writeWarnLine = td.function();
-
-        app.getAppJavascript = td.function();
-        app.getAddonTemplates = td.function();
-        app.getStyles = td.function();
-        app.getTests = td.function();
-        app.getExternalTree = td.function();
-        app._legacyAddonCompile = td.function();
-        app._defaultPackager = {
-          packagePublic: td.function(),
-          packageJavascript: td.function(),
-          packageStyles: td.function(),
-          processIndex: td.function(),
-          importAdditionalAssets: td.function(),
-          packageTests: td.function(),
-        };
-
-        output = createBuilder(app.toTree());
-        await output.build();
-
-        td.verify(app.getAppJavascript(false));
-        td.verify(app.getStyles());
-        td.verify(app.getTests());
-        td.verify(app.getExternalTree());
-        td.verify(
-          app.project.ui.writeWarnLine('`package` hook must be a function, falling back to default packaging.')
-        );
-      });
-
-      it('receives transpiled ES current app tree', async function () {
-        let app = new EmberApp({
-          project,
-          package: (tree) => tree,
-        });
-        mockTemplateRegistry(app);
-
-        input.write({
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-          },
-        });
-        app.registry.add('js', {
-          name: 'fake-js-preprocessor',
-          ext: 'js',
-          toTree() {
-            return input.path();
-          },
-        });
-
-        output = createBuilder(app.toTree());
-        await output.build();
-
-        let outputFiles = output.read();
-
-        expect(outputFiles.fake).to.deep.equal({
-          dist: {
-            'foo.js': '// foo.js',
-          },
-        });
-      });
-    });
-  }
 
   describe('getStyles()', function () {
     it('can handle empty styles folders', async function () {
@@ -705,15 +504,6 @@ describe('EmberApp', function () {
       expect(project.configPath()).to.contain(path.join('app-import', 'config', 'environment'));
     });
 
-    it('should set bowerDirectory for app', function () {
-      let app = new EmberApp({
-        project,
-      });
-
-      expect(app.bowerDirectory).to.equal(project.bowerDirectory);
-      expect(app.bowerDirectory).to.equal('bower_components');
-    });
-
     it('should merge options with defaults to depth', function () {
       let app = new EmberApp(
         {
@@ -757,27 +547,20 @@ describe('EmberApp', function () {
           project,
         },
         {
-          minifyJS: {
+          minifyCSS: {
             enabled: true,
             options: {
-              exclusions: ['hey', 'you'],
+              processImport: true,
             },
           },
         }
       );
 
-      expect(app.options.minifyJS).to.deep.equal({
+      expect(app.options.minifyCSS).to.deep.equal({
         enabled: true,
         options: {
-          exclusions: ['hey', 'you'],
-          compress: {
-            // eslint-disable-next-line camelcase
-            negate_iife: false,
-            sequences: 30,
-          },
-          output: {
-            semicolons: false,
-          },
+          processImport: true,
+          relativeTo: 'assets',
         },
       });
     });
@@ -814,7 +597,7 @@ describe('EmberApp', function () {
         addonsApp = null;
         addonsAppIncluded = null;
         project.initializeAddons = function () {};
-        project.addons = [addon];
+        project.addons = [EMBER_SOURCE_ADDON, addon];
       });
 
       it('should set the app on the addons', function () {
@@ -829,44 +612,6 @@ describe('EmberApp', function () {
 
         let addon = project.addons[0];
         expect(addon.app).to.deep.equal(app);
-      });
-    });
-
-    describe('ember-resolver npm vs Bower', function () {
-      it('does not load ember-resolver.js as bower dep when ember-resolver is present in registry.availablePlugins', function () {
-        let app = new EmberApp({ project });
-        expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
-      });
-
-      it('keeps ember-resolver.js in vendorFiles when npm ember-resolver is not installed, but is present in bower.json', function () {
-        project._bowerDependencies = function () {
-          return { ember: {}, 'ember-resolver': {} };
-        };
-        let app = new EmberApp({
-          project,
-          registry: {
-            add() {},
-            availablePlugins: {},
-          },
-        });
-        expect(app.vendorFiles['ember-resolver.js'][0]).to.equal(
-          'bower_components/ember-resolver/dist/modules/ember-resolver.js'
-        );
-      });
-
-      it('removes ember-resolver.js from vendorFiles when not in bower.json and npm ember-resolver not installed', function () {
-        project._bowerDependencies = function () {
-          return { ember: {} };
-        };
-        let app = new EmberApp({
-          project,
-          registry: {
-            add() {},
-            availablePlugins: {},
-          },
-        });
-
-        expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
       });
     });
 
@@ -920,7 +665,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         let app = new EmberApp({
@@ -935,7 +680,7 @@ describe('EmberApp', function () {
         delete addon.included;
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         expect(() => {
@@ -954,7 +699,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         app = new EmberApp({
@@ -1025,9 +770,7 @@ describe('EmberApp', function () {
 
         app._defaultPackager.packageJavascript = td.function();
         app._defaultPackager.packageStyles = td.function();
-        app._legacyAddonCompile = td.function();
 
-        td.when(app._legacyAddonCompile(), { ignoreExtraArgs: true }).thenReturn('batman');
         td.when(app._defaultPackager.packageJavascript(), { ignoreExtraArgs: true }).thenReturn('batman');
         td.when(app._defaultPackager.packageStyles(), { ignoreExtraArgs: true }).thenReturn('batman');
 
@@ -1044,7 +787,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         app = new EmberApp({
@@ -1096,14 +839,12 @@ describe('EmberApp', function () {
 
         app.index = td.function();
         app.getTests = td.function();
-        app._legacyAddonCompile = td.function();
         app._defaultPackager.processTemplates = td.function();
 
         td.when(app._defaultPackager.processTemplates(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
         td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
         td.when(app.getTests(), { ignoreExtraArgs: true }).thenReturn(null);
-        td.when(app._legacyAddonCompile(), { ignoreExtraArgs: true }).thenReturn(null);
 
         expect(app.toTree()).to.equal('blap');
 
@@ -1120,7 +861,17 @@ describe('EmberApp', function () {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
         const packageContents = require(path.join(projectPath, 'package.json'));
         let cli = new MockCLI();
-        project = new Project(projectPath, packageContents, cli.ui, cli);
+        project = new (class extends Project {
+          initializeAddons() {
+            if (this._addonsInitialized) {
+              return;
+            }
+
+            super.initializeAddons();
+
+            this.addons.push(EMBER_SOURCE_ADDON);
+          }
+        })(projectPath, packageContents, cli.ui, cli);
       });
 
       afterEach(function () {
@@ -1142,7 +893,7 @@ describe('EmberApp', function () {
             emberFooEnvAddonFixture.app = app;
             expect(app._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-            expect(app.project.addons.length).to.equal(8);
+            expect(app.project.addons.length).to.equal(9);
           });
 
           it('foo', function () {
@@ -1152,86 +903,8 @@ describe('EmberApp', function () {
             emberFooEnvAddonFixture.app = app;
             expect(app._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
 
-            expect(app.project.addons.length).to.equal(9);
+            expect(app.project.addons.length).to.equal(10);
           });
-        });
-      });
-
-      describe('blacklist', function () {
-        it('prevents addons to be added to the project', function () {
-          process.env.EMBER_ENV = 'foo';
-
-          let app = new EmberApp({
-            project,
-            addons: {
-              blacklist: ['ember-foo-env-addon'],
-            },
-          });
-
-          expect(app._addonDisabledByExclude({ name: 'ember-foo-env-addon' })).to.be.true;
-          expect(app._addonDisabledByExclude({ name: 'Ember Random Addon' })).to.be.false;
-          expect(app.project.addons.length).to.equal(8);
-        });
-
-        it('throws if unavailable addon is specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-
-            new EmberApp({
-              project,
-              addons: {
-                blacklist: ['ember-cli-self-troll'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Addon "ember-cli-self-troll" defined in "blacklist" is not found');
-        });
-      });
-
-      describe('whitelist', function () {
-        it('prevents non-whitelisted addons to be added to the project', function () {
-          process.env.EMBER_ENV = 'foo';
-
-          let app = new EmberApp({
-            project,
-            addons: {
-              whitelist: ['ember-foo-env-addon'],
-            },
-          });
-
-          expect(app._addonDisabledByInclude({ name: 'ember-foo-env-addon' })).to.be.false;
-          expect(app._addonDisabledByInclude({ name: 'Ember Random Addon' })).to.be.true;
-          expect(app.project.addons.length).to.equal(1);
-        });
-
-        it('throws if unavailable addon is specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-            app = new EmberApp({
-              project,
-              addons: {
-                whitelist: ['ember-cli-self-troll'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Addon "ember-cli-self-troll" defined in "whitelist" is not found');
-        });
-      });
-
-      describe('blacklist wins over whitelist', function () {
-        it('prevents addon to be added to the project', function () {
-          process.env.EMBER_ENV = 'foo';
-          app = new EmberApp({
-            project,
-            addons: {
-              whitelist: ['ember-foo-env-addon'],
-              blacklist: ['ember-foo-env-addon'],
-            },
-          });
-
-          expect(app.project.addons.length).to.equal(0);
         });
       });
 
@@ -1248,7 +921,7 @@ describe('EmberApp', function () {
 
           expect(app._addonDisabledByExclude({ name: 'ember-foo-env-addon' })).to.be.true;
           expect(app._addonDisabledByExclude({ name: 'Ember Random Addon' })).to.be.false;
-          expect(app.project.addons.length).to.equal(8);
+          expect(app.project.addons.length).to.equal(9);
         });
 
         it('throws if unavailable addon is specified', function () {
@@ -1314,42 +987,6 @@ describe('EmberApp', function () {
           expect(app.project.addons.length).to.equal(0);
         });
       });
-
-      describe('blacklist and exclude', function () {
-        it('throws when both are specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-
-            new EmberApp({
-              project,
-              addons: {
-                blacklist: ['ember-foo-env-addon'],
-                exclude: ['ember-foo-env-addon'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Specifying both "blacklist" and "exclude" is not supported. Please use only one.');
-        });
-      });
-
-      describe('whitelist and include', function () {
-        it('throws when both are specified', function () {
-          function load() {
-            process.env.EMBER_ENV = 'foo';
-
-            new EmberApp({
-              project,
-              addons: {
-                whitelist: ['ember-foo-env-addon'],
-                include: ['ember-foo-env-addon'],
-              },
-            });
-          }
-
-          expect(load).to.throw('Specifying both "whitelist" and "include" is not supported. Please use only one.');
-        });
-      });
     });
 
     describe('addon instance bundle caching validation (when used within the project)', function () {
@@ -1364,66 +1001,6 @@ describe('EmberApp', function () {
         fixturifyProject.dispose();
       });
 
-      it('throws an error if an addon `whitelist` is specified', function () {
-        fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
-        fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
-          callback: (inRepoAddon) => {
-            inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
-          },
-        });
-
-        fixturifyProject.writeSync();
-
-        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
-        projectWithBundleCaching.initializeAddons();
-
-        expect(() => {
-          new EmberApp({
-            project: projectWithBundleCaching,
-            addons: {
-              whitelist: ['foo'],
-            },
-          });
-        }).to.throw(
-          [
-            '[ember-cli] addon bundle caching is disabled for apps that specify an addon "whitelist"',
-            '',
-            'All addons using bundle caching:',
-            projectWithBundleCaching.addons.find((addon) => addon.name === 'foo').packageRoot,
-          ].join('\n')
-        );
-      });
-
-      it('throws an error if an addon `blacklist` is specified', function () {
-        fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
-        fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
-          callback: (inRepoAddon) => {
-            inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
-          },
-        });
-
-        fixturifyProject.writeSync();
-
-        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
-        projectWithBundleCaching.initializeAddons();
-
-        expect(() => {
-          new EmberApp({
-            project: projectWithBundleCaching,
-            addons: {
-              blacklist: ['foo'],
-            },
-          });
-        }).to.throw(
-          [
-            '[ember-cli] addon bundle caching is disabled for apps that specify an addon "blacklist"',
-            '',
-            'All addons using bundle caching:',
-            projectWithBundleCaching.addons.find((addon) => addon.name === 'foo').packageRoot,
-          ].join('\n')
-        );
-      });
-
       it('throws an error if an addon `include` is specified', function () {
         fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
         fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
@@ -1436,6 +1013,7 @@ describe('EmberApp', function () {
 
         let projectWithBundleCaching = fixturifyProject.buildProjectModel();
         projectWithBundleCaching.initializeAddons();
+        projectWithBundleCaching.addons.push(EMBER_SOURCE_ADDON);
 
         expect(() => {
           new EmberApp({
@@ -1466,6 +1044,7 @@ describe('EmberApp', function () {
 
         let projectWithBundleCaching = fixturifyProject.buildProjectModel();
         projectWithBundleCaching.initializeAddons();
+        projectWithBundleCaching.addons.push(EMBER_SOURCE_ADDON);
 
         expect(() => {
           new EmberApp({
@@ -1492,7 +1071,7 @@ describe('EmberApp', function () {
         };
 
         project.initializeAddons = function () {
-          this.addons = [addon];
+          this.addons = [EMBER_SOURCE_ADDON, addon];
         };
 
         app = new EmberApp({
@@ -1621,39 +1200,7 @@ describe('EmberApp', function () {
   });
 
   describe('vendorFiles', function () {
-    let defaultVendorFiles = ['jquery.js', 'ember.js', 'app-shims.js'];
-
-    describe('handlebars.js', function () {
-      it('does not app.import handlebars if not present in bower.json', function () {
-        let app = new EmberApp({
-          project,
-        });
-
-        expect(app.vendorFiles).not.to.include.keys('handlebars.js');
-      });
-
-      it('includes handlebars if present in bower.json', function () {
-        projectPath = path.resolve(__dirname, '../../fixtures/project-with-handlebars');
-        project = setupProject(projectPath);
-
-        let app = new EmberApp({
-          project,
-        });
-
-        expect(app.vendorFiles).to.include.keys('handlebars.js');
-      });
-
-      it('includes handlebars if present in provided `vendorFiles`', function () {
-        let app = new EmberApp({
-          project,
-          vendorFiles: {
-            'handlebars.js': 'some/path/whatever.js',
-          },
-        });
-
-        expect(app.vendorFiles).to.include.keys('handlebars.js');
-      });
-    });
+    let defaultVendorFiles = ['ember.js', 'ember-testing.js'];
 
     it('defines vendorFiles by default', function () {
       app = new EmberApp({
@@ -1684,69 +1231,16 @@ describe('EmberApp', function () {
       expect(Object.keys(app.vendorFiles)).to.deep.equal(defaultVendorFiles);
     });
 
-    it('does not include jquery if the app has `@ember/jquery` installed', function () {
-      project.initializeAddons = function () {
-        this.addons = [{ name: '@ember/jquery' }];
-      };
-      app = new EmberApp({ project });
-      let filesWithoutJQuery = defaultVendorFiles.filter((e) => e !== 'jquery.js');
-      expect(Object.keys(app.vendorFiles)).to.deep.equal(filesWithoutJQuery);
-    });
-
-    it('does not include jquery if the app has `@ember/optional-features` with the `jquery-integration` FF turned off', function () {
-      project.initializeAddons = function () {
-        this.addons = [
-          {
-            name: 'ember-source',
-            paths: { jquery: 'foo', testing: null },
-          },
-          {
-            name: '@ember/optional-features',
-            isFeatureEnabled() {
-              return false;
-            },
-          },
-        ];
-      };
-      app = new EmberApp({ project, vendorFiles: { 'ember-testing.js': null } });
-      let filesWithoutJQuery = defaultVendorFiles.filter((e) => e !== 'jquery.js');
-      expect(Object.keys(app.vendorFiles)).to.deep.equal(filesWithoutJQuery);
-    });
-
     it('removes dependency in vendorFiles', function () {
       app = new EmberApp({
         project,
 
         vendorFiles: {
           'ember.js': null,
-          'handlebars.js': null,
         },
       });
       let vendorFiles = Object.keys(app.vendorFiles);
       expect(vendorFiles).to.not.contain('ember.js');
-      expect(vendorFiles).to.not.contain('handlebars.js');
-    });
-
-    it('defaults to ember.debug.js if exists in bower_components', function () {
-      let root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
-
-      app = new EmberApp({
-        project: setupProject(root),
-      });
-
-      let files = app.vendorFiles['ember.js'];
-      expect(files.development).to.equal('bower_components/ember/ember.debug.js');
-    });
-
-    it('switches the default ember.debug.js to ember.js if it does not exist', function () {
-      let root = path.resolve(__dirname, '../../fixtures/app/without-ember-debug');
-
-      app = new EmberApp({
-        project: setupProject(root),
-      });
-
-      let files = app.vendorFiles['ember.js'];
-      expect(files.development).to.equal('bower_components/ember/ember.js');
     });
 
     it('does not clobber an explicitly configured ember development file', function () {
@@ -1851,78 +1345,15 @@ describe('EmberApp', function () {
         app.import('files/d.css', { type: 'test' });
         app.import('files/d.css', { type: 'test' });
 
-        expect(app.legacyTestFilesToAppend).to.deep.equal(['files/d.js', 'files/a.js', 'files/b.js', 'files/c.js']);
+        expect(app.legacyTestFilesToAppend).to.deep.equal([
+          'files/d.js',
+          'files/a.js',
+          'vendor/ember/ember-testing.js',
+          'files/b.js',
+          'files/c.js',
+        ]);
 
         expect(app.vendorTestStaticStyles).to.deep.equal(['files/a.css', 'files/b.css', 'files/c.css', 'files/d.css']);
-      });
-    });
-  });
-
-  describe('deprecations', function () {
-    it('shows ember-cli-shims deprecation', function () {
-      let root = path.resolve(__dirname, '../../fixtures/app/npm');
-      let project = setupProject(root);
-      project.require = function () {
-        return {
-          version: '5.0.0',
-        };
-      };
-      project.initializeAddons = function () {
-        this.addons = [
-          {
-            name: 'ember-cli-babel',
-            pkg: { version: '5.0.0' },
-          },
-        ];
-      };
-
-      app = new EmberApp({
-        project,
-      });
-
-      expect(project.ui.output).to.contain(
-        "You have not included `ember-cli-shims` in your project's `bower.json` or `package.json`."
-      );
-    });
-
-    describe('jQuery integration', function () {
-      it('shows deprecation', function () {
-        project.initializeAddons = function () {
-          this.addons = [{ name: 'ember-source', paths: {} }];
-        };
-        app = new EmberApp({ project });
-
-        expect(project.ui.output).to.contain(
-          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
-        );
-      });
-
-      it('does not show deprecation if the app has `@ember/jquery` installed', function () {
-        project.initializeAddons = function () {
-          this.addons = [{ name: 'ember-source', paths: {} }, { name: '@ember/jquery' }];
-        };
-        app = new EmberApp({ project });
-        expect(project.ui.output).to.not.contain(
-          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
-        );
-      });
-
-      it('does not show deprecation if the app has `@ember/optional-features` with the `jquery-integration` FF turned off', function () {
-        project.initializeAddons = function () {
-          this.addons = [
-            { name: 'ember-source', paths: {} },
-            {
-              name: '@ember/optional-features',
-              isFeatureEnabled() {
-                return false;
-              },
-            },
-          ];
-        };
-        app = new EmberApp({ project, vendorFiles: { 'ember-testing.js': null } });
-        expect(project.ui.output).to.not.contain(
-          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
-        );
       });
     });
   });
