@@ -18,9 +18,6 @@ on:
     # for addon and new output
     tags:
       - 'v*'
-    # for editor output
-    branches:
-      - 'release-*'
 
 # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
 # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
@@ -36,7 +33,6 @@ env:
 jobs:
   push-addon-app:
     name: "Push to addon/app output repos"
-    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
 
     steps:
@@ -57,7 +53,6 @@ jobs:
 
   push-editors:
     name: "Push to editor output repos (${{ matrix.variant }})"
-    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
