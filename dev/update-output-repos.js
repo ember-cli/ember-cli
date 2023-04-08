@@ -1,14 +1,12 @@
 'use strict';
 
+const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
 const execa = require('execa');
 const tmp = require('tmp');
+const latestVersion = require('latest-version');
 tmp.setGracefulCleanup();
-
-const currentVersion = require('../package').version;
-const EMBER_PATH = require.resolve('../bin/ember');
-const isStable = !currentVersion.includes('-beta');
 
 let tmpdir = tmp.dirSync();
 
@@ -18,11 +16,19 @@ if (!GITHUB_TOKEN) {
   throw new Error('GITHUB_TOKEN must be set');
 }
 
-async function updateRepo(repoName) {
+async function updateRepo(repoName, tag) {
+  let latestEC = await latestVersion('ember-cli');
+  let latestECBeta = await latestVersion('ember-cli', { version: 'beta' });
+
   let command = repoName === 'ember-new-output' ? 'new' : 'addon';
   let name = repoName === 'ember-new-output' ? 'my-app' : 'my-addon';
   let outputRepoPath = path.join(tmpdir.name, repoName);
+  let isStable = !tag.includes('-beta');
 
+  /**
+    * If we always push to either stable or master, how to re re-run old branches?
+    * do we need to change how this works?
+    */
   let outputRepoBranch = isStable ? 'stable' : 'master';
   let shouldUpdateMasterFromStable = currentVersion.endsWith('-beta.1');
   let branchToClone = shouldUpdateMasterFromStable ? 'stable' : outputRepoBranch;
@@ -43,7 +49,7 @@ async function updateRepo(repoName) {
 
   let updatedOutputTmpDir = tmp.dirSync();
   console.log(`Running ember ${command} ${name}`);
-  await execa(EMBER_PATH, [command, name, `--skip-npm`, `--skip-git`], {
+  await execa('npx', [`ember-cli@${tag}`, command, name, `--skip-npm`, `--skip-git`], {
     cwd: updatedOutputTmpDir.name,
   });
 
@@ -66,9 +72,13 @@ async function updateRepo(repoName) {
   await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
 }
 
-async function main() {
-  await updateRepo('ember-new-output');
-  await updateRepo('ember-addon-output');
+async function main(tag) {
+  await updateRepo('ember-new-output', tag);
+  await updateRepo('ember-addon-output', tag);
 }
 
-main();
+const [, , tag] = process.argv;
+
+assert(tag, 'a tag must be provided as the first argument to this script.');
+
+main(tag);

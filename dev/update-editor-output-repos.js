@@ -81,7 +81,7 @@ async function updateOnlineEditorRepos(tag) {
     console.log(`Running ember ${command} ${name} (for ${VARIANT})`);
     await execa(
       'npx',
-      ['ember-cli', command, name, `--skip-npm`, `--skip-git`, ...(isTypeScript ? ['--typescript'] : [])],
+      [`ember-cli@${tag}`, command, name, `--skip-npm`, `--skip-git`, ...(isTypeScript ? ['--typescript'] : [])],
       {
         cwd: updatedOutputTmpDir.name,
         env: {
