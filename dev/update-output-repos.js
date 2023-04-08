@@ -20,17 +20,16 @@ async function updateRepo(repoName, tag) {
   let latestEC = await latestVersion('ember-cli');
   let latestECBeta = await latestVersion('ember-cli', { version: 'beta' });
 
+  let isLatest = tag === `v${latestEC}`;
+  let isLatestBeta = tag === `v${latestECBeta}`;
+
   let command = repoName === 'ember-new-output' ? 'new' : 'addon';
   let name = repoName === 'ember-new-output' ? 'my-app' : 'my-addon';
   let outputRepoPath = path.join(tmpdir.name, repoName);
   let isStable = !tag.includes('-beta');
 
-  /**
-    * If we always push to either stable or master, how to re re-run old branches?
-    * do we need to change how this works?
-    */
   let outputRepoBranch = isStable ? 'stable' : 'master';
-  let shouldUpdateMasterFromStable = currentVersion.endsWith('-beta.1');
+  let shouldUpdateMasterFromStable = tag.endsWith('-beta.1');
   let branchToClone = shouldUpdateMasterFromStable ? 'stable' : outputRepoBranch;
 
   console.log(`cloning ${repoName}`);
@@ -64,12 +63,16 @@ async function updateRepo(repoName, tag) {
 
   console.log('commiting updates');
   await execa('git', ['add', '--all'], { cwd: outputRepoPath });
-  await execa('git', ['commit', '-m', currentVersion], { cwd: outputRepoPath });
-  await execa('git', ['tag', `v${currentVersion}`], { cwd: outputRepoPath });
+  await execa('git', ['commit', '-m', tag], { cwd: outputRepoPath });
+  await execa('git', ['tag', `${tag}`], { cwd: outputRepoPath });
 
   console.log('pushing commit & tag');
-  await execa('git', ['push', 'origin', `v${currentVersion}`], { cwd: outputRepoPath });
-  await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
+  await execa('git', ['push', 'origin', `${tag}`], { cwd: outputRepoPath });
+
+  // Only push thihs branch if we are using an up-to-date tag
+  if ((isStable && isLatest) || (!isStable && isLatestBeta)) {
+    await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
+  }
 }
 
 async function main(tag) {
