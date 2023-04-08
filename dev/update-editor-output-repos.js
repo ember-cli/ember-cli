@@ -26,10 +26,10 @@ async function updateOnlineEditorRepos() {
   }
 
   if (!VALID_VARIANT.includes(VARIANT)) {
-    throw new Error(`Invalid VARIANT specified: ${VARIANT}`);
+    throw new Error(`Invalid VARIANT specified: ${VARIANT}.`);
   }
 
-  let repo = `https://${GITHUB_TOKEN}@github.com/ember-cli/editor-output.git`;
+  let repo = `https://github-actions:${GITHUB_TOKEN}@github.com/ember-cli/editor-output.git`;
   let onlineEditors = ['stackblitz'];
 
   for (let command of ['new', 'addon']) {
