@@ -13,6 +13,7 @@ const ONLINE_EDITOR_FILES = path.join(__dirname, 'online-editors');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const VARIANT = process.env.VARIANT;
 const VALID_VARIANT = ['javascript', 'typescript'];
+const EDITORS = ['stackblitz'];
 
 if (!GITHUB_TOKEN) {
   throw new Error('GITHUB_TOKEN must be set');
@@ -42,6 +43,66 @@ if (!GITHUB_TOKEN) {
  *    - a function that returns a list of objects containing the information
  *    - have a single loop that iterates over that doing all the git stuff
  */
+
+/**
+ * Returns an array of objects containing config for operations to attempt.
+ * This allows for reduced nesting / conditionals when working with the file system and git
+ *
+ * This also allows for easier debugging, reproducibility, testing (if we ever add that), etc
+ */
+async function determineOutputs(version) {
+  let tag = `v${version}`;
+  let latestEC = await latestVersion('ember-cli');
+  let isLatest = version === latestEC;
+  let repo = `https://github-actions:${GITHUB_TOKEN}@github.com/${REPO}.git`;
+
+  let result = [];
+
+  for (let command of ['new', 'addon']) {
+    let isTypeScript = VARIANT === 'typescript';
+    let branchSuffix = isTypeScript ? '-typescript' : '';
+
+    /**
+     * If we're working with the latest tag, we want to update the default
+     * branch for an editor as well as the tagged version.
+     */
+    let getBranches = (onlineEditor, projectType) => {
+      let editorBranch = `${onlineEditor}-${projectType}-output${branchSuffix}`;
+
+      if (isLatest) {
+        return [editorBranch, `${editorBranch}-${tag}`];
+      }
+
+      return [`${editorBranch}-${tag}`];
+    };
+
+    let name = command === 'new' ? 'my-app' : 'my-addon';
+    let projectType = command === 'new' ? 'app' : 'addon';
+
+    for (let onlineEditor of EDITORS) {
+      let branches = getBranches(onlineEditor, projectType);
+
+      for (let editorBranch of branches) {
+        result.push({
+          variant: VARIANT,
+          isLatest,
+          isTypeScript,
+          tag,
+          version,
+          command,
+          name,
+          projectType,
+          repo,
+          onlineEditor,
+          branch: editorBranch,
+        });
+      }
+    }
+  }
+
+  return result;
+}
+
 async function updateOnlineEditorRepos(tag) {
   let latestEC = await latestVersion('ember-cli');
   let isLatest = tag === `v${latestEC}`;
