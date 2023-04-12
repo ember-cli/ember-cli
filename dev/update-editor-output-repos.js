@@ -6,6 +6,8 @@ const path = require('path');
 const execa = require('execa');
 const tmp = require('tmp');
 const latestVersion = require('latest-version');
+const { cloneBranch, clearRepo, generateOutputFiles } = require('./output-repo-helpers');
+
 tmp.setGracefulCleanup();
 
 const ONLINE_EDITOR_FILES = path.join(__dirname, 'online-editors');
@@ -43,11 +45,6 @@ assert(version, 'a version must be provided as the first argument to this script
  *    * 2 project types (app and addon)
  *      * # of supported editors with custom configurations
  *   (4 at the time of writing)
- *
- *
- *   TODO: flatten the triple-nested for loop into
- *    - a function that returns a list of objects containing the information
- *    - have a single loop that iterates over that doing all the git stuff
  */
 
 /**
@@ -109,72 +106,31 @@ async function determineOutputs(version) {
   return result;
 }
 
-async function updateOnlineEditorRepos(tag) {
+async function push(repoPath, { branch }) {
+  console.log('pushing commit');
+
+  try {
+    await execa('git', ['push', '--force', 'origin', branch], { cwd: repoPath });
+  } catch (e) {
+    // branch may not exist yet
+    await execa('git', ['push', '-u', 'origin', branch], { cwd: repoPath });
+  }
+}
+
+async function updateOnlineEditorRepos(version) {
   let infos = await determineOutputs(version);
 
+  console.log(`Updating online editor repo :: ${infos.length} branches`);
+
   for (let info of infos) {
-    let updatedOutputTmpDir = tmp.dirSync();
-    console.log(`Running ember ${info.command} ${info.name} (for ${VARIANT})`);
-    await execa(
-      'npx',
-      [
-        `ember-cli@${tag}`,
-        info.command,
-        info.name,
-        `--skip-npm`,
-        `--skip-git`,
-        ...(info.isTypeScript ? ['--typescript'] : []),
-      ],
-      {
-        cwd: updatedOutputTmpDir.name,
-        env: {
-          /**
-           * using --typescript triggers npm's peer resolution features,
-           * and since we don't know if the npm package has been released yet,
-           * (and therefor) generate the project using the local ember-cli,
-           * the ember-cli version may not exist yet.
-           *
-           * We need to tell npm to ignore peers and just "let things be".
-           * Especially since we don't actually care about npm running,
-           * and just want the typescript files to generate.
-           *
-           * See this related issue: https://github.com/ember-cli/ember-cli/issues/10045
-           */
-          // eslint-disable-next-line camelcase
-          npm_config_legacy_peer_deps: 'true',
-        },
-      }
-    );
-
-    // node_modules is .gitignored, but since we already need to remove package-lock.json due to #10045,
-    // we may as well remove node_modules as while we're at it, just in case.
-    await execa('rm', ['-rf', 'node_modules', 'package-lock.json'], { cwd: updatedOutputTmpDir.name });
-
-    let generatedOutputPath = path.join(updatedOutputTmpDir.name, info.name);
+    let generatedOutputPath = await generateOutputFiles(info);
 
     let tmpdir = tmp.dirSync();
     await fs.mkdirp(tmpdir.name);
-    let outputRepoPath = path.join(tmpdir.name, 'editor-output');
 
-    console.log(`cloning ${info.repo} in to ${tmpdir.name}`);
-    try {
-      await execa('git', ['clone', info.repo, `--branch=${info.branch}`], {
-        cwd: tmpdir.name,
-      });
-    } catch (e) {
-      // branch may not exist yet
-      await execa('git', ['clone', info.repo], {
-        cwd: tmpdir.name,
-      });
-    }
+    let outputRepoPath = await cloneBranch(tmpdir.name, info);
 
-    console.log('preparing updates for online editors');
-    await execa('git', ['switch', '-C', info.branch], { cwd: outputRepoPath });
-
-    console.log(`clearing ${info.repo} in ${outputRepoPath}`);
-    await execa(`git`, [`rm`, `-rf`, `.`], {
-      cwd: outputRepoPath,
-    });
+    await clearRepo(outputRepoPath);
 
     console.log('copying generated contents to output repo');
     await fs.copy(generatedOutputPath, outputRepoPath);
@@ -184,15 +140,9 @@ async function updateOnlineEditorRepos(tag) {
 
     console.log('commiting updates');
     await execa('git', ['add', '--all'], { cwd: outputRepoPath });
-    await execa('git', ['commit', '-m', tag], { cwd: outputRepoPath });
+    await execa('git', ['commit', '-m', info.tag], { cwd: outputRepoPath });
 
-    console.log('pushing commit');
-    try {
-      await execa('git', ['push', '--force', 'origin', info.branch], { cwd: outputRepoPath });
-    } catch (e) {
-      // branch may not exist yet
-      await execa('git', ['push', '-u', 'origin', info.branch], { cwd: outputRepoPath });
-    }
+    await push(outputRepoPath, info);
   }
 }
 
