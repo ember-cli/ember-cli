@@ -109,45 +109,21 @@ async function determineOutputs(version) {
 }
 
 async function updateOnlineEditorRepos(tag) {
-  let latestEC = await latestVersion('ember-cli');
-  let isLatest = tag === `v${latestEC}`;
+  let infos = await determineOutputs(version);
 
-  if (!VALID_VARIANT.includes(VARIANT)) {
-    throw new Error(`Invalid VARIANT specified: ${VARIANT}`);
-  }
-
-  let repo = `https://${GITHUB_TOKEN}@github.com/ember-cli/editor-output.git`;
-  let onlineEditors = ['stackblitz'];
-
-  for (let command of ['new', 'addon']) {
-    let isTypeScript = VARIANT === 'typescript';
-    let branchSuffix = isTypeScript ? '-typescript' : '';
-
-    /**
-     * If we're working with the latest tag, we want to update the default
-     * branch for an editor as well as the tagged version.
-     */
-    let getBranches = (onlineEditor, projectType) => {
-      let editorBranch = `${onlineEditor}-${projectType}-output${branchSuffix}`;
-
-      if (isLatest) {
-        return [editorBranch, `${editorBranch}-${tag}`];
-      }
-
-      return [`${editorBranch}-${tag}`];
-    };
-
-    let tmpdir = tmp.dirSync();
-    await fs.mkdirp(tmpdir.name);
-
-    let name = command === 'new' ? 'my-app' : 'my-addon';
-    let projectType = command === 'new' ? 'app' : 'addon';
-
+  for (let info of infos) {
     let updatedOutputTmpDir = tmp.dirSync();
-    console.log(`Running ember ${command} ${name} (for ${VARIANT})`);
+    console.log(`Running ember ${info.command} ${info.name} (for ${VARIANT})`);
     await execa(
       'npx',
-      [`ember-cli@${tag}`, command, name, `--skip-npm`, `--skip-git`, ...(isTypeScript ? ['--typescript'] : [])],
+      [
+        `ember-cli@${tag}`,
+        info.command,
+        info.name,
+        `--skip-npm`,
+        `--skip-git`,
+        ...(info.isTypeScript ? ['--typescript'] : []),
+      ],
       {
         cwd: updatedOutputTmpDir.name,
         env: {
@@ -173,52 +149,48 @@ async function updateOnlineEditorRepos(tag) {
     // we may as well remove node_modules as while we're at it, just in case.
     await execa('rm', ['-rf', 'node_modules', 'package-lock.json'], { cwd: updatedOutputTmpDir.name });
 
-    let generatedOutputPath = path.join(updatedOutputTmpDir.name, name);
+    let generatedOutputPath = path.join(updatedOutputTmpDir.name, info.name);
 
-    for (let onlineEditor of onlineEditors) {
-      let branches = getBranches(onlineEditor, projectType);
+    let tmpdir = tmp.dirSync();
+    await fs.mkdirp(tmpdir.name);
+    let outputRepoPath = path.join(tmpdir.name, 'editor-output');
 
-      for (let editorBranch of branches) {
-        let outputRepoPath = path.join(tmpdir.name, 'editor-output');
+    console.log(`cloning ${info.repo} in to ${tmpdir.name}`);
+    try {
+      await execa('git', ['clone', info.repo, `--branch=${info.branch}`], {
+        cwd: tmpdir.name,
+      });
+    } catch (e) {
+      // branch may not exist yet
+      await execa('git', ['clone', info.repo], {
+        cwd: tmpdir.name,
+      });
+    }
 
-        console.log(`cloning ${repo} in to ${tmpdir.name}`);
-        try {
-          await execa('git', ['clone', repo, `--branch=${editorBranch}`], {
-            cwd: tmpdir.name,
-          });
-        } catch (e) {
-          // branch may not exist yet
-          await execa('git', ['clone', repo], {
-            cwd: tmpdir.name,
-          });
-        }
+    console.log('preparing updates for online editors');
+    await execa('git', ['switch', '-C', info.branch], { cwd: outputRepoPath });
 
-        console.log('preparing updates for online editors');
-        await execa('git', ['switch', '-C', editorBranch], { cwd: outputRepoPath });
+    console.log(`clearing ${info.repo} in ${outputRepoPath}`);
+    await execa(`git`, [`rm`, `-rf`, `.`], {
+      cwd: outputRepoPath,
+    });
 
-        console.log(`clearing ${repo} in ${outputRepoPath}`);
-        await execa(`git`, [`rm`, `-rf`, `.`], {
-          cwd: outputRepoPath,
-        });
+    console.log('copying generated contents to output repo');
+    await fs.copy(generatedOutputPath, outputRepoPath);
 
-        console.log('copying generated contents to output repo');
-        await fs.copy(generatedOutputPath, outputRepoPath);
+    console.log('copying online editor files');
+    await fs.copy(path.join(ONLINE_EDITOR_FILES, info.onlineEditor), outputRepoPath);
 
-        console.log('copying online editor files');
-        await fs.copy(path.join(ONLINE_EDITOR_FILES, onlineEditor), outputRepoPath);
+    console.log('commiting updates');
+    await execa('git', ['add', '--all'], { cwd: outputRepoPath });
+    await execa('git', ['commit', '-m', tag], { cwd: outputRepoPath });
 
-        console.log('commiting updates');
-        await execa('git', ['add', '--all'], { cwd: outputRepoPath });
-        await execa('git', ['commit', '-m', tag], { cwd: outputRepoPath });
-
-        console.log('pushing commit');
-        try {
-          await execa('git', ['push', '--force', 'origin', editorBranch], { cwd: outputRepoPath });
-        } catch (e) {
-          // branch may not exist yet
-          await execa('git', ['push', '-u', 'origin', editorBranch], { cwd: outputRepoPath });
-        }
-      }
+    console.log('pushing commit');
+    try {
+      await execa('git', ['push', '--force', 'origin', info.branch], { cwd: outputRepoPath });
+    } catch (e) {
+      // branch may not exist yet
+      await execa('git', ['push', '-u', 'origin', info.branch], { cwd: outputRepoPath });
     }
   }
 }
