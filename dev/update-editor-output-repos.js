@@ -14,10 +14,15 @@ const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const VARIANT = process.env.VARIANT;
 const VALID_VARIANT = ['javascript', 'typescript'];
 const EDITORS = ['stackblitz'];
+const [, , version] = process.argv;
 
-if (!GITHUB_TOKEN) {
-  throw new Error('GITHUB_TOKEN must be set');
-}
+assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
+assert(
+  VALID_VARIANT.includes(VARIANT),
+  `Invalid VARIANT env var specified: ${VARIANT}. Must be one of ${VALID_VARIANT}`
+);
+
+assert(version, 'a version must be provided as the first argument to this script.');
 
 /**
  * The editor output repos differ from the output repos in that
@@ -218,8 +223,4 @@ async function updateOnlineEditorRepos(tag) {
   }
 }
 
-const [, , tag] = process.argv;
-
-assert(tag, 'a tag must be provided as the first argument to this script.');
-
-updateOnlineEditorRepos(tag);
+updateOnlineEditorRepos(version);
