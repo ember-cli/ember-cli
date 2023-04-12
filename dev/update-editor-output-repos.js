@@ -14,6 +14,7 @@ const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const VARIANT = process.env.VARIANT;
 const VALID_VARIANT = ['javascript', 'typescript'];
 const EDITORS = ['stackblitz'];
+const REPO = 'ember-cli/editor-output';
 const [, , version] = process.argv;
 
 assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
