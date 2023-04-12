@@ -11,10 +11,10 @@ tmp.setGracefulCleanup();
 let tmpdir = tmp.dirSync();
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const [, , version] = process.argv;
 
-if (!GITHUB_TOKEN) {
-  throw new Error('GITHUB_TOKEN must be set');
-}
+assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
+assert(version, 'a version must be provided as the first argument to this script.');
 
 async function updateRepo(repoName, tag) {
   let latestEC = await latestVersion('ember-cli');
@@ -75,13 +75,9 @@ async function updateRepo(repoName, tag) {
   }
 }
 
-async function main(tag) {
-  await updateRepo('ember-new-output', tag);
-  await updateRepo('ember-addon-output', tag);
+async function main(version) {
+  await updateRepo('ember-new-output', version);
+  await updateRepo('ember-addon-output', version);
 }
 
-const [, , tag] = process.argv;
-
-assert(tag, 'a tag must be provided as the first argument to this script.');
-
-main(tag);
+main(version);
