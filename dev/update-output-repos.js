@@ -2,13 +2,11 @@
 
 const assert = require('assert');
 const fs = require('fs-extra');
-const path = require('path');
 const execa = require('execa');
 const tmp = require('tmp');
 const latestVersion = require('latest-version');
+const { cloneBranch, clearRepo, generateOutputFiles } = require('./output-repo-helpers');
 tmp.setGracefulCleanup();
-
-let tmpdir = tmp.dirSync();
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const APP_REPO = 'ember-cli/ember-new-output';
@@ -18,39 +16,31 @@ const [, , version] = process.argv;
 assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
 assert(version, 'a version must be provided as the first argument to this script.');
 
-async function updateRepo(repoName, tag) {
+async function updateRepo(repoName, version) {
+  let tag = `v${version}`;
   let latestEC = await latestVersion('ember-cli');
   let latestECBeta = await latestVersion('ember-cli', { version: 'beta' });
 
-  let isLatest = tag === `v${latestEC}`;
-  let isLatestBeta = tag === `v${latestECBeta}`;
+  let isLatest = version === latestEC;
+  let isLatestBeta = version === latestECBeta;
 
   let command = repoName === 'ember-new-output' ? 'new' : 'addon';
   let name = repoName === 'ember-new-output' ? 'my-app' : 'my-addon';
-  let outputRepoPath = path.join(tmpdir.name, repoName);
   let isStable = !tag.includes('-beta');
 
   let outputRepoBranch = isStable ? 'stable' : 'master';
   let shouldUpdateMasterFromStable = tag.endsWith('-beta.1');
   let branchToClone = shouldUpdateMasterFromStable ? 'stable' : outputRepoBranch;
+  let tmpdir = tmp.dirSync();
 
-  console.log(`cloning ${repoName}`);
-  await execa('git', ['clone', `https://${GITHUB_TOKEN}@github.com/${repoName}.git`, `--branch=${branchToClone}`], {
-    cwd: tmpdir.name,
+  let outputRepoPath = await cloneBranch(tmpdir.name, {
+    repo: `https://github-actions:${GITHUB_TOKEN}@github.com/${repoName}.git`,
+    branch: branchToClone,
   });
 
-  console.log(`clearing ${repoName}`);
-  await execa(`git`, [`rm`, `-rf`, `.`], {
-    cwd: path.join(tmpdir.name, repoName),
-  });
+  await clearRepo(outputRepoPath);
 
-  let updatedOutputTmpDir = tmp.dirSync();
-  console.log(`Running ember ${command} ${name}`);
-  await execa('npx', [`ember-cli@${tag}`, command, name, `--skip-npm`, `--skip-git`], {
-    cwd: updatedOutputTmpDir.name,
-  });
-
-  let generatedOutputPath = path.join(updatedOutputTmpDir.name, name);
+  let generatedOutputPath = await generateOutputFiles({ tag, name, command, variant: 'javascript' });
 
   console.log('copying generated contents to output repo');
   await fs.copy(generatedOutputPath, outputRepoPath);
@@ -62,10 +52,10 @@ async function updateRepo(repoName, tag) {
   console.log('commiting updates');
   await execa('git', ['add', '--all'], { cwd: outputRepoPath });
   await execa('git', ['commit', '-m', tag], { cwd: outputRepoPath });
-  await execa('git', ['tag', `${tag}`], { cwd: outputRepoPath });
+  await execa('git', ['tag', `-f`, `${tag}`], { cwd: outputRepoPath });
 
   console.log('pushing commit & tag');
-  await execa('git', ['push', 'origin', `${tag}`], { cwd: outputRepoPath });
+  await execa('git', ['push', 'origin', `${tag}`, '--force'], { cwd: outputRepoPath });
 
   // Only push thihs branch if we are using an up-to-date tag
   if ((isStable && isLatest) || (!isStable && isLatestBeta)) {
