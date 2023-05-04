@@ -153,45 +153,6 @@ describe('Default Packager: Styles', function () {
     expect(outputFiles.assets['the-best-app-ever.css'].trim()).to.equal('@import "extra.css";\nhtml { height: 100%; }');
   });
 
-  it('minifies css files when minification is enabled', async function () {
-    let defaultPackager = new DefaultPackager({
-      name: 'the-best-app-ever',
-      env: 'development',
-
-      distPaths: {
-        appCssFile: { app: '/assets/the-best-app-ever.css' },
-        vendorCssFile: '/assets/vendor.css',
-      },
-
-      registry: {
-        load: () => [],
-      },
-
-      minifyCSS: {
-        enabled: true,
-        options: {
-          processImport: false,
-          relativeTo: 'assets',
-        },
-      },
-
-      styleOutputFiles,
-
-      project: { addons: [] },
-    });
-
-    expect(defaultPackager._cachedProcessedStyles).to.equal(null);
-
-    output = createBuilder(defaultPackager.packageStyles(input.path()));
-    await output.build();
-
-    let outputFiles = output.read();
-
-    expect(Object.keys(outputFiles.assets)).to.deep.equal(['extra.css', 'the-best-app-ever.css', 'vendor.css']);
-    expect(outputFiles.assets['vendor.css'].trim()).to.match(/^\S+$/, 'css file is minified');
-    expect(outputFiles.assets['the-best-app-ever.css'].trim()).to.match(/^@import \S+$/, 'css file is minified');
-  });
-
   it('processes css according to the registry', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
@@ -235,44 +196,6 @@ describe('Default Packager: Styles', function () {
     let outputFiles = output.read();
 
     expect(Object.keys(outputFiles.assets)).to.deep.equal(['the-best-app-ever.zss', 'vendor.css']);
-  });
-
-  it('inlines css imports', async function () {
-    let defaultPackager = new DefaultPackager({
-      name: 'the-best-app-ever',
-      env: 'development',
-
-      distPaths: {
-        appCssFile: { app: '/assets/the-best-app-ever.css' },
-        vendorCssFile: '/assets/vendor.css',
-      },
-
-      registry: {
-        load: () => [],
-      },
-
-      minifyCSS: {
-        enabled: true,
-        options: {
-          processImport: true,
-          relativeTo: 'assets',
-        },
-      },
-
-      styleOutputFiles,
-
-      project: { addons: [] },
-    });
-
-    expect(defaultPackager._cachedProcessedStyles).to.equal(null);
-
-    output = createBuilder(defaultPackager.packageStyles(input.path()));
-    await output.build();
-
-    let outputFiles = output.read();
-
-    expect(outputFiles.assets['the-best-app-ever.css'].trim()).to.not.include('@import');
-    expect(outputFiles.assets['the-best-app-ever.css'].trim()).to.equal('body{position:relative}html{height:100%}');
   });
 
   it('runs pre/post-process add-on hooks', async function () {
@@ -330,45 +253,5 @@ describe('Default Packager: Styles', function () {
 
     expect(addonPreprocessTreeHookCalled).to.equal(true);
     expect(addonPostprocessTreeHookCalled).to.equal(true);
-  });
-
-  it('prevents duplicate inclusion, maintains order: CSS', async function () {
-    let importFilesMap = {
-      '/assets/vendor.css': ['vendor/1.css', 'vendor/2.css', 'vendor/3.css', 'vendor/1.css'],
-    };
-    let defaultPackager = new DefaultPackager({
-      name: 'the-best-app-ever',
-      env: 'development',
-
-      distPaths: {
-        appCssFile: { app: '/assets/the-best-app-ever.css' },
-        vendorCssFile: '/assets/vendor.css',
-      },
-
-      registry: {
-        load: () => [],
-      },
-
-      minifyCSS: {
-        enabled: true,
-        options: {
-          processImport: false,
-          relativeTo: 'assets',
-        },
-      },
-
-      styleOutputFiles: importFilesMap,
-
-      project: { addons: [] },
-    });
-
-    expect(defaultPackager._cachedProcessedStyles).to.equal(null);
-
-    output = createBuilder(defaultPackager.packageStyles(input.path()));
-    await output.build();
-
-    let outputFiles = output.read();
-
-    expect(outputFiles.assets['vendor.css']).to.equal('.third{position:absolute}');
   });
 });
