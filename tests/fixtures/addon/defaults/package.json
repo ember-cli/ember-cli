@@ -44,6 +44,7 @@
     "concurrently": "^8.0.1",
     "ember-auto-import": "^2.6.3",
     "ember-cli": "~<%= emberCLIVersion %>",
+    "ember-cli-clean-css": "^2.0.0",
     "ember-cli-dependency-checker": "^3.3.1",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
