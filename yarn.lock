@@ -328,13 +328,6 @@
     "@babel/helper-plugin-utils" "^7.20.2"
     "@babel/plugin-syntax-typescript" "^7.20.0"
 
-"@babel/runtime@^7.14.0":
-  version "7.20.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.6.tgz#facf4879bfed9b5326326273a64220f099b0fce3"
-  integrity sha512-Q+8MqP7TiHMWzSfwiJwXCjyf4GYA4Dgw3emg/7xmwsdLJOZUp+nMqcOwOzzYheuM1rhDu8FSj2l0aoMygEuXuA==
-  dependencies:
-    regenerator-runtime "^0.13.11"
-
 "@babel/template@^7.18.10", "@babel/template@^7.20.7":
   version "7.20.7"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.20.7.tgz#a15090c2839a83b02aa996c0b4994005841fd5a8"
@@ -4975,12 +4968,10 @@ is-interactive@^2.0.0:
   resolved "https://registry.yarnpkg.com/is-interactive/-/is-interactive-2.0.0.tgz#40c57614593826da1100ade6059778d597f16e90"
   integrity sha512-qP1vozQRI+BMOPcjFzrjXuQvdak2pHNUMZoeG2eRbiSqyvbEf/wQtEOTOX1guk6E3t36RkaqiSt8A/6YElNxLQ==
 
-is-language-code@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/is-language-code/-/is-language-code-3.1.0.tgz#b2386b49227e7010636f16d0c2c681ca40136ab5"
-  integrity sha512-zJdQ3QTeLye+iphMeK3wks+vXSRFKh68/Pnlw7aOfApFSEIOhYa8P9vwwa6QrImNNBMJTiL1PpYF0f4BxDuEgA==
-  dependencies:
-    "@babel/runtime" "^7.14.0"
+is-language-code@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/is-language-code/-/is-language-code-5.0.5.tgz#a9d93a29191c7648b0a2f9cc84d82a8c84033dc5"
+  integrity sha512-edPH+CaeVXQBvo2xwSfNX875qHL45TGqeMAmlDLVDhTkBeFx4J1sXEf6Eu5Hw+/8T/Tjc16iy80RINrE3tklxg==
 
 is-map@^2.0.2:
   version "2.0.2"
@@ -7261,11 +7252,6 @@ redeyed@~1.0.0:
   integrity sha512-8eEWsNCkV2rvwKLS1Cvp5agNjMhwRe2um+y32B2+3LqOzg4C9BBPs6vzAfV16Ivb8B9HPNKIqd8OrdBws8kNlQ==
   dependencies:
     esprima "~3.0.0"
-
-regenerator-runtime@^0.13.11:
-  version "0.13.11"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz#f6dca3e7ceec20590d07ada785636a90cdca17f9"
-  integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"
