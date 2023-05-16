@@ -183,7 +183,7 @@ describe('blueprint - addon', function () {
         let json = JSON.parse(output);
 
         expect(json.peerDependencies).to.deep.equal({
-          'ember-source': '^4.0.0',
+          'ember-source': '>= 4.0.0',
           'foo-bar': '^1.0.0',
         });
       });
