@@ -11,7 +11,7 @@
     "ember-try": "^2.0.0"
   },
   "peerDependencies": {
-    "ember-source": "^4.0.0"
+    "ember-source": ">= 4.0.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
