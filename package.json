@@ -147,7 +147,7 @@
     "nock": "^13.3.0",
     "nyc": "^15.1.0",
     "prettier": "2.8.7",
-    "release-it": "^15.10.0",
+    "release-it": "^15.10.3",
     "rimraf": "^3.0.2",
     "strip-ansi": "^6.0.0",
     "supertest": "^6.3.1",
