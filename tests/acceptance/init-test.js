@@ -47,8 +47,10 @@ describe('Acceptance: ember init', function () {
 
   function confirmBlueprinted(typescript = false) {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    // ignore .travis.yml
-    let expected = walkSync(blueprintPath, { ignore: ['.travis.yml'] })
+    // ignore .travis.yml and TypeScript files
+    let expected = walkSync(blueprintPath, {
+      ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config'],
+    })
       .map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')))
       .sort();
     let actual = walkSync('.').sort();

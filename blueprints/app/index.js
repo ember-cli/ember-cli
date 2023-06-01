@@ -72,10 +72,18 @@ module.exports = {
 
     let files = this._super();
     if (options.ciProvider !== 'travis') {
-      this._files = files.filter((file) => file !== '.travis.yml');
+      files = files.filter((file) => file !== '.travis.yml');
     } else {
-      this._files = files.filter((file) => file.indexOf('.github') < 0);
+      files = files.filter((file) => file.indexOf('.github') < 0);
     }
+
+    if (!options.typescript) {
+      files = files.filter(
+        (file) => !['tsconfig.json', 'app/config/', 'types/'].includes(file) && !file.endsWith('.d.ts')
+      );
+    }
+
+    this._files = files;
 
     return this._files;
   },
@@ -87,11 +95,5 @@ module.exports = {
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
-  },
-
-  async afterInstall(options) {
-    if (options.typescript) {
-      await this.addAddonToProject({ name: 'ember-cli-typescript', blueprintOptions: options });
-    }
   },
 };
