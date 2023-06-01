@@ -509,6 +509,11 @@ describe('Acceptance: ember new', function () {
 
       // ember addon without --lang flag (default) has no lang attribute in dummy index.html
       expect(file('tests/dummy/app/index.html')).to.contain('<html>');
+
+      // no TypeScript files
+      ['tsconfig.json', 'tests/dummy/app/config/environment.d.ts', 'types/global.d.ts'].forEach((filePath) => {
+        expect(file(filePath)).to.not.exist;
+      });
     });
 
     it('app + npm + !welcome', async function () {
@@ -695,20 +700,21 @@ describe('Acceptance: ember new', function () {
       let fixturePath = 'addon/typescript';
 
       // check fixtures
-      ['.ember-cli'].forEach((filePath) => {
+      [
+        '.ember-cli',
+        'tests/helpers/index.ts',
+        'tsconfig.json',
+        'tests/dummy/app/config/environment.d.ts',
+        'types/global.d.ts',
+      ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
 
-      // smoke test for the existence of essential TypeScript features... (see app test)
-      let pkgJson = fs.readJsonSync('package.json');
-      expect(pkgJson.scripts['lint:types']).to.equal('tsc --noEmit');
-      expect(pkgJson.dependencies['ember-cli-typescript']).to.exist;
-      expect(pkgJson.devDependencies['typescript']).to.exist;
-      expect(Object.keys(pkgJson.devDependencies).some((pkgName) => pkgName.match(/^@types/))).to.be.true;
-
-      expect(file('tsconfig.json')).to.exist;
+      expect(file('types/ember-data/types/registries/model.d.ts')).to.not.exist;
     });
   });
 
