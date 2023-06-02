@@ -74,9 +74,13 @@ jobs:
 
 
   push-addon-app:
-    name: "Push to addon/app output repos"
+    name: "Push to ${{ matrix.blueprint }} output repo"
     runs-on: ubuntu-latest
     needs: [verify-inputs]
+    strategy:
+      fail-fast: false
+      matrix:
+        blueprint: ["addon", "app"]
 
     steps:
       - uses: actions/checkout@v3
@@ -93,6 +97,7 @@ jobs:
       - run: node ./dev/update-output-repos.js ${{ needs.verify-inputs.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          BLUEPRINT: ${{ matrix.blueprint }}
 
   push-editors:
     name: "Push to editor output repos (${{ matrix.variant }})"
