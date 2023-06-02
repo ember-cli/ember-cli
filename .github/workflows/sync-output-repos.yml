@@ -74,7 +74,7 @@ jobs:
 
 
   push-addon-app:
-    name: "Push to addon/app output repos"
+    name: "Push to ${{ matrix.blueprint }} output repo"
     runs-on: ubuntu-latest
     needs: [verify-inputs]
     strategy:
