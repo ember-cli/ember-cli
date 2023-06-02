@@ -19,7 +19,16 @@ assert(version, 'a version must be provided as the first argument to this script
 assert(BLUEPRINT, 'BLUEPRINT must be set to either `app` or `addon`');
 
 async function updateRepo(version) {
-  let repoName = BLUEPRINT === 'addon' ? ADDON_REPO : APP_REPO;
+  let repoName = APP_REPO;
+  let command = 'new';
+  let name = 'my-app';
+
+  if (BLUEPRINT === 'addon') {
+    repoName = ADDON_REPO;
+    command = 'addon';
+    name = 'my-addon';
+  }
+
   let tag = `v${version}`;
   let latestEC = await latestVersion('ember-cli');
   let latestECBeta = await latestVersion('ember-cli', { version: 'beta' });
@@ -27,8 +36,6 @@ async function updateRepo(version) {
   let isLatest = version === latestEC;
   let isLatestBeta = version === latestECBeta;
 
-  let command = repoName === 'ember-new-output' ? 'new' : 'addon';
-  let name = repoName === 'ember-new-output' ? 'my-app' : 'my-addon';
   let isStable = !tag.includes('-beta');
 
   let outputRepoBranch = isStable ? 'stable' : 'master';
