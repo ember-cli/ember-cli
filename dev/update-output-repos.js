@@ -16,7 +16,7 @@ const [, , version] = process.argv;
 
 assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
 assert(version, 'a version must be provided as the first argument to this script.');
-assert(BLUEPRINT, 'BLUEPRINT must be set to either `app` or `addon`');
+assert(BLUEPRINT === 'app' || BLUEPRINT === 'addon', 'BLUEPRINT must be set to either `app` or `addon`');
 
 async function updateRepo(version) {
   let repoName = APP_REPO;
