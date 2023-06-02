@@ -9,14 +9,17 @@ const { cloneBranch, clearRepo, generateOutputFiles } = require('./output-repo-h
 tmp.setGracefulCleanup();
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const BLUEPRINT = process.env.BLUEPRINT;
 const APP_REPO = 'ember-cli/ember-new-output';
 const ADDON_REPO = 'ember-cli/ember-addon-output';
 const [, , version] = process.argv;
 
 assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
 assert(version, 'a version must be provided as the first argument to this script.');
+assert(BLUEPRINT, 'BLUEPRINT must be set to either `app` or `addon`');
 
-async function updateRepo(repoName, version) {
+async function updateRepo(version) {
+  let repoName = BLUEPRINT === 'addon' ? ADDON_REPO : APP_REPO;
   let tag = `v${version}`;
   let latestEC = await latestVersion('ember-cli');
   let latestECBeta = await latestVersion('ember-cli', { version: 'beta' });
@@ -63,9 +66,4 @@ async function updateRepo(repoName, version) {
   }
 }
 
-async function main(version) {
-  await updateRepo(APP_REPO, version);
-  await updateRepo(ADDON_REPO, version);
-}
-
-main(version);
+updateRepo(version);
