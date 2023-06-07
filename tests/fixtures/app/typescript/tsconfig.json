@@ -11,8 +11,5 @@
       "*": ["types/*"]
     }
   },
-  "include": ["app/**/*", "tests/**/*", "types/**/*"],
-  "glint": {
-    "environment": "ember-loose"
-  }
+  "include": ["app/**/*", "tests/**/*", "types/**/*"]
 }
