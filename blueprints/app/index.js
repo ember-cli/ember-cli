@@ -32,8 +32,6 @@ module.exports = {
       let indent = `\n            `;
       let outdent = `\n          `;
 
-      console.log({ options });
-
       blueprintOptions =
         indent +
         [

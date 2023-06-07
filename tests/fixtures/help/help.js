@@ -62,6 +62,7 @@ module.exports = {
         {
           name: 'pnpm',
           key: 'pnpm',
+          default: false,
           required: false,
         },
         {
@@ -445,6 +446,7 @@ module.exports = {
           name: 'pnpm',
           key: 'pnpm',
           required: false,
+          default: false,
         },
         {
           name: 'name',
@@ -579,6 +581,7 @@ module.exports = {
         {
           name: 'pnpm',
           key: 'pnpm',
+          default: false,
           required: false,
         },
         {
