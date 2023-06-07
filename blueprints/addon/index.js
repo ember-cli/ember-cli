@@ -84,13 +84,16 @@ module.exports = {
 
     // add scripts to build type declarations for TypeScript addons
     if (this.options.typescript) {
+      contents.devDependencies.rimraf = '^5.0.1';
+
       contents.scripts.prepack = 'tsc --project tsconfig.declarations.json';
       contents.scripts.postpack = 'rimraf declarations';
 
       contents.typesVersions = {
         '*': {
-          'test-support/*': ['declarations/addon-test-support/*'],
-          '*': ['declarations/addon/*'],
+          'test-support': ['declarations/addon-test-support/index.d.ts'],
+          'test-support/*': ['declarations/addon-test-support/*', 'declarations/addon-test-support/*/index.d.ts'],
+          '*': ['declarations/addon/*', 'declarations/addon/*/index.d.ts'],
         },
       };
     }

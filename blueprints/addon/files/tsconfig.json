@@ -8,19 +8,11 @@
     "paths": {
       "dummy/tests/*": ["tests/*"],
       "dummy/*": ["tests/dummy/app/*", "app/*"],
-      "my-addon": ["addon"],
-      "my-addon/*": ["addon/*"],
-      "my-addon/test-support": ["addon-test-support"],
-      "my-addon/test-support/*": ["addon-test-support/*"],
+      "<%= addonName %>": ["addon"],
+      "<%= addonName %>/*": ["addon/*"],
+      "<%= addonName %>/test-support": ["addon-test-support"],
+      "<%= addonName %>/test-support/*": ["addon-test-support/*"],
       "*": ["types/*"]
     }
-  },
-  "include": [
-    "app/**/*",
-    "addon/**/*",
-    "tests/**/*",
-    "types/**/*",
-    "test-support/**/*",
-    "addon-test-support/**/*"
-  ]
+  }
 }

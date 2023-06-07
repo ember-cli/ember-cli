@@ -704,6 +704,7 @@ describe('Acceptance: ember new', function () {
       // check fixtures
       [
         '.ember-cli',
+        'index.js',
         'tests/helpers/index.ts',
         'tsconfig.json',
         'tsconfig.declarations.json',

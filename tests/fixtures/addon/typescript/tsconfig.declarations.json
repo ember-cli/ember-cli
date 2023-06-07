@@ -3,8 +3,8 @@
   "compilerOptions": {
     "declarationDir": "declarations",
     "emitDeclarationOnly": true,
-    "isolatedModules": false,
-    "noEmit": false
+    "noEmit": false,
+    "rootDir": "."
   },
-  "include": ["addon/**/*", "types/**/*", "addon-test-support/**/*"]
+  "include": ["addon", "addon-test-support"]
 }
