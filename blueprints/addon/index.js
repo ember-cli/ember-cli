@@ -84,8 +84,15 @@ module.exports = {
 
     // add scripts to build type declarations for TypeScript addons
     if (this.options.typescript) {
-      contents.scripts.prepack = 'TODO';
-      contents.scripts.postpack = 'TODO';
+      contents.scripts.prepack = 'tsc --project tsconfig.declarations.json';
+      contents.scripts.postpack = 'rimraf declarations';
+
+      contents.typesVersions = {
+        '*': {
+          'test-support/*': ['declarations/addon-test-support/*'],
+          '*': ['declarations/addon/*'],
+        },
+      };
     }
 
     merge(contents, ADDITIONAL_PACKAGE);

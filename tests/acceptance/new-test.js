@@ -692,6 +692,8 @@ describe('Acceptance: ember new', function () {
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
+
+      expect(file('tsconfig.declarations.json')).to.not.exist;
     });
 
     it('addon + typescript', async function () {
@@ -704,6 +706,7 @@ describe('Acceptance: ember new', function () {
         '.ember-cli',
         'tests/helpers/index.ts',
         'tsconfig.json',
+        'tsconfig.declarations.json',
         'tests/dummy/app/config/environment.d.ts',
         'types/global.d.ts',
       ].forEach((filePath) => {

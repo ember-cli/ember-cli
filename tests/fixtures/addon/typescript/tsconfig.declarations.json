@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declarationDir": "declarations",
+    "emitDeclarationOnly": true,
+    "isolatedModules": false,
+    "noEmit": false
+  },
+  "include": ["addon/**/*", "types/**/*", "addon-test-support/**/*"]
+}
