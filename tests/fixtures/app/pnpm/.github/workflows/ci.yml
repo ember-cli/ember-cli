@@ -19,15 +19,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: yarn
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+      - uses: NullVoxPopuli/action-setup-pnpm@v2
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
   test:
     name: "Test"
@@ -36,12 +30,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: yarn
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+      - uses: NullVoxPopuli/action-setup-pnpm@v2
       - name: Run Tests
-        run: yarn test
+        run: pnpm test
