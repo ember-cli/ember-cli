@@ -5,9 +5,8 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
   return {
-    <% if (pnpm) { %>usePnpm: true,
-    <% } else if (yarn) { %>useYarn: true,
-    <% } %>scenarios: [
+    usePnpm: true,
+    scenarios: [
       {
         name: 'ember-lts-4.4',
         npm: {

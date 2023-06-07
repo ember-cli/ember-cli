@@ -130,7 +130,7 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
 
-    let hasOptions = options.welcome || options.yarn || options.ciProvider;
+    let hasOptions = options.welcome || options.yarn || options.pnpm || options.ciProvider;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
@@ -141,6 +141,7 @@ module.exports = {
         [
           options.welcome && '"--welcome"',
           options.yarn && '"--yarn"',
+          options.pnpm && '"--pnpm"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
           options.typescript && `"--typescript"`,
         ]
@@ -159,6 +160,7 @@ module.exports = {
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
       yarn: options.yarn,
+      pnpm: options.pnpm,
       welcome: options.welcome,
       blueprint: 'addon',
       blueprintOptions,

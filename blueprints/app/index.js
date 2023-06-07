@@ -26,17 +26,20 @@ module.exports = {
     let namespace = stringUtil.classify(rawName);
     let embroider = isExperimentEnabled('EMBROIDER') || options.embroider;
 
-    let hasOptions = !options.welcome || options.yarn || embroider || options.ciProvider;
+    let hasOptions = !options.welcome || options.yarn || options.pnpm || embroider || options.ciProvider;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
       let outdent = `\n          `;
+
+      console.log({ options });
 
       blueprintOptions =
         indent +
         [
           !options.welcome && '"--no-welcome"',
           options.yarn && '"--yarn"',
+          options.pnpm && '"--pnpm"',
           embroider && '"--embroider"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
           options.typescript && `"--typescript"`,
@@ -53,6 +56,7 @@ module.exports = {
       namespace,
       emberCLIVersion: require('../../package').version,
       yarn: options.yarn,
+      pnpm: options.pnpm,
       welcome: options.welcome,
       blueprint: 'app',
       blueprintOptions,
