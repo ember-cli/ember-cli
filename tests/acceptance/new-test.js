@@ -428,11 +428,16 @@ describe('Acceptance: ember new', function () {
       expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
     }
 
+    /**
+     * chai-files does not appropriately diff json
+     * works great on everything else though.
+     * shows similar information as this diff / patch here.
+     */
     function showHumanReadableDiff(expectedString, fileName) {
       let actualString = fs.readFileSync(fileName, { encoding: 'utf-8' });
 
       if (expectedString !== actualString) {
-        let patch = diff.createPatch('package.json', actualString, expectedString);
+        let patch = diff.createPatch(fileName, actualString, expectedString);
 
         // When content doesn't match, output something that can be understood
         // especially helpful for large files (or repetitive ones, like package.json)
