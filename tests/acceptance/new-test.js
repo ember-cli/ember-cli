@@ -11,7 +11,6 @@ const util = require('util');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
-const diff = require('diff');
 
 const { isExperimentEnabled } = require('../../lib/experiments');
 
@@ -436,18 +435,7 @@ describe('Acceptance: ember new', function () {
         .readFileSync(fixturePath, { encoding: 'utf-8' })
         .replace('<%= emberCLIVersion %>', currentVersion);
 
-      let expected = fixtureContents;
-      let actualString = fs.readFileSync(fileName, { encoding: 'utf-8' });
-
-      if (fixtureContents !== actualString) {
-        let patch = diff.createPatch('package.json', actualString, expected);
-
-        // When content doesn't match, output something that can be understood
-        // especially helpful for large files (or repetitive ones, like package.json)
-        console.error(patch);
-      }
-
-      expect(file(fileName)).to.equal(expected);
+      expect(file(fileName)).to.equal(fixtureContents);
     }
 
     function checkEmberCLIBuild(fixtureName, fileName) {
