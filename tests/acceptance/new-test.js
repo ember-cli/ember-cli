@@ -12,6 +12,7 @@ const EOL = require('os').EOL;
 const chalk = require('chalk');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { isExperimentEnabled } = require('../../lib/experiments');
+const diff = require('diff');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
@@ -427,6 +428,18 @@ describe('Acceptance: ember new', function () {
       expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
     }
 
+    function showHumanReadableDiff(expectedString, fileName) {
+      let actualString = fs.readFileSync(fileName, { encoding: 'utf-8' });
+
+      if (expectedString !== actualString) {
+        let patch = diff.createPatch('package.json', actualString, expectedString);
+
+        // When content doesn't match, output something that can be understood
+        // especially helpful for large files (or repetitive ones, like package.json)
+        console.error(patch);
+      }
+    }
+
     function checkFileWithEmberCLIVersionReplacement(fixtureName, fileName) {
       let currentVersion = require('../../package').version;
       let fixturePath = path.join(__dirname, '../fixtures', fixtureName, fileName);
@@ -434,12 +447,17 @@ describe('Acceptance: ember new', function () {
         .readFileSync(fixturePath, { encoding: 'utf-8' })
         .replace('<%= emberCLIVersion %>', currentVersion);
 
+      showHumanReadableDiff(fixtureContents, fileName);
+
       expect(file(fileName)).to.equal(fixtureContents);
     }
 
     function checkEmberCLIBuild(fixtureName, fileName) {
       let fixturePath = path.join(__dirname, '../fixtures', fixtureName, fileName);
       let fixtureContents = fs.readFileSync(fixturePath, { encoding: 'utf-8' });
+
+      showHumanReadableDiff(fixtureContents, fileName);
+
       expect(file(fileName)).to.equal(fixtureContents);
     }
 
