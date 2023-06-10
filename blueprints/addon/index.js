@@ -178,6 +178,10 @@ module.exports = {
 
     let addonFiles = walkSync(addonFilesPath, { ignore: [ignoredCITemplate] });
 
+    if (!options.pnpm) {
+      addonFiles = addonFiles.filter((file) => !file.endsWith('.npmrc'));
+    }
+
     return uniq(appFiles.concat(addonFiles));
   },
 

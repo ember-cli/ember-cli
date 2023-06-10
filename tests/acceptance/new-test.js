@@ -592,6 +592,7 @@ describe('Acceptance: ember new', function () {
         '.github/workflows/ci.yml',
         'README.md',
         'CONTRIBUTING.md',
+        '.npmrc',
       ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
