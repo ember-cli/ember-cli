@@ -4,6 +4,7 @@
 /coverage/
 /docs/build/
 /node_modules/
+tests/fixtures/
 /tmp/
 
 /lib/broccoli/app-*.js
@@ -13,4 +14,3 @@
 
 !.*
 /.git/
-/tests/fixtures/
