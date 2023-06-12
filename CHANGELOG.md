@@ -1,14 +1,16 @@
 # ember-cli Changelog
 
-## v5.0.0-beta.0
+## v5.0.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.12.0...v5.0.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.12.0...v5.0.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.12.1...v5.0.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.12.1...v5.0.0)
 
 #### Changelog
 
+- [#10244](https://github.com/ember-cli/ember-cli/pull/10244) Update ember-cli-preprocess-registry and add ember-cli-clean-css to the blueprints [@kategengler](https://github.com/kategengler)
+- [#10276](https://github.com/ember-cli/ember-cli/pull/10276) Widen peer dependency range for ember-source [@jrjohnson](https://github.com/jrjohnson)
 - [#10019](https://github.com/ember-cli/ember-cli/pull/10019) [CLEANUP] Drop support for the `baseURL` environment option [@bertdeblock](https://github.com/bertdeblock)
 - [#10106](https://github.com/ember-cli/ember-cli/pull/10106) [CLEANUP] Remove deprecated `PACKAGER` experiment [@bertdeblock](https://github.com/bertdeblock)
 - [#10175](https://github.com/ember-cli/ember-cli/pull/10175) [CLEANUP] Clean up `blacklist-whitelist-build-options` deprecation [@bertdeblock](https://github.com/bertdeblock)
