@@ -3,13 +3,13 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd <%= addonDirectory %>`
-* `<% if (pnpm) { %>pnpm<% } else if (yarn) { %>yarn<% } else { %>npm<% } %> install`
+* `cd foo`
+* `pnpm install`
 
 ## Linting
 
-* `<% if (pnpm) { %>pnpm lint<% } else if (yarn) { %>yarn lint<% } else { %>npm run lint<% } %>`
-* `<% if (pnpm) { %>pnpm lint:fix<% } else if (yarn) { %>yarn lint:fix<% } else { %>npm run lint:fix<% } %>`
+* `pnpm lint`
+* `pnpm lint:fix`
 
 ## Running tests
 

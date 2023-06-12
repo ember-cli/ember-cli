@@ -4,8 +4,8 @@
 /coverage/
 /docs/build/
 /node_modules/
-/tests/fixtures/
 /tmp/
+tests/fixtures/
 
 /lib/broccoli/app-*.js
 /lib/broccoli/test-support-*.js
