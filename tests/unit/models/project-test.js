@@ -38,7 +38,7 @@ describe('models/project.js', function () {
       projectPath = 'tmp/test-app';
       return tmp.setup(projectPath).then(function () {
         touch(`${projectPath}/config/environment.js`, {
-          baseURL: '/foo/bar',
+          rootURL: '/foo/bar',
         });
 
         project = new Project(projectPath, {}, cli.ui, cli);
@@ -56,15 +56,15 @@ describe('models/project.js', function () {
       called = false;
       return tmp.setup(projectPath).then(function () {
         touch(`${projectPath}/config/environment.js`, {
-          baseURL: '/foo/bar',
+          rootURL: '/foo/bar',
         });
 
         touch(`${projectPath}/config/a.js`, {
-          baseURL: '/a',
+          rootURL: '/a',
         });
 
         touch(`${projectPath}/config/b.js`, {
-          baseURL: '/b',
+          rootURL: '/b',
         });
 
         makeProject();
@@ -313,19 +313,6 @@ describe('models/project.js', function () {
       };
 
       expect(project.dependencies()).to.deep.equal(expected);
-    });
-
-    it("returns a listing of all dependencies in the project's bower.json", function () {
-      let expected = {
-        jquery: '^1.11.1',
-        ember: '1.7.0',
-        'ember-data': '1.0.0-beta.10',
-        'ember-cli-shims': 'ember-cli/ember-cli-shims#0.0.3',
-        'ember-qunit': '0.1.8',
-        qunit: '~1.15.0',
-      };
-
-      expect(project.bowerDependencies()).to.deep.equal(expected);
     });
 
     it('returns a listing of all ember-cli-addons directly depended on by the project', function () {
@@ -632,48 +619,12 @@ describe('models/project.js', function () {
       td.verify(project.initializeAddons(), { ignoreExtraArgs: true });
     });
 
-    it('generally should work and defer to findAddonByName utlity', function () {
-      let addon;
-      addon = project.findAddonByName('foo');
+    it('finds addons by their `package.json` name', function () {
+      let addon = project.findAddonByName('foo');
       expect(addon.name).to.equal('foo', 'should have found the foo addon');
 
       addon = project.findAddonByName('bar-pkg');
       expect(addon.pkg.name).to.equal('bar-pkg', 'should have found the bar-pkg addon');
-    });
-  });
-
-  describe('bowerDirectory', function () {
-    beforeEach(function () {
-      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
-      makeProject();
-    });
-
-    it('should be initialized in constructor', function () {
-      expect(project.bowerDirectory).to.equal('bower_components');
-    });
-
-    it('should be set to directory property in .bowerrc', function () {
-      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-with-directory');
-      makeProject();
-      expect(project.bowerDirectory).to.equal('vendor');
-    });
-
-    it('should default to ‘bower_components’ unless directory property is set in .bowerrc', function () {
-      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-without-directory');
-      makeProject();
-      expect(project.bowerDirectory).to.equal('bower_components');
-    });
-
-    it('should default to ‘bower_components’ if .bowerrc is not present', function () {
-      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/no-bowerrc');
-      makeProject();
-      expect(project.bowerDirectory).to.equal('bower_components');
-    });
-
-    it('should default to ‘bower_components’ if .bowerrc json is invalid', function () {
-      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/invalid-bowerrc');
-      makeProject();
-      expect(project.bowerDirectory).to.equal('bower_components');
     });
   });
 

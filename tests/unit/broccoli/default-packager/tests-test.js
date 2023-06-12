@@ -18,7 +18,6 @@ describe('Default Packager: Tests', function () {
 
   let TESTS = {
     'addon-tree-output': {},
-    bower_components: {},
     'the-best-app-ever': {
       'router.js': 'router.js',
       'app.js': 'app.js',
@@ -408,7 +407,6 @@ describe('Default Packager: Tests', function () {
     let emptyInput = await createTempDir();
     let emptyTestFolder = {
       'addon-tree-output': {},
-      bower_components: {},
       'the-best-app-ever': {
         'router.js': 'router.js',
         'app.js': 'app.js',

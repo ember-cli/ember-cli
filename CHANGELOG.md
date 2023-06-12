@@ -1,5 +1,49 @@
 # ember-cli Changelog
 
+## v5.0.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.12.0...v5.0.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.12.0...v5.0.0-beta.0)
+
+#### Changelog
+
+- [#10019](https://github.com/ember-cli/ember-cli/pull/10019) [CLEANUP] Drop support for the `baseURL` environment option [@bertdeblock](https://github.com/bertdeblock)
+- [#10106](https://github.com/ember-cli/ember-cli/pull/10106) [CLEANUP] Remove deprecated `PACKAGER` experiment [@bertdeblock](https://github.com/bertdeblock)
+- [#10175](https://github.com/ember-cli/ember-cli/pull/10175) [CLEANUP] Clean up `blacklist-whitelist-build-options` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10176](https://github.com/ember-cli/ember-cli/pull/10176) [CLEANUP] Clean up `vendor-shim-blueprint` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10177](https://github.com/ember-cli/ember-cli/pull/10177) [CLEANUP] Clean up `ember-cli-jshint-support` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10178](https://github.com/ember-cli/ember-cli/pull/10178) [CLEANUP] Remove all Bower entries from ignore files in `app` and `addon` blueprints [@bertdeblock](https://github.com/bertdeblock)
+- [#10182](https://github.com/ember-cli/ember-cli/pull/10182) [CLEANUP] Clean up `project.bower-dependencies` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10183](https://github.com/ember-cli/ember-cli/pull/10183) [CLEANUP] Clean up `project.bower-directory` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10184](https://github.com/ember-cli/ember-cli/pull/10184) [CLEANUP] Clean up `blueprint.add-bower-package-to-project` and `blueprint.add-bower-packages-to-project` deprecations [@bertdeblock](https://github.com/bertdeblock)
+- [#10185](https://github.com/ember-cli/ember-cli/pull/10185) [CLEANUP] Drop support for the `EMBER_CLI_ERROR_ON_INVALID_ADDON` env flag [@bertdeblock](https://github.com/bertdeblock)
+- [#10186](https://github.com/ember-cli/ember-cli/pull/10186) [CLEANUP] Drop support for installing Bower packages [@bertdeblock](https://github.com/bertdeblock)
+- [#10193](https://github.com/ember-cli/ember-cli/pull/10193) [CLEANUP] Drop support for `ember-cli-babel` v5 and v6 [@bertdeblock](https://github.com/bertdeblock)
+- [#10194](https://github.com/ember-cli/ember-cli/pull/10194) [CLEANUP] Drop support for `ember-cli-shims` [@bertdeblock](https://github.com/bertdeblock)
+- [#10195](https://github.com/ember-cli/ember-cli/pull/10195) [CLEANUP] Remove automatic inclusion of jQuery in legacy Ember versions [@bertdeblock](https://github.com/bertdeblock)
+- [#10196](https://github.com/ember-cli/ember-cli/pull/10196) [INTERNAL] Remove unused private `_legacyAddonCompile` method on `EmberApp` class [@bertdeblock](https://github.com/bertdeblock)
+- [#10197](https://github.com/ember-cli/ember-cli/pull/10197) [CLEANUP] Remove default `minifyJS` options [@bertdeblock](https://github.com/bertdeblock)
+- [#10211](https://github.com/ember-cli/ember-cli/pull/10211) Automate output repos [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10217](https://github.com/ember-cli/ember-cli/pull/10217) [CLEANUP] Remove `ember-resolver` fallback [@bertdeblock](https://github.com/bertdeblock)
+- [#10218](https://github.com/ember-cli/ember-cli/pull/10218) [CLEANUP] Drop support for including `handlebars.js` via Bower [@bertdeblock](https://github.com/bertdeblock)
+- [#10219](https://github.com/ember-cli/ember-cli/pull/10219) [CLEANUP] Drop support for npm versions below v5.7.1 [@bertdeblock](https://github.com/bertdeblock)
+- [#10220](https://github.com/ember-cli/ember-cli/pull/10220) [CLEANUP] Drop support for including Ember builds via Bower [@bertdeblock](https://github.com/bertdeblock)
+- [#10221](https://github.com/ember-cli/ember-cli/pull/10221) [CLEANUP] Clean up `building-bower-packages` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10222](https://github.com/ember-cli/ember-cli/pull/10222) [CLEANUP] Drop support for Node v14 [@bertdeblock](https://github.com/bertdeblock)
+- [#10223](https://github.com/ember-cli/ember-cli/pull/10223) [CLEANUP] Drop support for finding addons by their `index.js` name [@bertdeblock](https://github.com/bertdeblock)
+- [#10224](https://github.com/ember-cli/ember-cli/pull/10224) [CLEANUP] Drop support for checking if Bower components are installed [@bertdeblock](https://github.com/bertdeblock)
+- [#10225](https://github.com/ember-cli/ember-cli/pull/10225) [CLEANUP] Drop support for the `EMBER_CLI_IGNORE_ADDON_NAME_MISMATCH` env flag [@bertdeblock](https://github.com/bertdeblock)
+- [#10226](https://github.com/ember-cli/ember-cli/pull/10226) [INTERNAL] Remove all remaining Bower references [@bertdeblock](https://github.com/bertdeblock)
+- [#10227](https://github.com/ember-cli/ember-cli/pull/10227) [INTERNAL] Remove JSHint reference [@bertdeblock](https://github.com/bertdeblock)
+- [#10229](https://github.com/ember-cli/ember-cli/pull/10229) Update blueprint ignore files [@bertdeblock](https://github.com/bertdeblock)
+- [#10231](https://github.com/ember-cli/ember-cli/pull/10231) [INTERNAL] Remove npm version check in `ember new` test [@bertdeblock](https://github.com/bertdeblock)
+- [#10232](https://github.com/ember-cli/ember-cli/pull/10232) [CLEANUP] Remove Babel fallback for addons [@bertdeblock](https://github.com/bertdeblock)
+- [#10245](https://github.com/ember-cli/ember-cli/pull/10245) change guarding condition for output repos [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v4.12.1
 
 #### Blueprint Changes

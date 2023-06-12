@@ -117,63 +117,63 @@ describe('Acceptance: ember init', function () {
   }
 
   it('ember init', async function () {
-    await ember(['init', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--skip-npm']);
 
     confirmBlueprinted();
   });
 
   it("init an already init'd folder", async function () {
-    await ember(['init', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--skip-npm']);
 
-    await ember(['init', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--skip-npm']);
 
     confirmBlueprinted();
   });
 
   it('init a single file', async function () {
-    await ember(['init', 'app.js', '--skip-npm', '--skip-bower']);
+    await ember(['init', 'app.js', '--skip-npm']);
 
     confirmGlobBlueprinted('app.js');
   });
 
   it("init a single file on already init'd folder", async function () {
-    await ember(['init', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--skip-npm']);
 
-    await ember(['init', 'app.js', '--skip-npm', '--skip-bower']);
+    await ember(['init', 'app.js', '--skip-npm']);
 
     confirmBlueprinted();
   });
 
   it('init multiple files by glob pattern', async function () {
-    await ember(['init', 'app/**', '--skip-npm', '--skip-bower']);
+    await ember(['init', 'app/**', '--skip-npm']);
 
     confirmGlobBlueprinted('app/**');
   });
 
   it("init multiple files by glob pattern on already init'd folder", async function () {
-    await ember(['init', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--skip-npm']);
 
-    await ember(['init', 'app/**', '--skip-npm', '--skip-bower']);
+    await ember(['init', 'app/**', '--skip-npm']);
 
     confirmBlueprinted();
   });
 
   it('init multiple files by glob patterns', async function () {
-    await ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm', '--skip-bower']);
+    await ember(['init', 'app/**', 'package.json', 'resolver.js', '--skip-npm']);
 
-    confirmGlobBlueprinted('{app/**,{package,bower}.json,resolver.js}');
+    confirmGlobBlueprinted('{app/**,package.json,resolver.js}');
   });
 
   it("init multiple files by glob patterns on already init'd folder", async function () {
-    await ember(['init', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--skip-npm']);
 
-    await ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm', '--skip-bower']);
+    await ember(['init', 'app/**', 'package.json', 'resolver.js', '--skip-npm']);
 
     confirmBlueprinted();
   });
 
   it('should not create .git folder', async function () {
-    await ember(['init', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--skip-npm']);
 
     expect(dir('.git')).to.not.exist;
   });
@@ -181,7 +181,7 @@ describe('Acceptance: ember init', function () {
   it('calls lint fix function', async function () {
     let lintFixStub = td.replace(lintFix, 'run');
 
-    await ember(['init', '--skip-npm', '--skip-bower', '--lint-fix']);
+    await ember(['init', '--skip-npm', '--lint-fix']);
 
     td.verify(lintFixStub(), { ignoreExtraArgs: true, times: 1 });
 
@@ -189,7 +189,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it('configurable CI option', async function () {
-    await ember(['init', '--ci-provider=travis', '--skip-npm', '--skip-bower']);
+    await ember(['init', '--ci-provider=travis', '--skip-npm']);
 
     let fixturePath = 'app/npm-travis';
 

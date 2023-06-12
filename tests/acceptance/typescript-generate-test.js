@@ -38,7 +38,7 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
+    return ember(['init', '--name=my-app', '--skip-npm']);
   }
 
   it('transpiles typescript by default', async function () {

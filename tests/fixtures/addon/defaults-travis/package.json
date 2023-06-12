@@ -43,6 +43,7 @@
     "concurrently": "^7.4.0",
     "ember-auto-import": "^1.11.3",
     "ember-cli": "~<%= emberCLIVersion %>",
+    "ember-cli-clean-css": "^2.0.0",
     "ember-cli-dependency-checker": "^3.3.1",
     "ember-cli-inject-live-reload": "^2.0.2",
     "ember-cli-sri": "^2.1.1",
@@ -71,7 +72,7 @@
     "stylelint-prettier": "^2.0.0"
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": "16.* || >= 18"
   },
   "ember": {
     "edition": "octane"

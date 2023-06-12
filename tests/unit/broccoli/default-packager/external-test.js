@@ -12,7 +12,6 @@ describe('Default Packager: External', function () {
 
   let EXTERNAL = {
     'addon-tree-output': {},
-    bower_components: {},
     vendor: {
       'auth0-js.js': '',
       'auth0-lock.js': '',

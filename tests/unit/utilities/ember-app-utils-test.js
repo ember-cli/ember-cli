@@ -9,7 +9,6 @@ const emberAppUtils = require('../../../lib/utilities/ember-app-utils');
 const contentFor = emberAppUtils.contentFor;
 const configReplacePatterns = emberAppUtils.configReplacePatterns;
 const normalizeUrl = emberAppUtils.normalizeUrl;
-const calculateBaseTag = emberAppUtils.calculateBaseTag;
 const convertObjectToString = emberAppUtils.convertObjectToString;
 
 describe('ember-app-utils', function () {
@@ -130,44 +129,6 @@ describe('ember-app-utils', function () {
 
         expect(output, '`<meta>` tag was not included').not.to.contain(expected);
       });
-
-      it('returns `<base>` tag if `locationType` is "auto"', function () {
-        config.locationType = 'auto';
-        config.baseURL = '/';
-
-        let expected = '<base href="/" />';
-        let output = contentFor(config, defaultMatch, 'head', defaultOptions);
-
-        expect(output, '`<base>` tag was included').to.contain(expected);
-      });
-
-      // this is required by testem
-      it('returns `<base>` tag if `locationType` is "none"', function () {
-        config.locationType = 'none';
-        config.baseURL = '/';
-
-        let output = contentFor(config, defaultMatch, 'head', defaultOptions);
-        let expected = '<base href="/" />';
-
-        expect(output, '`<base>` tag was included').to.contain(expected);
-      });
-
-      it('omits `<base>` tag if `locationType` is "hash"', function () {
-        config.locationType = 'hash';
-        config.baseURL = '/foo/bar';
-
-        let expected = '<base href="/foo/bar/" />';
-        let output = contentFor(config, defaultMatch, 'head', defaultOptions);
-
-        expect(output, '`<base>` tag was not included').to.not.contain(expected);
-      });
-
-      it('omits `<base>` tag if `baseURL` is `undefined`', function () {
-        let expected = '<base href=';
-        let output = contentFor(config, defaultMatch, 'head', defaultOptions);
-
-        expect(output, '`<base>` tag was not included').to.not.contain(expected);
-      });
     });
 
     describe('"config-module"', function () {
@@ -271,24 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let output = contentFor(config, defaultMatch, 'foo', options);
 
         expect(output).to.equal('blammo\nblahzorz');
-      });
-    });
-  });
-
-  describe(`calculateBaseTag`, function () {
-    ['auto', 'history'].forEach((locationType) => {
-      it(`generates a base tag correctly for location: ${locationType}`, function () {
-        expect(calculateBaseTag('/', locationType), `base tag was generated correctly`).to.equal('<base href="/" />');
-      });
-    });
-
-    it('returns an empty string if location is "hash"', function () {
-      expect(calculateBaseTag('/', 'hash'), `base tag was generated correctly`).to.equal('');
-    });
-
-    [null, undefined, ''].forEach((url) => {
-      it(`returns an empty string if the url is ${url === '' ? 'empty string' : url}`, function () {
-        expect(calculateBaseTag(url, 'hash')).to.equal('');
       });
     });
   });

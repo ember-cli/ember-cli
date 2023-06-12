@@ -170,38 +170,6 @@ describe('Watcher', function () {
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on https://localhost:1337/`);
     });
 
-    it('with baseURL', async function () {
-      let subject = (
-        await Watcher.build({
-          ui,
-          analytics,
-          builder,
-          watcher,
-          serving: true,
-          options: {
-            host: undefined,
-            port: '1337',
-            environment: 'development',
-            project: {
-              config() {
-                return {
-                  baseURL: '/foo',
-                };
-              },
-            },
-          },
-        })
-      ).watcher;
-
-      subject.didChange(mockResult);
-
-      let output = ui.output.trim().split(EOL);
-      expect(output[0]).to.equal(
-        `${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/foo/`
-      );
-      expect(output.length).to.equal(1, 'expected only one line of output');
-    });
-
     it('with rootURL', async function () {
       let subject = (
         await Watcher.build({

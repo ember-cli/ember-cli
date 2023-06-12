@@ -311,8 +311,8 @@ describe('install command', function () {
       return expect(command.validateAndRun([])).to.be.rejected.then((error) => {
         expect(error.message).to.equal(
           'The `install` command must take an argument with the name ' +
-            'of an ember-cli addon. For installing all npm and bower ' +
-            'dependencies you can run `npm install && bower install`.',
+            'of an ember-cli addon. For installing all npm ' +
+            'dependencies you can run `npm install`.',
           'expect error to have a helpful message'
         );
       });
