@@ -54,6 +54,7 @@ const PACKAGE_FILES = [
   '../tests/fixtures/app/embroider-no-welcome/package.json',
   '../tests/fixtures/addon/defaults/package.json',
   '../tests/fixtures/addon/yarn/package.json',
+  '../tests/fixtures/addon/pnpm/package.json',
 ];
 
 let filter = {
