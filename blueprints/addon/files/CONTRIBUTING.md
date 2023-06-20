@@ -4,12 +4,12 @@
 
 * `git clone <repository-url>`
 * `cd <%= addonDirectory %>`
-* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> install`
+* `<% if (pnpm) { %>pnpm<% } else if (yarn) { %>yarn<% } else { %>npm<% } %> install`
 
 ## Linting
 
-* `<% if (yarn) { %>yarn lint<% } else { %>npm run lint<% } %>`
-* `<% if (yarn) { %>yarn lint:fix<% } else { %>npm run lint:fix<% } %>`
+* `<% if (pnpm) { %>pnpm lint<% } else if (yarn) { %>yarn lint<% } else { %>npm run lint<% } %>`
+* `<% if (pnpm) { %>pnpm lint:fix<% } else if (yarn) { %>yarn lint:fix<% } else { %>npm run lint:fix<% } %>`
 
 ## Running tests
 

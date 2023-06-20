@@ -199,6 +199,7 @@ describe('lib/utilities/get-lang-arg', function () {
       '--welcome',
       '--no-welcome',
       '--yarn',
+      '--pnpm',
       '--name',
       '--skip-git',
       '-sg',

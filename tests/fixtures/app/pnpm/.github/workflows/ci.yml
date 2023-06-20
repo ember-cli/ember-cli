@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request: {}
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: NullVoxPopuli/action-setup-pnpm@v2
+      - name: Lint
+        run: pnpm lint
+
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: NullVoxPopuli/action-setup-pnpm@v2
+      - name: Run Tests
+        run: pnpm test

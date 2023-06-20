@@ -231,10 +231,15 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.20.7", "@babel/parser@^7.21.0", "@babel/parser@^7.21.4":
+"@babel/parser@^7.20.7", "@babel/parser@^7.21.4":
   version "7.21.4"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.4.tgz#94003fdfc520bbe2875d4ae557b43ddb6d880f17"
   integrity sha512-alVJj7k7zIxqBZ7BTRhz0IqJFxW1VJbm6N8JbcYhQ186df9ZBPbZBmWSqAMXwHGsCJdYks7z/voa3ibiS5bCIw==
+
+"@babel/parser@^7.21.0":
+  version "7.21.8"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.8.tgz#642af7d0333eab9c0ad70b14ac5e76dbde7bfdf8"
+  integrity sha512-6zavDGdzG3gUqAdWvlLFfk+36RilI+Pwyuuh7HItyeScCWP3k6i8vKclAQ0bM/0y/Kz/xiwvxhMv9MgTJP5gmA==
 
 "@babel/plugin-syntax-decorators@^7.16.7":
   version "7.19.0"
@@ -553,6 +558,26 @@
   integrity sha512-LUewfj94xCMH2rbD5YJ+6AQ4AVjFYTgpp6rboWM5T7N3IsIF65SBEOVcYMGAEzO/kKNiNaW4LoWtoThOhH06gw==
   dependencies:
     "@octokit/openapi-types" "^16.0.0"
+
+"@pnpm/constants@7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@pnpm/constants/-/constants-7.1.0.tgz#42c268b695d0dc9ae8c42329935bde9990fec035"
+  integrity sha512-PzpiPtGF+bIrmkNaHgOIfBZw669+rkUtt/5UFzHukiETwI4/+BTYz8FAr+m5Dfuns531Y+fYRFOpB0PdbAU0+w==
+
+"@pnpm/error@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnpm/error/-/error-5.0.1.tgz#63024ee9742c64cd702cd4b2399fd166a9ce4894"
+  integrity sha512-JQSOeSEqrV6k6+kKgrlSJ7gddJRcjxtNCxSVJRIqwckkGSdSTNpXmKEdGgLlaDuEwElPAZUmLDGSqk5InJ5pMA==
+  dependencies:
+    "@pnpm/constants" "7.1.0"
+
+"@pnpm/find-workspace-dir@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@pnpm/find-workspace-dir/-/find-workspace-dir-6.0.1.tgz#2106c3ecb809a84c03d3bfa84010b0639496858b"
+  integrity sha512-cwTNob36N6HEc3CntFsLjNGpB+xt+mKClMNi/wi8VirsvLsCBOWjlHD7mSobX2++GnFv0U2yLjms+YyXhBgHsQ==
+  dependencies:
+    "@pnpm/error" "5.0.1"
+    find-up "^5.0.0"
 
 "@pnpm/network.ca-file@^1.0.1":
   version "1.0.2"
