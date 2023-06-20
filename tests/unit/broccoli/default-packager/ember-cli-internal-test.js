@@ -138,7 +138,7 @@ describe('Default Packager: Ember CLI Internal', function () {
     );
     expect(testSupportPrefixFileContent).to.equal('');
     expect(testSupportSuffixFileContent).to.contain(
-      'runningTests = true;\n\nif (window.Testem) {\n  window.Testem.hookIntoTestFramework();\n}'
+      `runningTests = true;\n\nif (typeof Testem !== 'undefined' && (typeof QUnit !== 'undefined' || typeof Mocha !== 'undefined')) {\n  window.Testem.hookIntoTestFramework();\n}`
     );
 
     expect(vendorPrefixFileContent).to.contain(`window.EmberENV = (function(EmberENV, extra) {
