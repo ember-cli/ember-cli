@@ -64,6 +64,11 @@ module.exports = {
 
     // 95% of addons don't need ember-data or ember-fetch, make them opt-in instead
     delete contents.devDependencies['ember-data'];
+    delete contents.devDependencies['@types/ember-data'];
+    delete contents.devDependencies['@types/ember-data__adapter'];
+    delete contents.devDependencies['@types/ember-data__model'];
+    delete contents.devDependencies['@types/ember-data__serializer'];
+    delete contents.devDependencies['@types/ember-data__store'];
     delete contents.devDependencies['ember-fetch'];
 
     // Per RFC #811, addons should not have this dependency.
@@ -76,6 +81,22 @@ module.exports = {
 
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
+
+    // add scripts to build type declarations for TypeScript addons
+    if (this.options.typescript) {
+      contents.devDependencies.rimraf = '^5.0.1';
+
+      contents.scripts.prepack = 'tsc --project tsconfig.declarations.json';
+      contents.scripts.postpack = 'rimraf declarations';
+
+      contents.typesVersions = {
+        '*': {
+          'test-support': ['declarations/addon-test-support/index.d.ts'],
+          'test-support/*': ['declarations/addon-test-support/*', 'declarations/addon-test-support/*/index.d.ts'],
+          '*': ['declarations/addon/*', 'declarations/addon/*/index.d.ts'],
+        },
+      };
+    }
 
     merge(contents, ADDITIONAL_PACKAGE);
 
@@ -108,15 +129,6 @@ module.exports = {
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
-  },
-
-  async afterInstall(options) {
-    if (options.typescript) {
-      await this.addAddonToProject({
-        name: 'ember-cli-typescript',
-        blueprintOptions: { ...options, save: true },
-      });
-    }
   },
 
   locals(options) {
@@ -172,7 +184,9 @@ module.exports = {
   },
 
   files(options) {
-    let appFiles = this.lookupBlueprint(this.appBlueprintName).files(options);
+    let appFiles = this.lookupBlueprint(this.appBlueprintName)
+      .files(options)
+      .filter((file) => !['types/ember-data/types/registries/model.d.ts'].includes(file));
     let addonFilesPath = this.filesPath(this.options);
     let ignoredCITemplate = this.options.ciProvider !== 'travis' ? '.travis.yml' : '.github';
 
@@ -180,6 +194,10 @@ module.exports = {
 
     if (!options.pnpm) {
       addonFiles = addonFiles.filter((file) => !file.endsWith('.npmrc'));
+    }
+
+    if (!options.typescript) {
+      addonFiles = addonFiles.filter((file) => file !== 'tsconfig.json' && !file.endsWith('.d.ts'));
     }
 
     return uniq(appFiles.concat(addonFiles));

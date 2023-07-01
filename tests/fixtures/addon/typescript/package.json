@@ -1,11 +1,28 @@
 {
-  "name": "<%= name %>",
+  "name": "foo",
   "version": "0.0.0",
-  "private": true,
-  "description": "Small description for <%= name %> goes here",
+  "description": "The default blueprint for ember-cli addons.",
+  "keywords": [
+    "ember-addon"
+  ],
   "repository": "",
   "license": "MIT",
   "author": "",
+  "typesVersions": {
+    "*": {
+      "test-support": [
+        "declarations/addon-test-support/index.d.ts"
+      ],
+      "test-support/*": [
+        "declarations/addon-test-support/*",
+        "declarations/addon-test-support/*/index.d.ts"
+      ],
+      "*": [
+        "declarations/addon/*",
+        "declarations/addon/*/index.d.ts"
+      ]
+    }
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -19,32 +36,30 @@
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix<% if (typescript) { %>",
-    "lint:types": "tsc --noEmit<% } %>",
+    "lint:js:fix": "eslint . --fix",
+    "lint:types": "tsc --noEmit",
+    "prepack": "tsc --project tsconfig.declarations.json",
+    "postpack": "rimraf declarations",
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "test:ember-compatibility": "ember try:each"
+  },
+  "dependencies": {
+    "ember-cli-babel": "^7.26.11",
+    "ember-cli-htmlbars": "^6.2.0"
   },
   "devDependencies": {
-    "<% if (!typescript) { %>@babel/eslint-parser": "^7.22.5",
-    "@babel/plugin-proposal-decorators": "^7.22.5",
-    "<% } %>@ember/optional-features": "^2.0.0",
+    "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
-    "@ember/test-helpers": "^3.1.0<% if (embroider) { %>",
-    "@embroider/compat": "^3.0.2",
-    "@embroider/core": "^3.0.2",
-    "@embroider/webpack": "^3.0.0<% } %>",
+    "@ember/test-helpers": "^3.1.0",
+    "@embroider/test-setup": "^3.0.1",
     "@glimmer/component": "^1.1.2",
-    "@glimmer/tracking": "^1.1.2<% if (typescript) { %>",
+    "@glimmer/tracking": "^1.1.2",
     "@glint/environment-ember-loose": "^1.0.2",
     "@glint/template": "^1.0.2",
     "@tsconfig/ember": "^2.0.0",
     "@types/ember": "^4.0.3",
-    "@types/ember-data": "^4.4.10",
-    "@types/ember-data__adapter": "^4.0.1",
-    "@types/ember-data__model": "^4.0.0",
-    "@types/ember-data__serializer": "^4.0.1",
-    "@types/ember-data__store": "^4.0.2",
     "@types/ember__application": "^4.0.5",
     "@types/ember__array": "^4.0.3",
     "@types/ember__component": "^4.0.13",
@@ -68,29 +83,24 @@
     "@types/qunit": "^2.19.5",
     "@types/rsvp": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
-    "@typescript-eslint/parser": "^5.60.0<% } %>",
+    "@typescript-eslint/parser": "^5.60.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.2.0",
     "ember-auto-import": "^2.6.3",
     "ember-cli": "~<%= emberCLIVersion %>",
-    "ember-cli-app-version": "^6.0.1",
-    "ember-cli-babel": "^7.26.11",
     "ember-cli-clean-css": "^2.0.0",
     "ember-cli-dependency-checker": "^3.3.2",
-    "ember-cli-htmlbars": "^6.2.0",
-    "ember-cli-inject-live-reload": "^2.1.0<% if (!embroider) { %>",
+    "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
-    "ember-cli-terser": "^4.0.2<% } %>",
-    "ember-data": "~5.1.0-beta.0",
-    "ember-fetch": "^8.1.2",
+    "ember-cli-terser": "^4.0.2",
     "ember-load-initializers": "^2.1.2",
-    "ember-modifier": "^4.1.0",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^7.0.0",
     "ember-resolver": "^10.1.1",
     "ember-source": "~5.1.0-beta.1",
-    "ember-template-lint": "^5.10.3<% if (welcome) { %>",
-    "ember-welcome-page": "^7.0.2<% } %>",
+    "ember-source-channel-url": "^3.0.0",
+    "ember-template-lint": "^5.10.3",
+    "ember-try": "^2.0.0",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-ember": "^11.8.0",
@@ -101,17 +111,23 @@
     "prettier": "^2.8.8",
     "qunit": "^2.19.4",
     "qunit-dom": "^2.0.0",
+    "rimraf": "^5.0.1",
     "stylelint": "^15.8.0",
     "stylelint-config-standard": "^33.0.0",
     "stylelint-prettier": "^3.0.0",
-    "tracked-built-ins": "^3.1.1<% if (typescript) { %>",
-    "typescript": "^5.0.4<% } %>",
+    "typescript": "^5.0.4",
     "webpack": "^5.87.0"
+  },
+  "peerDependencies": {
+    "ember-source": ">= 4.0.0"
   },
   "engines": {
     "node": "16.* || >= 18"
   },
   "ember": {
     "edition": "octane"
+  },
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
   }
 }

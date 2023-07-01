@@ -4,9 +4,9 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function (defaults) {
   const app = new EmberAddon(defaults, {
-    <% if (typescript) {%>'ember-cli-babel': { enableTypeScriptTransform: true },
+    'ember-cli-babel': { enableTypeScriptTransform: true },
 
-    <% } %>// Add options here
+    // Add options here
   });
 
   /*
