@@ -77,6 +77,10 @@ module.exports = {
       files = files.filter((file) => file.indexOf('.github') < 0);
     }
 
+    if (!options.pnpm) {
+      files = files.filter((file) => !file.endsWith('.npmrc'));
+    }
+
     if (!options.typescript) {
       files = files.filter(
         (file) => !['tsconfig.json', 'app/config/', 'types/'].includes(file) && !file.endsWith('.d.ts')

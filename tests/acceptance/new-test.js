@@ -562,7 +562,7 @@ describe('Acceptance: ember new', function () {
 
       let fixturePath = 'app/pnpm';
 
-      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
+      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md', '.npmrc'].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
