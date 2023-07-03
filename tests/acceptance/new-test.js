@@ -43,7 +43,7 @@ describe('Acceptance: ember new', function () {
     let blueprintPath = path.join(root, blueprintDir, 'files');
     // ignore .travis.yml and TypeScript files
     let expected = walkSync(blueprintPath, {
-      ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config'],
+      ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config', '.npmrc'],
     }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
 
     let actual = walkSync('.').sort();
