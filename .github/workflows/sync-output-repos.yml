@@ -12,6 +12,13 @@
 name: Sync Output Repos
 
 on:
+  # Manual run
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: 'Specify the released version of ember-cli to use to generate / update the output repos. Should be full semver version, and without a leading "v"'
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-only-when-a-push-of-specific-tags-occurs
   # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushbranchestagsbranches-ignoretags-ignore
   push:
@@ -31,9 +38,49 @@ env:
   GIT_EMAIL: 'github-actions+bot@users.noreply.github.com'
 
 jobs:
-  push-addon-app:
-    name: "Push to addon/app output repos"
+  verify-inputs:
+    name: "Verify Inputs"
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.determine.outputs.version }}
+      tag: ${{ steps.determine.outputs.tag }}
+
+    steps:
+      - id: determine
+        run: |
+          if [[ "${{ github.event.inputs.version }}" != "" ]]; then
+            TAG="v${{ github.event.inputs.version }}"
+            VERSION="${{ github.event.inputs.version }}"
+          elif [[ "${{ github.ref_name }}" != "" ]]; then
+            TAG="${{github.ref_name}}"
+            _version="${{github.ref_name}}"
+            VERSION="${_version/v/''}"
+          else
+            echo "Could not determine tag / version"
+            echo ""
+            echo "github.ref_name = ${{ github.ref_name }}"
+            echo "event.inputs.version = ${{ github.event.inputs.version }}"
+            exit 1;
+          fi
+
+          if [[ "$VERSION" == v* ]]; then
+            echo "version, $VERSION, may not start with a 'v' character"
+            exit 1;
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+
+
+  push-addon-app:
+    name: "Push to ${{ matrix.blueprint }} output repo"
+    runs-on: ubuntu-latest
+    needs: [verify-inputs]
+    strategy:
+      fail-fast: false
+      matrix:
+        blueprint: ["addon", "app"]
 
     steps:
       - uses: actions/checkout@v3
@@ -47,13 +94,15 @@ jobs:
         run: |
           git config --global user.name "${{ env.GIT_NAME }}"
           git config --global user.email "${{ env.GIT_EMAIL }}"
-      - run: node ./dev/update-output-repos.js
+      - run: node ./dev/update-output-repos.js ${{ needs.verify-inputs.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          BLUEPRINT: ${{ matrix.blueprint }}
 
   push-editors:
     name: "Push to editor output repos (${{ matrix.variant }})"
     runs-on: ubuntu-latest
+    needs: [verify-inputs]
     strategy:
       fail-fast: false
       matrix:
@@ -73,7 +122,7 @@ jobs:
           git config --global user.name "${{ env.GIT_NAME }}"
           git config --global user.email "${{ env.GIT_EMAIL }}"
       - name: Publish ${{ matrix.variant }} branches
-        run: node ./dev/update-editor-output-repos.js
+        run: node ./dev/update-editor-output-repos.js ${{ needs.verify-inputs.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           VARIANT: ${{ matrix.variant }}

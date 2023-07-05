@@ -8,7 +8,8 @@ A short introduction of this app could easily go here.
 You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/)<% if (yarn) { %>
+* [Node.js](https://nodejs.org/)<% if (pnpm) { %>
+* [pnpm](https://pnpm.io/)<% } else if (yarn) { %>
 * [Yarn](https://yarnpkg.com/)<% } else { %> (with npm)<% } %>
 * [Ember CLI](https://cli.emberjs.com/release/)
 * [Google Chrome](https://google.com/chrome/)
@@ -17,7 +18,7 @@ You will need the following things properly installed on your computer.
 
 * `git clone <repository-url>` this repository
 * `cd <%= appDirectory %>`
-* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> install`
+* `<% if (pnpm) { %>pnpm<% } else if (yarn) { %>yarn<% } else { %>npm<% } %> install`
 
 ## Running / Development
 
@@ -36,8 +37,8 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Linting
 
-* `<% if (yarn) { %>yarn lint<% } else { %>npm run lint<% } %>`
-* `<% if (yarn) { %>yarn lint:fix<% } else { %>npm run lint:fix<% } %>`
+* `<% if (pnpm) { %>pnpm lint<% } else if (yarn) { %>yarn lint<% } else { %>npm run lint<% } %>`
+* `<% if (pnpm) { %>pnpm lint:fix<% } else if (yarn) { %>yarn lint:fix<% } else { %>npm run lint:fix<% } %>`
 
 ### Building
 

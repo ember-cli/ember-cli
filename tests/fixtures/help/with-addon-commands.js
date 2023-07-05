@@ -58,6 +58,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'pnpm',
+          key: 'pnpm',
+          default: false,
+          required: false,
+        },
+        {
           name: 'directory',
           aliases: ['dir'],
           key: 'directory',
@@ -436,6 +442,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'pnpm',
+          key: 'pnpm',
+          default: false,
+          required: false,
+        },
+        {
           name: 'name',
           default: '',
           aliases: ['n'],
@@ -564,6 +576,12 @@ module.exports = {
           name: 'yarn',
           key: 'yarn',
           required: false
+        },
+        {
+          name: 'pnpm',
+          key: 'pnpm',
+          default: false,
+          required: false,
         },
         {
           name: 'directory',

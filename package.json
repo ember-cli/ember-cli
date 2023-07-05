@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "5.0.0",
+  "version": "5.1.0-beta.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.21.4",
+    "@pnpm/find-workspace-dir": "^6.0.1",
     "broccoli": "^3.5.2",
     "broccoli-builder": "^0.18.14",
     "broccoli-concat": "^4.2.5",
