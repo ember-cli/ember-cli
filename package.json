@@ -135,7 +135,7 @@
     "chai-jest-snapshot": "^2.0.0",
     "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-internal-test-helpers": "^0.9.1",
-    "eslint": "^8.37.0",
+    "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-chai-expect": "^3.0.0",
     "eslint-plugin-mocha": "^10.1.0",
