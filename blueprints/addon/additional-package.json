@@ -1,5 +1,7 @@
 {
-  "keywords": ["ember-addon"],
+  "keywords": [
+    "ember-addon"
+  ],
   "scripts": {
     "test:ember-compatibility": "ember try:each"
   },
