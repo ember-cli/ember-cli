@@ -52,9 +52,12 @@ const PACKAGE_FILES = [
   '../tests/fixtures/app/embroider-yarn/package.json',
   '../tests/fixtures/app/embroider-pnpm/package.json',
   '../tests/fixtures/app/embroider-no-welcome/package.json',
+  '../tests/fixtures/app/typescript/package.json',
+  '../tests/fixtures/app/typescript-embroider/package.json',
   '../tests/fixtures/addon/defaults/package.json',
   '../tests/fixtures/addon/yarn/package.json',
   '../tests/fixtures/addon/pnpm/package.json',
+  '../tests/fixtures/addon/typescript/package.json',
 ];
 
 let filter = {
