@@ -6968,13 +6968,13 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-quibble@^0.6.14:
-  version "0.6.15"
-  resolved "https://registry.yarnpkg.com/quibble/-/quibble-0.6.15.tgz#6ceed62084a4ca60cbda94c796763bcde9c5093c"
-  integrity sha512-AKUMjlGPigm6slA3eXsTiCHg1ZRwzdsggUKCu8Ko6XyauPfkkBPOXbvdxwhPmC5GD/BtDXLEiPV9cV9xt+as1w==
+quibble@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/quibble/-/quibble-0.7.0.tgz#fd7f7f03ed4c2682b55523433af5e66bc26bde9f"
+  integrity sha512-uiqtYLo6p6vWR/G3Ltsg0NU1xw43RcNGadYP+d/DF3zLQTyOt8uC7L2mmcJ97au1QE1YdmCD+HVIIq/RGtkbWA==
   dependencies:
     lodash "^4.17.21"
-    resolve "^1.20.0"
+    resolve "^1.22.1"
 
 quick-lru@^5.1.1:
   version "5.1.1"
@@ -7291,7 +7291,7 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==
 
-resolve@^1.1.6, resolve@^1.10.0, resolve@^1.11.1, resolve@^1.20.0, resolve@^1.22.1:
+resolve@^1.1.6, resolve@^1.10.0, resolve@^1.11.1, resolve@^1.22.1:
   version "1.22.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.1.tgz#27cb2ebb53f91abb49470a928bba7558066ac177"
   integrity sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==
@@ -8112,13 +8112,13 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-testdouble@^3.16.6, testdouble@^3.2.6:
-  version "3.16.8"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.16.8.tgz#9c761031f3693d973c726e31a60ee73cd2871c96"
-  integrity sha512-jOKYRJ9mfgDxwuUOj84sl9DWiP1+KpHcgnhjlSHC8h1ZxJT3KD1FAAFVqnqmmyrzc/+0DRbI/U5xo1/K3PLi8w==
+testdouble@^3.18.0, testdouble@^3.2.6:
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.18.0.tgz#850a04d00045a52cd08c99cb69aea6845fe86587"
+  integrity sha512-awRay/WxNHYz0SJrjvvg1xE4QQkbKgWFN1VNhhb132JSO2FSWUW4cebUtD0HjWWwrvpN3uFsVeaUhwpmVlzlkg==
   dependencies:
     lodash "^4.17.21"
-    quibble "^0.6.14"
+    quibble "^0.7.0"
     stringify-object-es5 "^2.5.0"
     theredoc "^1.0.0"
 
