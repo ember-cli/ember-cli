@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v5.2.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.1.0...v5.2.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.1.0...v5.2.0-beta.0)
+
+#### Changelog
+
+- [#10283](https://github.com/ember-cli/ember-cli/pull/10283) Refactor `--typescript` support in blueprints [@simonihmig](https://github.com/simonihmig)
+
+Thank you to all who took the time to contribute!
+
 ## v5.1.0
 
 #### Blueprint Changes
