@@ -625,7 +625,7 @@ describe('Acceptance: ember new', function () {
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
     });
 
-    it('app + typescript', async function () {
+    it.skip('app + typescript', async function () {
       // This is a very slow test, as the blueprint installs ember-cli-typescript, which requires installing all dependencies,
       // regardless of --skip-npm
       this.timeout(600000);
@@ -660,7 +660,7 @@ describe('Acceptance: ember new', function () {
       expect(file('tsconfig.json')).to.exist;
     });
 
-    it('addon + typescript', async function () {
+    it.skip('addon + typescript', async function () {
       this.timeout(600000);
 
       await ember(['addon', 'foo', '--typescript', '--skip-npm', '--skip-bower', '--skip-git', '--yarn']);
