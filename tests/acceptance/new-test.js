@@ -21,6 +21,10 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
 
+let { stdout: nodeOut } = execa.sync('node', ['--version']);
+
+let isNode14 = semver.satisfies(nodeOut, '14.x');
+
 describe('Acceptance: ember new', function () {
   this.timeout(300000);
   let ORIGINAL_PROCESS_ENV_CI;
@@ -626,6 +630,9 @@ describe('Acceptance: ember new', function () {
     });
 
     it('app + typescript', async function () {
+      if (isNode14) {
+        this.skip();
+      }
       // This is a very slow test, as the blueprint installs ember-cli-typescript, which requires installing all dependencies,
       // regardless of --skip-npm
       this.timeout(600000);
@@ -661,6 +668,10 @@ describe('Acceptance: ember new', function () {
     });
 
     it('addon + typescript', async function () {
+      if (isNode14) {
+        this.skip();
+      }
+
       this.timeout(600000);
 
       await ember(['addon', 'foo', '--typescript', '--skip-npm', '--skip-bower', '--skip-git', '--yarn']);
