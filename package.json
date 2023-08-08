@@ -154,7 +154,7 @@
     "testdouble": "^3.18.0",
     "tmp": "^0.2.1",
     "websocket": "^1.0.32",
-    "which": "3.0.0",
+    "which": "3.0.1",
     "yuidoc-ember-cli-theme": "^1.0.4",
     "yuidocjs": "0.10.2"
   },
