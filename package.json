@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.22.10",
-    "@pnpm/find-workspace-dir": "^6.0.1",
+    "@pnpm/find-workspace-dir": "^6.0.2",
     "broccoli": "^3.5.2",
     "broccoli-builder": "^0.18.14",
     "broccoli-concat": "^4.2.5",
