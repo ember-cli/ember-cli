@@ -37,7 +37,7 @@
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
   "dependencies": {
-    "@babel/core": "^7.21.4",
+    "@babel/core": "^7.22.10",
     "@pnpm/find-workspace-dir": "^6.0.1",
     "broccoli": "^3.5.2",
     "broccoli-builder": "^0.18.14",
