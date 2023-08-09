@@ -29,7 +29,6 @@ describe('livereload-server', function () {
       ui,
       watcher,
       httpServer,
-      analytics: { trackError() {} },
       project: {
         liveReloadFilterPatterns: [],
         root: '/home/user/my-project',
@@ -208,11 +207,6 @@ describe('livereload-server', function () {
     let stubbedChanged = function () {
       changedCount += 1;
     };
-    let trackCount;
-    let oldTrack;
-    let stubbedTrack = function () {
-      trackCount += 1;
-    };
     let createStubbedGetDirectoryEntries = function (files) {
       return function () {
         return files.map(function (file) {
@@ -238,16 +232,11 @@ describe('livereload-server', function () {
       oldChanged = liveReloadServer.changed;
       liveReloadServer.changed = stubbedChanged;
 
-      trackCount = 0;
-      oldTrack = subject.analytics.track;
-      subject.analytics.track = stubbedTrack;
-
       subject.tree = FSTree.fromEntries([]);
     });
 
     afterEach(function () {
       liveReloadServer.changed = oldChanged;
-      subject.analytics.track = oldTrack;
       subject.project.liveReloadFilterPatterns = [];
     });
 
@@ -479,15 +468,12 @@ describe('livereload-server', function () {
       liveReloadServer.changed = stubbedChanged;
 
       trackCount = 0;
-      oldTrack = subject.analytics.track;
-      subject.analytics.track = stubbedTrack;
 
       subject.tree = FSTree.fromEntries([]);
     });
 
     afterEach(function () {
       liveReloadServer.changed = oldChanged;
-      subject.analytics.track = oldTrack;
       subject.project.liveReloadFilterPatterns = [];
     });
 

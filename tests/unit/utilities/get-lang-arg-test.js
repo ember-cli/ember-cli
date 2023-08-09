@@ -186,7 +186,6 @@ describe('lib/utilities/get-lang-arg', function () {
 
   describe('Invalid Language Flags, Misuse case: ember-cli `new` and `init` options / aliases', function () {
     [
-      '--disable-analytics',
       '--watcher=node',
       '--dry-run',
       '-d',

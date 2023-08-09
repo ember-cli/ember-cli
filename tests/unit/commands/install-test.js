@@ -87,15 +87,13 @@ describe('install command', function () {
     td.reset();
   });
 
-  it('initializes npm install and generate blueprint task with ui, project and analytics', function () {
+  it('initializes npm install and generate blueprint task with ui, project', function () {
     return command.validateAndRun(['ember-data']).then(function () {
       expect(npmInstance.ui, 'ui was set').to.be.ok;
       expect(npmInstance.project, 'project was set').to.be.ok;
-      expect(npmInstance.analytics, 'analytics was set').to.be.ok;
 
       expect(generateBlueprintInstance.ui, 'ui was set').to.be.ok;
       expect(generateBlueprintInstance.project, 'project was set').to.be.ok;
-      expect(generateBlueprintInstance.analytics, 'analytics was set').to.be.ok;
     });
   });
 

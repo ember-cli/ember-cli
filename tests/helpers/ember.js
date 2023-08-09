@@ -1,7 +1,6 @@
 'use strict';
 
 const MockUI = require('console-ui/mock');
-const MockAnalytics = require('./mock-analytics');
 const cli = require('../../lib/cli');
 const MockProcess = require('./mock-process');
 const path = require('path');
@@ -59,7 +58,6 @@ module.exports = function ember(args, options) {
     delete require.cache[path.join(process.cwd(), 'testem.js')];
   }
 
-  args.push('--disable-analytics');
   args.push('--watcher=node');
 
   if (!options || options.skipGit !== false) {
@@ -79,7 +77,6 @@ module.exports = function ember(args, options) {
     outputStream,
     errorLog,
     cliArgs: args,
-    Leek: MockAnalytics,
     UI: ui,
     testing: true,
     disableDependencyChecker,
