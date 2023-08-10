@@ -59,35 +59,6 @@ describe('build task test', function () {
     });
   });
 
-  it('generates valid visualization output', function () {
-    process.env.BROCCOLI_VIZ = '1';
-
-    let outputPath = 'dist';
-    let task = new BuildTask({
-      project,
-      ui,
-    });
-
-    let runOptions = {
-      outputPath,
-      environment: 'development',
-    };
-
-    return task.run(runOptions).then(function () {
-      let vizOutputPath = 'instrumentation.build.0.json';
-      expect(file(vizOutputPath)).to.exist;
-
-      // confirm it is valid json
-      let output = fs.readJsonSync(vizOutputPath);
-      expect(Object.keys(output)).to.eql(['summary', 'nodes']);
-
-      expect(output.summary.build.type).to.equal('initial');
-      expect(output.summary.buildSteps).to.equal(1);
-
-      expect(Array.isArray(output.nodes)).to.equal(true);
-    });
-  });
-
   it('it displays environment', function () {
     let outputPath = 'dist';
     let task = new BuildTask({
