@@ -87,7 +87,6 @@ jobs:
           - ENABLE_ALL_EXPERIMENTS
           - EMBROIDER
           - CLASSIC
-          - PNPM
 
     steps:
       - uses: actions/checkout@v3
