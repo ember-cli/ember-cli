@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: NullVoxPopuli/action-setup-pnpm@v2<% } else { %>
+      - uses: wyvox/action-setup-pnpm@v2<% } else { %>
       - name: Install Node
         uses: actions/setup-node@v3
         with:
@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: NullVoxPopuli/action-setup-pnpm@v2<% } else { %>
+      - uses: wyvox/action-setup-pnpm@v2<% } else { %>
       - name: Install Node
         uses: actions/setup-node@v3
         with:
