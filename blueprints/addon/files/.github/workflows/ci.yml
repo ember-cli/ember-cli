@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: NullVoxPopuli/action-setup-pnpm@v2
+      - uses: wyvox/action-setup-pnpm@v2
         with:
           node-version: 16<% } else { %>
       - name: Install Node
@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: NullVoxPopuli/action-setup-pnpm@v2
+      - uses: wyvox/action-setup-pnpm@v2
         with:
           node-version: 16
           no-lockfile: true<% } else { %>
@@ -66,6 +66,7 @@ jobs:
         try-scenario:
           - ember-lts-4.4
           - ember-lts-4.8
+          - ember-lts-4.12
           - ember-release
           - ember-beta
           - ember-canary
@@ -74,7 +75,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: NullVoxPopuli/action-setup-pnpm@v2
+      - uses: wyvox/action-setup-pnpm@v2
         with:
           node-version: 16<% } else { %>
       - name: Install Node

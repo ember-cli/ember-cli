@@ -11,6 +11,7 @@ on:
       - 'release-*'
       - 'lts-*'
   pull_request:
+  merge_group:
   schedule:
     - cron:  '0 3 * * *' # daily, at 3am
 
@@ -86,7 +87,6 @@ jobs:
           - ENABLE_ALL_EXPERIMENTS
           - EMBROIDER
           - CLASSIC
-          - PNPM
 
     steps:
       - uses: actions/checkout@v3

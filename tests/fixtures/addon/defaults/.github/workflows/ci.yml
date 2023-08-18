@@ -59,6 +59,7 @@ jobs:
         try-scenario:
           - ember-lts-4.4
           - ember-lts-4.8
+          - ember-lts-4.12
           - ember-release
           - ember-beta
           - ember-canary
