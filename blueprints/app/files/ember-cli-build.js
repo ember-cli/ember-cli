@@ -4,7 +4,9 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
-    // Add options here
+    <% if (typescript) {%>'ember-cli-babel': { enableTypeScriptTransform: true },
+
+    <% } %>// Add options here
   });
 
   <% if (embroider) { %>const { Webpack } = require('@embroider/webpack');
