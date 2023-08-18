@@ -8,7 +8,7 @@
   "devDependencies": {
     "@embroider/test-setup": "^3.0.1",
     "ember-source-channel-url": "^3.0.0",
-    "ember-try": "^2.0.0"
+    "ember-try": "^3.0.0"
   },
   "peerDependencies": {
     "ember-source": ">= 4.0.0"
