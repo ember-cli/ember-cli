@@ -8,6 +8,7 @@ Options:
   - '--ember-source' (required) - The dist-tag to use for ember-source
   - '--ember-data' (required) - The dist-tag to use for ember-data
   - '--filter' (optional) - A RegExp to filter the packages to update by
+  - '--latest' (optional) - Always use the latest version available for a package (includes major bumps, 'false' by default)
 
 Example:
 
@@ -39,6 +40,7 @@ const OPTIONS = nopt({
   'ember-source': String,
   'ember-data': String,
   filter: String,
+  latest: Boolean,
 });
 
 const PACKAGE_FILES = [
@@ -90,12 +92,12 @@ function shouldCheckDependency(dependency) {
 }
 
 const LATEST = new Map();
-async function latestVersion(packageName) {
+async function latestVersion(packageName, semverRange) {
   let result = LATEST.get(packageName);
 
   if (result === undefined) {
     let options = {
-      version: 'latest',
+      version: semverRange,
     };
 
     if (OPTIONS[packageName]) {
@@ -130,7 +132,10 @@ async function updateDependencies(dependencies) {
     let hasVersion = previousValue[1] !== '<';
 
     if (hasVersion && isValidPrefix) {
-      dependencies[dependencyKey] = `${prefix}${await latestVersion(dependencyName)}${templateSuffix}`;
+      const semverRange = OPTIONS.latest ? 'latest' : removeTemplateExpression(previousValue);
+      const newVersion = await latestVersion(dependencyName, semverRange);
+
+      dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
     }
   }
 }
