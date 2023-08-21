@@ -20,7 +20,7 @@ describe('Blueprint', function () {
       expect(output).to.equal('const x = 1;\n');
     });
 
-    it('returns strips types when converting ts', async function () {
+    it('strips types when converting ts', async function () {
       const output = await Blueprint.prototype.removeTypes('.ts', 'const x: number = 1;\n');
       expect(output).to.equal('const x = 1;\n');
     });
@@ -49,6 +49,16 @@ describe('Blueprint', function () {
         'const x = <template>Hello!</template>\nconst y = <template>World!</template>\n'
       );
       expect(output).to.equal('const x = <template>Hello!</template>\nconst y = <template>World!</template>\n');
+    });
+
+    it('works in class body', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'const foo: number = 1;\nexport default class Bar extends Component {\n  <template>Hello {{foo}}</template>\n}\n'
+      );
+      expect(output).to.equal(
+        'const foo = 1;\nexport default class Bar extends Component {\n  <template>Hello {{foo}}</template>\n}\n'
+      );
     });
   });
 
