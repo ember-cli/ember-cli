@@ -24,6 +24,19 @@ describe('Blueprint', function () {
       const output = await Blueprint.prototype.removeTypes('.ts', 'const x: number = 1;\n');
       expect(output).to.equal('const x = 1;\n');
     });
+
+    it('stripes types when converting gts', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'const x: number = 1;\n<template>Hello {{x}}!</template>\n'
+      );
+      expect(output).to.equal('const x = 1;\n<template>Hello {{x}}!</template>\n');
+    });
+
+    it('can handle template-only gts', async function () {
+      const output = await Blueprint.prototype.removeTypes('.gts', '<template>Hello!</template>\n');
+      expect(output).to.equal('<template>Hello!</template>\n');
+    });
   });
 
   describe('.mapFile', function () {
