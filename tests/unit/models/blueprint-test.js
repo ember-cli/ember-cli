@@ -42,6 +42,14 @@ describe('Blueprint', function () {
       const output = await Blueprint.prototype.removeTypes('.gts', '<template>\nHello!\n</template>\n');
       expect(output).to.equal('<template>\nHello!\n</template>\n');
     });
+
+    it('can handle multiple template tags in one file', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'const x = <template>Hello!</template>\nconst y = <template>World!</template>\n'
+      );
+      expect(output).to.equal('const x = <template>Hello!</template>\nconst y = <template>World!</template>\n');
+    });
   });
 
   describe('.mapFile', function () {
