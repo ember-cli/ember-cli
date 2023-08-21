@@ -37,6 +37,11 @@ describe('Blueprint', function () {
       const output = await Blueprint.prototype.removeTypes('.gts', '<template>Hello!</template>\n');
       expect(output).to.equal('<template>Hello!</template>\n');
     });
+
+    it('can handle multi-line template tag', async function () {
+      const output = await Blueprint.prototype.removeTypes('.gts', '<template>\nHello!\n</template>\n');
+      expect(output).to.equal('<template>\nHello!\n</template>\n');
+    });
   });
 
   describe('.mapFile', function () {
