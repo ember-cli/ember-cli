@@ -14,6 +14,18 @@ describe('Blueprint', function () {
     td.reset();
   });
 
+  describe('.removeTypes', function () {
+    it('returns input when passing javascript', async function () {
+      const output = await Blueprint.prototype.removeTypes('.js', 'const x = 1;');
+      expect(output).to.equal('const x = 1;');
+    });
+
+    it('returns strips types when converting ts', async function () {
+      const output = await Blueprint.prototype.removeTypes('.ts', 'const x: number = 1;\n');
+      expect(output).to.equal('const x = 1;\n');
+    });
+  });
+
   describe('.mapFile', function () {
     it('replaces all occurrences of __name__ with module name', function () {
       let path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', {

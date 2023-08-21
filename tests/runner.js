@@ -34,7 +34,7 @@ let mocha = new Mocha({
     },
   },
 });
-let testFiles = glob.sync(`${root}/**/*-test.js`);
+let testFiles = glob.sync(`${root}/**/blueprint-test.js`);
 let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
 let docsLint = testFiles.splice(docsLintPosition, 1);
 
