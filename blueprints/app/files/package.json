@@ -26,6 +26,7 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.10",
     "<% if (!typescript) { %>@babel/eslint-parser": "^7.22.10",
     "@babel/plugin-proposal-decorators": "^7.22.10",
     "<% } %>@ember/optional-features": "^2.0.0",

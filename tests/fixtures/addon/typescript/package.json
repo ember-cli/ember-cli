@@ -46,6 +46,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@babel/core": "^7.22.10",
     "ember-cli-babel": "^8.0.0",
     "ember-cli-htmlbars": "^6.3.0"
   },
