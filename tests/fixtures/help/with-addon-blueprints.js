@@ -53,15 +53,11 @@ module.exports = {
           required: false
         },
         {
-          name: 'yarn',
-          key: 'yarn',
-          required: false
-        },
-        {
-          name: 'pnpm',
-          key: 'pnpm',
-          default: false,
+          aliases: [{ npm: 'npm' }, { pnpm: 'pnpm' }, { yarn: 'yarn' }],
+          key: 'packageManager',
+          name: 'package-manager',
           required: false,
+          type: ['npm', 'pnpm', 'yarn'],
         },
         {
           name: 'directory',
@@ -469,15 +465,11 @@ module.exports = {
           required: false
         },
         {
-          name: 'yarn',
-          key: 'yarn',
-          required: false
-        },
-        {
-          name: 'pnpm',
-          key: 'pnpm',
-          default: false,
+          aliases: [{ npm: 'npm' }, { pnpm: 'pnpm' }, { yarn: 'yarn' }],
+          key: 'packageManager',
+          name: 'package-manager',
           required: false,
+          type: ['npm', 'pnpm', 'yarn'],
         },
         {
           name: 'name',
@@ -545,7 +537,7 @@ module.exports = {
           required: false
         },
         {
-          aliases: [{ yarn: 'yarn' }, { pnpm: 'pnpm' }],
+          aliases: [{ npm: 'npm' }, { pnpm: 'pnpm' }, { yarn: 'yarn' }],
           description:
             'Use this option to force the usage of a specific package manager. By default, ember-cli will try to detect the right package manager from any lockfiles that exist in your project.',
           key: 'packageManager',
@@ -605,15 +597,11 @@ module.exports = {
           required: false
         },
         {
-          name: 'yarn',
-          key: 'yarn',
-          required: false
-        },
-        {
-          name: 'pnpm',
-          key: 'pnpm',
-          default: false,
+          aliases: [{ npm: 'npm' }, { pnpm: 'pnpm' }, { yarn: 'yarn' }],
+          key: 'packageManager',
+          name: 'package-manager',
           required: false,
+          type: ['npm', 'pnpm', 'yarn'],
         },
         {
           name: 'directory',

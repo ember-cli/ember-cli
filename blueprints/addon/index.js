@@ -151,7 +151,7 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
 
-    let hasOptions = options.welcome || options.yarn || options.pnpm || options.ciProvider;
+    let hasOptions = options.welcome || options.packageManager || options.ciProvider;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
@@ -161,8 +161,8 @@ module.exports = {
         indent +
         [
           options.welcome && '"--welcome"',
-          options.yarn && '"--yarn"',
-          options.pnpm && '"--pnpm"',
+          options.packageManager === 'yarn' && '"--yarn"',
+          options.packageManager === 'pnpm' && '"--pnpm"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
           options.typescript && `"--typescript"`,
         ]
@@ -180,8 +180,8 @@ module.exports = {
       addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
-      yarn: options.yarn,
-      pnpm: options.pnpm,
+      yarn: options.packageManager === 'yarn',
+      pnpm: options.packageManager === 'pnpm',
       welcome: options.welcome,
       blueprint: 'addon',
       blueprintOptions,
@@ -201,7 +201,7 @@ module.exports = {
 
     let addonFiles = walkSync(addonFilesPath, { ignore: [ignoredCITemplate] });
 
-    if (!options.pnpm) {
+    if (options.packageManager !== 'pnpm') {
       addonFiles = addonFiles.filter((file) => !file.endsWith('.npmrc'));
     }
 
