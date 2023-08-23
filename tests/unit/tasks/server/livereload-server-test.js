@@ -100,7 +100,9 @@ describe('livereload-server', function () {
           port: 4200,
         })
         .then(function () {
-          http.get('http://localhost:4200/_lr/livereload.js', function (response) {
+          let httpGetOptions = { headers: { Connection: 'close' } };
+
+          http.get('http://localhost:4200/_lr/livereload.js', httpGetOptions, function (response) {
             expect(response.statusCode).to.equal(200);
             server.close(done);
           });
