@@ -308,9 +308,7 @@ describe('install command', function () {
     it('gives a helpful message if no arguments are passed', function () {
       return expect(command.validateAndRun([])).to.be.rejected.then((error) => {
         expect(error.message).to.equal(
-          'The `install` command must take an argument with the name ' +
-            'of an ember-cli addon. For installing all npm ' +
-            'dependencies you can run `npm install`.',
+          "An addon's name is required when running the `install` command. If you want to install all node modules, please run `yarn install` instead.",
           'expect error to have a helpful message'
         );
       });
