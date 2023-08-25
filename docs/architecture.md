@@ -47,7 +47,7 @@ Located in `lib/commands/`. They get picked up by `requireAsHash()`
 automatically.
 
 The CLI constructs command instances with dependencies including ui,
-analytics, commands, project, etc. The plan is for these to eventually
+commands, project, etc. The plan is for these to eventually
 be constructed and wired up via a dependency injection container.
 
 The following file structure is expected (Demonstrated on the imaginary
@@ -144,7 +144,7 @@ directly. That's because the task sequence is determined by the command and thus
 should be declared there.
 
 The command constructs task instances with dependencies including ui,
-analytics, project, etc. The plan is for these to eventually
+project, etc. The plan is for these to eventually
 be constructed and wired up via a dependency injection container.
 
 A task's `run` method has to return a promise which resolves or rejects

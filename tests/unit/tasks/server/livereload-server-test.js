@@ -29,7 +29,6 @@ describe('livereload-server', function () {
       ui,
       watcher,
       httpServer,
-      analytics: { trackError() {} },
       project: {
         liveReloadFilterPatterns: [],
         root: '/home/user/my-project',
@@ -210,11 +209,6 @@ describe('livereload-server', function () {
     let stubbedChanged = function () {
       changedCount += 1;
     };
-    let trackCount;
-    let oldTrack;
-    let stubbedTrack = function () {
-      trackCount += 1;
-    };
     let createStubbedGetDirectoryEntries = function (files) {
       return function () {
         return files.map(function (file) {
@@ -239,17 +233,11 @@ describe('livereload-server', function () {
       changedCount = 0;
       oldChanged = liveReloadServer.changed;
       liveReloadServer.changed = stubbedChanged;
-
-      trackCount = 0;
-      oldTrack = subject.analytics.track;
-      subject.analytics.track = stubbedTrack;
-
       subject.tree = FSTree.fromEntries([]);
     });
 
     afterEach(function () {
       liveReloadServer.changed = oldChanged;
-      subject.analytics.track = oldTrack;
       subject.project.liveReloadFilterPatterns = [];
     });
 
@@ -346,7 +334,6 @@ describe('livereload-server', function () {
             filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
           expect(changedCount).to.equal(1);
-          expect(trackCount).to.equal(1);
         });
 
         it('does not trigger livereload server of a change when there is a pattern match', function () {
@@ -364,7 +351,6 @@ describe('livereload-server', function () {
           });
 
           expect(changedCount).to.equal(0);
-          expect(trackCount).to.equal(0);
         });
       });
     });
@@ -450,11 +436,6 @@ describe('livereload-server', function () {
     let stubbedChanged = function () {
       changedCount += 1;
     };
-    let trackCount;
-    let oldTrack;
-    let stubbedTrack = function () {
-      trackCount += 1;
-    };
     let createStubbedGetDirectoryEntries = function (files) {
       return function () {
         return files.map(function (file) {
@@ -479,17 +460,11 @@ describe('livereload-server', function () {
       changedCount = 0;
       oldChanged = liveReloadServer.changed;
       liveReloadServer.changed = stubbedChanged;
-
-      trackCount = 0;
-      oldTrack = subject.analytics.track;
-      subject.analytics.track = stubbedTrack;
-
       subject.tree = FSTree.fromEntries([]);
     });
 
     afterEach(function () {
       liveReloadServer.changed = oldChanged;
-      subject.analytics.track = oldTrack;
       subject.project.liveReloadFilterPatterns = [];
     });
 
@@ -586,7 +561,6 @@ describe('livereload-server', function () {
             filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
           expect(changedCount).to.equal(1);
-          expect(trackCount).to.equal(1);
         });
 
         it('does not trigger livereload server of a change when there is a pattern match', function () {
@@ -604,7 +578,6 @@ describe('livereload-server', function () {
           });
 
           expect(changedCount).to.equal(0);
-          expect(trackCount).to.equal(0);
         });
       });
     });
