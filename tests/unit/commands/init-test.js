@@ -5,7 +5,6 @@ const os = require('os');
 const path = require('path');
 const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
-const MockAnalytics = require('../../helpers/mock-analytics');
 const Blueprint = require('../../../lib/models/blueprint');
 const Project = require('../../../lib/models/project');
 const Task = require('../../../lib/models/task');
@@ -14,11 +13,10 @@ const MockCLI = require('../../helpers/mock-cli');
 const td = require('testdouble');
 
 describe('init command', function () {
-  let ui, analytics, tasks, command, workingDir;
+  let ui, tasks, command, workingDir;
 
   beforeEach(function () {
     ui = new MockUI();
-    analytics = new MockAnalytics();
     tasks = {
       GenerateFromBlueprint: class extends Task {},
       InstallBlueprint: class extends Task {},
@@ -39,7 +37,6 @@ describe('init command', function () {
     let cli = new MockCLI({ ui });
     let options = {
       ui,
-      analytics,
       project: new Project(process.cwd(), projectOpts || { name: 'some-random-name' }, ui, cli),
       tasks,
       settings: {},

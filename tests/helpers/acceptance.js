@@ -34,7 +34,7 @@ function handleResult(result) {
 function applyCommand(command, name /*, ...flags*/) {
   let flags = [].slice.call(arguments, 2, arguments.length);
   let binaryPath = path.resolve(path.join(__dirname, '..', '..', 'bin', 'ember'));
-  let args = [binaryPath, command, name, '--disable-analytics', '--watcher=node', '--skip-git', runCommandOptions];
+  let args = [binaryPath, command, name, '--watcher=node', '--skip-git', runCommandOptions];
 
   flags.forEach(function (flag) {
     args.splice(2, 0, flag);
