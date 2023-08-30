@@ -173,3 +173,49 @@ git checkout master
 git merge origin/beta
 git push origin master
 ```
+
+## Post-release Automation
+
+There is a GitHub Actions workflow, https://github.com/ember-cli/ember-cli/actions/workflows/sync-output-repos.yml that pushes various invocations of the blueprint generator to "output repos".
+After release, make sure that all the jobs are "green" / succeeded.
+
+<details><summary>What to check afterwards</summary>
+
+- Apps: https://github.com/ember-cli/ember-app-output
+- Addons: https://github.com/ember-cli/ember-addon-output
+
+Both of these have a git-tag per release version
+
+### Online Editors
+
+Multiple editors could be supported, but right now, we only "customize" for stackblitz.
+
+https://github.com/ember-cli/editor-output/
+- [a branch for each scenario + release version](https://github.com/ember-cli/editor-output/branches/active)
+  - `${editorName}-{addon,app}-output{-'typescript'?}{-version}`
+  - and the "latest release" (non beta) will not have a version at the end
+  - This includes [app, addon] X [javascript, typescript]
+
+#### StackBlitz
+
+To make sure StackBlitz runs in their supported browsers (Chrome and FireFox, as of 2023-08-15)
+
+- App + JS: https://stackblitz.com/github/ember-cli/editor-output/tree/stackblitz-app-output
+- App + TS: https://stackblitz.com/github/ember-cli/editor-output/tree/stackblitz-app-output-typescript
+- Addon + JS: https://stackblitz.com/github/ember-cli/editor-output/tree/stackblitz-addon-output
+- Addon + TS: https://stackblitz.com/github/ember-cli/editor-output/tree/stackblitz-addon-output-typescript
+
+The App + JS, and App + TS are linked from Stackblitz's frontend templates UI: https://stackblitz.com/?starters=frontend
+
+</details>
+
+<details><summary>if problems arise</summary>
+
+Script for updating addon/app repos: https://github.com/ember-cli/ember-cli/blob/master/dev/update-output-repos.js
+Script for updating editors: https://github.com/ember-cli/ember-cli/blob/master/dev/update-editor-output-repos.js
+
+Customizations on top of the default blueprint(s) are found here: https://github.com/ember-cli/ember-cli/tree/master/dev/online-editors/stackblitz
+The intent for these customizations is to either be very light, or not needed at all.
+If an online editor breaks with our default blueprint, then it's most likely that _we_ have a bug (or something _very goofy_).
+
+</details>
