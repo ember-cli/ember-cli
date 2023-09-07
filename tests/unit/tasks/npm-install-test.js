@@ -27,7 +27,7 @@ describe('npm install task', function () {
 
   it('skips npm installs if there is no package.json', function () {
     return npmInstallTask.run({}).then(() => {
-      expect(ui.output).to.include('Skipping npm install: package.json not found');
+      expect(ui.output).to.include('Skipping install: `package.json` not found.');
     });
   });
 });
