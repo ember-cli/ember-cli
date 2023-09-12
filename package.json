@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "5.3.0-beta.1",
+  "version": "5.3.0-beta.2",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -37,7 +37,6 @@
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
   "dependencies": {
-    "@babel/core": "^7.22.10",
     "@pnpm/find-workspace-dir": "^6.0.2",
     "broccoli": "^3.5.2",
     "broccoli-builder": "^0.18.14",
@@ -92,7 +91,6 @@
     "is-git-url": "^1.0.0",
     "is-language-code": "^3.1.0",
     "isbinaryfile": "^5.0.0",
-    "leek": "0.0.24",
     "lodash.template": "^4.5.0",
     "markdown-it": "^13.0.1",
     "markdown-it-terminal": "^0.4.0",
@@ -119,7 +117,6 @@
     "testem": "^3.10.1",
     "tiny-lr": "^2.0.0",
     "tree-sync": "^2.1.0",
-    "uuid": "^9.0.0",
     "walk-sync": "^3.0.0",
     "watch-detector": "^1.0.2",
     "workerpool": "^6.4.0",
@@ -175,7 +172,6 @@
       "tokenRef": "GITHUB_AUTH"
     }
   },
-  "trackingCode": "UA-49225444-1",
   "volta": {
     "node": "16.19.1",
     "yarn": "1.22.19"

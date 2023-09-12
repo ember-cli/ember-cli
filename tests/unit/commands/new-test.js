@@ -131,7 +131,7 @@ describe('new command', function () {
             blueprint: 'addon',
             name: 'foo',
             lang: 'en-US',
-            yarn: false,
+            packageManager: 'npm',
             ciProvider: 'github',
           });
         }
@@ -167,7 +167,7 @@ describe('new command', function () {
             blueprint: 'app',
             name: 'bar',
             lang: 'nl-BE',
-            yarn: true,
+            packageManager: 'yarn',
             ciProvider: 'travis',
           });
         }
@@ -199,7 +199,7 @@ describe('new command', function () {
 
       class InitCommand extends Command {
         run(commandOptions) {
-          expect(commandOptions).does.not.have.key('yarn');
+          expect(commandOptions).does.not.have.key('packageManager');
           expect(commandOptions).to.deep.include({
             blueprint: 'app',
             name: 'baz',

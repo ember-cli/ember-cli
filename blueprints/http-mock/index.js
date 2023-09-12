@@ -17,7 +17,6 @@ module.exports = {
   beforeInstall(options) {
     let serverBlueprint = Blueprint.lookup('server', {
       ui: this.ui,
-      analytics: this.analytics,
       project: this.project,
     });
 

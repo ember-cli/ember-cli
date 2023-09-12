@@ -2,23 +2,20 @@
 
 const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
-const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
 const Command = require('../../../lib/models/command');
 const CLI = require('../../../lib/cli/cli');
 
 let ui;
-let analytics;
 let commands = {};
 let isWithinProject;
 let project;
 let willInterruptProcess;
 
-// helper to similate running the CLI
+// helper to simulate running the CLI
 function ember(args) {
   let cli = new CLI({
     ui,
-    analytics,
     testing: true,
   });
 
@@ -71,12 +68,11 @@ describe('Unit: CLI', function () {
     td.replace(willInterruptProcess, 'removeHandler', td.function());
 
     ui = new MockUI();
-    analytics = new MockAnalytics();
     commands = {};
     isWithinProject = true;
     project = {
       isEmberCLIProject() {
-        // similate being inside or outside of a project
+        // simulate being inside or outside of a project
         return isWithinProject;
       },
       hasDependencies() {
@@ -111,7 +107,6 @@ describe('Unit: CLI', function () {
   it('logError', function() {
     var cli = new CLI({
       ui: ui,
-      analytics: analytics,
       testing: true
     });
     var error = new Error('Error message!');
@@ -123,7 +118,6 @@ describe('Unit: CLI', function () {
   it('callHelp', function () {
     let cli = new CLI({
       ui,
-      analytics,
       testing: true,
     });
     let init = stubValidateAndRun('init');
@@ -136,7 +130,7 @@ describe('Unit: CLI', function () {
         settings: {},
         project: {
           isEmberCLIProject() {
-            // similate being inside or outside of a project
+            // simulate being inside or outside of a project
             return isWithinProject;
           },
           hasDependencies() {
@@ -160,7 +154,6 @@ describe('Unit: CLI', function () {
 
     let cli = new CLI({
       ui,
-      analytics,
       testing: true,
     });
 
@@ -192,7 +185,6 @@ describe('Unit: CLI', function () {
 
     let cli = new CLI({
       ui,
-      analytics,
       testing: true,
     });
 
@@ -215,7 +207,6 @@ describe('Unit: CLI', function () {
 
     let cli = new CLI({
       ui,
-      analytics,
       testing: true,
     });
 
@@ -553,18 +544,6 @@ describe('Unit: CLI', function () {
           let options = captor.value;
           expect(options.watch).to.equal(false, 'expected the default watch flag to be false');
           expect(options.suppressSizes).to.equal(false, 'expected the default suppress-sizes flag to be false');
-        });
-      });
-
-      it(`ember ${command} --disable-analytics`, function () {
-        let build = stubRun('build');
-
-        return ember([command, '--disable-analytics']).then(function () {
-          let captor = td.matchers.captor();
-          td.verify(build(captor.capture()), { ignoreExtraArgs: true, times: 1 });
-
-          let options = captor.value;
-          expect(options.disableAnalytics).to.equal(true, 'expected the disableAnalytics flag to be true');
         });
       });
 

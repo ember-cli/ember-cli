@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v5.3.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.3.0-beta.1...v5.3.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.3.0-beta.1...v5.3.0-beta.2)
+
+#### Changelog
+
+- [#10346](https://github.com/ember-cli/ember-cli/pull/10346) [BUGFIX release] App blueprint may not have explicit-any in ember-data types  [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10349](https://github.com/ember-cli/ember-cli/pull/10349) [BUGFIX release] Add `@babel/core` to `app` and `addon` blueprints [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v5.3.0-beta.1
 
 #### Blueprint Changes
@@ -21,6 +35,20 @@
 - [#10338](https://github.com/ember-cli/ember-cli/pull/10338) [INTERNAL] Remove `PNPM` experiment from CI matrix [@bertdeblock](https://github.com/bertdeblock)
 - [#10341](https://github.com/ember-cli/ember-cli/pull/10341) [ENHANCEMENT] Remove reference to `ember-mocha` in `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
 - [#8578](https://github.com/ember-cli/ember-cli/pull/8578) By default make ember test to pick ports automatically [@SparshithNR](https://github.com/SparshithNR)
+
+Thank you to all who took the time to contribute!
+
+## v5.2.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.2.0...v5.2.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.2.0...v5.2.1)
+
+#### Changelog
+
+- [#10346](https://github.com/ember-cli/ember-cli/pull/10346) [BUGFIX release] App blueprint may not have explicit-any in ember-data types  [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10349](https://github.com/ember-cli/ember-cli/pull/10349) [BUGFIX release] Add `@babel/core` to `app` and `addon` blueprints [@bertdeblock](https://github.com/bertdeblock)
 
 Thank you to all who took the time to contribute!
 

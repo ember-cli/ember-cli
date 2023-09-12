@@ -92,13 +92,13 @@ describe('interactive new task', function () {
     expect(question.validate('nl-BE')).to.be.true;
   });
 
-  it('it only displays the `packageManager` question when the yarn option is not provided', async function () {
+  it('it only displays the `packageManager` question when no package manager is provided', async function () {
     let questions = await interactiveNewTask.getQuestions();
     let question = getQuestion('packageManager', questions);
 
     expect(question.when).to.be.true;
 
-    questions = await interactiveNewTask.getQuestions({ yarn: true });
+    questions = await interactiveNewTask.getQuestions({ packageManager: 'pnpm' });
     question = getQuestion('packageManager', questions);
 
     expect(question.when).to.be.false;

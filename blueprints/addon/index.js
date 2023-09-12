@@ -56,6 +56,12 @@ module.exports = {
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
     delete contents.devDependencies['ember-cli-babel'];
 
+    // Addons must bring in their own version of `@babel/core` when using
+    // `ember-cli-babel` >= v8. More info:
+    // https://github.com/babel/ember-cli-babel/blob/master/UPGRADING.md#upgrade-path-for-addons
+    contents.dependencies['@babel/core'] = contents.devDependencies['@babel/core'];
+    delete contents.devDependencies['@babel/core'];
+
     // Move ember-cli-htmlbars into the dependencies of the addon blueprint by default
     // to prevent error:
     // `Addon templates were detected but there are no template compilers registered for (addon-name)`
@@ -145,7 +151,7 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
 
-    let hasOptions = options.welcome || options.yarn || options.pnpm || options.ciProvider;
+    let hasOptions = options.welcome || options.packageManager || options.ciProvider;
     let blueprintOptions = '';
     if (hasOptions) {
       let indent = `\n            `;
@@ -155,8 +161,8 @@ module.exports = {
         indent +
         [
           options.welcome && '"--welcome"',
-          options.yarn && '"--yarn"',
-          options.pnpm && '"--pnpm"',
+          options.packageManager === 'yarn' && '"--yarn"',
+          options.packageManager === 'pnpm' && '"--pnpm"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
           options.typescript && `"--typescript"`,
         ]
@@ -174,8 +180,8 @@ module.exports = {
       addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
-      yarn: options.yarn,
-      pnpm: options.pnpm,
+      yarn: options.packageManager === 'yarn',
+      pnpm: options.packageManager === 'pnpm',
       welcome: options.welcome,
       blueprint: 'addon',
       blueprintOptions,
@@ -195,7 +201,7 @@ module.exports = {
 
     let addonFiles = walkSync(addonFilesPath, { ignore: [ignoredCITemplate] });
 
-    if (!options.pnpm) {
+    if (options.packageManager !== 'pnpm') {
       addonFiles = addonFiles.filter((file) => !file.endsWith('.npmrc'));
     }
 
