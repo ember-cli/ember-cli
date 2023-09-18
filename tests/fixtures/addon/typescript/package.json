@@ -85,6 +85,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
     "broccoli-asset-rev": "^3.0.0",
+    "broccoli-plugin": "^4.0.0",
     "concurrently": "^8.2.0",
     "ember-auto-import": "^2.6.3",
     "ember-cli": "~<%= emberCLIVersion %>",
