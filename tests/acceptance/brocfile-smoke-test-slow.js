@@ -146,6 +146,14 @@ describe('Acceptance: brocfile-smoke-test', function () {
       packageJson.devDependencies['ember-test-addon'] = 'latest';
       fs.writeJsonSync(packageJsonPath, packageJson);
 
+      // we need to copy broccoli-plugin into the addon's node_modules to make up for the fact
+      // that the mock 'ember-test-addon' does not have a dependency install step
+      fs.mkdirSync(path.join(appRoot, 'node_modules', 'ember-test-addon', 'node_modules'));
+      await fs.copy(
+        path.join('..', '..', 'node_modules', 'broccoli-plugin'),
+        path.join(appRoot, 'node_modules', 'ember-test-addon', 'node_modules', 'broccoli-plugin')
+      );
+
       await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
       let checker = new DistChecker(path.join(appRoot, 'dist'));
