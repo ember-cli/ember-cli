@@ -15,6 +15,7 @@ let cleanupRun = acceptance.cleanupRun;
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
+const linkFixtureDependency = require('../helpers/link-fixture-dependency');
 
 let appName = 'some-cool-app';
 let appRoot;
@@ -139,20 +140,12 @@ describe('Acceptance: brocfile-smoke-test', function () {
   // we dont run postprocessTree in embroider
   if (!isExperimentEnabled('EMBROIDER')) {
     it('app.import works properly with test tree files', async function () {
-      await copyFixtureFiles('brocfile-tests/app-test-import');
+      linkFixtureDependency('brocfile-tests/app-test-import/node_modules/ember-test-addon');
 
       let packageJsonPath = path.join(appRoot, 'package.json');
       let packageJson = fs.readJsonSync(packageJsonPath);
       packageJson.devDependencies['ember-test-addon'] = 'latest';
       fs.writeJsonSync(packageJsonPath, packageJson);
-
-      // we need to copy broccoli-plugin into the addon's node_modules to make up for the fact
-      // that the mock 'ember-test-addon' does not have a dependency install step
-      fs.mkdirSync(path.join(appRoot, 'node_modules', 'ember-test-addon', 'node_modules'));
-      await fs.copy(
-        path.join('..', '..', 'node_modules', 'broccoli-plugin'),
-        path.join(appRoot, 'node_modules', 'ember-test-addon', 'node_modules', 'broccoli-plugin')
-      );
 
       await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
@@ -162,7 +155,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
   }
 
   it('app.import works properly with non-js/css files', async function () {
-    await copyFixtureFiles('brocfile-tests/app-import');
+    linkFixtureDependency('brocfile-tests/app-import/node_modules/ember-random-addon');
 
     let packageJsonPath = path.join(appRoot, 'package.json');
     let packageJson = fs.readJsonSync(packageJsonPath);

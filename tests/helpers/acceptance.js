@@ -4,7 +4,6 @@ const symlinkOrCopySync = require('symlink-or-copy').sync;
 const path = require('path');
 const fs = require('fs-extra');
 const runCommand = require('./run-command');
-const hasGlobalYarn = require('../helpers/has-global-yarn');
 
 let root = path.resolve(__dirname, '..', '..');
 
@@ -95,9 +94,8 @@ function linkDependencies(projectName) {
   let nodeManifest = fs.readFileSync(path.join(runFixture, 'package.json'));
 
   let packageCache = new PackageCache(root);
-  let packager = hasGlobalYarn ? 'yarn' : 'npm';
 
-  packageCache.create('node', packager, nodeManifest, [{ name: 'ember-cli', path: root }]);
+  packageCache.create('node', 'pnpm', nodeManifest, [{ name: 'ember-cli', path: root }]);
 
   let nodeModulesPath = path.join(runFixture, 'node_modules');
   symlinkOrCopySync(path.join(packageCache.get('node'), 'node_modules'), nodeModulesPath);

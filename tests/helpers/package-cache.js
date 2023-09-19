@@ -46,11 +46,14 @@ let npm = new CommandGenerator('npm');
  */
 let yarn = new CommandGenerator('yarn');
 
+let pnpm = new CommandGenerator('pnpm');
+
 // This lookup exists to make it possible to look the commands up based upon context.
 let originals;
 let commands = {
   npm,
   yarn,
+  pnpm,
 };
 
 // The definition list of translation terms.
@@ -58,14 +61,17 @@ let lookups = {
   manifest: {
     npm: 'package.json',
     yarn: 'package.json',
+    pnpm: 'package.json',
   },
   path: {
     npm: 'node_modules',
     yarn: 'node_modules',
+    pnpm: 'node_modules',
   },
   upgrade: {
     npm: 'install',
     yarn: 'upgrade',
+    pnpm: 'install',
   },
 };
 
