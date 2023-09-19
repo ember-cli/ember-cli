@@ -752,6 +752,27 @@ describe('express-server', function () {
         });
       });
 
+      it('serves index.html when file not found (with rootURL) with auto/history location on root url without trailing slash', function (done) {
+        project._config = {
+          rootURL: '/foo',
+          locationType: 'history',
+        };
+
+        startServer('/foo').then(function () {
+          request(subject.app)
+            .get('/foo')
+            .set('accept', 'text/html')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end(function (err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
+      });
+
       it('serves index.html when file not found (with rootURL) with custom history location', function (done) {
         project._config = {
           rootURL: '/',

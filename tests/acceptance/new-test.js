@@ -557,26 +557,24 @@ describe('Acceptance: ember new', function () {
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
     });
 
-    if (isExperimentEnabled('PNPM')) {
-      it('app + pnpm + welcome', async function () {
-        await ember(['new', 'foo', '--skip-npm', '--skip-git', '--pnpm']);
+    it('app + pnpm + welcome', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--pnpm']);
 
-        let fixturePath = 'app/pnpm';
+      let fixturePath = 'app/pnpm';
 
-        ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
-          checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
-        });
-
-        expect(file('.travis.yml')).to.not.exist;
-
-        if (isExperimentEnabled('EMBROIDER')) {
-          fixturePath = 'app/embroider-pnpm';
-        }
-
-        checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-        checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
-    }
+
+      expect(file('.travis.yml')).to.not.exist;
+
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/embroider-pnpm';
+      }
+
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+    });
 
     it('addon + yarn + welcome', async function () {
       await ember(['addon', 'foo', '--skip-npm', '--skip-git', '--yarn', '--welcome']);
@@ -599,29 +597,27 @@ describe('Acceptance: ember new', function () {
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
     });
 
-    if (isExperimentEnabled('PNPM')) {
-      it('addon + pnpm + welcome', async function () {
-        await ember(['addon', 'foo', '--skip-npm', '--skip-git', '--pnpm', '--welcome']);
+    it('addon + pnpm + welcome', async function () {
+      await ember(['addon', 'foo', '--skip-npm', '--skip-git', '--pnpm', '--welcome']);
 
-        let fixturePath = 'addon/pnpm';
+      let fixturePath = 'addon/pnpm';
 
-        [
-          'tests/dummy/config/ember-try.js',
-          'tests/dummy/app/templates/application.hbs',
-          '.github/workflows/ci.yml',
-          'README.md',
-          'CONTRIBUTING.md',
-          '.npmrc',
-        ].forEach((filePath) => {
-          checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
-        });
-
-        expect(file('.travis.yml')).to.not.exist;
-
-        checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
-        checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+      [
+        'tests/dummy/config/ember-try.js',
+        'tests/dummy/app/templates/application.hbs',
+        '.github/workflows/ci.yml',
+        'README.md',
+        'CONTRIBUTING.md',
+        '.npmrc',
+      ].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
-    }
+
+      expect(file('.travis.yml')).to.not.exist;
+
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
+      checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+    });
 
     it('configurable CI option', async function () {
       await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git']);

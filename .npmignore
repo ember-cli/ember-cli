@@ -1,3 +1,4 @@
+/.github/
 /assets/
 /dev/
 /docs/*
@@ -12,14 +13,3 @@
 /.*
 *.log
 /yarn.lock
-
-# the GitHub Action CI configuration is used by
-# lib/utilities/platform-checker.js to determine what versions of Node are
-# under test by the current version of ember-cli being used, this means we
-# **must** publish this file (but it would be ignored by the `/.*` line just
-# above)
-/.github/*
-/.github/*/
-/.github/workflows/*
-/.github/workflows/*/
-!/.github/workflows/ci.yml

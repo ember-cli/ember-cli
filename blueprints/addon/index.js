@@ -77,6 +77,9 @@ module.exports = {
     delete contents.devDependencies['@types/ember-data__store'];
     delete contents.devDependencies['ember-fetch'];
 
+    // `@ember/string` is a peer dependency of `ember-data`.
+    delete contents.devDependencies['@ember/string'];
+
     // Per RFC #811, addons should not have this dependency.
     // @see https://github.com/emberjs/rfcs/blob/master/text/0811-element-modifiers.md#detailed-design
     delete contents.devDependencies['ember-modifier'];

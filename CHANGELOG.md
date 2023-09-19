@@ -1,5 +1,43 @@
 # ember-cli Changelog
 
+## v5.3.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.3.0-beta.1...v5.3.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.3.0-beta.1...v5.3.0-beta.2)
+
+#### Changelog
+
+- [#10346](https://github.com/ember-cli/ember-cli/pull/10346) [BUGFIX release] App blueprint may not have explicit-any in ember-data types  [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10349](https://github.com/ember-cli/ember-cli/pull/10349) [BUGFIX release] Add `@babel/core` to `app` and `addon` blueprints [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
+## v5.3.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.2.0...v5.3.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.2.0...v5.3.0-beta.1)
+
+#### Changelog
+
+- [#10162](https://github.com/ember-cli/ember-cli/pull/10162) [ENHANCEMENT] Deprecate `outputPaths` build option [@bertdeblock](https://github.com/bertdeblock)
+- [#10187](https://github.com/ember-cli/ember-cli/pull/10187) [ENHANCEMENT] Remove Node version checking [@bertdeblock](https://github.com/bertdeblock)
+- [#10249](https://github.com/ember-cli/ember-cli/pull/10249) Serve app on root url without trailing slash [@mmun](https://github.com/mmun)
+- [#10311](https://github.com/ember-cli/ember-cli/pull/10311) [ENHANCEMENT] Add v4.12 LTS scenario to `addon` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10316](https://github.com/ember-cli/ember-cli/pull/10316) [BUGFIX] Remove `auto` as a possible value for `locationType` in `config` declaration [@bertdeblock](https://github.com/bertdeblock)
+- [#10319](https://github.com/ember-cli/ember-cli/pull/10319) Use pnpm-action from org [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10331](https://github.com/ember-cli/ember-cli/pull/10331) [ENHANCEMENT] Exclude `@ember/string` from `addon` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10335](https://github.com/ember-cli/ember-cli/pull/10335) Update ci.yml to trigger on merge queue [@locks](https://github.com/locks)
+- [#10337](https://github.com/ember-cli/ember-cli/pull/10337) remove EMBER_CLI_PNPM [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10338](https://github.com/ember-cli/ember-cli/pull/10338) [INTERNAL] Remove `PNPM` experiment from CI matrix [@bertdeblock](https://github.com/bertdeblock)
+- [#10341](https://github.com/ember-cli/ember-cli/pull/10341) [ENHANCEMENT] Remove reference to `ember-mocha` in `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#8578](https://github.com/ember-cli/ember-cli/pull/8578) By default make ember test to pick ports automatically [@SparshithNR](https://github.com/SparshithNR)
+
+Thank you to all who took the time to contribute!
+
 ## v5.2.1
 
 #### Blueprint Changes

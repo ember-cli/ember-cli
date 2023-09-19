@@ -8,6 +8,7 @@ const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
 const TestCommand = require('../../../lib/commands/test');
 const td = require('testdouble');
+const http = require('http');
 
 describe('test command', function () {
   this.timeout(30000);
@@ -87,6 +88,18 @@ describe('test command', function () {
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.port).to.equal(7357);
+      });
+    });
+
+    it('default port in use', function () {
+      let server = http.createServer();
+      server.listen(7357);
+      return command.validateAndRun([]).then(function () {
+        let captor = td.matchers.captor();
+
+        td.verify(tasks.Test.prototype.run(captor.capture()));
+        expect(captor.value.port).to.not.equal(7357);
+        server.close();
       });
     });
 
