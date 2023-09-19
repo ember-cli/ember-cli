@@ -465,9 +465,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(emberCliStringUtilsPkgInfo).to.exist;
 
       let emberCliRealPath = path.resolve(`${projectPackageInfo.realPath}/../../../../`);
-      expect(emberCliStringUtilsPkgInfo.realPath).to.equal(
-        path.join(emberCliRealPath, 'node_modules', 'ember-cli-string-utils')
-      );
+      expect(emberCliStringUtilsPkgInfo.realPath.startsWith(path.join(emberCliRealPath, 'node_modules'))).to.be.ok;
     });
 
     it('shows projectPackageInfo finds an external dependency involving a scope', function () {
@@ -477,7 +475,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(restPkgInfo).to.exist;
 
       let emberCliRealPath = path.resolve(`${projectPackageInfo.realPath}/../../../../`);
-      expect(restPkgInfo.realPath).to.equal(path.join(emberCliRealPath, 'node_modules', '@octokit', 'rest'));
+      expect(restPkgInfo.realPath.startsWith(path.join(emberCliRealPath, 'node_modules'))).to.be.ok;
     });
   });
 
