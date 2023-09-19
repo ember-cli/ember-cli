@@ -3,7 +3,6 @@
 const { expect } = require('chai');
 
 const MockUI = require('console-ui/mock');
-const MockAnalytics = require('../../helpers/mock-analytics');
 const MockBroccoliWatcher = require('../../helpers/mock-broccoli-watcher');
 const Watcher = require('../../../lib/models/watcher');
 const EOL = require('os').EOL;
@@ -14,7 +13,6 @@ describe('Watcher', function () {
   let ui;
   let subject;
   let builder;
-  let analytics;
   let watcher;
 
   let mockResult = {
@@ -37,14 +35,12 @@ describe('Watcher', function () {
 
   beforeEach(async function () {
     ui = new MockUI();
-    analytics = new MockAnalytics();
 
     watcher = new MockBroccoliWatcher();
 
     subject = (
       await Watcher.build({
         ui,
-        analytics,
         builder,
         watcher,
       })
@@ -110,26 +106,6 @@ describe('Watcher', function () {
       watcher.emit(`buildSuccess`, mockResult);
     });
 
-    it('tracks events', function () {
-      expect(analytics.tracks).to.deep.equal([
-        {
-          name: 'ember rebuild',
-          message: 'broccoli rebuild time: 12344ms',
-        },
-      ]);
-    });
-
-    it('tracks timings', function () {
-      expect(analytics.trackTimings).to.deep.equal([
-        {
-          category: 'rebuild',
-          variable: 'rebuild time',
-          label: 'broccoli rebuild time',
-          value: 12344,
-        },
-      ]);
-    });
-
     it('logs that the build was successful', function () {
       expect(ui.output).to.equal(EOL + chalk.green('Build successful (12344ms)') + EOL);
     });
@@ -142,7 +118,6 @@ describe('Watcher', function () {
       let subject = (
         await Watcher.build({
           ui,
-          analytics,
           builder,
           watcher,
           serving: true,
@@ -174,7 +149,6 @@ describe('Watcher', function () {
       let subject = (
         await Watcher.build({
           ui,
-          analytics,
           builder,
           watcher,
           serving: true,
@@ -207,7 +181,6 @@ describe('Watcher', function () {
       let subject = (
         await Watcher.build({
           ui,
-          analytics,
           builder,
           watcher,
           serving: true,
@@ -238,7 +211,6 @@ describe('Watcher', function () {
       let subject = (
         await Watcher.build({
           ui,
-          analytics,
           builder,
           watcher,
           serving: true,
@@ -268,19 +240,6 @@ describe('Watcher', function () {
   });
 
   describe('watcher:error', function () {
-    it('tracks errors', function () {
-      watcher.emit('error', {
-        message: 'foo',
-        stack: new Error().stack,
-      });
-
-      expect(analytics.trackErrors).to.deep.equal([
-        {
-          description: undefined,
-        },
-      ]);
-    });
-
     it('watcher error', function () {
       watcher.emit('error', {
         message: 'foo',
@@ -391,15 +350,6 @@ describe('Watcher', function () {
 
     it('log that the build was green', function () {
       expect(ui.output).to.match(/Build successful./, 'has successful build output');
-    });
-
-    it('keep tracking analytics', function () {
-      expect(analytics.tracks).to.deep.equal([
-        {
-          name: 'ember rebuild',
-          message: 'broccoli rebuild time: 12344ms',
-        },
-      ]);
     });
   });
 });

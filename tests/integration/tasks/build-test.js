@@ -7,7 +7,6 @@ const { file } = require('chai-files');
 const walkSync = require('walk-sync');
 const BuildTask = require('../../../lib/tasks/build');
 const MockProject = require('../../helpers/mock-project');
-const MockAnalytics = require('../../helpers/mock-analytics');
 const MockProcess = require('../../helpers/mock-process');
 const copyFixtureFiles = require('../../helpers/copy-fixture-files');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
@@ -45,7 +44,6 @@ describe('build task test', function () {
   it('can build', function () {
     let outputPath = 'dist';
     let task = new BuildTask({
-      analytics: new MockAnalytics(),
       project,
       ui,
     });
@@ -66,7 +64,6 @@ describe('build task test', function () {
 
     let outputPath = 'dist';
     let task = new BuildTask({
-      analytics: new MockAnalytics(),
       project,
       ui,
     });
@@ -94,7 +91,6 @@ describe('build task test', function () {
   it('it displays environment', function () {
     let outputPath = 'dist';
     let task = new BuildTask({
-      analytics: new MockAnalytics(),
       project,
       ui,
     });

@@ -87,15 +87,13 @@ describe('install command', function () {
     td.reset();
   });
 
-  it('initializes npm install and generate blueprint task with ui, project and analytics', function () {
+  it('initializes npm install and generate blueprint task with ui and project', function () {
     return command.validateAndRun(['ember-data']).then(function () {
       expect(npmInstance.ui, 'ui was set').to.be.ok;
       expect(npmInstance.project, 'project was set').to.be.ok;
-      expect(npmInstance.analytics, 'analytics was set').to.be.ok;
 
       expect(generateBlueprintInstance.ui, 'ui was set').to.be.ok;
       expect(generateBlueprintInstance.project, 'project was set').to.be.ok;
-      expect(generateBlueprintInstance.analytics, 'analytics was set').to.be.ok;
     });
   });
 
@@ -310,9 +308,7 @@ describe('install command', function () {
     it('gives a helpful message if no arguments are passed', function () {
       return expect(command.validateAndRun([])).to.be.rejected.then((error) => {
         expect(error.message).to.equal(
-          'The `install` command must take an argument with the name ' +
-            'of an ember-cli addon. For installing all npm ' +
-            'dependencies you can run `npm install`.',
+          "An addon's name is required when running the `install` command. If you want to install all node modules, please run `yarn install` instead.",
           'expect error to have a helpful message'
         );
       });
