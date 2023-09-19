@@ -84,12 +84,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile --non-interactive
+      - run: pnpm install
       - name: "Configure Git"
         run: |
           git config --global user.name "${{ env.GIT_NAME }}"
@@ -114,9 +117,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile --non-interactive
+      - run: pnpm install
       - name: "Configure Git"
         run: |
           git config --global user.name "${{ env.GIT_NAME }}"

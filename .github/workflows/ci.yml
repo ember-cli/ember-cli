@@ -27,13 +27,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn lint
+      - run: pnpm install
+      - run: pnpm lint
 
   basic-tests:
     name: "Basic Tests - ${{ matrix.os }}"
@@ -45,13 +48,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test
+      - run: pnpm install
+      - run: pnpm test
 
   tests:
     name: "Node ${{ matrix.node-version }} - ${{ matrix.os }} "
@@ -67,13 +73,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test:all
+      - run: pnpm install
+      - run: pnpm test:all
 
   feature-flags:
     name: "Feature: ${{ matrix.feature-flag }}"
@@ -91,12 +100,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test:all
+      - run: pnpm install
+      - run: pnpm test:all
         env:
           "EMBER_CLI_${{ matrix.feature-flag }}": true
