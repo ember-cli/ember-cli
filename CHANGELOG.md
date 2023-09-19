@@ -1,28 +1,16 @@
 # ember-cli Changelog
 
-## v5.3.0-beta.2
+## v5.3.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.3.0-beta.1...v5.3.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.3.0-beta.1...v5.3.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.2.0...v5.3.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.2.0...v5.3.0)
 
 #### Changelog
 
 - [#10346](https://github.com/ember-cli/ember-cli/pull/10346) [BUGFIX release] App blueprint may not have explicit-any in ember-data types  [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 - [#10349](https://github.com/ember-cli/ember-cli/pull/10349) [BUGFIX release] Add `@babel/core` to `app` and `addon` blueprints [@bertdeblock](https://github.com/bertdeblock)
-
-Thank you to all who took the time to contribute!
-
-## v5.3.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.2.0...v5.3.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.2.0...v5.3.0-beta.1)
-
-#### Changelog
-
 - [#10162](https://github.com/ember-cli/ember-cli/pull/10162) [ENHANCEMENT] Deprecate `outputPaths` build option [@bertdeblock](https://github.com/bertdeblock)
 - [#10187](https://github.com/ember-cli/ember-cli/pull/10187) [ENHANCEMENT] Remove Node version checking [@bertdeblock](https://github.com/bertdeblock)
 - [#10249](https://github.com/ember-cli/ember-cli/pull/10249) Serve app on root url without trailing slash [@mmun](https://github.com/mmun)
