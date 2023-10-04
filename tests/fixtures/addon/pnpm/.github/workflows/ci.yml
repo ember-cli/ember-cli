@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: wyvox/action-setup-pnpm@v2
         with:
-          node-version: 16
+          node-version: 18
       - name: Lint
         run: pnpm lint
       - name: Run Tests
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: wyvox/action-setup-pnpm@v2
         with:
-          node-version: 16
+          node-version: 18
           no-lockfile: true
       - name: Run Tests
         run: pnpm test:ember
@@ -63,6 +63,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: wyvox/action-setup-pnpm@v2
         with:
-          node-version: 16
+          node-version: 18
       - name: Run Tests
         run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}

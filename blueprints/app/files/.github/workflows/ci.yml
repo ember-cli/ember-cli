@@ -23,7 +23,7 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: <%= yarn ? 'yarn' : 'npm' %>
       - name: Install Dependencies
         run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %><% } %>
@@ -41,7 +41,7 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: <%= yarn ? 'yarn' : 'npm' %>
       - name: Install Dependencies
         run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %><% } %>
