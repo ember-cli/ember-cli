@@ -122,7 +122,7 @@
     "ember-source": ">= 4.0.0"
   },
   "engines": {
-    "node": "16.* || >= 18"
+    "node": ">= 18"
   },
   "ember": {
     "edition": "octane"
