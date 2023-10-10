@@ -30,9 +30,9 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.2.0",
-    "@embroider/compat": "^3.2.1",
-    "@embroider/core": "^3.2.1",
-    "@embroider/webpack": "^3.1.5",
+    "@embroider/compat": "^3.2.3",
+    "@embroider/core": "^3.3.0",
+    "@embroider/webpack": "^3.2.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/environment-ember-loose": "^1.1.0",
@@ -60,7 +60,7 @@
     "@types/ember__routing": "^4.0.14",
     "@types/ember__runloop": "^4.0.5",
     "@types/ember__service": "^4.0.3",
-    "@types/ember__string": "^3.0.11",
+    "@types/ember__string": "^3.16.3",
     "@types/ember__template": "^4.0.2",
     "@types/ember__test": "^4.0.2",
     "@types/ember__utils": "^4.0.3",
@@ -78,14 +78,14 @@
     "ember-cli-dependency-checker": "^3.3.2",
     "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-data": "~5.3.0",
+    "ember-data": "~5.4.0-beta.0",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
     "ember-modifier": "^4.1.0",
     "ember-page-title": "^8.0.0",
     "ember-qunit": "^8.0.1",
     "ember-resolver": "^11.0.1",
-    "ember-source": "~5.3.0",
+    "ember-source": "~5.4.0-beta.1",
     "ember-template-lint": "^5.11.2",
     "ember-welcome-page": "^7.0.2",
     "eslint": "^8.49.0",
@@ -106,7 +106,7 @@
     "webpack": "^5.88.2"
   },
   "engines": {
-    "node": "16.* || >= 18"
+    "node": ">= 18"
   },
   "ember": {
     "edition": "octane"

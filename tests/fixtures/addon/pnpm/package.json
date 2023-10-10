@@ -53,7 +53,7 @@
     "ember-page-title": "^8.0.0",
     "ember-qunit": "^8.0.1",
     "ember-resolver": "^11.0.1",
-    "ember-source": "~5.3.0",
+    "ember-source": "~5.4.0-beta.1",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^5.11.2",
     "ember-try": "^3.0.0",
@@ -77,7 +77,7 @@
     "ember-source": ">= 4.0.0"
   },
   "engines": {
-    "node": "16.* || >= 18"
+    "node": ">= 18"
   },
   "ember": {
     "edition": "octane"
