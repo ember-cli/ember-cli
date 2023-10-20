@@ -7,7 +7,7 @@
 #
 # ID     travis-ci-support
 # UNTIL  6.0.0
-# URL    https://deprecations.emberjs.com/ember-cli/v5.x#TODO
+# URL    https://deprecations.emberjs.com/id/travis-ci-support
 
 ---
 language: node_js
