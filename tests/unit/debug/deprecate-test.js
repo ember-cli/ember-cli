@@ -1,6 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
+const stripAnsi = require('strip-ansi');
 const { deprecate } = require('../../../lib/debug');
 
 describe('deprecate', function () {
@@ -155,7 +156,11 @@ describe('deprecate', function () {
       until: '5.0.0',
     });
 
-    expect(message).to.be.equal('DEPRECATION: description [ID: foo]');
+    expect(stripAnsi(message)).to.be.equal(` DEPRECATION \n
+description
+
+ID     foo
+UNTIL  5.0.0`);
   });
 
   it('it includes the `url` option in the deprecation message when provided', function () {
@@ -170,6 +175,11 @@ describe('deprecate', function () {
       url: 'https://example.com',
     });
 
-    expect(message).to.be.equal('DEPRECATION: description [ID: foo] See https://example.com for more details.');
+    expect(stripAnsi(message)).to.be.equal(` DEPRECATION \n
+description
+
+ID     foo
+UNTIL  5.0.0
+URL    https://example.com`);
   });
 });
