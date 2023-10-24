@@ -22,7 +22,7 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> start`
+* `<%= invokeScriptPrefix %> start`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 * Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
 
@@ -32,18 +32,18 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Running Tests
 
-* `<% if (yarn) { %>yarn<% } else { %>npm run<% } %> test:ember`
-* `<% if (yarn) { %>yarn<% } else { %>npm run<% } %> test:ember --server`
+* `<%= invokeScriptPrefix %> test`
+* `<%= invokeScriptPrefix %> test:ember <% if (npm) { %>-- <% } %>--server`
 
 ### Linting
 
-* `<% if (pnpm) { %>pnpm lint<% } else if (yarn) { %>yarn lint<% } else { %>npm run lint<% } %>`
-* `<% if (pnpm) { %>pnpm lint:fix<% } else if (yarn) { %>yarn lint:fix<% } else { %>npm run lint:fix<% } %>`
+* `<%= invokeScriptPrefix %> lint`
+* `<%= invokeScriptPrefix %> lint:fix`
 
 ### Building
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+* `<%= execBinPrefix %> build` (development)
+* `<%= invokeScriptPrefix %> build` (production)
 
 ### Deploying
 
