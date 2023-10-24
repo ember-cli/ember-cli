@@ -42,7 +42,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Building
 
-* `<%= execBinPrefix %> build` (development)
+* `<%= execBinPrefix %> ember build` (development)
 * `<%= invokeScriptPrefix %> build` (production)
 
 ### Deploying

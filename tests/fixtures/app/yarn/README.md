@@ -31,7 +31,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Running Tests
 
-* `yarn test:ember`
+* `yarn test`
 * `yarn test:ember --server`
 
 ### Linting

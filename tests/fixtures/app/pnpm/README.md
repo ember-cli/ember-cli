@@ -32,7 +32,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Running Tests
 
 * `pnpm test`
-* `pnpm test --server`
+* `pnpm test:ember --server`
 
 ### Linting
 
