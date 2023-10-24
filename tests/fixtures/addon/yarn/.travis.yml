@@ -1,3 +1,14 @@
+# DEPRECATION:
+#
+# Support for generating a Travis CI config file is deprecated.
+# You can keep using Travis CI, or you could also consider switching to GitHub Actions instead.
+#
+# Feel free to remove this comment block if you want to continue using Travis CI.
+#
+# ID     travis-ci-support
+# UNTIL  6.0.0
+# URL    https://deprecations.emberjs.com/id/travis-ci-support
+
 ---
 language: node_js
 node_js:
