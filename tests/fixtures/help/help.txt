@@ -11,7 +11,7 @@ ember addon [33m<addon-name>[39m [36m<options...>[39m
   [36m--blueprint[39m [36m(String)[39m [36m(Default: addon)[39m
     [90maliases: -b <value>[39m
   [36m--skip-npm[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -sn[39m
+    [90maliases: -sn, --skip-install, -si[39m
   [36m--skip-git[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -sg[39m
   [36m--package-manager[39m [36m(npm, pnpm, yarn)[39m
@@ -95,7 +95,7 @@ ember init [33m<glob-pattern>[39m [36m<options...>[39m
   [36m--blueprint[39m [36m(String)[39m
     [90maliases: -b <value>[39m
   [36m--skip-npm[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -sn[39m
+    [90maliases: -sn, --skip-install, -si[39m
   [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m
   [36m--welcome[39m [36m(Boolean)[39m [36m(Default: true)[39m Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.
   [36m--package-manager[39m [36m(npm, pnpm, yarn)[39m
@@ -128,7 +128,7 @@ ember new [33m<app-name>[39m [36m<options...>[39m
   [36m--blueprint[39m [36m(String)[39m [36m(Default: app)[39m
     [90maliases: -b <value>[39m
   [36m--skip-npm[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -sn[39m
+    [90maliases: -sn, --skip-install, -si[39m
   [36m--skip-git[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -sg[39m
   [36m--welcome[39m [36m(Boolean)[39m [36m(Default: true)[39m Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.
