@@ -6,7 +6,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "devDependencies": {
-    "@embroider/test-setup": "^3.0.1",
+    "@embroider/test-setup": "^3.0.2",
     "ember-source-channel-url": "^3.0.0",
     "ember-try": "^3.0.0"
   },
