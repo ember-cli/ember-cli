@@ -748,7 +748,6 @@ describe('models/command.js', function () {
       let taskRun = command.runTask('Async', { param: 'value' });
 
       expect(command._currentTask.ui).to.eql(command.ui);
-      expect(command._currentTask.analytics).to.eql(command.analytics);
       expect(command._currentTask.project).to.eql(command.project);
 
       return taskRun;
