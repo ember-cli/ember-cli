@@ -171,6 +171,16 @@ module.exports = {
         outdent;
     }
 
+    let invokeScriptPrefix = 'npm run';
+
+    if (options.packageManager === 'yarn') {
+      invokeScriptPrefix = 'yarn';
+    }
+
+    if (options.packageManager === 'pnpm') {
+      invokeScriptPrefix = 'pnpm';
+    }
+
     return {
       addonDirectory: directoryForPackageName(addonName),
       name,
@@ -182,6 +192,8 @@ module.exports = {
       year: date.getFullYear(),
       yarn: options.packageManager === 'yarn',
       pnpm: options.packageManager === 'pnpm',
+      npm: options.packageManager !== 'yarn' && options.packageManager !== 'pnpm',
+      invokeScriptPrefix,
       welcome: options.welcome,
       blueprint: 'addon',
       blueprintOptions,

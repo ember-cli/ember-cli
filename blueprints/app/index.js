@@ -47,6 +47,19 @@ module.exports = {
         outdent;
     }
 
+    let invokeScriptPrefix = 'npm run';
+    let execBinPrefix = 'npm exec';
+
+    if (options.packageManager === 'yarn') {
+      invokeScriptPrefix = 'yarn';
+      execBinPrefix = 'yarn';
+    }
+
+    if (options.packageManager === 'pnpm') {
+      invokeScriptPrefix = 'pnpm';
+      execBinPrefix = 'pnpm';
+    }
+
     return {
       appDirectory: directoryForPackageName(name),
       name,
@@ -55,6 +68,9 @@ module.exports = {
       emberCLIVersion: require('../../package').version,
       yarn: options.packageManager === 'yarn',
       pnpm: options.packageManager === 'pnpm',
+      npm: options.packageManager !== 'yarn' && options.packageManager !== 'pnpm',
+      invokeScriptPrefix,
+      execBinPrefix,
       welcome: options.welcome,
       blueprint: 'app',
       blueprintOptions,
