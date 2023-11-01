@@ -656,7 +656,7 @@ module.exports = {
         {
           name: 'port',
           default: 4200,
-          description: 'To use a port different than 4200. Pass 0 to automatically pick an available port.',
+          description: 'Overrides $PORT (currently blank). If the port 0 or the default port 4200 is passed, ember will use any available port starting from 4200.',
           aliases: ['p'],
           key: 'port',
           required: false
