@@ -9,7 +9,7 @@ on:
       version:
         required: true
         type: string
-        description: 'Specify the released version of ember-cli to use to generate and deploy documentation. Should be full semver version, and without a leading "v"'
+        description: 'Specify the released version of ember-cli to use to generate and deploy documentation. Should be full tag name, including the leading "v"'
 
 env:
   GIT_NAME: 'github-actions[bot]'
@@ -44,7 +44,7 @@ jobs:
         with:
           repository: 'ember-learn/ember-cli.github.io'
           ssh-key: ${{ secrets.DOCS_DEPLOY_KEY }}
-          branch: test-deploy-docs
+          branch: master
       - name: Download docs artifact
         uses: actions/download-artifact@v3
         with:
@@ -68,5 +68,5 @@ jobs:
             git commit --allow-empty -m "$COMMIT_MESSAGE"
       - name: Push
         run: |
-          git push -f origin HEAD:refs/heads/test-deploy-docs
+          git push -f origin HEAD:refs/heads/master
 
