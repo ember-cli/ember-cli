@@ -63,8 +63,7 @@ jobs:
           
             Commit:  $GITHUB_REPOSITORY@$GITHUB_SHA
             Script:  https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA/.github/workflows/docs.yml
-            Logs:    https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA/checks"
-            "
+            Logs:    https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA/checks"            
           
             git commit --allow-empty -m "$COMMIT_MESSAGE"
       - name: Push
