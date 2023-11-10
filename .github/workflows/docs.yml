@@ -9,7 +9,7 @@ on:
       version:
         required: true
         type: string
-        description: 'Specify the released version of ember-cli to use to generate / update the output repos. Should be full semver version, and without a leading "v"'
+        description: 'Specify the released version of ember-cli to use to generate and deploy documentation. Should be full semver version, and without a leading "v"'
 
 env:
   GIT_NAME: 'github-actions[bot]'
