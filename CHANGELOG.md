@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v5.4.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.4.0...v5.4.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.4.0...v5.4.1)
+
+#### Changelog
+
+- [#10402](https://github.com/ember-cli/ember-cli/pull/10402) [BUGFIX release] use import type in helpers/index.ts :: typechecking in new apps otherwise fails [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v5.4.0
 
 #### Blueprint Changes
