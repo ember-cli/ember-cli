@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v5.5.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.5.0-beta.0...v5.5.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.5.0-beta.0...v5.5.0-beta.1)
+
+#### Changelog
+
+- [#10403](https://github.com/ember-cli/ember-cli/pull/10403) Fix some docs that were showing up weirdly in generated api docs [@kategengler](https://github.com/kategengler)
+- [#10406](https://github.com/ember-cli/ember-cli/pull/10406) [BUGFIX beta] use import type in helpers/index.ts :: typechecking in new apps otherwise fails [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v5.5.0-beta.0
 
 #### Blueprint Changes
