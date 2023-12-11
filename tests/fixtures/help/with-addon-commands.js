@@ -41,7 +41,7 @@ module.exports = {
         {
           name: 'skip-npm',
           default: false,
-          aliases: ['sn'],
+          aliases: ['sn', 'skip-install', 'si'],
           key: 'skipNpm',
           required: false
         },
@@ -415,7 +415,7 @@ module.exports = {
         {
           name: 'skip-npm',
           default: false,
-          aliases: ['sn'],
+          aliases: ['sn', 'skip-install', 'si'],
           key: 'skipNpm',
           required: false
         },
@@ -546,7 +546,7 @@ module.exports = {
         {
           name: 'skip-npm',
           default: false,
-          aliases: ['sn'],
+          aliases: ['sn', 'skip-install', 'si'],
           key: 'skipNpm',
           required: false
         },

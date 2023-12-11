@@ -14,6 +14,54 @@ describe('Blueprint', function () {
     td.reset();
   });
 
+  describe('.removeTypes', function () {
+    it('returns input when passing javascript', async function () {
+      const output = await Blueprint.prototype.removeTypes('.js', 'const x = 1;\n');
+      expect(output).to.equal('const x = 1;\n');
+    });
+
+    it('strips types when converting ts', async function () {
+      const output = await Blueprint.prototype.removeTypes('.ts', 'const x: number = 1;\n');
+      expect(output).to.equal('const x = 1;\n');
+    });
+
+    it('stripes types when converting gts', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'const x: number = 1;\n<template>Hello {{x}}!</template>\n'
+      );
+      expect(output).to.equal('const x = 1;\n<template>Hello {{x}}!</template>\n');
+    });
+
+    it('can handle template-only gts', async function () {
+      const output = await Blueprint.prototype.removeTypes('.gts', '<template>Hello!</template>\n');
+      expect(output).to.equal('<template>Hello!</template>\n');
+    });
+
+    it('can handle multi-line template tag', async function () {
+      const output = await Blueprint.prototype.removeTypes('.gts', '<template>\nHello!\n</template>\n');
+      expect(output).to.equal('<template>\nHello!\n</template>\n');
+    });
+
+    it('can handle multiple template tags in one file', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'const x = <template>Hello!</template>\nconst y = <template>World!</template>\n'
+      );
+      expect(output).to.equal('const x = <template>Hello!</template>\nconst y = <template>World!</template>\n');
+    });
+
+    it('works in class body', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'const foo: number = 1;\nexport default class Bar extends Component {\n  <template>Hello {{foo}}</template>\n}\n'
+      );
+      expect(output).to.equal(
+        'const foo = 1;\nexport default class Bar extends Component {\n  <template>Hello {{foo}}</template>\n}\n'
+      );
+    });
+  });
+
   describe('.mapFile', function () {
     it('replaces all occurrences of __name__ with module name', function () {
       let path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', {
