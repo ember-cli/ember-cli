@@ -1,5 +1,23 @@
 # ember-cli Changelog
 
+## v5.5.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.4.1...v5.5.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.4.1...v5.5.0)
+
+#### Changelog
+
+- [#10332](https://github.com/ember-cli/ember-cli/pull/10332) [ENHANCEMENT] Support converting gts files in blueprint [@IgnaceMaes](https://github.com/IgnaceMaes)
+- [#10350](https://github.com/ember-cli/ember-cli/pull/10350) [ENHANCEMENT] Deprecate Travis CI support [@bertdeblock](https://github.com/bertdeblock)
+- [#10370](https://github.com/ember-cli/ember-cli/pull/10370) When generating a new app with --embroider use all optimisation flags [@mansona](https://github.com/mansona)
+- [#10393](https://github.com/ember-cli/ember-cli/pull/10393) [ENHANCEMENT] feat: add skip-install alias to skip-npm [@IgnaceMaes](https://github.com/IgnaceMaes)
+- [#10403](https://github.com/ember-cli/ember-cli/pull/10403) Fix some docs that were showing up weirdly in generated api docs [@kategengler](https://github.com/kategengler)
+- [#9514](https://github.com/ember-cli/ember-cli/pull/9514) [ENHANCEMENT] Use packager commands in `CONTRIBUTING.md` and `README.md` files in `app` and `addon` blueprints [@elwayman02](https://github.com/elwayman02)
+
+Thank you to all who took the time to contribute!
+
 ## v5.4.1
 
 #### Blueprint Changes
@@ -10,37 +28,6 @@
 #### Changelog
 
 - [#10402](https://github.com/ember-cli/ember-cli/pull/10402) [BUGFIX release] use import type in helpers/index.ts :: typechecking in new apps otherwise fails [@NullVoxPopuli](https://github.com/NullVoxPopuli)
-
-Thank you to all who took the time to contribute!
-
-## v5.5.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.5.0-beta.0...v5.5.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.5.0-beta.0...v5.5.0-beta.1)
-
-#### Changelog
-
-- [#10403](https://github.com/ember-cli/ember-cli/pull/10403) Fix some docs that were showing up weirdly in generated api docs [@kategengler](https://github.com/kategengler)
-- [#10406](https://github.com/ember-cli/ember-cli/pull/10406) [BUGFIX beta] use import type in helpers/index.ts :: typechecking in new apps otherwise fails [@NullVoxPopuli](https://github.com/NullVoxPopuli)
-
-Thank you to all who took the time to contribute!
-
-## v5.5.0-beta.0
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.4.0...v5.5.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.4.0...v5.5.0-beta.0)
-
-#### Changelog
-
-- [#10332](https://github.com/ember-cli/ember-cli/pull/10332) [ENHANCEMENT] Support converting gts files in blueprint [@IgnaceMaes](https://github.com/IgnaceMaes)
-- [#10350](https://github.com/ember-cli/ember-cli/pull/10350) [ENHANCEMENT] Deprecate Travis CI support [@bertdeblock](https://github.com/bertdeblock)
-- [#10370](https://github.com/ember-cli/ember-cli/pull/10370) When generating a new app with --embroider use all optimisation flags [@mansona](https://github.com/mansona)
-- [#10393](https://github.com/ember-cli/ember-cli/pull/10393) [ENHANCEMENT] feat: add skip-install alias to skip-npm [@IgnaceMaes](https://github.com/IgnaceMaes)
-- [#9514](https://github.com/ember-cli/ember-cli/pull/9514) [ENHANCEMENT] Use packager commands in `CONTRIBUTING.md` and `README.md` files in `app` and `addon` blueprints [@elwayman02](https://github.com/elwayman02)
 
 Thank you to all who took the time to contribute!
 
