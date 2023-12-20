@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## v5.6.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.5.0...v5.6.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.5.0...v5.6.0-beta.0)
+
+#### Changelog
+
+- [#10394](https://github.com/ember-cli/ember-cli/pull/10394) [ENHANCEMENT] automatically select a port by default with `ember serve` [@sportshead](https://github.com/sportshead)
+- [#10404](https://github.com/ember-cli/ember-cli/pull/10404) Add a workflow to deploy api docs to ember-learn/ember-cli.github.io [@kategengler](https://github.com/kategengler)
+- [#10405](https://github.com/ember-cli/ember-cli/pull/10405) Update to deploy to the master branch and also correct a comment [@kategengler](https://github.com/kategengler)
+
+Thank you to all who took the time to contribute!
+
 ## v5.5.0
 
 #### Blueprint Changes
