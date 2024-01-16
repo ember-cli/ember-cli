@@ -60,6 +60,14 @@ describe('Blueprint', function () {
         'const foo = 1;\nexport default class Bar extends Component {\n  <template>Hello {{foo}}</template>\n}\n'
       );
     });
+
+    it('can handle multi-byte characters', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        "const x: string = '💩';\n<template>Hello {{x}}!</template>\n"
+      );
+      expect(output).to.equal("const x = '💩';\n<template>Hello {{x}}!</template>\n");
+    });
   });
 
   describe('.mapFile', function () {
