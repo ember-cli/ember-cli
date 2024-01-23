@@ -61,44 +61,47 @@ describe('serve command', function () {
     });
   });
 
-  if (process.platform !== 'win32') {
-    // This test fails on appveyor for an unknown reason. See last few comments
-    // on PR https://github.com/ember-cli/ember-cli/pull/5391
-    //
-    // Works correctly on Travis and has been left for context as it does test
-    // a valid code path.
+  // Allocate opts.port on opts.host if it is available (which we check through getPortPromise)
+  let testServer = function (opts, test) {
+    let server = require('http').createServer(function () {});
+    return getPortPromise({
+      ...opts,
+      stopPort: opts.port,
+    })
+      .then(() =>
+        new Promise(function (resolve) {
+          server.listen(opts.port, opts.host, () => resolve(test()));
+        }).finally(() => new Promise((resolve) => server.close(() => resolve())))
+      )
+      .catch(() => test());
+  };
 
-    let testServer = function (opts, test) {
-      let server = require('http').createServer(function () {});
-      return new Promise(function (resolve) {
-        server.listen(opts.port, opts.host, function () {
-          resolve(test(opts, server));
-        });
-      }).finally(function () {
-        return new Promise(function (resolve) {
-          server.close(function () {
-            resolve();
-          });
-        });
-      });
-    };
-
-    it('should throw error when -p PORT is taken', function () {
-      return testServer({ port: '32773' }, function () {
-        return expect(command.validateAndRun(['--port', '32773'])).to.be.rejected.then((err) => {
-          td.verify(tasks.Serve.prototype.run(), { ignoreExtraArgs: true, times: 0 });
-          expect(err.message).to.contain('is already in use.');
-        });
+  it('should throw error when -p PORT is taken', function () {
+    return testServer({ port: '32773' }, function () {
+      return expect(command.validateAndRun(['--port', '32773'])).to.be.rejected.then((err) => {
+        td.verify(tasks.Serve.prototype.run(), { ignoreExtraArgs: true, times: 0 });
+        expect(err.message).to.contain('is already in use.');
       });
     });
-  }
+  });
 
-  it('allows OS to choose port', function () {
-    return command.validateAndRun(['--port', '0']).then(function () {
-      let captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
-      expect(captor.value.port).to.be.within(7020, 65535, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.equal(captor.value.port, 'has correct port');
+  it('should throw descriptive error when -p PORT is taken and PORT < 1024', function () {
+    return testServer({ port: '1000' }, function () {
+      return expect(command.validateAndRun(['--port', '1000'])).to.be.rejected.then((err) => {
+        td.verify(tasks.Serve.prototype.run(), { ignoreExtraArgs: true, times: 0 });
+        expect(err.message).to.contain('you do not have permission');
+      });
+    });
+  });
+
+  it('allows OS to choose port by default', function () {
+    return testServer({ port: '4200' }, function () {
+      return command.validateAndRun().then(function () {
+        let captor = td.matchers.captor();
+        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+        expect(captor.value.port).to.be.within(4201, 65535, 'has correct port');
+        expect(captor.value.liveReloadPort).to.be.equal(captor.value.port, 'has correct port');
+      });
     });
   });
 

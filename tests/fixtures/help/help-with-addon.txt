@@ -146,7 +146,7 @@ ember new [33m<app-name>[39m [36m<options...>[39m
 ember serve [36m<options...>[39m
   Builds and serves your app, rebuilding on file changes.
   [90maliases: server, s[39m
-  [36m--port[39m [36m(Number)[39m [36m(Default: 4200)[39m To use a port different than 4200. Pass 0 to automatically pick an available port.
+  [36m--port[39m [36m(Number)[39m [36m(Default: 4200)[39m Overrides $PORT (currently blank). If the port 0 or the default port 4200 is passed, ember will use any available port starting from 4200.
     [90maliases: -p <value>[39m
   [36m--host[39m [36m(String)[39m Listens on all interfaces by default
     [90maliases: -H <value>[39m
