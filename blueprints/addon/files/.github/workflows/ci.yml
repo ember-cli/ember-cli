@@ -44,7 +44,7 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v2
         with:
           node-version: 18
-          no-lockfile: true<% } else { %>
+          args: '--no-lockfile'<% } else { %>
       - uses: actions/setup-node@v3
         with:
           node-version: 18
