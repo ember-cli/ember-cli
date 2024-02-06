@@ -218,7 +218,7 @@ module.exports = {
     }
 
     if (!options.typescript) {
-      addonFiles = addonFiles.filter((file) => file !== 'tsconfig.json' && !file.endsWith('.d.ts'));
+      addonFiles = addonFiles.filter((file) => !file.startsWith('tsconfig.') && !file.endsWith('.d.ts'));
     }
 
     return uniq(appFiles.concat(addonFiles));
