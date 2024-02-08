@@ -19,16 +19,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: wyvox/action-setup-pnpm@v2
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: 18<% } else { %>
+          version: 8<% } %>
       - name: Install Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: <%= yarn ? 'yarn' : 'npm' %>
+          cache: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm' %>
       - name: Install Dependencies
-        run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %><% } %>
+        run: <%= pnpm ? 'pnpm install --frozen-lockfile' : yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %>
       - name: Lint
         run: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm run' %> lint
       - name: Run Tests
@@ -41,16 +41,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: wyvox/action-setup-pnpm@v2
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: 18
-          args: '--no-lockfile'<% } else { %>
+          version: 8<% } %>
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: <%= yarn ? 'yarn' : 'npm' %>
+          cache: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm' %>
       - name: Install Dependencies
-        run: <%= yarn ? 'yarn install --no-lockfile' : 'npm install --no-shrinkwrap' %><% } %>
+        run: <%= pnpm ? 'pnpm install --no-lockfile' : yarn ? 'yarn install --no-lockfile' : 'npm install --no-shrinkwrap' %>
       - name: Run Tests
         run: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm run' %> test:ember
 
@@ -74,15 +73,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: wyvox/action-setup-pnpm@v2
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: 18<% } else { %>
+          version: 8<% } %>
       - name: Install Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: <%= yarn ? 'yarn' : 'npm' %>
+          cache: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm' %>
       - name: Install Dependencies
-        run: <%= yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %><% } %>
+        run: <%= pnpm ? 'pnpm install --frozen-lockfile' : yarn ? 'yarn install --frozen-lockfile' : 'npm ci' %>
       - name: Run Tests
         run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
