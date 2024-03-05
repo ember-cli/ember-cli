@@ -57,10 +57,31 @@ module.exports = {
         node: true,
       },
       extends: ['plugin:n/recommended'],
+    },<% if (templateTag) { %>
+    {
+      files: ['**/*.gjs'],
+      parser: 'ember-eslint-parser',
+      plugins: ['ember'],
+      extends: [
+        'eslint:recommended',
+        'plugin:ember/recommended',
+        'plugin:ember/recommended-gjs',
+      ],
     },
     {
+      files: ['**/*.gts'],
+      parser: 'ember-eslint-parser',
+      plugins: ['ember'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:ember/recommended',
+        'plugin:ember/recommended-gts',
+      ],
+    },<% } %>
+    {
       // test files
-      files: ['tests/**/*-test.{js,ts}'],
+      files: ['tests/**/*-test.{js,ts<% if (templateTag) { %>,gjs,gts<% } %>}'],
       extends: ['plugin:qunit/recommended'],
     },
   ],
