@@ -5,8 +5,8 @@
 
 ## Compatibility
 
-* Ember.js v4.8 or above
-* Ember CLI v4.8 or above
+* Ember.js v4.12 or above
+* Ember CLI v4.12 or above
 * Node.js v18 or above
 
 
