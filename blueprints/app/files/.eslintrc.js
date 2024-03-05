@@ -58,6 +58,7 @@ module.exports = {
       },
       extends: ['plugin:n/recommended'],
     },<% if (templateTag) { %>
+    // Template tag files
     {
       files: ['**/*.gjs'],
       parser: 'ember-eslint-parser',
@@ -67,7 +68,7 @@ module.exports = {
         'plugin:ember/recommended',
         'plugin:ember/recommended-gjs',
       ],
-    },
+    },<% if (typescript) { %>
     {
       files: ['**/*.gts'],
       parser: 'ember-eslint-parser',
@@ -78,7 +79,7 @@ module.exports = {
         'plugin:ember/recommended',
         'plugin:ember/recommended-gts',
       ],
-    },<% } %>
+    },<% } %><% } %>
     {
       // test files
       files: ['tests/**/*-test.{js,ts<% if (templateTag) { %>,gjs,gts<% } %>}'],
