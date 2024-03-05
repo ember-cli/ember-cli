@@ -428,7 +428,7 @@ describe('Acceptance: ember new', function () {
     expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
   });
 
-  it('template tag set uo with --template-tag', async function () {
+  it('template tag component format set up with --template-tag', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-git', '--template-tag']);
 
     let pkgJson = fs.readJsonSync('package.json');
