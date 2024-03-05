@@ -41,6 +41,7 @@ module.exports = {
           embroider && '"--embroider"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
           options.typescript && `"--typescript"`,
+          options.templateTag && `"--template-tag"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -78,6 +79,7 @@ module.exports = {
       lang: options.lang,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
+      templateTag: options.templateTag,
     };
   },
 
