@@ -1,9 +1,10 @@
 'use strict';
 
-module.exports = {
+module.exports = {<% if (templateTag) { %>
+  plugins: ['prettier-plugin-ember-template-tag'],<% } %>
   overrides: [
     {
-      files: '*.{js,ts,gjs,gts}',
+      files: '*.{js,ts<% if (templateTag) { %>,gjs,gts<% } %>}',
       options: {
         singleQuote: true,
       },
