@@ -1,14 +1,16 @@
 # ember-cli Changelog
 
-## v5.7.0-beta.0
+## v5.7.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.6.0...v5.7.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.6.0...v5.7.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.6.0...v5.7.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.6.0...v5.7.0)
 
 #### Changelog
 
+- [#10440](https://github.com/ember-cli/ember-cli/pull/10440) Update optional-features.json [@achambers](https://github.com/achambers)
+- [#10445](https://github.com/ember-cli/ember-cli/pull/10445) Unpin Node 18 for ci [@kategengler](https://github.com/kategengler)
 - [#10425](https://github.com/ember-cli/ember-cli/pull/10425) fix GitHub Action floating deps scenario for PNPM [@jelhan](https://github.com/jelhan)
 
 Thank you to all who took the time to contribute!
