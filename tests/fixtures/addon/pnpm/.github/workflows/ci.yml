@@ -37,7 +37,7 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v2
         with:
           node-version: 18
-          no-lockfile: true
+          args: '--no-lockfile'
       - name: Run Tests
         run: pnpm test:ember
 
