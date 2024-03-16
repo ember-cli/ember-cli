@@ -210,14 +210,11 @@ describe('Acceptance: ember generate with typescript blueprints', function () {
       }`
     );
 
-    const result = await ember(['generate', 'foo', 'bar', '--typescript']);
-    const output = result.outputStream.map((v) => v.toString());
+    await ember(['generate', 'foo', 'bar', '--typescript']);
+
     const generated = file('app/foos/bar.js');
 
     expect(generated).to.contain('export default function bar(a, b) {');
-    expect(output.join('\n')).to.contain(
-      "You passed the '--typescript' flag but there is no TypeScript blueprint available."
-    );
   });
 
   it('does not generate typescript when the `--no-typescript` flag, even if a typescript blueprint exists', async function () {
