@@ -3,7 +3,7 @@
 module.exports = {
   overrides: [
     {
-      files: '*.{js,ts}',
+      files: '*.{cjs,js,mjs,ts}',
       options: {
         singleQuote: true,
       },
