@@ -1,5 +1,23 @@
 # ember-cli Changelog
 
+## v5.8.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.7.0...v5.8.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.7.0...v5.8.0-beta.0)
+
+#### Changelog
+
+- [#10418](https://github.com/ember-cli/ember-cli/pull/10418) [ENHANCEMENT] Use `content-tag` to parse GTS in blueprints [@IgnaceMaes](https://github.com/IgnaceMaes)
+- [#10432](https://github.com/ember-cli/ember-cli/pull/10432) Filter out tsconfig.declarations.json correctly [@bendemboski](https://github.com/bendemboski)
+- [#10436](https://github.com/ember-cli/ember-cli/pull/10436) stop using wyvox/action-setup-pnpm [@mansona](https://github.com/mansona)
+- [#10437](https://github.com/ember-cli/ember-cli/pull/10437) [ENHANCEMENT] Update LTS scenarios in `addon` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10438](https://github.com/ember-cli/ember-cli/pull/10438) [ENHANCEMENT] Add `declarations` folder to `.eslintignore` file in `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10439](https://github.com/ember-cli/ember-cli/pull/10439) [ENHANCEMENT] Add tsconfig files to `.npmignore` file in `addon` blueprint [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v5.7.0
 
 #### Blueprint Changes

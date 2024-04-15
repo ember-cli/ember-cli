@@ -25,15 +25,15 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
-    "@babel/eslint-parser": "^7.23.10",
-    "@babel/plugin-proposal-decorators": "^7.24.0",
+    "@babel/core": "^7.24.4",
+    "@babel/eslint-parser": "^7.24.1",
+    "@babel/plugin-proposal-decorators": "^7.24.1",
     "@ember/optional-features": "^2.1.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.3.0",
-    "@embroider/compat": "^3.4.5",
-    "@embroider/core": "^3.4.5",
-    "@embroider/webpack": "^3.2.2",
+    "@embroider/compat": "^3.4.7",
+    "@embroider/core": "^3.4.7",
+    "@embroider/webpack": "^3.2.3",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
@@ -50,10 +50,10 @@
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
     "ember-modifier": "^4.1.0",
-    "ember-page-title": "^8.2.2",
+    "ember-page-title": "^8.2.3",
     "ember-qunit": "^8.0.2",
     "ember-resolver": "^11.0.1",
-    "ember-source": "~5.7.0",
+    "ember-source": "~5.8.0",
     "ember-template-lint": "^5.13.0",
     "ember-welcome-page": "^7.0.2",
     "eslint": "^8.57.0",
@@ -70,7 +70,7 @@
     "stylelint-config-standard": "^34.0.0",
     "stylelint-prettier": "^4.1.0",
     "tracked-built-ins": "^3.3.0",
-    "webpack": "^5.90.3"
+    "webpack": "^5.91.0"
   },
   "engines": {
     "node": ">= 18"

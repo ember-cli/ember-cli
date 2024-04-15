@@ -23,6 +23,8 @@
 /ember-cli-build.js
 /testem.js
 /tests/
+/tsconfig.declarations.json
+/tsconfig.json
 /yarn-error.log
 /yarn.lock
 .gitkeep

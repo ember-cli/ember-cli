@@ -19,7 +19,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: wyvox/action-setup-pnpm@v2
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
       - name: Lint
         run: pnpm lint
 
@@ -30,6 +39,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: wyvox/action-setup-pnpm@v2
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
       - name: Run Tests
         run: pnpm test
