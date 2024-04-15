@@ -74,9 +74,9 @@ module.exports = {
         {
           name: 'ci-provider',
           key: 'ciProvider',
-          type: ['travis', 'github'],
+          type: ['travis', 'github', 'none'],
           default: 'github',
-          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          description: 'Installs the optional default CI blueprint. Either Travis or Github Actions is supported.',
           required: false
         },
         {
@@ -494,9 +494,9 @@ module.exports = {
         {
           name: 'ci-provider',
           key: 'ciProvider',
-          type: ['travis', 'github'],
+          type: ['travis', 'github', 'none'],
           default: 'github',
-          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          description: 'Installs the optional default CI blueprint. Either Travis or Github Actions is supported.',
           required: false,
         },
         {
@@ -625,8 +625,8 @@ module.exports = {
         {
           name: 'ci-provider',
           key: 'ciProvider',
-          type: ['travis', 'github'],
-          description: 'Installs the default CI blueprint. Either Travis or Github Actions is supported.',
+          type: ['travis', 'github', 'none'],
+          description: 'Installs the optional default CI blueprint. Either Travis or Github Actions is supported.',
           required: false,
         },
         {
