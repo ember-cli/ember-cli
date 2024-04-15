@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## v5.9.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.8.0...v5.9.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.8.0...v5.9.0-beta.0)
+
+#### Changelog
+
+- [#10446](https://github.com/ember-cli/ember-cli/pull/10446) [ENHANCEMENT] Format markdown files in blueprints with Prettier [@bertdeblock](https://github.com/bertdeblock)
+- [#10450](https://github.com/ember-cli/ember-cli/pull/10450) [ENHANCEMENT] Remove warning when encountering a `.js` file when generating a TS blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10452](https://github.com/ember-cli/ember-cli/pull/10452) [BUGFIX] Make sure to use the correct package manager in concurrently scripts [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v5.8.0
 
 #### Blueprint Changes
