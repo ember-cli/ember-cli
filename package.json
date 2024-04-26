@@ -90,7 +90,7 @@
     "is-git-url": "^1.0.0",
     "is-language-code": "^3.1.0",
     "isbinaryfile": "^5.0.0",
-    "lodash.template": "^4.5.0",
+    "lodash": "^4.17.21",
     "markdown-it": "^13.0.1",
     "markdown-it-terminal": "^0.4.0",
     "minimatch": "^7.4.3",
