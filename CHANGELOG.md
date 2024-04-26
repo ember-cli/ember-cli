@@ -15,6 +15,19 @@
 
 Thank you to all who took the time to contribute!
 
+## v5.8.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.8.0...v5.8.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.8.0...v5.8.1)
+
+#### Changelog
+
+- [#10458](https://github.com/ember-cli/ember-cli/pull/10458) Use Lodash's `_.template` instead of `lodash.template` package [@gorner](https://github.com/gorner)
+
+Thank you to all who took the time to contribute!
+
 ## v5.8.0
 
 #### Blueprint Changes
@@ -78,6 +91,19 @@ Thank you to all who took the time to contribute!
 - [#10393](https://github.com/ember-cli/ember-cli/pull/10393) [ENHANCEMENT] feat: add skip-install alias to skip-npm [@IgnaceMaes](https://github.com/IgnaceMaes)
 - [#10403](https://github.com/ember-cli/ember-cli/pull/10403) Fix some docs that were showing up weirdly in generated api docs [@kategengler](https://github.com/kategengler)
 - [#9514](https://github.com/ember-cli/ember-cli/pull/9514) [ENHANCEMENT] Use packager commands in `CONTRIBUTING.md` and `README.md` files in `app` and `addon` blueprints [@elwayman02](https://github.com/elwayman02)
+
+Thank you to all who took the time to contribute!
+
+## v5.4.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.4.1...v5.4.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.4.1...v5.4.2)
+
+#### Changelog
+
+- [#10458](https://github.com/ember-cli/ember-cli/pull/10458) Use Lodash's `_.template` instead of `lodash.template` package [@gorner](https://github.com/gorner)
 
 Thank you to all who took the time to contribute!
 
@@ -226,6 +252,32 @@ Thank you to all who took the time to contribute!
 - [#10231](https://github.com/ember-cli/ember-cli/pull/10231) [INTERNAL] Remove npm version check in `ember new` test [@bertdeblock](https://github.com/bertdeblock)
 - [#10232](https://github.com/ember-cli/ember-cli/pull/10232) [CLEANUP] Remove Babel fallback for addons [@bertdeblock](https://github.com/bertdeblock)
 - [#10245](https://github.com/ember-cli/ember-cli/pull/10245) change guarding condition for output repos [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
+## v4.12.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.12.2...v4.12.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.12.2...v4.12.3)
+
+#### Changelog
+
+- [#10458](https://github.com/ember-cli/ember-cli/pull/10458) Use Lodash's `_.template` instead of `lodash.template` package [@gorner](https://github.com/gorner)
+
+Thank you to all who took the time to contribute!
+
+## v4.12.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v4.12.1...v4.12.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v4.12.1...v4.12.2)
+
+#### Changelog
+
+- [#10314](https://github.com/ember-cli/ember-cli/pull/10314) [BUGFIX] Do not try to wire up Testem unless a test framework is dete… [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 
 Thank you to all who took the time to contribute!
 
