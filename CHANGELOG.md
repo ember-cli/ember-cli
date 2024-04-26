@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v5.4.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.4.1...v5.4.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.4.1...v5.4.2)
+
+#### Changelog
+
+- [#10458](https://github.com/ember-cli/ember-cli/pull/10458) Use Lodash's `_.template` instead of `lodash.template` package [@gorner](https://github.com/gorner)
+
+Thank you to all who took the time to contribute!
+
 ## v5.4.1
 
 #### Blueprint Changes
