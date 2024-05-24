@@ -1344,6 +1344,19 @@ aws-sign2@~0.5.0:
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.5.0.tgz#c57103f7a17fc037f02d7c2e64b602ea223f7d63"
   integrity sha512-oqUX0DM5j7aPWPCnpWebiyNIj2wiNI87ZxnOMoGv0aE4TGlBy2N+5iWc6dQ/NOKZaBD2W6PVz8jtOGkWzSC5EA==
 
+babel-import-util@^2.0.2:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/babel-import-util/-/babel-import-util-2.1.1.tgz#0f4905fe899abfb8cd835dd52f3df1966d1ffbb0"
+  integrity sha512-3qBQWRjzP9NreSH/YrOEU1Lj5F60+pWSLP0kIdCWxjFHH7pX2YPHIxQ67el4gnMNfYoDxSDGcT0zpVlZ+gVtQA==
+
+babel-plugin-debug-macros@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-debug-macros/-/babel-plugin-debug-macros-1.0.0.tgz#9db91f500947c3ec74daba71c204630c12d2f1da"
+  integrity sha512-Ct2ecKpxKD49qioqSvJd5bLLCElZA8uDolePRgauTUI5ZjMdCjIg9DA/FK3sgk+nnS91oGrvNb5wRDWLs2KNtw==
+  dependencies:
+    babel-import-util "^2.0.2"
+    semver "^7.6.0"
+
 babel-plugin-module-resolver@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-5.0.2.tgz#cdeac5d4aaa3b08dd1ac23ddbf516660ed2d293e"
@@ -7858,7 +7871,7 @@ semver@^7.0.0, semver@^7.3.5, semver@^7.3.7, semver@^7.3.8, semver@^7.5.3:
   dependencies:
     lru-cache "^6.0.0"
 
-semver@^7.3.4:
+semver@^7.3.4, semver@^7.6.0:
   version "7.6.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.2.tgz#1e3b34759f896e8f14d6134732ce798aeb0c6e13"
   integrity sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==
