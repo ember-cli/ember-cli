@@ -37,6 +37,7 @@
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
   "dependencies": {
+    "@babel/plugin-proposal-dynamic-import": "^7.18.6",
     "@babel/plugin-transform-modules-systemjs": "^7.24.1",
     "@ember/optional-features": "link:../ember-optional-features",
     "@pnpm/find-workspace-dir": "^6.0.2",
