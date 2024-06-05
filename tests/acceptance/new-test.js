@@ -107,7 +107,7 @@ describe('Acceptance: ember new', function () {
   it('ember new generates the correct directory name in `README.md` for scoped package names', async function () {
     await ember(['new', '@foo/bar', '--skip-npm', '--skip-git']);
 
-    expect(file('README.md')).to.match(/\* `cd foo-bar`/);
+    expect(file('README.md')).to.match(/- `cd foo-bar`/);
   });
 
   // ember new foo --lang
@@ -392,7 +392,7 @@ describe('Acceptance: ember new', function () {
   it('ember addon generates the correct directory name in `CONTRIBUTING.md` for scoped package names', async function () {
     await ember(['addon', '@foo/bar', '--skip-npm', '--skip-git']);
 
-    expect(file('CONTRIBUTING.md')).to.match(/\* `cd foo-bar`/);
+    expect(file('CONTRIBUTING.md')).to.match(/- `cd foo-bar`/);
   });
 
   if (!isExperimentEnabled('CLASSIC')) {

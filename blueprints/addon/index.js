@@ -201,6 +201,7 @@ module.exports = {
       lang: options.lang,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
+      packageManager: options.packageManager ?? 'npm',
     };
   },
 
