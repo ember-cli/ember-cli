@@ -1,24 +1,22 @@
 # ember-cli Changelog
 
-## v5.9.0-beta.1
+## v5.10.0-beta.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.9.0-beta.0...v5.9.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.9.0-beta.0...v5.9.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.9.0...v5.10.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.9.0...v5.10.0-beta.0)
 
 #### Changelog
 
-- [#10458](https://github.com/ember-cli/ember-cli/pull/10458) Use Lodash's `_.template` instead of `lodash.template` package [@gorner](https://github.com/gorner)
+no changes
 
-Thank you to all who took the time to contribute!
-
-## v5.9.0-beta.0
+## v5.9.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.8.0...v5.9.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.8.0...v5.9.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.8.1...v5.9.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.8.1...v5.9.0)
 
 #### Changelog
 
