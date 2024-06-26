@@ -1,8 +1,10 @@
 {{page-title "<%= namespace %>"}}
-
-<% if (welcome) { %>{{! The following component displays Ember's default welcome message. }}
-<WelcomePage />
-{{! Feel free to remove this! }}
-<% } else { %><h2 id="title">Welcome to Ember</h2>
-<% } %>
+<% if (welcome) { %>
 {{outlet}}
+
+{{! The following component displays Ember's default welcome message. }}
+<WelcomePage />
+{{! Feel free to remove this! }}<% } else { %>
+<h2 id="title">Welcome to Ember</h2>
+
+{{outlet}}<% } %>
