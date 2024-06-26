@@ -48,6 +48,13 @@ ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
 you want to run a specific subset of tests have a look at their
 [documentation](https://mochajs.org/#exclusive-tests).
 
+## Update fixtures
+
+### `ember new`
+
+To update fixtures with `ember new`, run the tests with `WRITE_FIXTURES=true`.
+
+To update `ember help` fixtures, run the tests with `WRITE_HELP_FIXTURES=true`.
 
 ## Build the documentation
 
