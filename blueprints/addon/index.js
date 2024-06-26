@@ -210,9 +210,15 @@ module.exports = {
       .files(options)
       .filter((file) => !['types/ember-data/types/registries/model.d.ts'].includes(file));
     let addonFilesPath = this.filesPath(this.options);
-    let ignoredCITemplate = this.options.ciProvider !== 'travis' ? '.travis.yml' : '.github';
+    let ignore = [];
+    if (this.options.ciProvider !== 'travis') {
+      ignore.push('.travis.yml');
+    }
+    if (this.options.ciProvider !== 'github') {
+      ignore.push('.github');
+    }
 
-    let addonFiles = walkSync(addonFilesPath, { ignore: [ignoredCITemplate] });
+    let addonFiles = walkSync(addonFilesPath, { ignore });
 
     if (options.packageManager !== 'pnpm') {
       addonFiles = addonFiles.filter((file) => !file.endsWith('.npmrc'));
