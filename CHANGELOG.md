@@ -1,15 +1,17 @@
 # ember-cli Changelog
 
-## v5.10.0-beta.0
+## v5.10.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.9.0...v5.10.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.9.0...v5.10.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.9.0...v5.10.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.9.0...v5.10.0)
 
 #### Changelog
 
-no changes
+- [#10464](https://github.com/ember-cli/ember-cli/pull/10464) Specified the locale in setupIntl() [@ijlee2](https://github.com/ijlee2)
+
+Thank you to all who took the time to contribute!
 
 ## v5.9.0
 
