@@ -32,8 +32,9 @@ jobs:
           node-version: 18
           cache: 'yarn'
 
-      - name: Fetch yarn cache directory path
+      - name: Get yarn cache directory path
         id: yarn-cache-dir-path
+        shell: bash
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
@@ -64,6 +65,7 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
+        shell: bash
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
@@ -98,6 +100,7 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
+        shell: bash
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
@@ -134,10 +137,11 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
+        shell: bash
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
