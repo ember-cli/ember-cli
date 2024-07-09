@@ -27,6 +27,7 @@ let mocha = new Mocha({
   timeout: 5000,
   reporter,
   retries: 2,
+  parallel: true,
   rootHooks: {
     beforeEach() {
       chaiJestSnapshot.resetSnapshotRegistry();
