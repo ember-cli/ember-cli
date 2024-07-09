@@ -37,7 +37,7 @@
     "@babel/plugin-proposal-decorators": "^7.24.7",
     "@ember/optional-features": "^2.1.0",
     "@ember/test-helpers": "^3.3.0",
-    "@embroider/test-setup": "^3.0.3",
+    "@embroider/test-setup": "^4.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
