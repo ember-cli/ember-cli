@@ -60,13 +60,9 @@ jobs:
           - 18
           - 20
         os:
+          - macos-latest
           - ubuntu-latest
-        # Active LTS + different OS
-        include:
-          - node-version: 20
-            os: macos-latest
-          - node-version: 20
-            os: windows-latest
+          - windows-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -91,13 +87,16 @@ jobs:
           - 18
           - 20
         os:
+          - macos-latest
           - ubuntu-latest
-        # Active LTS + different OS
-        include:
-          - node-version: 20
-            os: macos-latest
-          - node-version: 20
-            os: windows-latest
+          - windows-latest
+        # manual sharding to make CI faster
+        test-file:
+          - addon-smoke
+          - brocfile-smoke
+          - nested-addons-smoke
+          - preprocessor-smoke
+          - smoke
 
     steps:
       - uses: actions/checkout@v4
@@ -107,7 +106,7 @@ jobs:
           cache: yarn
 
       - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test:slow
+      - run: yarn test tests/acceptance/${{ matrix.test-file }}-test-slow.js
 
   feature-flags:
     needs:
