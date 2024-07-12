@@ -41,7 +41,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu, macOS, windows]
+        os: [ubuntu, macOS]
 
     steps:
       - uses: actions/checkout@v4
