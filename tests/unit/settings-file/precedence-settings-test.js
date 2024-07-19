@@ -34,6 +34,7 @@ describe('.ember-cli', function () {
 
   it('local settings take precedence over global settings', function () {
     let command = new Command({
+      name: 'foo',
       ui,
       project,
       settings,

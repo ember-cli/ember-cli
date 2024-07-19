@@ -53,6 +53,21 @@ jobs:
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test
 
+  bun-tests:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - uses: oven-sh/setup-bun@v2
+
+      - run: yarn install --frozen-lockfile --non-interactive
+      - run: bun run --bun test
+
   tests:
     name: "Node ${{ matrix.node-version }} - ${{ matrix.os }} "
     runs-on: "${{ matrix.os }}-latest"
