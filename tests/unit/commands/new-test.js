@@ -92,6 +92,8 @@ describe('new command', function () {
     };
 
     command.commands.Init = Command.extend({
+      name: 'init',
+
       run(commandOptions) {
         expect(commandOptions).to.contain.keys('customOption');
         expect(commandOptions.customOption).to.equal('customValue');
@@ -125,7 +127,9 @@ describe('new command', function () {
         run() {}
       }
 
-      class InitCommand extends Command {
+      const InitCommand = Command.extend({
+        name: 'init',
+
         run(commandOptions) {
           expect(commandOptions).to.deep.include({
             blueprint: 'addon',
@@ -134,8 +138,8 @@ describe('new command', function () {
             packageManager: 'npm',
             ciProvider: 'github',
           });
-        }
-      }
+        },
+      });
 
       command.tasks.InteractiveNew = InteractiveNewTaskMock;
       command.tasks.CreateAndStepIntoDirectory = CreateAndStepIntoDirectoryTask;
@@ -161,7 +165,9 @@ describe('new command', function () {
         run() {}
       }
 
-      class InitCommand extends Command {
+      const InitCommand = Command.extend({
+        name: 'init',
+
         run(commandOptions) {
           expect(commandOptions).to.deep.include({
             blueprint: 'app',
@@ -170,8 +176,8 @@ describe('new command', function () {
             packageManager: 'yarn',
             ciProvider: 'travis',
           });
-        }
-      }
+        },
+      });
 
       command.tasks.InteractiveNew = InteractiveNewTaskMock;
       command.tasks.CreateAndStepIntoDirectory = CreateAndStepIntoDirectoryTask;
@@ -197,7 +203,9 @@ describe('new command', function () {
         run() {}
       }
 
-      class InitCommand extends Command {
+      const InitCommand = Command.extend({
+        name: 'init',
+
         run(commandOptions) {
           expect(commandOptions).does.not.have.key('packageManager');
           expect(commandOptions).to.deep.include({
@@ -206,8 +214,8 @@ describe('new command', function () {
             lang: 'fr-BE',
             ciProvider: 'github',
           });
-        }
-      }
+        },
+      });
 
       command.tasks.InteractiveNew = InteractiveNewTaskMock;
       command.tasks.CreateAndStepIntoDirectory = CreateAndStepIntoDirectoryTask;
