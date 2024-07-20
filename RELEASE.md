@@ -37,7 +37,7 @@ git push origin release
 
 ```
 git clean -fdx
-yarn
+pnpm install
 ```
 
 * Update the CHANGELOG.md
@@ -71,7 +71,7 @@ git checkout -B release --track origin/release
 
 ```
 git clean -fdx
-yarn
+pnpm install
 ```
 
 * Update the CHANGELOG.md
@@ -121,7 +121,7 @@ git push origin beta
 
 ```
 git clean -fdx
-yarn
+pnpm install
 ```
 
 * Update the CHANGELOG.md
@@ -154,7 +154,7 @@ git checkout -B beta --track origin/beta
 
 ```
 git clean -fdx
-yarn
+pnpm install
 ```
 
 * Update the CHANGELOG.md

@@ -26,26 +26,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: yarn
-
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn lint
+      - uses: ./.github/actions/setup-environment
+      - run: pnpm lint
 
   basic-tests:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: yarn
-
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test
+      - uses: ./.github/actions/setup-environment
+      - run: pnpm test
 
   basic-tests-matrix:
     needs:
@@ -66,13 +56,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
-
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test
+      - run: pnpm test
 
   slow-tests:
     needs:
@@ -100,13 +87,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
-
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test tests/acceptance/${{ matrix.test-file }}-test-slow.js
+      - run: pnpm test tests/acceptance/${{ matrix.test-file }}-test-slow.js
 
   feature-flags:
     needs:
@@ -124,12 +108,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: yarn
-
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test:all
+      - uses: ./.github/actions/setup-environment
+      - run: pnpm test:all
         env:
           'EMBER_CLI_${{ matrix.feature-flag }}': true

@@ -1,0 +1,23 @@
+name: Setup environment
+description: Setup environment
+
+inputs:
+  node-version:
+    default: '18'
+    description: Node version
+
+runs:
+  using: composite
+
+  steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        version: '9'
+
+    - uses: actions/setup-node@v4
+      with:
+        cache: pnpm
+        node-version: ${{ inputs.node-version }}
+
+    - run: pnpm install
+      shell: bash
