@@ -35,7 +35,7 @@ For example, to enable the `CONFIG_CACHING` experiment mentioned in the example
 above while running tests you would run the following command:
 
 ```
-EMBER_CLI_CONFIG_CACHING=true yarn test
+EMBER_CLI_CONFIG_CACHING=true pnpm test
 ```
 
 

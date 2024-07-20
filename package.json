@@ -29,7 +29,7 @@
   "scripts": {
     "docs": "yuidoc",
     "lint": "eslint . --cache",
-    "prepack": "yarn docs",
+    "prepack": "pnpm docs",
     "test": "node --unhandled-rejections=strict tests/runner",
     "test:all": "node --unhandled-rejections=strict tests/runner all",
     "test:cover": "nyc --all --reporter=text --reporter=lcov node tests/runner all",
@@ -159,6 +159,9 @@
   "engines": {
     "node": ">= 18"
   },
+  "volta": {
+    "node": "18.12.0"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -171,9 +174,5 @@
       "release": true,
       "tokenRef": "GITHUB_AUTH"
     }
-  },
-  "volta": {
-    "node": "18.12.0",
-    "yarn": "1.22.19"
   }
 }
