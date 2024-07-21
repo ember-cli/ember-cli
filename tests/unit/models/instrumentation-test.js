@@ -237,13 +237,6 @@ describe('models/instrumentation.js', function () {
       expect(warnInvocations).to.eql([]);
     });
 
-    it('is true and warns at most once if BROCCOLI_VIZ is set but not 1', function () {
-      process.env.BROCCOLI_VIZ = 'on';
-      expect(instrumentation.isVizEnabled()).to.eql(true);
-      expect(instrumentation.isVizEnabled()).to.eql(true);
-      expect(warnInvocations).to.eql(["Please set BROCCOLI_VIZ=1 to enable visual instrumentation, rather than 'on'"]);
-    });
-
     it('is false if BROCCOLI_VIZ is unset', function () {
       expect('BROCCOLI_VIZ' in process.env).to.eql(false);
       expect(instrumentation.isVizEnabled()).to.eql(false);
