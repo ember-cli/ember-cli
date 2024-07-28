@@ -11,7 +11,7 @@ const MockUI = require('console-ui/mock');
 const Yam = require('yam');
 
 const MockProject = require('../../helpers/mock-project');
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 const hwinfo = require('../../../lib/models/hardware-info');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
