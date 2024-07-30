@@ -11,3 +11,6 @@
 
 # ember-try
 /.node_modules.ember-try/
+
+# pnpm lockfile
+pnpm-lock.yaml
