@@ -6,7 +6,7 @@ const AssetSizePrinter = require('../../../lib/models/asset-size-printer');
 const path = require('path');
 const fs = require('fs-extra');
 let root = process.cwd();
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 let tmpRoot = path.join(root, 'tmp');
 
 describe('models/asset-size-printer', function () {

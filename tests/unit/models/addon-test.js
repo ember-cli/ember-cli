@@ -7,7 +7,7 @@ const Addon = require('../../../lib/models/addon');
 const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 
 const broccoli = require('broccoli-builder');
 const walkSync = require('walk-sync');
