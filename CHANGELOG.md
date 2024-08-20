@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+## v5.12.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.11.0...v5.12.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.11.0...v5.12.0-beta.0)
+
+#### Changelog
+
+- [#10483](https://github.com/ember-cli/ember-cli/pull/10483) Bump @embroider/* dependencies [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10486](https://github.com/ember-cli/ember-cli/pull/10486) Bump ember-template-lint [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10481](https://github.com/ember-cli/ember-cli/pull/10481) Bump ember-cli-app-version [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10485](https://github.com/ember-cli/ember-cli/pull/10485) Bump eslint-plugin-ember [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10484](https://github.com/ember-cli/ember-cli/pull/10484) Bump ember-resolver [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10479](https://github.com/ember-cli/ember-cli/pull/10479) Bump @typescript-eslint dependencies to latest [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10482](https://github.com/ember-cli/ember-cli/pull/10482) Bump qunit-dom [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10480](https://github.com/ember-cli/ember-cli/pull/10480) Bump @ember/string [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10499](https://github.com/ember-cli/ember-cli/pull/10499) [ENHANCEMENT] Update `testem` [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v5.11.0
 
 #### Blueprint Changes
