@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## v5.11.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.10.0...v5.11.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.10.0...v5.11.0-beta.0)
+
+#### Changelog
+
+- [#10474](https://github.com/ember-cli/ember-cli/pull/10474) Improve dx when WelcomePage is present [@ef4](https://github.com/ef4)
+- [#10475](https://github.com/ember-cli/ember-cli/pull/10475) Document WRITE_FIXTURES [@kategengler](https://github.com/kategengler)
+- [#10476](https://github.com/ember-cli/ember-cli/pull/10476) Bump content-tag to v2 [@SergeAstapov](https://github.com/SergeAstapov)
+
+Thank you to all who took the time to contribute!
+
 ## v5.10.0
 
 #### Blueprint Changes
