@@ -15,10 +15,6 @@ chai.use(chaiFiles);
 chai.use(chaiAsPromised);
 chai.use(chaiJestSnapshot);
 
-if (process.env.EOLNEWLINE) {
-  require('os').EOL = '\n';
-}
-
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`

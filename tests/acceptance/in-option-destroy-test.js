@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const path = require('path');
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
-const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../helpers/mk-tmp-dir-in');
 const initApp = require('../helpers/init-app');
 const generateUtils = require('../helpers/generate-utils');
 

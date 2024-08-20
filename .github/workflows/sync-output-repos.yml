@@ -84,12 +84,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-          cache: 'yarn'
-
-      - run: yarn install --frozen-lockfile --non-interactive
+      - uses: ./.github/actions/setup-environment
       - name: "Configure Git"
         run: |
           git config --global user.name "${{ env.GIT_NAME }}"
@@ -111,12 +106,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-          cache: 'yarn'
-
-      - run: yarn install --frozen-lockfile --non-interactive
+      - uses: ./.github/actions/setup-environment
       - name: "Configure Git"
         run: |
           git config --global user.name "${{ env.GIT_NAME }}"
