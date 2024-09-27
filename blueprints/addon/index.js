@@ -69,10 +69,10 @@ module.exports = {
     delete contents.devDependencies['ember-cli-htmlbars'];
 
     // 95% of addons don't need ember-data or ember-fetch, make them opt-in instead
-    let deps = Object.keys(contents.dependencies);
+    let deps = Object.keys(contents.devDependencies);
     for (let depName of deps) {
       if (depName.includes('ember-data') || depName.includes('warp-drive')) {
-        delete contents.dependencies[depName];
+        delete contents.devDependencies[depName];
       }
     }
     delete contents.devDependencies['ember-fetch'];
