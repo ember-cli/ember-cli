@@ -9,6 +9,21 @@
       "foo/tests/*": ["tests/*"],
       "foo/*": ["app/*"],
       "*": ["types/*"]
-    }
+    },
+    "types": [
+      "ember-source/types",
+      "ember-data-types/unstable-preview-types",
+      "@ember-data-types/store/unstable-preview-types",
+      "@ember-data-types/adapter/unstable-preview-types",
+      "@ember-data-types/graph/unstable-preview-types",
+      "@ember-data-types/json-api/unstable-preview-types",
+      "@ember-data-types/legacy-compat/unstable-preview-types",
+      "@ember-data-types/request/unstable-preview-types",
+      "@ember-data-types/request-utils/unstable-preview-types",
+      "@ember-data-types/model/unstable-preview-types",
+      "@ember-data-types/serializer//unstable-preview-types",
+      "@ember-data-types/tracking/unstable-preview-types",
+      "@warp-drive-types/core-types/unstable-preview-types"
+    ]
   }
 }
