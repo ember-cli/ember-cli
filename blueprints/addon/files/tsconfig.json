@@ -16,6 +16,6 @@
     }
   },
   "types": [
-    "ember-source/types",
+    "ember-source/types"
   ]
 }
