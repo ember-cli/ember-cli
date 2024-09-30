@@ -69,12 +69,12 @@ module.exports = {
     delete contents.devDependencies['ember-cli-htmlbars'];
 
     // 95% of addons don't need ember-data or ember-fetch, make them opt-in instead
-    delete contents.devDependencies['ember-data'];
-    delete contents.devDependencies['@types/ember-data'];
-    delete contents.devDependencies['@types/ember-data__adapter'];
-    delete contents.devDependencies['@types/ember-data__model'];
-    delete contents.devDependencies['@types/ember-data__serializer'];
-    delete contents.devDependencies['@types/ember-data__store'];
+    let deps = Object.keys(contents.devDependencies);
+    for (let depName of deps) {
+      if (depName.includes('ember-data') || depName.includes('warp-drive')) {
+        delete contents.devDependencies[depName];
+      }
+    }
     delete contents.devDependencies['ember-fetch'];
 
     // `@ember/string` is a peer dependency of `ember-data`.
