@@ -1,11 +1,11 @@
 # ember-cli Changelog
 
-## v5.12.0-beta.0
+## v5.12.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.11.0...v5.12.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.11.0...v5.12.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.11.0...v5.12.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.11.0...v5.12.0)
 
 #### Changelog
 
