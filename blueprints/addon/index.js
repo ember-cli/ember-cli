@@ -206,9 +206,7 @@ module.exports = {
   },
 
   files(options) {
-    let appFiles = this.lookupBlueprint(this.appBlueprintName)
-      .files(options)
-      .filter((file) => !['types/ember-data/types/registries/model.d.ts'].includes(file));
+    let appFiles = this.lookupBlueprint(this.appBlueprintName).files(options);
     let addonFilesPath = this.filesPath(this.options);
     let ignore = [];
     if (this.options.ciProvider !== 'travis') {
