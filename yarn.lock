@@ -1241,6 +1241,16 @@ aws-sign2@~0.5.0:
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.5.0.tgz#c57103f7a17fc037f02d7c2e64b602ea223f7d63"
   integrity sha512-oqUX0DM5j7aPWPCnpWebiyNIj2wiNI87ZxnOMoGv0aE4TGlBy2N+5iWc6dQ/NOKZaBD2W6PVz8jtOGkWzSC5EA==
 
+babel-remove-types@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/babel-remove-types/-/babel-remove-types-1.0.0.tgz#21d443909dc9b00fed359f6074060f3c147b3db8"
+  integrity sha512-Kg+NZLwfe1E+LoGrkX9I9nFDM1FVBoiIdyW4bjNGGvrqWhvgcdauqijOFn5/WYkdoGXpUEDRWvU4X100ghVx4A==
+  dependencies:
+    "@babel/core" "^7.16.10"
+    "@babel/plugin-syntax-decorators" "^7.16.7"
+    "@babel/plugin-transform-typescript" "^7.16.8"
+    prettier "^2.5.1"
+
 backbone@^1.1.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.4.1.tgz#099a78184bc07b034048a8332229c2ccca1e3e62"
@@ -7173,16 +7183,6 @@ remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
   integrity sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==
-
-remove-types@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/remove-types/-/remove-types-1.0.0.tgz#491119e8fce23f2f961fe2254e5a119a017d9a3d"
-  integrity sha512-G7Hk1Q+UJ5DvlNAoJZObxANkBZGiGdp589rVcTW/tYqJWJ5rwfraSnKSQaETN8Epaytw8J40nS/zC7bcHGv36w==
-  dependencies:
-    "@babel/core" "^7.16.10"
-    "@babel/plugin-syntax-decorators" "^7.16.7"
-    "@babel/plugin-transform-typescript" "^7.16.8"
-    prettier "^2.5.1"
 
 repeat-element@^1.1.2:
   version "1.1.4"
