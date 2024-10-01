@@ -308,7 +308,8 @@ describe('install command', function () {
     it('gives a helpful message if no arguments are passed', function () {
       return expect(command.validateAndRun([])).to.be.rejected.then((error) => {
         expect(error.message).to.equal(
-          "An addon's name is required when running the `install` command. If you want to install all node modules, please run `yarn install` instead.",
+          // TODO: Make this package-manager agnostic?
+          "An addon's name is required when running the `install` command. If you want to install all node modules, please run `pnpm install` instead.",
           'expect error to have a helpful message'
         );
       });

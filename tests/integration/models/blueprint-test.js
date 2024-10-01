@@ -13,7 +13,7 @@ const EOL = require('os').EOL;
 let root = process.cwd();
 let tempRoot = path.join(root, 'tmp');
 const SilentError = require('silent-error');
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 const td = require('testdouble');
 const Blueprint = require('../../../lib/models/blueprint');
 

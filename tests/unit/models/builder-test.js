@@ -4,10 +4,9 @@ const fs = require('fs-extra');
 const path = require('path');
 const BuildCommand = require('../../../lib/commands/build');
 const commandOptions = require('../../factories/command-options');
-const rimraf = require('rimraf');
 const fixturify = require('fixturify');
 const MockProject = require('../../helpers/mock-project');
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 const td = require('testdouble');
 const { expect } = require('chai');
 const { file } = require('chai-files');
@@ -154,7 +153,7 @@ describe('models/builder.js', function () {
       delete process.env.BROCCOLI_VIZ;
       builder.project.ui.output = '';
       if (fs.existsSync(`${builder.project.root}/tmp`)) {
-        rimraf.sync(`${builder.project.root}/tmp`);
+        fs.removeSync(`${builder.project.root}/tmp`);
       }
     });
 
@@ -210,7 +209,7 @@ describe('models/builder.js', function () {
       let result = await builder.build();
       expect(fs.existsSync(result.directory)).to.be.true;
       expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-      rimraf.sync(result.directory);
+      fs.removeSync(result.directory);
     });
 
     it('produces the correct output', async function () {
