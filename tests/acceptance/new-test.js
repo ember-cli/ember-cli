@@ -477,7 +477,6 @@ describe('Acceptance: ember new', function () {
         'app/config/environment.d.ts',
         'types/global.d.ts',
         'types/foo/index.d.ts',
-        'types/ember-data/types/registries/model.d.ts',
       ].forEach((filePath) => {
         expect(file(filePath)).to.not.exist;
       });
@@ -686,7 +685,6 @@ describe('Acceptance: ember new', function () {
         'tsconfig.json',
         'app/config/environment.d.ts',
         'types/global.d.ts',
-        'types/ember-data/types/registries/model.d.ts',
       ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
@@ -719,8 +717,6 @@ describe('Acceptance: ember new', function () {
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
-
-      expect(file('types/ember-data/types/registries/model.d.ts')).to.not.exist;
     });
   });
 
