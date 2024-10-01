@@ -145,7 +145,9 @@ function removeTemplateExpression(dependency) {
     return dependency;
   }
 
-  return dependency.replace(dependency.substring(dependency.indexOf('<'), dependency.indexOf('>') + 1), '');
+  let semverRange = dependency.replace(dependency.substring(dependency.indexOf('<'), dependency.indexOf('>') + 1), '');
+
+  return semverRange;
 }
 
 async function main() {
