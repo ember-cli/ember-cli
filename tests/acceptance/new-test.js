@@ -46,6 +46,11 @@ describe('Acceptance: ember new', function () {
       ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config'],
     }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
 
+    // This style of assertion can't handle conditionally available files
+    if (expected.some((x) => x.endsWith('eslint.config.mjs'))) {
+      expected = [...expected.filter((x) => !x.endsWith('eslint.config.mjs')), 'eslint.config.mjs'];
+    }
+
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
@@ -425,7 +430,9 @@ describe('Acceptance: ember new', function () {
 
   describe('verify fixtures', function () {
     function checkEslintConfig(fixturePath) {
-      expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
+      expect(file('eslint.config.mjs')).to.equal(
+        file(path.join(__dirname, '../fixtures', fixturePath, 'eslint.config.mjs'))
+      );
     }
 
     function checkFileWithEmberCLIVersionReplacement(fixtureName, fileName) {

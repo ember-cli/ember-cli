@@ -21,6 +21,7 @@
 /.watchmanconfig
 /CONTRIBUTING.md
 /ember-cli-build.js
+/eslint.config.mjs
 /testem.js
 /tests/
 /tsconfig.declarations.json

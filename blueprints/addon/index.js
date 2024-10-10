@@ -1,7 +1,10 @@
 'use strict';
 
 const fs = require('fs-extra');
+const fsPromises = require('fs/promises');
 const path = require('path');
+const { join } = require('path');
+const globSync = require('glob').sync;
 const walkSync = require('walk-sync');
 const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
@@ -269,5 +272,32 @@ module.exports = {
     let path = `${this.path}/files/${file}`;
     let superPath = `${this.lookupBlueprint(this.appBlueprintName).path}/files/${file}`;
     return fs.existsSync(path) ? path : superPath;
+  },
+
+  async afterInstall(options) {
+    const jsOnly = globSync('**/_js_*', {
+      cwd: options.target,
+      nodir: true,
+      ignore: ['**/node_modules/**', 'node_modules/**'],
+    });
+    const tsOnly = globSync('**/_ts_*', {
+      cwd: options.target,
+      nodir: true,
+      ignore: ['**/node_modules/**', 'node_modules/**'],
+    });
+
+    const filesToDelete = options.typescript ? jsOnly : tsOnly;
+    const filesToUnprefix = options.typescript ? tsOnly : jsOnly;
+
+    for (let file of filesToDelete) {
+      await fsPromises.rm(join(options.target, file));
+    }
+
+    for (let file of filesToUnprefix) {
+      let original = join(options.target, file);
+      let finalDestination = original.replace(/_(j|t)s_/, '');
+
+      await fsPromises.rename(original, finalDestination);
+    }
   },
 };
