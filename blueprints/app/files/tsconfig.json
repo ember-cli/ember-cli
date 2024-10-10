@@ -11,7 +11,7 @@
       "*": ["types/*"]
     },
     "types": [
-      "ember-source/types",
+      "./node_modules/ember-source/types/stable",
       "./node_modules/ember-data/unstable-preview-types",
       "./node_modules/@ember-data/store/unstable-preview-types",
       "./node_modules/@ember-data/adapter/unstable-preview-types",

@@ -2,8 +2,11 @@
 
 const stringUtil = require('ember-cli-string-utils');
 const chalk = require('chalk');
+const globSync = require('glob').sync;
 const { isExperimentEnabled } = require('../../lib/experiments');
 const directoryForPackageName = require('../../lib/utilities/directory-for-package-name');
+const fs = require('fs/promises');
+const { join } = require('path');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
@@ -114,5 +117,32 @@ module.exports = {
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
+  },
+
+  async afterInstall(options) {
+    const jsOnly = globSync('**/_js_*', {
+      cwd: options.target,
+      nodir: true,
+      ignore: ['**/node_modules/**', 'node_modules/**'],
+    });
+    const tsOnly = globSync('**/_ts_*', {
+      cwd: options.target,
+      nodir: true,
+      ignore: ['**/node_modules/**', 'node_modules/**'],
+    });
+
+    const filesToDelete = options.typescript ? jsOnly : tsOnly;
+    const filesToUnprefix = options.typescript ? tsOnly : jsOnly;
+
+    for (let file of filesToDelete) {
+      await fs.rm(join(options.target, file));
+    }
+
+    for (let file of filesToUnprefix) {
+      let original = join(options.target, file);
+      let finalDestination = original.replace(/_(j|t)s_/, '');
+
+      await fs.rename(original, finalDestination);
+    }
   },
 };
