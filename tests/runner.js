@@ -1,14 +1,16 @@
 'use strict';
 
+const path = require('path');
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
 const glob = require('glob');
 const Mocha = require('mocha');
+const mochaConfig = require(path.join(__dirname, '../.mocharc'));
 
 const { chai } = require('./bootstrap');
 
-const mocha = new Mocha();
+const mocha = new Mocha(mochaConfig);
 
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
@@ -42,7 +44,7 @@ function runMocha() {
 
   // ensure that at the end of every test, we are in the correct current
   // working directory
-  mocha.suite.afterEach(function () {
+  mocha.suite.afterEach(function() {
     chai.expect(process.cwd()).to.equal(ROOT);
   });
 
