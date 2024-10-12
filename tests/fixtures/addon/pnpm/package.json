@@ -41,7 +41,7 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.1",
     "ember-auto-import": "^2.8.1",
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-clean-css": "^3.0.0",
