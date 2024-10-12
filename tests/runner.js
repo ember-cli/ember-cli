@@ -44,7 +44,7 @@ function runMocha() {
 
   // ensure that at the end of every test, we are in the correct current
   // working directory
-  mocha.suite.afterEach(function() {
+  mocha.suite.afterEach(function () {
     chai.expect(process.cwd()).to.equal(ROOT);
   });
 
