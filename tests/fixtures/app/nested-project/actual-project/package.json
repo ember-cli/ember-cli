@@ -62,9 +62,9 @@
     "prettier": "^2.2.1",
     "qunit": "^2.14.1",
     "qunit-dom": "^1.6.0",
-    "stylelint": "^14.16.1",
-    "stylelint-config-standard": "^29.0.0",
-    "stylelint-prettier": "^2.0.0"
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-prettier": "^5.0.2"
   },
   "engines": {
     "node": ">= 18"
