@@ -20,6 +20,15 @@ const parserOptions = {
     js: {
       ecmaFeatures: { modules: true },
       ecmaVersion: 'latest',
+      requireConfigFile: false,
+      babelOptions: {
+        plugins: [
+          [
+            '@babel/plugin-proposal-decorators',
+            { decoratorsBeforeExport: true },
+          ],
+        ],
+      },
     },
     ts: {
       projectService: true,
@@ -78,7 +87,11 @@ export default ts.config(
     languageOptions: {
       parserOptions: parserOptions.esm.ts,
     },
-    extends: [...ts.configs.strictTypeChecked, ...emberRecommended, ...gtsRecommended],
+    extends: [
+      ...ts.configs.strictTypeChecked,
+      ...emberRecommended,
+      ...gtsRecommended,
+    ],
   },
   {
     files: ['tests/**/*-test.{js,gjs}'],
