@@ -9,4 +9,10 @@ setApplication(Application.create(config.APP));
 
 setup(QUnit.assert);
 
+// Groups individual test's own logs together
+QUnit.moduleStart(({ name }) => console.group(name));
+QUnit.testStart(({ name }) => console.group(name));
+QUnit.testDone(() => console.groupEnd());
+QUnit.moduleDone(() => console.groupEnd());
+
 start();
