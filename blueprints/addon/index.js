@@ -115,7 +115,50 @@ module.exports = {
     return stringifyAndNormalize(sortPackageJson(contents));
   },
 
-  buildFileInfo(intoDir, templateVariables, file) {
+  /**
+   * @override
+   *
+   * This modification of buildFileInfo allows our differing
+   * input files to output to a single file, depending on the options.
+   * For example:
+   *
+   *   for javascript,
+   *     _ts_eslint.config.mjs is deleted
+   *     _js_eslint.config.mjs is renamed to eslint.config.mjs
+   *
+   *   for typescript,
+   *     _js_eslint.config.mjs is deleted
+   *     _ts_eslint.config.mjs is renamed to eslint.config.mjs
+   */
+  buildFileInfo(intoDir, templateVariables, file, commandOptions) {
+    if (file.startsWith('_js_') || file.startsWith('_ts_')) {
+      let fileInfo = this._super.buildFileInfo.apply(this, arguments);
+
+      if (file.includes('_js_')) {
+        if (commandOptions.typescript) {
+          return null;
+        }
+
+        fileInfo.outputBasePath = fileInfo.outputPath.replace('_js_', '');
+        fileInfo.outputPath = fileInfo.outputPath.replace('_js_', '');
+        fileInfo.displayPath = fileInfo.outputPath.replace('_js_', '');
+        return fileInfo;
+      }
+
+      if (file.includes('_ts_')) {
+        if (!commandOptions.typescript) {
+          return null;
+        }
+
+        fileInfo.outputBasePath = fileInfo.outputPath.replace('_ts_', '');
+        fileInfo.outputPath = fileInfo.outputPath.replace('_ts_', '');
+        fileInfo.displayPath = fileInfo.outputPath.replace('_ts_', '');
+        return fileInfo;
+      }
+
+      return fileInfo;
+    }
+
     let mappedPath = this.mapFile(file, templateVariables);
     let options = {
       action: 'write',
@@ -272,32 +315,5 @@ module.exports = {
     let path = `${this.path}/files/${file}`;
     let superPath = `${this.lookupBlueprint(this.appBlueprintName).path}/files/${file}`;
     return fs.existsSync(path) ? path : superPath;
-  },
-
-  async afterInstall(options) {
-    const jsOnly = globSync('**/_js_*', {
-      cwd: options.target,
-      nodir: true,
-      ignore: ['**/node_modules/**', 'node_modules/**'],
-    });
-    const tsOnly = globSync('**/_ts_*', {
-      cwd: options.target,
-      nodir: true,
-      ignore: ['**/node_modules/**', 'node_modules/**'],
-    });
-
-    const filesToDelete = options.typescript ? jsOnly : tsOnly;
-    const filesToUnprefix = options.typescript ? tsOnly : jsOnly;
-
-    for (let file of filesToDelete) {
-      await fsPromises.rm(join(options.target, file));
-    }
-
-    for (let file of filesToUnprefix) {
-      let original = join(options.target, file);
-      let finalDestination = original.replace(/_(j|t)s_/, '');
-
-      await fsPromises.rename(original, finalDestination);
-    }
   },
 };
