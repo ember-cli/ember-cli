@@ -1,10 +1,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const fsPromises = require('fs/promises');
 const path = require('path');
-const { join } = require('path');
-const globSync = require('glob').sync;
 const walkSync = require('walk-sync');
 const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
