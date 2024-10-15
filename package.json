@@ -30,6 +30,7 @@
     "docs": "yuidoc",
     "lint": "eslint . --cache",
     "prepack": "pnpm docs",
+    "mocha": "pnpm exec mocha --require ./tests/bootstrap.js tests/**/*-test.js",
     "test": "node --unhandled-rejections=strict tests/runner",
     "test:all": "node --unhandled-rejections=strict tests/runner all",
     "test:cover": "nyc --all --reporter=text --reporter=lcov node tests/runner all",
