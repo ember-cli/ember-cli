@@ -36,8 +36,8 @@ const parserOptions = {
 export default ts.config(
   js.configs.recommended,
   prettier,
-  gjs,
-  gts,
+  ember.gjs,
+  ember.gts,
   {
     files: ['**/*.js'],
     languageOptions: {
