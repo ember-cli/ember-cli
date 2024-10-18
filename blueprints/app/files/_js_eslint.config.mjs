@@ -1,15 +1,11 @@
 import globals from 'globals';
 import js from '@eslint/js';
 
-import ember from 'eslint-plugin-ember';
-import emberRecommended from 'eslint-plugin-ember/configs/recommended';
-import gjsRecommended from 'eslint-plugin-ember/configs/recommended-gjs';
-
+import ember from 'eslint-plugin-ember/recommended';
 import prettier from 'eslint-plugin-prettier/recommended';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
 
-import emberParser from 'ember-eslint-parser';
 import babelParser from '@babel/eslint-parser';
 
 const esmParserOptions = {
@@ -26,8 +22,19 @@ const esmParserOptions = {
 export default [
   js.configs.recommended,
   prettier,
+  ember.base,
+  ember.gjs,
+  /**
+   * Ignores must be in their own object
+   * https://eslint.org/docs/latest/use/configure/ignore
+   */
   {
     ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
+  },
+  /**
+   * https://eslint.org/docs/latest/use/configure/configuration-files#configuring-linter-options
+   */
+  {
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
     },
@@ -36,34 +43,15 @@ export default [
     files: ['**/*.js'],
     languageOptions: {
       parser: babelParser,
-      parserOptions: esmParserOptions,
-      globals: {
-        ...globals.browser,
-      },
-    },
-    plugins: {
-      ember,
-    },
-    rules: {
-      ...emberRecommended.rules,
-      ...gjsRecommended.rules,
     },
   },
   {
-    files: ['**/*.gjs'],
+    files: ['**/*.{js,gjs}'],
     languageOptions: {
-      parser: emberParser,
       parserOptions: esmParserOptions,
       globals: {
         ...globals.browser,
       },
-    },
-    plugins: {
-      ember,
-    },
-    rules: {
-      ...emberRecommended.rules,
-      ...gjsRecommended.rules,
     },
   },
   {
@@ -102,7 +90,7 @@ export default [
    * ESM node files
    */
   {
-    files: ['*.mjs'],
+    files: ['**/*.mjs'],
     plugins: {
       n,
     },
