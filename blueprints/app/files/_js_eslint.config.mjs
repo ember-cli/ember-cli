@@ -1,7 +1,7 @@
 import globals from 'globals';
 import js from '@eslint/js';
 
-import ember from 'eslint-plugin-ember/recommended'
+import ember from 'eslint-plugin-ember/recommended';
 import prettier from 'eslint-plugin-prettier/recommended';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
@@ -22,6 +22,7 @@ const esmParserOptions = {
 export default [
   js.configs.recommended,
   prettier,
+  ember.base,
   ember.gjs,
   /**
    * Ignores must be in their own object
@@ -46,12 +47,6 @@ export default [
       globals: {
         ...globals.browser,
       },
-    },
-    plugins: {
-      ember: ember.plugin,
-    },
-    rules: {
-      ...ember.base,
     },
   },
   {
