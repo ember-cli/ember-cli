@@ -3,16 +3,12 @@ import js from '@eslint/js';
 
 import ts from 'typescript-eslint';
 
-import ember from 'eslint-plugin-ember';
-import emberRecommended from 'eslint-plugin-ember/configs/recommended';
-import gjsRecommended from 'eslint-plugin-ember/configs/recommended-gjs';
-import gtsRecommended from 'eslint-plugin-ember/configs/recommended-gts';
+import ember from 'eslint-plugin-ember/recommended'
 
 import prettier from 'eslint-plugin-prettier/recommended';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
 
-import emberParser from 'ember-eslint-parser';
 import babelParser from '@babel/eslint-parser';
 
 const parserOptions = {
@@ -40,6 +36,8 @@ const parserOptions = {
 export default ts.config(
   js.configs.recommended,
   prettier,
+  gjs,
+  gts,
   {
     files: ['**/*.js'],
     languageOptions: {
@@ -50,51 +48,42 @@ export default ts.config(
       },
     },
     plugins: {
-      ember,
+      ember: ember.plugin,
     },
     rules: {
-      ...emberRecommended.rules,
+      ...ember.base.rules,
     },
   },
   {
     files: ['**/*.ts'],
-    plugins: { ember },
+    plugins: { ember: ember.plugin },
     languageOptions: {
       parserOptions: parserOptions.esm.ts,
     },
-    extends: [...ts.configs.strictTypeChecked, ...emberRecommended],
+    extends: [...ts.configs.strictTypeChecked, ...ember.base],
   },
   {
     files: ['**/*.gjs'],
     languageOptions: {
-      parser: emberParser,
       parserOptions: parserOptions.esm.js,
       globals: {
         ...globals.browser,
       },
     },
-    plugins: {
-      ember,
-    },
-    rules: {
-      ...emberRecommended.rules,
-      ...gjsRecommended.rules,
-    },
   },
   {
     files: ['**/*.gts'],
-    plugins: { ember },
+    plugins: { ember: ember.plugin },
     languageOptions: {
       parserOptions: parserOptions.esm.ts,
     },
     extends: [
       ...ts.configs.strictTypeChecked,
-      ...emberRecommended,
-      ...gtsRecommended,
+      ...ember.gts,,
     ],
   },
   {
-    files: ['tests/**/*-test.{js,gjs}'],
+    files: ['tests/**/*-test.{js,gjs,ts,gts}'],
     plugins: {
       qunit,
     },
@@ -147,9 +136,11 @@ export default ts.config(
    * Settings
    */
   {
-    ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
     },
-  }
+  },
+  {
+    ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
+  },
 );
