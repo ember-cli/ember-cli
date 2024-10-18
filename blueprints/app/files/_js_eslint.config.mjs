@@ -90,7 +90,7 @@ export default [
    * ESM node files
    */
   {
-    files: ['*.mjs'],
+    files: ['**/*.mjs'],
     plugins: {
       n,
     },
