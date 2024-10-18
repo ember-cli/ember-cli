@@ -3,7 +3,7 @@ import js from '@eslint/js';
 
 import ts from 'typescript-eslint';
 
-import ember from 'eslint-plugin-ember/recommended'
+import ember from 'eslint-plugin-ember/recommended';
 
 import prettier from 'eslint-plugin-prettier/recommended';
 import qunit from 'eslint-plugin-qunit';
@@ -36,34 +36,32 @@ const parserOptions = {
 export default ts.config(
   js.configs.recommended,
   prettier,
+  ember.base,
   ember.gjs,
   ember.gts,
+  /**
+   * Ignores must be in their own object
+   * https://eslint.org/docs/latest/use/configure/ignore
+   */
+  {
+    ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
+  },
+  /**
+   * https://eslint.org/docs/latest/use/configure/configuration-files#configuring-linter-options
+   */
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
+  },
   {
     files: ['**/*.js'],
     languageOptions: {
       parser: babelParser,
-      parserOptions: parserOptions.esm.js,
-      globals: {
-        ...globals.browser,
-      },
-    },
-    plugins: {
-      ember: ember.plugin,
-    },
-    rules: {
-      ...ember.base.rules,
     },
   },
   {
-    files: ['**/*.ts'],
-    plugins: { ember: ember.plugin },
-    languageOptions: {
-      parserOptions: parserOptions.esm.ts,
-    },
-    extends: [...ts.configs.strictTypeChecked, ...ember.base],
-  },
-  {
-    files: ['**/*.gjs'],
+    files: ['**/*.{js,gjs}'],
     languageOptions: {
       parserOptions: parserOptions.esm.js,
       globals: {
@@ -72,15 +70,11 @@ export default ts.config(
     },
   },
   {
-    files: ['**/*.gts'],
-    plugins: { ember: ember.plugin },
+    files: ['**/*.{ts,gts}'],
     languageOptions: {
       parserOptions: parserOptions.esm.ts,
     },
-    extends: [
-      ...ts.configs.strictTypeChecked,
-      ...ember.gts,,
-    ],
+    extends: [...ts.configs.strictTypeChecked],
   },
   {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],
@@ -118,7 +112,7 @@ export default ts.config(
    * ESM node files
    */
   {
-    files: ['*.mjs'],
+    files: ['**/*.mjs'],
     plugins: {
       n,
     },
@@ -131,16 +125,5 @@ export default ts.config(
         ...globals.node,
       },
     },
-  },
-  /**
-   * Settings
-   */
-  {
-    linterOptions: {
-      reportUnusedDisableDirectives: 'error',
-    },
-  },
-  {
-    ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
   },
 );
