@@ -184,7 +184,7 @@ URL    https://example.com`);
   });
 
 
-  it('throws an error if the current Ember CLI version is greater than the until version of deprecation', function () {
+  it('throws an deprecation if the current Ember-CLI version is greater than the until version of deprecation', function () {
     expect(() => {
       deprecate('The `foo` method is deprecated.', false, {
         for: 'ember-cli',
