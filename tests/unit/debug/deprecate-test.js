@@ -201,4 +201,19 @@ URL    https://example.com`);
     );
   });
 
+  it('does not throw a deprecation if "for" is not "ember-cli"', function () {
+    expect(() => {
+      deprecate('The `foo` method is deprecated.', false, {
+        for: 'ember-source',
+        id: 'not-ember-cli.foo-method',
+        since: {
+          available: '4.1.0',
+          enabled: '4.2.0',
+        },
+        until: '3.0.0',
+        url: 'https://example.com',
+      });
+    }).to.not.throw();
+  });
+
 });
