@@ -186,7 +186,7 @@ URL    https://example.com`);
 
   it('throws an deprecation if the current Ember-CLI version is greater than the until version of deprecation', function () {
     expect(() => {
-      deprecate('The `foo` method is deprecated.', false, {
+      deprecate('The `foo` method is deprecated', false, {
         for: 'ember-cli',
         id: 'ember-cli.foo-method',
         since: {
