@@ -7,7 +7,7 @@ const GitInitTask = require('../../../lib/tasks/git-init');
 const MockProject = require('../../helpers/mock-project');
 const path = require('path');
 let root = process.cwd();
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 let tmproot = path.join(root, 'tmp');
 const td = require('testdouble');
 

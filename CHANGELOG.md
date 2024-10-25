@@ -1,15 +1,69 @@
 # ember-cli Changelog
 
-## v5.10.0-beta.0
+## v6.0.0-beta.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.9.0...v5.10.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.9.0...v5.10.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.12.0...v6.0.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.12.0...v6.0.0-beta.0)
 
 #### Changelog
 
-no changes
+- [#10453](https://github.com/ember-cli/ember-cli/pull/10453) [ENHANCEMENT] Allow specifying no CI provider [@deanylev](https://github.com/deanylev)
+- [#10505](https://github.com/ember-cli/ember-cli/pull/10505) use our fork of remove-types with config: false [@mansona](https://github.com/mansona)
+- [#10506](https://github.com/ember-cli/ember-cli/pull/10506) [ENHANCEMENT] Use the official types in the blueprints [@Windvis](https://github.com/Windvis)
+- [#10507](https://github.com/ember-cli/ember-cli/pull/10507) Official types in blueprints amendments [@Windvis](https://github.com/Windvis)
+
+Thank you to all who took the time to contribute!
+
+## v5.12.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.11.0...v5.12.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.11.0...v5.12.0)
+
+#### Changelog
+
+- [#10483](https://github.com/ember-cli/ember-cli/pull/10483) Bump @embroider/* dependencies [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10486](https://github.com/ember-cli/ember-cli/pull/10486) Bump ember-template-lint [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10481](https://github.com/ember-cli/ember-cli/pull/10481) Bump ember-cli-app-version [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10485](https://github.com/ember-cli/ember-cli/pull/10485) Bump eslint-plugin-ember [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10484](https://github.com/ember-cli/ember-cli/pull/10484) Bump ember-resolver [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10479](https://github.com/ember-cli/ember-cli/pull/10479) Bump @typescript-eslint dependencies to latest [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10482](https://github.com/ember-cli/ember-cli/pull/10482) Bump qunit-dom [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10480](https://github.com/ember-cli/ember-cli/pull/10480) Bump @ember/string [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10499](https://github.com/ember-cli/ember-cli/pull/10499) [ENHANCEMENT] Update `testem` [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
+## v5.11.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.10.0...v5.11.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.10.0...v5.11.0)
+
+#### Changelog
+
+- [#10474](https://github.com/ember-cli/ember-cli/pull/10474) Improve dx when WelcomePage is present [@ef4](https://github.com/ef4)
+- [#10475](https://github.com/ember-cli/ember-cli/pull/10475) Document WRITE_FIXTURES [@kategengler](https://github.com/kategengler)
+- [#10476](https://github.com/ember-cli/ember-cli/pull/10476) Bump content-tag to v2 [@SergeAstapov](https://github.com/SergeAstapov)
+
+Thank you to all who took the time to contribute!
+
+## v5.10.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.9.0...v5.10.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.9.0...v5.10.0)
+
+#### Changelog
+
+- [#10464](https://github.com/ember-cli/ember-cli/pull/10464) Specified the locale in setupIntl() [@ijlee2](https://github.com/ijlee2)
+
+Thank you to all who took the time to contribute!
 
 ## v5.9.0
 

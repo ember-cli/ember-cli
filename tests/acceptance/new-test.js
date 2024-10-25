@@ -46,6 +46,11 @@ describe('Acceptance: ember new', function () {
       ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config'],
     }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
 
+    // This style of assertion can't handle conditionally available files
+    if (expected.some((x) => x.endsWith('eslint.config.mjs'))) {
+      expected = [...expected.filter((x) => !x.endsWith('eslint.config.mjs')), 'eslint.config.mjs'];
+    }
+
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
@@ -425,7 +430,9 @@ describe('Acceptance: ember new', function () {
 
   describe('verify fixtures', function () {
     function checkEslintConfig(fixturePath) {
-      expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
+      expect(file('eslint.config.mjs')).to.equal(
+        file(path.join(__dirname, '../fixtures', fixturePath, 'eslint.config.mjs'))
+      );
     }
 
     function checkFileWithEmberCLIVersionReplacement(fixtureName, fileName) {
@@ -477,7 +484,6 @@ describe('Acceptance: ember new', function () {
         'app/config/environment.d.ts',
         'types/global.d.ts',
         'types/foo/index.d.ts',
-        'types/ember-data/types/registries/model.d.ts',
       ].forEach((filePath) => {
         expect(file(filePath)).to.not.exist;
       });
@@ -686,7 +692,6 @@ describe('Acceptance: ember new', function () {
         'tsconfig.json',
         'app/config/environment.d.ts',
         'types/global.d.ts',
-        'types/ember-data/types/registries/model.d.ts',
       ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
@@ -719,8 +724,6 @@ describe('Acceptance: ember new', function () {
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
-
-      expect(file('types/ember-data/types/registries/model.d.ts')).to.not.exist;
     });
   });
 

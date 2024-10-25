@@ -14,72 +14,89 @@ on:
   workflow_dispatch:
   merge_group:
   schedule:
-    - cron:  '0 3 * * *' # daily, at 3am
+    - cron: '0 3 * * *' # daily, at 3am
 
 concurrency:
-   group: ci-${{ github.head_ref || github.ref }}
-   cancel-in-progress: true
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   linting:
-    name: Linting
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'yarn'
-
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn lint
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-environment
+      - run: pnpm lint
 
   basic-tests:
-    name: "Basic Tests - ${{ matrix.os }}"
-    runs-on: "${{ matrix.os }}-latest"
-
-    strategy:
-      matrix:
-        os: [ubuntu, macOS, windows]
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'yarn'
+      - uses: ./.github/actions/setup-environment
+      - run: pnpm test
 
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test
-
-  tests:
-    name: "Node ${{ matrix.node-version }} - ${{ matrix.os }} "
-    runs-on: "${{ matrix.os }}-latest"
-
-    needs: [linting, basic-tests]
+  basic-tests-matrix:
+    needs:
+      - linting
+      - basic-tests
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18, 20]
-        os: [ubuntu, windows]
+        node-version:
+          - 18
+          - 20
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+      - run: pnpm test
 
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test:all
+  slow-tests:
+    needs:
+      - linting
+      - basic-tests
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - 18
+          - 20
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        # manual sharding to make CI faster
+        test-file:
+          - addon-smoke
+          - brocfile-smoke
+          - nested-addons-smoke
+          - preprocessor-smoke
+          - smoke
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-environment
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: pnpm test tests/acceptance/${{ matrix.test-file }}-test-slow.js
 
   feature-flags:
-    name: "Feature: ${{ matrix.feature-flag }}"
+    needs:
+      - linting
+      - basic-tests
     runs-on: ubuntu-latest
-
-    needs: [linting, basic-tests]
 
     strategy:
       fail-fast: false
@@ -91,12 +108,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'yarn'
-
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn test:all
+      - uses: ./.github/actions/setup-environment
+      - run: pnpm test:all
         env:
-          "EMBER_CLI_${{ matrix.feature-flag }}": true
+          'EMBER_CLI_${{ matrix.feature-flag }}': true

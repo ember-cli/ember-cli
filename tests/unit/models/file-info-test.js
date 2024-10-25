@@ -6,7 +6,7 @@ const FileInfo = require('../../../lib/models/file-info');
 const path = require('path');
 const fs = require('fs-extra');
 const EOL = require('os').EOL;
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 const td = require('testdouble');
 
 let root = process.cwd();

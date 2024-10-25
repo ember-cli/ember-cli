@@ -90,7 +90,9 @@ module.exports = {
     let files = this._super();
     if (options.ciProvider !== 'travis') {
       files = files.filter((file) => file !== '.travis.yml');
-    } else {
+    }
+
+    if (options.ciProvider !== 'github') {
       files = files.filter((file) => file.indexOf('.github') < 0);
     }
 
@@ -112,5 +114,48 @@ module.exports = {
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
+  },
+
+  /**
+   * @override
+   *
+   * This modification of buildFileInfo allows our differing
+   * input files to output to a single file, depending on the options.
+   * For example:
+   *
+   *   for javascript,
+   *     _ts_eslint.config.mjs is deleted
+   *     _js_eslint.config.mjs is renamed to eslint.config.mjs
+   *
+   *   for typescript,
+   *     _js_eslint.config.mjs is deleted
+   *     _ts_eslint.config.mjs is renamed to eslint.config.mjs
+   */
+  buildFileInfo(intoDir, templateVariables, file, options) {
+    let fileInfo = this._super.buildFileInfo.apply(this, arguments);
+
+    if (file.includes('_js_')) {
+      if (options.typescript) {
+        return null;
+      }
+
+      fileInfo.outputBasePath = fileInfo.outputPath.replace('_js_', '');
+      fileInfo.outputPath = fileInfo.outputPath.replace('_js_', '');
+      fileInfo.displayPath = fileInfo.outputPath.replace('_js_', '');
+      return fileInfo;
+    }
+
+    if (file.includes('_ts_')) {
+      if (!options.typescript) {
+        return null;
+      }
+
+      fileInfo.outputBasePath = fileInfo.outputPath.replace('_ts_', '');
+      fileInfo.outputPath = fileInfo.outputPath.replace('_ts_', '');
+      fileInfo.displayPath = fileInfo.outputPath.replace('_ts_', '');
+      return fileInfo;
+    }
+
+    return fileInfo;
   },
 };
