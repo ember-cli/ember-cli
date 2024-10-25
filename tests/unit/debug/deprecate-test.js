@@ -182,4 +182,23 @@ ID     foo
 UNTIL  5.0.0
 URL    https://example.com`);
   });
+
+
+  it('throws an error if the current Ember CLI version is greater than the until version of deprecation', function () {
+    expect(() => {
+      deprecate('The `foo` method is deprecated.', false, {
+        for: 'ember-cli',
+        id: 'ember-cli.foo-method',
+        since: {
+          available: '4.1.0',
+          enabled: '4.2.0',
+        },
+        until: '3.0.0', // This should be less than the current emberCLIVersion to trigger the error
+        url: 'https://example.com',
+      });
+    }).to.throw(
+      'The API deprecated by ember-cli.foo-method was removed in ember-cli 3.0.0. The message was: The `foo` method is deprecated. Please see https://example.com for more details.'
+    );
+  });
+
 });
