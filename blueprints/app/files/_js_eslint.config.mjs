@@ -1,3 +1,17 @@
+/**
+ * Debugging:
+ *   https://eslint.org/docs/latest/use/configure/debug
+ *  ----------------------------------------------------
+ *
+ *   Print a file's calculated configuration
+ *
+ *     npx eslint --print-config path/to/file.js
+ *
+ *   Inspecting the config
+ *
+ *     npx eslint --inspect-config
+ *
+ */
 import globals from 'globals';
 import js from '@eslint/js';
 
