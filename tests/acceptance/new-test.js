@@ -41,9 +41,9 @@ describe('Acceptance: ember new', function () {
 
   function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', typescript = false) {
     let blueprintPath = path.join(root, blueprintDir, 'files');
-    // ignore .travis.yml and TypeScript files
+    // ignore TypeScript files
     let expected = walkSync(blueprintPath, {
-      ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config'],
+      ignore: ['tsconfig.json', 'types', 'app/config'],
     }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
 
     // This style of assertion can't handle conditionally available files
@@ -461,8 +461,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = `${namespace}/embroider`;
       }
@@ -506,8 +504,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
 
@@ -538,8 +534,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-no-welcome';
       }
@@ -559,8 +553,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-yarn';
       }
@@ -577,8 +569,6 @@ describe('Acceptance: ember new', function () {
       ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
-
-      expect(file('.travis.yml')).to.not.exist;
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-pnpm';
@@ -603,8 +593,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
     });
@@ -625,53 +613,22 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'package.json');
       checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
     });
 
-    it('configurable CI option', async function () {
-      await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git']);
-
-      let fixturePath = 'app/npm-travis';
-
-      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
+    it('new - no CI provider', async function () {
+      await ember(['new', 'foo', '--ci-provider=none', '--skip-install', '--skip-git']);
 
       expect(file('.github/workflows/ci.yml')).to.not.exist;
-
-      if (isExperimentEnabled('EMBROIDER')) {
-        fixturePath = 'app/npm-travis-embroider';
-      }
-
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
+      expect(file('config/ember-cli-update.json')).to.include('--ci-provider=none');
     });
 
-    it('configurable CI option with yarn', async function () {
-      await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git', '--yarn']);
+    it('addon - no CI provider', async function () {
+      await ember(['addon', 'foo', '--ci-provider=none', '--skip-install', '--skip-git']);
 
-      let fixturePath = 'app/yarn-travis';
-
-      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
       expect(file('.github/workflows/ci.yml')).to.not.exist;
-
-      if (isExperimentEnabled('EMBROIDER')) {
-        fixturePath = 'app/yarn-travis-embroider';
-      }
-
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'config/ember-cli-update.json');
-    });
-
-    it('addon configurable CI option', async function () {
-      await ember(['addon', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git']);
-
-      let namespace = 'addon';
-      let fixturePath = `${namespace}/defaults-travis`;
-
-      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
-      expect(file('.github/workflows/ci.yml')).to.not.exist;
-
-      checkFileWithEmberCLIVersionReplacement(fixturePath, 'tests/dummy/config/ember-cli-update.json');
+      expect(file('tests/dummy/config/ember-cli-update.json')).to.include('--ci-provider=none');
     });
 
     it('app + typescript', async function () {

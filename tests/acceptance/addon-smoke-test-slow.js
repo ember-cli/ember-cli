@@ -146,7 +146,7 @@ describe('Acceptance: addon-smoke-test', function () {
     }
 
     let necessaryFiles = ['package.json', 'index.js', 'LICENSE.md', 'README.md'];
-    let unnecessaryFiles = ['.gitkeep', '.travis.yml', '.editorconfig', 'testem.js', '.ember-cli'];
+    let unnecessaryFiles = ['.gitkeep', '.editorconfig', 'testem.js', '.ember-cli'];
     let unnecessaryFolders = [/^tests\//];
     let outputFiles = output
       .split('\n')

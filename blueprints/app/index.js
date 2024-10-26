@@ -88,9 +88,6 @@ module.exports = {
     }
 
     let files = this._super();
-    if (options.ciProvider !== 'travis') {
-      files = files.filter((file) => file !== '.travis.yml');
-    }
 
     if (options.ciProvider !== 'github') {
       files = files.filter((file) => file.indexOf('.github') < 0);
