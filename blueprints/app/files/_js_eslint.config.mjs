@@ -36,8 +36,8 @@ const esmParserOptions = {
 export default [
   js.configs.recommended,
   prettier,
-  ember.base,
-  ember.gjs,
+  ember.configs.base,
+  ember.configs.gjs,
   /**
    * Ignores must be in their own object
    * https://eslint.org/docs/latest/use/configure/ignore
