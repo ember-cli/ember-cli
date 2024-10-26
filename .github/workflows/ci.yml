@@ -120,11 +120,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-environment
-      - name: Build Project
-        env:
-          DISABLE_SOURCE_MAPS: true
-          BROCCOLI_ENV: production
-        run: pnpm ember build
       - name: Run Tests with Deprecations as Errors
         env:
           OVERRIDE_DEPRECATION_VERSION: '5.0.0'
