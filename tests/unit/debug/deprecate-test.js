@@ -183,7 +183,6 @@ UNTIL  5.0.0
 URL    https://example.com`);
   });
 
-
   it('throws an deprecation if the current Ember-CLI version is greater than the until version of deprecation', function () {
     expect(() => {
       deprecate('The `foo` method is deprecated', false, {
@@ -215,5 +214,4 @@ URL    https://example.com`);
       });
     }).to.not.throw();
   });
-
 });
