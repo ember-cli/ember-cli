@@ -252,9 +252,7 @@ module.exports = {
     let appFiles = this.lookupBlueprint(this.appBlueprintName).files(options);
     let addonFilesPath = this.filesPath(this.options);
     let ignore = [];
-    if (this.options.ciProvider !== 'travis') {
-      ignore.push('.travis.yml');
-    }
+
     if (this.options.ciProvider !== 'github') {
       ignore.push('.github');
     }
