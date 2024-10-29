@@ -49,6 +49,7 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2<% if (typescript) { %>",
     "@glint/environment-ember-loose": "^1.4.0",
+    "@glint/environment-ember-template-imports": "^1.4.0",
     "@glint/template": "^1.4.0",
     "@tsconfig/ember": "^3.0.8",
     "@types/eslint__js": "^8.42.3",
