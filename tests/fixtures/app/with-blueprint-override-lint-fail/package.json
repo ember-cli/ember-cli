@@ -50,6 +50,7 @@
     "ember-qunit": "^5.1.2",
     "ember-resolver": "^8.0.2",
     "ember-source": "~3.26.0-beta.2",
+    "ember-template-imports": "^4.1.3",
     "ember-template-lint": "^4.0.0",
     "ember-welcome-page": "^5.0.0",
     "eslint": "^8.32.0",
