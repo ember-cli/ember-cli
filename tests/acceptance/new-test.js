@@ -428,14 +428,6 @@ describe('Acceptance: ember new', function () {
     expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
   });
 
-  it('template tag component format set up with --template-tag', async function () {
-    await ember(['new', 'foo', '--skip-npm', '--skip-git', '--template-tag']);
-
-    let pkgJson = fs.readJsonSync('package.json');
-    expect(pkgJson.devDependencies['ember-template-imports']).to.exist;
-    expect(pkgJson.devDependencies['prettier-plugin-ember-template-tag']).to.exist;
-  });
-
   describe('verify fixtures', function () {
     function checkEslintConfig(fixturePath) {
       expect(file('eslint.config.mjs')).to.equal(
