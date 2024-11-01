@@ -122,5 +122,5 @@ jobs:
       - uses: ./.github/actions/setup-environment
       - name: Run Tests with Deprecations as Errors
         env:
-          OVERRIDE_DEPRECATION_VERSION: '5.0.0'
+          OVERRIDE_DEPRECATION_VERSION: '22.0.0'
         run: pnpm test:all
