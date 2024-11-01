@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@pnpm/find-workspace-dir':
-        specifier: ^6.0.2
-        version: 6.0.3
+        specifier: ^7.0.2
+        version: 7.0.2
       babel-remove-types:
         specifier: ^1.0.0
         version: 1.0.0
@@ -648,17 +648,17 @@ packages:
     resolution: {integrity: sha512-htyl8TWnKL7K/ESFa1oW2UB5lVDxuF5DpM7tBi6Hu2LNL3mWkIzNLG6N4zoCUP1lCKNxWy/3iu8mS8MvToGd6w==}
     engines: {node: '>=12.22.0'}
 
-  '@pnpm/constants@7.1.1':
-    resolution: {integrity: sha512-31pZqMtjwV+Vaq7MaPrT1EoDFSYwye3dp6BiHIGRJmVThCQwySRKM7hCvqqI94epNkqFAAYoWrNynWoRYosGdw==}
-    engines: {node: '>=16.14'}
+  '@pnpm/constants@9.0.0':
+    resolution: {integrity: sha512-cyZ12A7j1BzeQ9nr5HBdlSLxN1VWnCG/1xjdgDUL/WDlgmVa3k6TI2CktTHjR5w/rWbKudpIaMAmJJk9w+cTRQ==}
+    engines: {node: '>=18.12'}
 
-  '@pnpm/error@5.0.3':
-    resolution: {integrity: sha512-ONJU5cUeoeJSy50qOYsMZQHTA/9QKmGgh1ATfEpCLgtbdwqUiwD9MxHNeXUYYI/pocBCz6r1ZCFqiQvO+8SUKA==}
-    engines: {node: '>=16.14'}
+  '@pnpm/error@6.0.2':
+    resolution: {integrity: sha512-3/wWJYjUyO9ToLaZpBASYIBg87C4DBZ8yfzrt0cSCTbRFDBUNdH0dzwfVKEqhR7A9tpRMyeoRIzPUVxWc+U+RQ==}
+    engines: {node: '>=18.12'}
 
-  '@pnpm/find-workspace-dir@6.0.3':
-    resolution: {integrity: sha512-0iJnNkS4T8lJE4ldOhRERgER1o59iHA1nMlvpUI5lxNC9SUruH6peRUOlP4/rNcDg+UQ9u0rt5loYOnWKCojtw==}
-    engines: {node: '>=16.14'}
+  '@pnpm/find-workspace-dir@7.0.2':
+    resolution: {integrity: sha512-BAcRbWXNBeA9ur+d/ccO2dvxogHr6+6qtiM1AgXzJ6gSfNqJRb6tzgRDgIJGouve9s2P6Qsqr4TbFOltEKuLJg==}
+    engines: {node: '>=18.12'}
 
   '@pnpm/network.ca-file@1.0.2':
     resolution: {integrity: sha512-YcPQ8a0jwYU9bTdJDpXjMi7Brhkr1mXsXrUJvjqM2mQDgkRiz8jFaQGOdaLxgjtUfQgZhKy/O3cG/YwmgKaxLA==}
@@ -5761,15 +5761,15 @@ snapshots:
 
   '@pnpm/config.env-replace@1.1.0': {}
 
-  '@pnpm/constants@7.1.1': {}
+  '@pnpm/constants@9.0.0': {}
 
-  '@pnpm/error@5.0.3':
+  '@pnpm/error@6.0.2':
     dependencies:
-      '@pnpm/constants': 7.1.1
+      '@pnpm/constants': 9.0.0
 
-  '@pnpm/find-workspace-dir@6.0.3':
+  '@pnpm/find-workspace-dir@7.0.2':
     dependencies:
-      '@pnpm/error': 5.0.3
+      '@pnpm/error': 6.0.2
       find-up: 5.0.0
 
   '@pnpm/network.ca-file@1.0.2':
