@@ -319,8 +319,8 @@ importers:
         specifier: ^10.0.0
         version: 10.6.0
       nock:
-        specifier: ^13.3.0
-        version: 13.5.4
+        specifier: ^13.5.5
+        version: 13.5.5
       nyc:
         specifier: ^15.1.0
         version: 15.1.0
@@ -3750,8 +3750,8 @@ packages:
   nice-try@1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
 
-  nock@13.5.4:
-    resolution: {integrity: sha512-yAyTfdeNJGGBFxWdzSKCBYxs5FxLbCg5X5Q4ets974hcQzG1+qCxvIyOo4j2Ry6MUlhWVMX4OoYDefAIIwupjw==}
+  nock@13.5.5:
+    resolution: {integrity: sha512-XKYnqUrCwXC8DGG1xX4YH5yNIrlh9c065uaMZZHUoeUUINTOyt+x/G+ezYk0Ft6ExSREVIs+qBJDK503viTfFA==}
     engines: {node: '>= 10.13'}
 
   node-domexception@1.0.0:
@@ -9330,7 +9330,7 @@ snapshots:
 
   nice-try@1.0.5: {}
 
-  nock@13.5.4:
+  nock@13.5.5:
     dependencies:
       debug: 4.3.5(supports-color@8.1.1)
       json-stringify-safe: 5.0.1
