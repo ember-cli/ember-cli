@@ -70,7 +70,7 @@
     "ember-cli-preprocess-registry": "^5.0.1",
     "ember-cli-string-utils": "^1.1.0",
     "ensure-posix-path": "^1.1.1",
-    "execa": "^5.1.1",
+    "execa": "^9.5.1",
     "exit": "^0.1.2",
     "express": "^4.21.1",
     "filesize": "^10.0.8",
