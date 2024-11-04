@@ -634,7 +634,6 @@ describe('Acceptance: ember new', function () {
     });
 
     it('configurable CI option', async function () {
-
       if (isDeprecationRemoved(travisDeprecation.until)) {
         this.skip();
       }
@@ -673,7 +672,6 @@ describe('Acceptance: ember new', function () {
     });
 
     it('addon configurable CI option', async function () {
-
       if (isDeprecationRemoved(travisDeprecation.until)) {
         this.skip();
       }

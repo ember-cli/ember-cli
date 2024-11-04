@@ -198,8 +198,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it('configurable CI option', async function () {
-
-    if (isDeprecationRemoved(travisDeprecation.until)){
+    if (isDeprecationRemoved(travisDeprecation.until)) {
       this.skip();
     }
 
