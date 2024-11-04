@@ -9,7 +9,6 @@ const processHelpString = require('../helpers/process-help-string');
 const convertToJson = require('../helpers/convert-help-output-to-json');
 const commandOptions = require('../factories/command-options');
 const HelpCommand = require('../../lib/commands/help');
-const requireAsHash = require('../../lib/utilities/require-as-hash');
 const Command = require('../../lib/models/command');
 
 let FooCommand = Command.extend({
@@ -26,7 +25,7 @@ describe('Acceptance: ember help', function () {
   let options, command;
 
   beforeEach(function () {
-    let commands = requireAsHash('../../lib/commands/*.js', Command);
+    let commands = require('../../lib/commands');
 
     options = commandOptions({
       commands,
