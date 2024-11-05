@@ -4,7 +4,6 @@ const { isExperimentEnabled } = require('ember-cli/lib/experiments');
 module.exports = function (defaults) {
   var app = new EmberApp(defaults, {
     name: require('./package.json').name,
-    outputPaths: { app: { css: { 'main': '/assets/main.css', 'theme/a': '/assets/theme/a.css' } } }
   });
 
   if (isExperimentEnabled('EMBROIDER')) {
