@@ -15,6 +15,8 @@ let cleanupRun = acceptance.cleanupRun;
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
+const { isDeprecationRemoved } = require('../../lib/utilities/version-utils');
+const { OUTPUT_PATHS_DEPRECATION } = require('../../lib/broccoli/ember-app');
 
 let appName = 'some-cool-app';
 let appRoot;
@@ -417,6 +419,10 @@ describe('Acceptance: brocfile-smoke-test', function () {
   // custom outputPaths are deprecated under embroider
   if (!isExperimentEnabled('EMBROIDER')) {
     it('multiple paths can be CSS preprocessed', async function () {
+      if (isDeprecationRemoved(OUTPUT_PATHS_DEPRECATION.until)) {
+        this.skip();
+      }
+
       await copyFixtureFiles('brocfile-tests/multiple-sass-files');
 
       let packageJsonPath = path.join(appRoot, 'package.json');
