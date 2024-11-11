@@ -182,4 +182,56 @@ ID     foo
 UNTIL  5.0.0
 URL    https://example.com`);
   });
+
+  it('throws an deprecation if the current ember-cli version is greater than the until version of deprecation', function () {
+    expect(() => {
+      deprecate('The `foo` method is deprecated', false, {
+        for: 'ember-cli',
+        id: 'ember-cli.foo-method',
+        since: {
+          available: '4.1.0',
+          enabled: '4.2.0',
+        },
+        until: '3.0.0', // This should be less than the current emberCLIVersion to trigger the error
+        url: 'https://example.com',
+      });
+    }).to.throw(
+      'The API deprecated by ember-cli.foo-method was removed in ember-cli 3.0.0. The message was: The `foo` method is deprecated. Please see https://example.com for more details.'
+    );
+  });
+
+  it('throws an deprecation if the pre-release ember-cli version is greater than the until version of deprecation', function () {
+    const OVERRIDE_VERSION = process.env.OVERRIDE_DEPRECATION_VERSION;
+    process.env.OVERRIDE_DEPRECATION_VERSION = '9.0.0-beta.1';
+    expect(() => {
+      deprecate('The `bar` method is deprecated', false, {
+        for: 'ember-cli',
+        id: 'ember-cli.bar-method',
+        since: {
+          available: '4.1.0',
+          enabled: '4.2.0',
+        },
+        until: '9.0.0', // This should be less than the current emberCLIVersion to trigger the error
+        url: 'https://example.com',
+      });
+    }).to.throw(
+      'The API deprecated by ember-cli.bar-method was removed in ember-cli 9.0.0. The message was: The `bar` method is deprecated. Please see https://example.com for more details.'
+    );
+    process.env.OVERRIDE_DEPRECATION_VERSION = OVERRIDE_VERSION;
+  });
+
+  it('does not throw a deprecation if "for" is not "ember-cli"', function () {
+    expect(() => {
+      deprecate('The `foo` method is deprecated.', false, {
+        for: 'ember-source',
+        id: 'not-ember-cli.foo-method',
+        since: {
+          available: '4.1.0',
+          enabled: '4.2.0',
+        },
+        until: '3.0.0',
+        url: 'https://example.com',
+      });
+    }).to.not.throw();
+  });
 });

@@ -15,6 +15,7 @@ let cleanupRun = acceptance.cleanupRun;
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
+const { DEPRECATIONS } = require('../../lib/debug');
 
 let appName = 'some-cool-app';
 let appRoot;
@@ -417,6 +418,10 @@ describe('Acceptance: brocfile-smoke-test', function () {
   // custom outputPaths are deprecated under embroider
   if (!isExperimentEnabled('EMBROIDER')) {
     it('multiple paths can be CSS preprocessed', async function () {
+      if (DEPRECATIONS.DEPRECATE_OUTPUT_PATHS.isRemoved) {
+        this.skip();
+      }
+
       await copyFixtureFiles('brocfile-tests/multiple-sass-files');
 
       let packageJsonPath = path.join(appRoot, 'package.json');

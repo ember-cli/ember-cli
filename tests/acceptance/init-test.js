@@ -17,6 +17,7 @@ const lintFix = require('../../lib/utilities/lint-fix');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
+const { DEPRECATIONS } = require('../../lib/debug');
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -191,6 +192,10 @@ describe('Acceptance: ember init', function () {
   });
 
   it('configurable CI option', async function () {
+    if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
+      this.skip();
+    }
+
     await ember(['init', '--ci-provider=travis', '--skip-npm']);
 
     let fixturePath = 'app/npm-travis';
