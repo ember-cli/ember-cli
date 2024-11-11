@@ -84,14 +84,7 @@ export default ts.config(
     },
   },
   {
-    files: ['**/*.ts'],
-    languageOptions: {
-      parserOptions: parserOptions.esm.ts,
-    },
-    extends: [ember.configs.base, ...ts.configs.recommendedTypeChecked],
-  },
-  {
-    files: ['**/*.gts'],
+    files: ['**/*.{ts,gts}'],
     languageOptions: {
       parser: ember.parser,
       parserOptions: parserOptions.esm.ts,
