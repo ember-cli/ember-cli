@@ -14,11 +14,10 @@ const { intersection: intersect, remove } = require('ember-cli-lodash-subset');
 const EOL = require('os').EOL;
 const td = require('testdouble');
 const lintFix = require('../../lib/utilities/lint-fix');
-const { travisDeprecation } = require('../../lib/commands/init');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
-const { isDeprecationRemoved } = require('../../lib/utilities/version-utils');
+const { DEPRECATIONS } = require('../../lib/debug');
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -198,7 +197,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it('configurable CI option', async function () {
-    if (isDeprecationRemoved(travisDeprecation.until)) {
+    if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
       this.skip();
     }
 

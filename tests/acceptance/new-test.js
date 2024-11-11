@@ -17,8 +17,7 @@ const { isExperimentEnabled } = require('../../lib/experiments');
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
 const assertVersionLock = require('../helpers/assert-version-lock');
-const { travisDeprecation } = require('../../lib/commands/init');
-const { isDeprecationRemoved } = require('../../lib/utilities/version-utils');
+const { DEPRECATIONS } = require('../../lib/debug');
 
 let tmpDir = './tmp/new-test';
 
@@ -634,7 +633,7 @@ describe('Acceptance: ember new', function () {
     });
 
     it('configurable CI option', async function () {
-      if (isDeprecationRemoved(travisDeprecation.until)) {
+      if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
         this.skip();
       }
 
@@ -654,7 +653,7 @@ describe('Acceptance: ember new', function () {
     });
 
     it('configurable CI option with yarn', async function () {
-      if (isDeprecationRemoved(travisDeprecation.until)) {
+      if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
         this.skip();
       }
       await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git', '--yarn']);
@@ -672,7 +671,7 @@ describe('Acceptance: ember new', function () {
     });
 
     it('addon configurable CI option', async function () {
-      if (isDeprecationRemoved(travisDeprecation.until)) {
+      if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
         this.skip();
       }
 
