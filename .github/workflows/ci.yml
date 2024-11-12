@@ -112,3 +112,15 @@ jobs:
       - run: pnpm test:all
         env:
           'EMBER_CLI_${{ matrix.feature-flag }}': true
+
+  deprecations-broken-test:
+    name: Deprecations "broken"
+    runs-on: ubuntu-latest
+    needs: [basic-tests, linting]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-environment
+      - name: Run Tests with Deprecations as Errors
+        env:
+          OVERRIDE_DEPRECATION_VERSION: '22.0.0'
+        run: pnpm test:all
