@@ -1,14 +1,15 @@
 # ember-cli Changelog
 
-## v6.0.0-beta.0
+## v6.0.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.12.0...v6.0.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.12.0...v6.0.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v5.12.0...v6.0.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v5.12.0...v6.0.0)
 
 #### Changelog
 
+- [#10559](https://github.com/ember-cli/ember-cli/pull/10559) [ENHANCEMENT] Make deprecations throw when the `until` for `ember-cli` has passed [@kategengler](https://github.com/kategengler)
 - [#10453](https://github.com/ember-cli/ember-cli/pull/10453) [ENHANCEMENT] Allow specifying no CI provider [@deanylev](https://github.com/deanylev)
 - [#10505](https://github.com/ember-cli/ember-cli/pull/10505) use our fork of remove-types with config: false [@mansona](https://github.com/mansona)
 - [#10506](https://github.com/ember-cli/ember-cli/pull/10506) [ENHANCEMENT] Use the official types in the blueprints [@Windvis](https://github.com/Windvis)
