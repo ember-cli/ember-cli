@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+## v6.1.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.0.0...v6.1.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.0.0...v6.1.0-beta.0)
+
+#### Changelog
+
+- [#10514](https://github.com/ember-cli/ember-cli/pull/10514) [backport release] use fork of remove-types with config: false [@mansona](https://github.com/mansona)
+- [#10515](https://github.com/ember-cli/ember-cli/pull/10515) Use colors for the concurrently prefixes in package.json [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10516](https://github.com/ember-cli/ember-cli/pull/10516) Use ESLint 9 and Flat Config [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10521](https://github.com/ember-cli/ember-cli/pull/10521) Make tests easier to run, closes #10520 [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10525](https://github.com/ember-cli/ember-cli/pull/10525) Upgrade concurrently, closes #10524 [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10526](https://github.com/ember-cli/ember-cli/pull/10526) Update ember-resolver, closes #10523 [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10527](https://github.com/ember-cli/ember-cli/pull/10527) Update @ember/test-helpers, closes #10522 [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10530](https://github.com/ember-cli/ember-cli/pull/10530) Update ember-load-initializers to v3 [@mkszepp](https://github.com/mkszepp)
+- [#10531](https://github.com/ember-cli/ember-cli/pull/10531) Update stylelint and depended package [@mkszepp](https://github.com/mkszepp)
+- [#10535](https://github.com/ember-cli/ember-cli/pull/10535) Upgrade eslint-plugin-ember [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v6.0.0
 
 #### Blueprint Changes
