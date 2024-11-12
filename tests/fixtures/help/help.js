@@ -15,7 +15,7 @@ module.exports = {
       name: 'addon',
       description: 'Generates a new folder structure for building an addon, complete with test harness.',
       aliases: [],
-      works: 'outsideProject',
+      works: 'everywhere',
       availableOptions: [
         {
           name: 'dry-run',
@@ -520,7 +520,7 @@ module.exports = {
       name: 'new',
       description: processHelpString('Creates a new directory and runs \u001b[32member init\u001b[39m in it.'),
       aliases: [],
-      works: 'outsideProject',
+      works: 'everywhere',
       availableOptions: [
         {
           name: 'dry-run',
