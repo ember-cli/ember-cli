@@ -22,6 +22,19 @@
 
 Thank you to all who took the time to contribute!
 
+## v6.0.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.0.0...v6.0.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.0.0...v6.0.1)
+
+#### Changelog
+
+- [#10563](https://github.com/ember-cli/ember-cli/pull/10563) [Backport release]: update @ember/test-helpers. #10522 [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v6.0.0
 
 #### Blueprint Changes
