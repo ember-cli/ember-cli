@@ -51,6 +51,8 @@
     "ember-cli-htmlbars": "^6.3.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.25.9",
+    "@babel/plugin-proposal-decorators": "^7.25.9",
     "@ember/optional-features": "^2.2.0",
     "@ember/test-helpers": "^4.0.4",
     "@embroider/test-setup": "^4.0.0",
