@@ -9,7 +9,6 @@ const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 let root = process.cwd();
 const util = require('util');
 const EOL = require('os').EOL;
-const chalk = require('chalk');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 
 const { isExperimentEnabled } = require('../../lib/experiments');
@@ -201,16 +200,12 @@ describe('Acceptance: ember new', function () {
     expect(error.message).to.equal("Directory 'bar' already exists.");
   });
 
-  it('Cannot run ember new, inside of ember-cli project', async function () {
+  it('successfully runs `ember new` inside of an existing ember-cli project', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-git']);
-
-    let error = await expect(ember(['new', 'foo', '--skip-npm', '--skip-git'])).to.be.rejected;
-
-    expect(dir('foo')).to.not.exist;
-    expect(error.name).to.equal('SilentError');
-    expect(error.message).to.equal(`You cannot use the ${chalk.green('new')} command inside an ember-cli project.`);
-
     confirmBlueprintedForDir('blueprints/app');
+
+    await ember(['new', 'bar', '--skip-npm', '--skip-git']);
+    confirmBlueprintedForDir('blueprints/app', 'bar');
   });
 
   it('ember new with blueprint uses the specified blueprint directory with a relative path', async function () {
