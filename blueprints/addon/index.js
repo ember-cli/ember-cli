@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
 const { merge, uniq } = require('ember-cli-lodash-subset');
 const SilentError = require('silent-error');
-const sortPackageJson = require('sort-package-json');
+const { sortPackageJson } = require('sort-package-json');
 
 let date = new Date();
 
