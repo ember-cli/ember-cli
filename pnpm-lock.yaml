@@ -171,8 +171,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       isbinaryfile:
-        specifier: ^5.0.0
-        version: 5.0.2
+        specifier: ^5.0.4
+        version: 5.0.4
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -3225,8 +3225,8 @@ packages:
   isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
 
-  isbinaryfile@5.0.2:
-    resolution: {integrity: sha512-GvcjojwonMjWbTkfMpnVHVqXW/wKMYDfEpY94/8zy8HFMOqb/VL6oeONq9v87q4ttVlaTLnGXnJD4B5B1OTGIg==}
+  isbinaryfile@5.0.4:
+    resolution: {integrity: sha512-YKBKVkKhty7s8rxddb40oOkuP0NbaeXrQvLin6QMHL7Ypiy2RW9LwOVrVgZRyOrhQlayMd9t+D8yDy8MKFTSDQ==}
     engines: {node: '>= 18.0.0'}
 
   isexe@2.0.0:
@@ -8753,7 +8753,7 @@ snapshots:
 
   isarray@2.0.5: {}
 
-  isbinaryfile@5.0.2: {}
+  isbinaryfile@5.0.4: {}
 
   isexe@2.0.0: {}
 
