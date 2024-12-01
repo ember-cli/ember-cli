@@ -298,8 +298,8 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0(eslint@8.57.0)
       eslint-plugin-mocha:
-        specifier: ^10.1.0
-        version: 10.4.3(eslint@8.57.0)
+        specifier: ^10.5.0
+        version: 10.5.0(eslint@8.57.0)
       eslint-plugin-n:
         specifier: ^16.0.1
         version: 16.6.2(eslint@8.57.0)
@@ -2152,8 +2152,8 @@ packages:
     peerDependencies:
       eslint: '>=8'
 
-  eslint-plugin-mocha@10.4.3:
-    resolution: {integrity: sha512-emc4TVjq5Ht0/upR+psftuz6IBG5q279p+1dSRDeHf+NS9aaerBi3lXKo1SEzwC29hFIW21gO89CEWSvRsi8IQ==}
+  eslint-plugin-mocha@10.5.0:
+    resolution: {integrity: sha512-F2ALmQVPT1GoP27O1JTZGrV9Pqg8k79OeIuvw63UxMtQKREZtmkK1NFgkZQ2TW7L2JSSFKHFPTtHu5z8R9QNRw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       eslint: '>=7.0.0'
@@ -7421,7 +7421,7 @@ snapshots:
       eslint: 8.57.0
       eslint-compat-utils: 0.5.1(eslint@8.57.0)
 
-  eslint-plugin-mocha@10.4.3(eslint@8.57.0):
+  eslint-plugin-mocha@10.5.0(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
       eslint-utils: 3.0.0(eslint@8.57.0)
