@@ -29,7 +29,6 @@
     "@babel/eslint-parser": "^7.25.9",
     "@babel/plugin-proposal-decorators": "^7.25.9",
     "@ember/optional-features": "^2.2.0",
-    "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^4.0.4",
     "@eslint/js": "^9.14.0",
     "@glimmer/component": "^1.1.2",

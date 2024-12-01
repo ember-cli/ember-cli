@@ -29,7 +29,6 @@
     "@babel/eslint-parser": "^7.25.9",
     "@babel/plugin-proposal-decorators": "^7.25.9",
     "@ember/optional-features": "^2.2.0",
-    "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^4.0.4",
     "@embroider/compat": "^3.7.0",
     "@embroider/core": "^3.4.19",
