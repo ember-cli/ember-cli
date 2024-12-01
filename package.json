@@ -58,7 +58,7 @@
     "ci-info": "^4.0.0",
     "clean-base-url": "^1.0.0",
     "compression": "^1.7.4",
-    "configstore": "^5.0.1",
+    "configstore": "^7.0.0",
     "console-ui": "^3.1.2",
     "content-tag": "^2.0.1",
     "core-object": "^3.1.5",
