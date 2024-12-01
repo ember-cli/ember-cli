@@ -148,7 +148,7 @@
     "prettier": "2.8.7",
     "release-it": "^15.10.0",
     "strip-ansi": "^6.0.0",
-    "supertest": "^6.3.1",
+    "supertest": "^7.0.0",
     "testdouble": "^3.18.0",
     "tmp": "^0.2.1",
     "websocket": "^1.0.32",
