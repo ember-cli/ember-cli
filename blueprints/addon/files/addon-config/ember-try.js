@@ -9,18 +9,18 @@ module.exports = async function () {
     <% } else if (yarn) { %>useYarn: true,
     <% } %>scenarios: [
       {
-        name: 'ember-lts-4.12',
+        name: 'ember-lts-5.8',
         npm: {
           devDependencies: {
-            'ember-source': '~4.12.0',
+            'ember-source': '~5.8.0',
           },
         },
       },
       {
-        name: 'ember-lts-5.4',
+        name: 'ember-lts-5.12',
         npm: {
           devDependencies: {
-            'ember-source': '~5.4.0',
+            'ember-source': '~5.12.0',
           },
         },
       },
