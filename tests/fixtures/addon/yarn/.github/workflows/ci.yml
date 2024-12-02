@@ -57,8 +57,8 @@ jobs:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-4.12
-          - ember-lts-5.4
+          - ember-lts-5.8
+          - ember-lts-5.12
           - ember-release
           - ember-beta
           - ember-canary
