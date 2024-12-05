@@ -65,8 +65,6 @@
     "@types/eslint__js": "^8.42.3",
     "@types/qunit": "^2.19.12",
     "@types/rsvp": "^4.0.9",
-    "@typescript-eslint/eslint-plugin": "^8.14.0",
-    "@typescript-eslint/parser": "^8.14.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^9.1.0",
     "ember-auto-import": "^2.10.0",
