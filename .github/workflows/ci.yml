@@ -87,6 +87,7 @@ jobs:
           - addon-smoke
           - brocfile-smoke
           - nested-addons-smoke
+          - new
           - preprocessor-smoke
           - smoke
 
