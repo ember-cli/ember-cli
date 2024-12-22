@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { expect } = require('chai');
 
+const { DEPRECATIONS } = require('../../../lib/debug');
 const emberAppUtils = require('../../../lib/utilities/ember-app-utils');
 
 const contentFor = emberAppUtils.contentFor;
@@ -233,6 +234,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
         expect(output).to.equal('blammo\nblahzorz');
       });
+
+      for (const deprecatedType of DEPRECATIONS.V1_ADDON_CONTENT_FOR_TYPES.options.meta.types) {
+        it(`shows a deprecation warning when using the deprecated \`${deprecatedType}\` \`contentFor\` type`, function () {
+          if (DEPRECATIONS.V1_ADDON_CONTENT_FOR_TYPES.isRemoved) {
+            this.skip();
+          }
+
+          const consoleWarn = console.warn;
+          const deprecations = [];
+
+          // TODO: This should be updated once we can register deprecation handlers:
+          console.warn = (deprecation) => deprecations.push(deprecation);
+
+          const addons = [
+            {
+              name: 'foo',
+              contentFor(type) {
+                if (type === deprecatedType) {
+                  return `${deprecatedType}-content`;
+                }
+              },
+            },
+            {
+              contentFor(type) {
+                if (type === 'foo') {
+                  return 'foo-content';
+                }
+              },
+            },
+          ];
+
+          const options = { ...defaultOptions, addons };
+
+          let content = '';
+          content += contentFor(config, defaultMatch, deprecatedType, options);
+          content += contentFor(config, defaultMatch, 'foo', options);
+
+          expect(content).to.equal(`${deprecatedType}-contentfoo-content`);
+          expect(deprecations.length).to.equal(1);
+          expect(deprecations[0]).to.include(
+            `Addon \`foo\` is using the deprecated \`${deprecatedType}\` type in its \`contentFor\` method.`
+          );
+
+          console.warn = consoleWarn;
+        });
+      }
     });
   });
 
