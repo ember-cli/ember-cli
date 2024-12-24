@@ -1,14 +1,16 @@
 # ember-cli Changelog
 
-## v6.1.0-beta.0
+## v6.1.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.0.0...v6.1.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.0.0...v6.1.0-beta.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.0.0...v6.1.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.0.0...v6.1.0)
 
 #### Changelog
 
+- [#10563](https://github.com/ember-cli/ember-cli/pull/10563) [Backport release]: update @ember/test-helpers. #10522 [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10564](https://github.com/ember-cli/ember-cli/pull/10564) [BUGFIX] Add missing package for TS eslint config [@mkszepp](https://github.com/mkszepp)
 - [#10514](https://github.com/ember-cli/ember-cli/pull/10514) [backport release] use fork of remove-types with config: false [@mansona](https://github.com/mansona)
 - [#10515](https://github.com/ember-cli/ember-cli/pull/10515) Use colors for the concurrently prefixes in package.json [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 - [#10516](https://github.com/ember-cli/ember-cli/pull/10516) Use ESLint 9 and Flat Config [@NullVoxPopuli](https://github.com/NullVoxPopuli)
