@@ -1,0 +1,13 @@
+'use strict';
+
+const chai = require('chai');
+
+const chaiAsPromised = require('chai-as-promised');
+const chaiFiles = require('chai-files');
+const chaiJestSnapshot = require('chai-jest-snapshot');
+
+chai.use(chaiFiles);
+chai.use(chaiAsPromised);
+chai.use(chaiJestSnapshot);
+
+module.exports = { chai };

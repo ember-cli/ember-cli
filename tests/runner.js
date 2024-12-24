@@ -1,35 +1,20 @@
 'use strict';
 
+const path = require('path');
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const chaiFiles = require('chai-files');
-const chaiJestSnapshot = require('chai-jest-snapshot');
-const ciInfo = require('ci-info');
 const glob = require('glob');
 const Mocha = require('mocha');
+const mochaConfig = require(path.join(__dirname, '../.mocharc'));
 
-chai.use(chaiFiles);
-chai.use(chaiAsPromised);
-chai.use(chaiJestSnapshot);
+const { chai } = require('./bootstrap');
+
+const mocha = new Mocha(mochaConfig);
 
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`
-let reporter = process.env.MOCHA_REPORTER || (ciInfo.isCI ? 'tap' : 'spec');
-let mocha = new Mocha({
-  timeout: 5000,
-  reporter,
-  retries: 2,
-  rootHooks: {
-    beforeEach() {
-      chaiJestSnapshot.resetSnapshotRegistry();
-      chaiJestSnapshot.configureUsingMochaContext(this);
-    },
-  },
-});
 let testFiles = glob.sync(`${root}/**/*-test.js`);
 let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
 let docsLint = testFiles.splice(docsLintPosition, 1);

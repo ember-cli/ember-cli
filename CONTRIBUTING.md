@@ -37,16 +37,28 @@ for more information.
 ## Run the test suite
 
 ```
-npm test
+pnpm test
 ```
 
 will run ESLint and the "fast" subset of the test suite. Run
-`npm run test:all` for the full test suite which will currently take quite a
+`pnpm run test:all` for the full test suite which will currently take quite a
 few minutes due to heavy IO and network usage.
+
+To run a single test 
+```
+pnpm mocha --fgrep "ember new adds ember-welcome-page by default"
+```
+
+To get help with mocha, run
+```
+pnpm mocha --help
+```
 
 ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
 you want to run a specific subset of tests have a look at their
 [documentation](https://mochajs.org/#exclusive-tests).
+
+
 
 ## Update fixtures
 
