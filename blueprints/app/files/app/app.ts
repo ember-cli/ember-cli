@@ -5,7 +5,7 @@ import config from '<%= modulePrefix %>/config/environment';
 import { importSync, isDevelopingApp, macroCondition } from '@embroider/macros';
 
 if (macroCondition(isDevelopingApp())) {
- importSync('./deprecation-workflow');
+  importSync('./deprecation-workflow');
 }
 
 export default class App extends Application {
