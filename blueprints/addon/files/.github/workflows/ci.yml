@@ -19,9 +19,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8<% } %>
+          version: 9<% } %>
       - name: Install Node
         uses: actions/setup-node@v3
         with:
@@ -41,9 +41,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8<% } %>
+          version: 9<% } %>
       - uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -63,8 +63,8 @@ jobs:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-4.12
-          - ember-lts-5.4
+          - ember-lts-5.8
+          - ember-lts-5.12
           - ember-release
           - ember-beta
           - ember-canary
@@ -73,9 +73,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3<% if (pnpm) { %>
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8<% } %>
+          version: 9<% } %>
       - name: Install Node
         uses: actions/setup-node@v3
         with:
