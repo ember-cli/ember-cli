@@ -81,8 +81,10 @@ export default [
     files: [
       '**/*.cjs',
       'config/**/*.js',
+      'tests/dummy/config/**/*.js',
       'testem.js',
       'testem*.js',
+      'index.js',
       '.prettierrc.js',
       '.stylelintrc.js',
       '.template-lintrc.js',
