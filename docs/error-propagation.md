@@ -26,9 +26,9 @@ Error contains information of where in the file error occurred and what kind of 
 Because `ember-cli-htmlbars` is based on `broccoli-persistent-filter`, technically `broccoli-persistent-filter`
 will catch the exception first. For example, we attach `file` and `treeDir` information to errors [here](https://github.com/stefanpenner/broccoli-persistent-filter/blob/v1.3.1/index.js#L267-L272).
 
-+ `broccoli-builder` catches the error
++ `broccoli` catches the error
 
-Ember CLI uses `broccoli-builder` to build its trees so if `broccoli-builder` throws an error,
+Ember CLI uses `broccoli` to build its trees so if `broccoli` throws an error,
 Ember CLI is aware and can act accordingly.
 
 At this level, we can attach more information to the error, like `broccoli` node/annotation.
@@ -36,7 +36,7 @@ At this level, we can attach more information to the error, like `broccoli` node
 + `broccoli-middleware` catches the error
 
 This is where we return an error page for the browser. Given all the information, we get from `ember-cli-htmlbars`
-and `broccoli-builder`, we show an error page.
+and `broccoli`, we show an error page.
 
 ## Error object
 
