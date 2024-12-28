@@ -95,10 +95,6 @@ describe('Acceptance: smoke-test', function () {
     expect(result.output).to.be.empty;
   });
 
-  // there is a bug in here when running the entire suite on Travis
-  // when run in isolation, it passes
-  // here is the error:
-  // test-support-80f2fe63fae0c44478fe0f8af73200a7.js contains the fingerprint (2871106928f813936fdd64f4d16005ac): expected 'test-support-80f2fe63fae0c44478fe0f8af73200a7.js' to include '2871106928f813936fdd64f4d16005ac'
   if (!isExperimentEnabled('EMBROIDER')) {
     it.skip('ember new foo, build production and verify fingerprint', async function () {
       await runCommand(
