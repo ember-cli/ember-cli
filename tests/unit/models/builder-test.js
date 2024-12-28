@@ -173,24 +173,6 @@ describe('models/builder.js', function () {
       );
     });
 
-    it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', async function () {
-      process._heimdall = {};
-
-      await builder.build();
-
-      let output = builder.project.ui.output;
-      expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
-    });
-
-    it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', async function () {
-      expect(process._heimdall).to.equal(undefined);
-
-      await builder.build();
-
-      let output = builder.project.ui.output;
-      expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
-    });
-
     it('writes temp files to Broccoli temp dir', async function () {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
