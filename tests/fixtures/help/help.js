@@ -72,6 +72,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
+          required: false
+        },
+        {
           name: 'ci-provider',
           key: 'ciProvider',
           type: ['github', 'none'],
@@ -581,6 +587,12 @@ module.exports = {
           name: 'lang',
           key: 'lang',
           description: 'Sets the base human language of the application via index.html',
+          required: false
+        },
+        {
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
           required: false
         },
         {

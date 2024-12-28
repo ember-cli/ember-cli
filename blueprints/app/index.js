@@ -25,27 +25,16 @@ module.exports = {
     let name = stringUtil.dasherize(rawName);
     let namespace = stringUtil.classify(rawName);
     let embroider = isExperimentEnabled('EMBROIDER') || options.embroider;
-
-    let hasOptions = !options.welcome || options.packageManager || embroider || options.ciProvider;
-    let blueprintOptions = '';
-    if (hasOptions) {
-      let indent = `\n            `;
-      let outdent = `\n          `;
-
-      blueprintOptions =
-        indent +
-        [
-          !options.welcome && '"--no-welcome"',
-          options.packageManager === 'yarn' && '"--yarn"',
-          options.packageManager === 'pnpm' && '"--pnpm"',
-          embroider && '"--embroider"',
-          options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
-          options.typescript && `"--typescript"`,
-        ]
-          .filter(Boolean)
-          .join(',\n            ') +
-        outdent;
-    }
+    let blueprintOptions = [
+      !options.welcome && '"--no-welcome"',
+      options.packageManager === 'yarn' && '"--yarn"',
+      options.packageManager === 'pnpm' && '"--pnpm"',
+      embroider && '"--embroider"',
+      options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+      options.typescript && `"--typescript"`,
+    ]
+      .filter(Boolean)
+      .join(', ');
 
     let invokeScriptPrefix = 'npm run';
     let execBinPrefix = 'npm exec';
