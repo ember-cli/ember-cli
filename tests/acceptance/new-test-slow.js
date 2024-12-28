@@ -22,24 +22,24 @@ describe('Acceptance: ember new | ember addon', function () {
 
   describe('ember new', function () {
     it('generates a new app with no linting errors', async function () {
-      await ember(['new', 'foo-app', '--pnpm', '--skip-git']);
+      await ember(['new', 'foo-app', '--pnpm']);
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
     });
 
     it('generates a new TS app with no linting errors', async function () {
-      await ember(['new', 'foo-app', '--pnpm', '--skip-git', '--typescript']);
+      await ember(['new', 'foo-app', '--pnpm', '--typescript']);
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
     });
   });
 
   describe('ember addon', function () {
     it('generates a new addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm', '--skip-git']);
+      await ember(['addon', 'foo-addon', '--pnpm']);
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
     });
 
     it('generates a new TS addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm', '--skip-git', '--typescript']);
+      await ember(['addon', 'foo-addon', '--pnpm', '--typescript']);
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
     });
   });
