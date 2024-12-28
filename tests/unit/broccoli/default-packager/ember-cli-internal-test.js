@@ -193,8 +193,8 @@ var runningTests = false;`);
         addons: [
           {
             contentFor(type) {
-              if (type === 'app-prefix') {
-                return 'CUSTOM APP PREFIX CODE';
+              if (type === 'test-support-prefix') {
+                return 'CUSTOM TEST SUPPORT PREFIX CODE';
               }
             },
           },
@@ -231,9 +231,9 @@ var runningTests = false;`);
 
     let emberCliFiles = outputFiles.vendor['ember-cli'];
     let appBootFileContent = emberCliFiles['app-boot.js'].trim();
-    let appPrefixFileContent = emberCliFiles['app-prefix.js'].trim();
+    let testSupportPrefixFileContent = emberCliFiles['test-support-prefix.js'].trim();
 
     expect(appBootFileContent).to.equal('CUSTOM APP BOOT CODE');
-    expect(appPrefixFileContent).to.equal(`'use strict';\n\nCUSTOM APP PREFIX CODE`);
+    expect(testSupportPrefixFileContent).to.equal('CUSTOM TEST SUPPORT PREFIX CODE');
   });
 });
