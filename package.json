@@ -93,7 +93,7 @@
     "is-language-code": "^3.1.0",
     "isbinaryfile": "^5.0.4",
     "lodash": "^4.17.21",
-    "markdown-it": "^13.0.1",
+    "markdown-it": "^14.1.0",
     "markdown-it-terminal": "^0.4.0",
     "minimatch": "^7.4.3",
     "morgan": "^1.10.0",
