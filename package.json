@@ -141,7 +141,7 @@
     "fixturify": "^3.0.0",
     "jsdom": "^21.1.1",
     "latest-version": "^5.1.0",
-    "mocha": "^10.0.0",
+    "mocha": "^11.0.1",
     "nock": "^13.5.5",
     "nyc": "^15.1.0",
     "prettier": "2.8.7",
