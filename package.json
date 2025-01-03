@@ -54,7 +54,7 @@
     "broccoli-stew": "^3.0.0",
     "calculate-cache-key-for-tree": "^2.0.0",
     "capture-exit": "^2.0.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.4.1",
     "ci-info": "^4.0.0",
     "clean-base-url": "^1.0.0",
     "compression": "^1.7.4",
