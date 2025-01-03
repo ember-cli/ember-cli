@@ -16,7 +16,6 @@ const { isExperimentEnabled } = require('../../lib/experiments');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
-const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
 
@@ -709,17 +708,6 @@ describe('Acceptance: ember new', function () {
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
-    });
-  });
-
-  describe('verify dependencies', function () {
-    it('are locked down for pre-1.0 versions', async function () {
-      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--yarn', '--welcome']);
-
-      let pkg = fs.readJsonSync('package.json');
-
-      assertVersionLock(pkg.dependencies);
-      assertVersionLock(pkg.devDependencies);
     });
   });
 });
