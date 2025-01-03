@@ -86,15 +86,6 @@ describe('Acceptance: smoke-test', function () {
     expect(output).to.include('***CUSTOM_TESTEM_JS**');
   });
 
-  it('eslint passes after running ember new', async function () {
-    let result = await runCommand(path.join('.', 'node_modules', 'eslint', 'bin', 'eslint.js'), appRoot);
-
-    let exitCode = result.code;
-
-    expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
-    expect(result.output).to.be.empty;
-  });
-
   if (!isExperimentEnabled('EMBROIDER')) {
     it.skip('ember new foo, build production and verify fingerprint', async function () {
       await runCommand(

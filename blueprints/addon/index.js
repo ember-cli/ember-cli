@@ -193,26 +193,15 @@ module.exports = {
     let addonRawName = addonEntity.name;
     let addonName = stringUtil.dasherize(addonRawName);
     let addonNamespace = stringUtil.classify(addonRawName);
-
-    let hasOptions = options.welcome || options.packageManager || options.ciProvider;
-    let blueprintOptions = '';
-    if (hasOptions) {
-      let indent = `\n            `;
-      let outdent = `\n          `;
-
-      blueprintOptions =
-        indent +
-        [
-          options.welcome && '"--welcome"',
-          options.packageManager === 'yarn' && '"--yarn"',
-          options.packageManager === 'pnpm' && '"--pnpm"',
-          options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
-          options.typescript && `"--typescript"`,
-        ]
-          .filter(Boolean)
-          .join(',\n            ') +
-        outdent;
-    }
+    let blueprintOptions = [
+      options.welcome && '"--welcome"',
+      options.packageManager === 'yarn' && '"--yarn"',
+      options.packageManager === 'pnpm' && '"--pnpm"',
+      options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
+      options.typescript && `"--typescript"`,
+    ]
+      .filter(Boolean)
+      .join(', ');
 
     let invokeScriptPrefix = 'npm run';
 

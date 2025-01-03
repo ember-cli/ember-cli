@@ -6,6 +6,7 @@
 
 # misc
 /coverage/
+/pnpm-lock.yaml
 !.*
 .*/
 
