@@ -271,8 +271,8 @@ importers:
         specifier: ^4.3.7
         version: 4.5.0
       chai-as-promised:
-        specifier: ^7.1.1
-        version: 7.1.2(chai@4.5.0)
+        specifier: ^8.0.1
+        version: 8.0.1(chai@4.5.0)
       chai-files:
         specifier: ^1.4.0
         version: 1.4.0
@@ -1286,6 +1286,11 @@ packages:
     peerDependencies:
       chai: '>= 2.1.2 < 6'
 
+  chai-as-promised@8.0.1:
+    resolution: {integrity: sha512-OIEJtOL8xxJSH8JJWbIoRjybbzR52iFuDHuF8eb+nTPD6tgXLjRqsgnUGqQfFODxYvq5QdirT0pN9dZ0+Gz6rA==}
+    peerDependencies:
+      chai: '>= 2.1.2 < 6'
+
   chai-files@1.4.0:
     resolution: {integrity: sha512-tPTx7H2kpR+wILWHRx8RxpXcRUdc2uH8su505C9R3p5GA+eYbZBXuxWC0RZbyElYi7X7Fp/V/S2PQjkakrT1mQ==}
 
@@ -1326,6 +1331,10 @@ packages:
 
   check-error@1.0.3:
     resolution: {integrity: sha512-iKEoDYaRmd1mxM90a2OEfWhjsjPpYPuQ+lMYsoxB126+t8fw7ySEO48nmDg5COTjxDI65/Y2OWpeEHk3ZOe8zg==}
+
+  check-error@2.1.1:
+    resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
+    engines: {node: '>= 16'}
 
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
@@ -6720,6 +6729,11 @@ snapshots:
       chai: 4.5.0
       check-error: 1.0.3
 
+  chai-as-promised@8.0.1(chai@4.5.0):
+    dependencies:
+      chai: 4.5.0
+      check-error: 2.1.1
+
   chai-files@1.4.0:
     dependencies:
       assertion-error: 1.1.0
@@ -6776,6 +6790,8 @@ snapshots:
   check-error@1.0.3:
     dependencies:
       get-func-name: 2.0.2
+
+  check-error@2.1.1: {}
 
   chokidar@3.6.0:
     dependencies:
