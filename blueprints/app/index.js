@@ -76,6 +76,7 @@ module.exports = {
       blueprintOptions,
       embroider,
       lang: options.lang,
+      emberData: options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       packageManager: options.packageManager ?? 'npm',

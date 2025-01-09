@@ -14,7 +14,7 @@
       "*": ["types/*"]
     },
     "types": [
-      "./node_modules/ember-source/types/stable",
+      <% if (emberData) { %>"./node_modules/ember-source/types/stable",
       "./node_modules/ember-data/unstable-preview-types",
       "./node_modules/@ember-data/store/unstable-preview-types",
       "./node_modules/@ember-data/adapter/unstable-preview-types",
@@ -26,7 +26,8 @@
       "./node_modules/@ember-data/model/unstable-preview-types",
       "./node_modules/@ember-data/serializer/unstable-preview-types",
       "./node_modules/@ember-data/tracking/unstable-preview-types",
-      "./node_modules/@warp-drive/core-types/unstable-preview-types"
+      "./node_modules/@warp-drive/core-types/unstable-preview-types"<% } else { %>
+      "ember-source/types"<% } %>
     ]
   }
 }
