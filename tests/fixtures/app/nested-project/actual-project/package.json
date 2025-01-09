@@ -43,7 +43,6 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.1",
     "ember-data": "~3.27.0-beta.0",
-    "ember-fetch": "^8.0.4",
     "ember-load-initializers": "^3.0.1",
     "ember-modifier": "^4.0.0",
     "ember-page-title": "^7.0.0",

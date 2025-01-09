@@ -13,9 +13,6 @@ describe('Default Packager: Public', function () {
   let PUBLIC = {
     public: {
       images: {},
-      'ember-fetch': {
-        'fastboot-fetch.js': '',
-      },
       'robots.txt': '',
       '500.html': '',
     },

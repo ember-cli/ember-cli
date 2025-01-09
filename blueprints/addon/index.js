@@ -71,14 +71,13 @@ module.exports = {
     contents.dependencies['ember-template-imports'] = contents.devDependencies['ember-template-imports'];
     delete contents.devDependencies['ember-template-imports'];
 
-    // 95% of addons don't need ember-data or ember-fetch, make them opt-in instead
+    // 95% of addons don't need ember-data, make them opt-in instead
     let deps = Object.keys(contents.devDependencies);
     for (let depName of deps) {
       if (depName.includes('ember-data') || depName.includes('warp-drive')) {
         delete contents.devDependencies[depName];
       }
     }
-    delete contents.devDependencies['ember-fetch'];
 
     // Per RFC #811, addons should not have this dependency.
     // @see https://github.com/emberjs/rfcs/blob/master/text/0811-element-modifiers.md#detailed-design
