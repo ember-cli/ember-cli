@@ -189,4 +189,4 @@ if (module === require.main) {
   }
 }
 
-module.exports = { updateDependencies };
+module.exports = { PACKAGE_FILES, updateDependencies };
