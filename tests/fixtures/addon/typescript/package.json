@@ -56,6 +56,7 @@
   "devDependencies": {
     "@ember/optional-features": "^2.2.0",
     "@ember/test-helpers": "^4.0.4",
+    "@embroider/macros": "^1.16.10",
     "@embroider/test-setup": "^4.0.0",
     "@eslint/js": "^9.17.0",
     "@glimmer/component": "^2.0.0",
@@ -73,6 +74,7 @@
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-clean-css": "^3.0.0",
     "ember-cli-dependency-checker": "^3.3.3",
+    "ember-cli-deprecation-workflow": "^3.1.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
