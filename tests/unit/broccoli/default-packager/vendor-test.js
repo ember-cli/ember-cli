@@ -15,7 +15,6 @@ describe('Default Packager: Vendor', function () {
       'polyfill.js': 'polyfill',
       'polyfill.min.js': 'polyfill',
     },
-    'ember-fetch.js': 'ember fetch',
     'ember-weakmap-passthrough.js': 'ember weakmap',
     'ember-weakmap-polyfill.js': 'ember weakmap',
     'install-getowner-polyfill.js': 'install getowner',
