@@ -523,6 +523,16 @@ describe('express-server', function () {
             done();
           });
       });
+
+      it('handles websocket errors gracefully when proxy target is down', function (done) {
+        proxy.httpServer.close();
+
+        let client = new WebSocket('ws://localhost:1337/foo');
+        client.onerror = (error) => {
+          expect(error).to.be.ok;
+          done();
+        };
+      });
     });
 
     describe('proxy with subdomain', function () {
