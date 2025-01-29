@@ -12,8 +12,8 @@ importers:
         specifier: ^7.0.2
         version: 7.0.3
       babel-remove-types:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
       broccoli:
         specifier: ^3.5.2
         version: 3.5.2
@@ -983,8 +983,8 @@ packages:
   aws-sign2@0.5.0:
     resolution: {integrity: sha512-oqUX0DM5j7aPWPCnpWebiyNIj2wiNI87ZxnOMoGv0aE4TGlBy2N+5iWc6dQ/NOKZaBD2W6PVz8jtOGkWzSC5EA==}
 
-  babel-remove-types@1.0.0:
-    resolution: {integrity: sha512-Kg+NZLwfe1E+LoGrkX9I9nFDM1FVBoiIdyW4bjNGGvrqWhvgcdauqijOFn5/WYkdoGXpUEDRWvU4X100ghVx4A==}
+  babel-remove-types@1.0.1:
+    resolution: {integrity: sha512-au+oEGwCCxqb8R0x8EwccTVtWCP4lFkNpHV5skNZnNCwvar3DBBkmGZbx2B1A3RaCHVLQrxF6qv6rR/ZDRPW+A==}
 
   backbone@1.6.0:
     resolution: {integrity: sha512-13PUjmsgw/49EowNcQvfG4gmczz1ximTMhUktj0Jfrjth0MVaTxehpU+qYYX4MxnuIuhmvBLC6/ayxuAGnOhbA==}
@@ -6194,7 +6194,7 @@ snapshots:
   aws-sign2@0.5.0:
     optional: true
 
-  babel-remove-types@1.0.0:
+  babel-remove-types@1.0.1:
     dependencies:
       '@babel/core': 7.26.0
       '@babel/plugin-syntax-decorators': 7.25.9(@babel/core@7.26.0)

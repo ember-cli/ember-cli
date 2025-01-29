@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@pnpm/find-workspace-dir": "^7.0.2",
-    "babel-remove-types": "^1.0.0",
+    "babel-remove-types": "^1.0.1",
     "broccoli": "^3.5.2",
     "broccoli-concat": "^4.2.5",
     "broccoli-config-loader": "^1.0.1",
