@@ -100,6 +100,11 @@ module.exports = {
       );
     }
 
+    if (!options.emberData) {
+      files = files.filter((file) => !file.includes('models/'));
+      files = files.filter((file) => !file.includes('ember-data/'));
+    }
+
     this._files = files;
 
     return this._files;
