@@ -506,6 +506,13 @@ module.exports = {
           required: false,
         },
         {
+          name: 'ember-data',
+          key: 'emberData',
+          description: 'Include ember-data dependencies and configuration',
+          required: false,
+          default: true
+        },
+        {
           default: false,
           key: 'typescript',
           name: 'typescript',
@@ -640,6 +647,13 @@ module.exports = {
           type: ['github', 'none'],
           description: 'Installs the optional default CI blueprint. Only Github Actions is supported at the moment.',
           required: false,
+        },
+        {
+          name: 'ember-data',
+          key: 'emberData',
+          description: 'Include ember-data dependencies and configuration',
+          required: false,
+          default: true
         },
         {
           name: 'interactive',

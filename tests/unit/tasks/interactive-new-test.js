@@ -22,6 +22,7 @@ describe('interactive new task', function () {
       langSelection: 'en-US',
       packageManager: 'yarn',
       ciProvider: 'github',
+      emberData: true,
     });
 
     expect(answers).to.deep.equal({
@@ -30,6 +31,28 @@ describe('interactive new task', function () {
       lang: 'en-US',
       packageManager: 'yarn',
       ciProvider: 'github',
+      emberData: true,
+    });
+  });
+
+  it('it can opt out of ember-data', async function () {
+    const newCommandOptions = {};
+    const answers = await interactiveNewTask.run(newCommandOptions, {
+      blueprint: 'app',
+      name: 'foo',
+      langSelection: 'en-US',
+      packageManager: 'pnpm',
+      ciProvider: 'github',
+      emberData: false,
+    });
+
+    expect(answers).to.deep.equal({
+      blueprint: 'app',
+      name: 'foo',
+      lang: 'en-US',
+      packageManager: 'pnpm',
+      ciProvider: 'github',
+      emberData: false,
     });
   });
 

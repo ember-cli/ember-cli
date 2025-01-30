@@ -76,6 +76,7 @@ module.exports = {
       blueprintOptions,
       embroider,
       lang: options.lang,
+      emberData: options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       packageManager: options.packageManager ?? 'npm',
@@ -97,6 +98,11 @@ module.exports = {
       files = files.filter(
         (file) => !['tsconfig.json', 'app/config/', 'types/'].includes(file) && !file.endsWith('.d.ts')
       );
+    }
+
+    if (!options.emberData) {
+      files = files.filter((file) => !file.includes('models/'));
+      files = files.filter((file) => !file.includes('ember-data/'));
     }
 
     this._files = files;
