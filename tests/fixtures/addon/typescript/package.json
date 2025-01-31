@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.2.0",
-    "@ember/test-helpers": "^4.0.4",
+    "@ember/test-helpers": "^5.1.0",
     "@embroider/macros": "^1.16.10",
     "@embroider/test-setup": "^4.0.0",
     "@eslint/js": "^9.17.0",
