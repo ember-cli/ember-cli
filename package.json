@@ -95,7 +95,7 @@
     "lodash": "^4.17.21",
     "markdown-it": "^14.1.0",
     "markdown-it-terminal": "^0.4.0",
-    "minimatch": "^7.4.3",
+    "minimatch": "^10.0.1",
     "morgan": "^1.10.0",
     "nopt": "^3.0.6",
     "npm-package-arg": "^12.0.0",
