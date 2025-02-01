@@ -33,6 +33,25 @@ describe('Blueprint', function () {
       expect(output).to.equal('const x = 1;\n<template>Hello {{x}}!</template>\n');
     });
 
+    it('keeps imports used in templates when converting gts', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        `import { foo } from 'foo';
+import type { Bar } from 'bar';
+
+const bar: Bar = 'bar';
+
+<template>{{foo}} {{bar}}</template>
+`
+      );
+      expect(output).to.equal(`import { foo } from 'foo';
+
+const bar = 'bar';
+
+<template>{{foo}} {{bar}}</template>
+`);
+    });
+
     it('can handle template-only gts', async function () {
       const output = await Blueprint.prototype.removeTypes('.gts', '<template>Hello!</template>\n');
       expect(output).to.equal('<template>Hello!</template>\n');
