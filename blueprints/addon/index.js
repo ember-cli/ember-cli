@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
 const { merge, uniq } = require('ember-cli-lodash-subset');
 const SilentError = require('silent-error');
-const sortPackageJson = require('sort-package-json');
+const { sortPackageJson } = require('sort-package-json');
 
 let date = new Date();
 
@@ -79,9 +79,6 @@ module.exports = {
       }
     }
     delete contents.devDependencies['ember-fetch'];
-
-    // `@ember/string` is a peer dependency of `ember-data`.
-    delete contents.devDependencies['@ember/string'];
 
     // Per RFC #811, addons should not have this dependency.
     // @see https://github.com/emberjs/rfcs/blob/master/text/0811-element-modifiers.md#detailed-design

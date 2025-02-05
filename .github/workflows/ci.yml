@@ -20,6 +20,9 @@ concurrency:
   group: ci-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
+env:
+  SKIP_YARN_COREPACK_CHECK: '0'
+
 jobs:
   linting:
     runs-on: ubuntu-latest
@@ -49,6 +52,7 @@ jobs:
         node-version:
           - 18
           - 20
+          - 22
         os:
           - macos-latest
           - ubuntu-latest
@@ -73,6 +77,7 @@ jobs:
         node-version:
           - 18
           - 20
+          - 22
         os:
           - macos-latest
           - ubuntu-latest

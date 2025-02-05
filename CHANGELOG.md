@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+## v6.2.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.1.0...v6.2.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.1.0...v6.2.0-beta.0)
+
+#### Changelog
+
+- [#10496](https://github.com/ember-cli/ember-cli/pull/10496) [CLEANUP] Clean up support for incorrect values for `BROCCOLI_VIZ` env var [@bertdeblock](https://github.com/bertdeblock)
+- [#10555](https://github.com/ember-cli/ember-cli/pull/10555) [ENHANCEMENT] Bump `pnpm/action-setup` to v4 in `app` and `addon` blueprints [@SergeAstapov](https://github.com/SergeAstapov)
+- [#10562](https://github.com/ember-cli/ember-cli/pull/10562) [ENHANCEMENT] Allow creating apps and addons everywhere [@bertdeblock](https://github.com/bertdeblock)
+- [#10577](https://github.com/ember-cli/ember-cli/pull/10577) [ENHANCEMENT] Remove `@ember/string` from `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10578](https://github.com/ember-cli/ember-cli/pull/10578) [ENHANCEMENT] Test against Node v22 [@bertdeblock](https://github.com/bertdeblock)
+- [#10579](https://github.com/ember-cli/ember-cli/pull/10579) [INTERNAL] Update `sort-package-json` [@bertdeblock](https://github.com/bertdeblock)
+- [#10580](https://github.com/ember-cli/ember-cli/pull/10580) [ENHANCEMENT] Update LTS versions in blueprints [@bertdeblock](https://github.com/bertdeblock)
+- [#10583](https://github.com/ember-cli/ember-cli/pull/10583) [ENHANCEMENT] Update `app` blueprint to support `ember-qunit` v9 [@ef4](https://github.com/ef4)
+- [#10585](https://github.com/ember-cli/ember-cli/pull/10585) [INTERNAL] Support `WRITE_FIXTURES` in more test files [@ef4](https://github.com/ef4)
+
+Thank you to all who took the time to contribute!
+
 ## v6.1.0
 
 #### Blueprint Changes
