@@ -19,7 +19,7 @@ import ts from 'typescript-eslint';
 
 import ember from 'eslint-plugin-ember/recommended';
 
-import prettier from 'eslint-plugin-prettier/recommended';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
 
@@ -52,7 +52,7 @@ export default ts.config(
   ember.configs.base,
   ember.configs.gjs,
   ember.configs.gts,
-  prettier,
+  eslintConfigPrettier,
   /**
    * Ignores must be in their own object
    * https://eslint.org/docs/latest/use/configure/ignore
@@ -104,8 +104,10 @@ export default ts.config(
     files: [
       '**/*.cjs',
       'config/**/*.js',
+      'tests/dummy/config/**/*.js',
       'testem.js',
       'testem*.js',
+      'index.js',
       '.prettierrc.js',
       '.stylelintrc.js',
       '.template-lintrc.js',

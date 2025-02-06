@@ -101,6 +101,11 @@ describe('Acceptance: ember help', function () {
     let output = options.ui.output;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate.txt');
+
+    // makes updating this fixture much much easier...
+    if (process.env.WRITE_HELP_FIXTURES) {
+      fs.writeFileSync(fixturePath, output, { encoding: 'utf-8' });
+    }
     let expected = loadTextFixture(fixturePath);
 
     expect(output).to.contain(expected);

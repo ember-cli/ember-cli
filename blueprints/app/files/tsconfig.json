@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/ember/tsconfig.json",
+  "extends": "@tsconfig/ember",
   "glint": {
     "environment": ["ember-loose", "ember-template-imports"]
   },
@@ -14,19 +14,19 @@
       "*": ["types/*"]
     },
     "types": [
-      "./node_modules/ember-source/types/stable",
-      "./node_modules/ember-data/unstable-preview-types",
-      "./node_modules/@ember-data/store/unstable-preview-types",
-      "./node_modules/@ember-data/adapter/unstable-preview-types",
-      "./node_modules/@ember-data/graph/unstable-preview-types",
-      "./node_modules/@ember-data/json-api/unstable-preview-types",
-      "./node_modules/@ember-data/legacy-compat/unstable-preview-types",
-      "./node_modules/@ember-data/request/unstable-preview-types",
-      "./node_modules/@ember-data/request-utils/unstable-preview-types",
-      "./node_modules/@ember-data/model/unstable-preview-types",
-      "./node_modules/@ember-data/serializer/unstable-preview-types",
-      "./node_modules/@ember-data/tracking/unstable-preview-types",
-      "./node_modules/@warp-drive/core-types/unstable-preview-types"
+      "ember-source/types<% if (emberData) { %>",
+      "ember-data/unstable-preview-types",
+      "@ember-data/store/unstable-preview-types",
+      "@ember-data/adapter/unstable-preview-types",
+      "@ember-data/graph/unstable-preview-types",
+      "@ember-data/json-api/unstable-preview-types",
+      "@ember-data/legacy-compat/unstable-preview-types",
+      "@ember-data/request/unstable-preview-types",
+      "@ember-data/request-utils/unstable-preview-types",
+      "@ember-data/model/unstable-preview-types",
+      "@ember-data/serializer/unstable-preview-types",
+      "@ember-data/tracking/unstable-preview-types",
+      "@warp-drive/core-types/unstable-preview-types<% } %>"
     ]
   }
 }

@@ -7,6 +7,9 @@ const chaiJestSnapshot = require('chai-jest-snapshot');
 module.exports = {
   timeout: 5000,
   reporter,
+  reporterOption: {
+    maxDiffSize: Infinity,
+  },
   retries: 2,
   rootHooks: {
     beforeEach() {

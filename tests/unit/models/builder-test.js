@@ -20,7 +20,6 @@ describe('models/builder.js', function () {
   let addon, builder, buildResults, tmpdir;
 
   async function setupBroccoliBuilder() {
-    this.broccoliBuilderFallback = false;
     this.builder = {
       outputPath: 'build results',
       outputNodeWrapper: {
@@ -172,24 +171,6 @@ describe('models/builder.js', function () {
         instrumentationStop('build', { directory: 'build results', graph: { __heimdall__: {} } }, mockAnnotation),
         { times: 1 }
       );
-    });
-
-    it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', async function () {
-      process._heimdall = {};
-
-      await builder.build();
-
-      let output = builder.project.ui.output;
-      expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
-    });
-
-    it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', async function () {
-      expect(process._heimdall).to.equal(undefined);
-
-      await builder.build();
-
-      let output = builder.project.ui.output;
-      expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
     });
 
     it('writes temp files to Broccoli temp dir', async function () {
@@ -516,45 +497,6 @@ describe('models/builder.js', function () {
         error = e;
       }
       expect(error).to.haveOwnProperty('isBuilderError', true);
-    });
-  });
-
-  describe('fallback from broccoli 2 to broccoli-builder', function () {
-    it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', async function () {
-      let project = new MockProject();
-      const builder = new Builder({
-        project,
-        ui: project.ui,
-        readBuildFile() {
-          return {
-            read() {},
-            rebuild() {},
-          };
-        },
-      });
-
-      await builder.setupBroccoliBuilder();
-      expect(builder.broccoliBuilderFallback).to.be.true;
-
-      expect(project.ui.output).to.include(
-        'WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:'
-      );
-      expect(project.ui.output).to.include(
-        'Object: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md'
-      );
-    });
-
-    it('errors for an invalid node', function () {
-      let project = new MockProject();
-      expect(
-        new Builder({
-          project,
-          ui: project.ui,
-          readBuildFile() {
-            return {};
-          },
-        }).setupBroccoliBuilder()
-      ).to.be.rejectedWith('[object Object] is not a Broccoli node\nused as output node');
     });
   });
 });
