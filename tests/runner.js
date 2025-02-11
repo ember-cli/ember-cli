@@ -52,9 +52,10 @@ function runMocha() {
   mocha.run((failures) => {
     console.timeEnd('Mocha Tests Running Time');
 
-    console.log(failures);
+    console.log(failures, typeof failures);
+    let numFailures = parseInt(failures, 10);
     // eslint-disable-next-line n/no-process-exit
-    process.exit(failures);
+    process.exit(numFailures);
   });
 }
 
