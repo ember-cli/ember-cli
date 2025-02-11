@@ -54,6 +54,7 @@ function runMocha() {
 
     console.log(`[Mocha Debug]`, failures, typeof failures);
     if (failures > 0) {
+      console.info(`Exiting with status ${failures}`);
       // On Windows, process.exit at all causes exit code 1
       // eslint-disable-next-line n/no-process-exit
       process.exit(failures);
@@ -61,9 +62,14 @@ function runMocha() {
   });
 }
 
+process.on('exit', (...args) => {
+  console.info(`on:exit`, ...args);
+});
+
 Promise.resolve()
   .then(() => runMocha())
   .catch((error) => {
+    console.info(`An error occurred!`);
     console.error(error);
     console.error(error.stack);
 
