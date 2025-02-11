@@ -52,10 +52,12 @@ function runMocha() {
   mocha.run((failures) => {
     console.timeEnd('Mocha Tests Running Time');
 
-    console.log(failures, typeof failures);
-    let numFailures = parseInt(failures, 10);
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(numFailures);
+    console.log(`[Mocha Debug]`, failures, typeof failures);
+    if (failures > 0) {
+      // On Windows, process.exit at all causes exit code 1
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(failures);
+    }
   });
 }
 
