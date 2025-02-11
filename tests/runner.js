@@ -52,6 +52,7 @@ function runMocha() {
   mocha.run((failures) => {
     console.timeEnd('Mocha Tests Running Time');
 
+    console.log(failures);
     // eslint-disable-next-line n/no-process-exit
     process.exit(failures);
   });
