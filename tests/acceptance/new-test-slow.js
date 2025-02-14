@@ -20,27 +20,31 @@ describe('Acceptance: ember new | ember addon', function () {
     await tmp.teardown(tmpDir);
   });
 
-  describe('ember new', function () {
-    it('generates a new app with no linting errors', async function () {
-      await ember(['new', 'foo-app', '--pnpm']);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
-    });
+  for (const packageManager of ['npm', 'pnpm', 'yarn']) {
+    describe(packageManager, function () {
+      describe('ember new', function () {
+        it('generates a new app with no linting errors', async function () {
+          await ember(['new', 'foo-app', `--${packageManager}`]);
+          await execa(packageManager, ['run', 'lint'], { cwd: join(tmpDir, 'foo-app') });
+        });
 
-    it('generates a new TS app with no linting errors', async function () {
-      await ember(['new', 'foo-app', '--pnpm', '--typescript']);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
-    });
-  });
+        it('generates a new TS app with no linting errors', async function () {
+          await ember(['new', 'foo-app', `--${packageManager}`, '--typescript']);
+          await execa(packageManager, ['run', 'lint'], { cwd: join(tmpDir, 'foo-app') });
+        });
+      });
 
-  describe('ember addon', function () {
-    it('generates a new addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm']);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
-    });
+      describe('ember addon', function () {
+        it('generates a new addon with no linting errors', async function () {
+          await ember(['addon', 'foo-addon', `--${packageManager}`]);
+          await execa(packageManager, ['run', 'lint'], { cwd: join(tmpDir, 'foo-addon') });
+        });
 
-    it('generates a new TS addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm', '--typescript']);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
+        it('generates a new TS addon with no linting errors', async function () {
+          await ember(['addon', 'foo-addon', `--${packageManager}`, '--typescript']);
+          await execa(packageManager, ['run', 'lint'], { cwd: join(tmpDir, 'foo-addon') });
+        });
+      });
     });
-  });
+  }
 });
