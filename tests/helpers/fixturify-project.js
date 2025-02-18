@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { merge } = require('ember-cli-lodash-subset');
+const merge = require('lodash/merge');
 const FixturifyProject = require('fixturify-project');
 const Project = require('../../lib/models/project');
 const MockCLI = require('./mock-cli');
