@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v6.3.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.0...v6.3.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.0...v6.3.0-beta.1)
+
+#### Changelog
+
+- [#10638](https://github.com/ember-cli/ember-cli/pull/10638) [BUGFIX release] Fix ember-data configuration again [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v6.3.0-beta.0
 
 #### Blueprint Changes
@@ -29,6 +42,19 @@
 - [#10618](https://github.com/ember-cli/ember-cli/pull/10618) [INTERNAL] Avoid output for `deprecate` tests [@bertdeblock](https://github.com/bertdeblock)
 - [#10619](https://github.com/ember-cli/ember-cli/pull/10619) [BUGFIX] Only remove type imports when removing the types from `.gts` files in blueprints [@Windvis](https://github.com/Windvis)
 - [#10621](https://github.com/ember-cli/ember-cli/pull/10621) [ENHANCEMENT] Bump `@ember/test-helpers` to v5.1.0 in blueprints [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
+## v6.2.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.2.0...v6.2.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.2.0...v6.2.1)
+
+#### Changelog
+
+- [#10638](https://github.com/ember-cli/ember-cli/pull/10638) [BUGFIX release] Fix ember-data configuration again [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 
 Thank you to all who took the time to contribute!
 
