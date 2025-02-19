@@ -65,7 +65,6 @@
     "dag-map": "^2.0.2",
     "diff": "^7.0.0",
     "ember-cli-is-package-missing": "^1.0.0",
-    "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^5.0.1",
     "ember-cli-string-utils": "^1.1.0",

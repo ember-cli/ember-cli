@@ -89,9 +89,6 @@ importers:
       ember-cli-is-package-missing:
         specifier: ^1.0.0
         version: 1.0.0
-      ember-cli-lodash-subset:
-        specifier: ^2.0.1
-        version: 2.0.1
       ember-cli-normalize-entity-name:
         specifier: ^1.0.0
         version: 1.0.0
@@ -1979,10 +1976,6 @@ packages:
 
   ember-cli-is-package-missing@1.0.0:
     resolution: {integrity: sha512-9hEoZj6Au5onlSDdcoBqYEPT8ehlYntZPxH8pBKV0GO7LNel88otSAQsCfXvbi2eKE+MaSeLG/gNaCI5UdWm9g==}
-
-  ember-cli-lodash-subset@2.0.1:
-    resolution: {integrity: sha512-QkLGcYv1WRK35g4MWu/uIeJ5Suk2eJXKtZ+8s+qE7C9INmpCPyPxzaqZABquYzcWNzIdw6kYwz3NWAFdKYFxwg==}
-    engines: {node: ^4.5 || 6.* || >= 7.*}
 
   ember-cli-normalize-entity-name@1.0.0:
     resolution: {integrity: sha512-rF4P1rW2P1gVX1ynZYPmuIf7TnAFDiJmIUFI1Xz16VYykUAyiOCme0Y22LeZq8rTzwBMiwBwoE3RO4GYWehXZA==}
@@ -7271,8 +7264,6 @@ snapshots:
       - supports-color
 
   ember-cli-is-package-missing@1.0.0: {}
-
-  ember-cli-lodash-subset@2.0.1: {}
 
   ember-cli-normalize-entity-name@1.0.0:
     dependencies:
