@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v6.3.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.1...v6.3.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.1...v6.3.0-beta.2)
+
+#### Changelog
+
+- [#10633](https://github.com/ember-cli/ember-cli/pull/10633) [BUGFIX release] Update all EmberData deps to stable [@Windvis](https://github.com/Windvis)
+- [#10643](https://github.com/ember-cli/ember-cli/pull/10643) Remove unmaintained ember-cli-lodash-subset in favor of requiring functions directly from lodash [@kategengler](https://github.com/kategengler)
+
+Thank you to all who took the time to contribute!
+
 ## v6.3.0-beta.1
 
 #### Blueprint Changes
@@ -42,6 +56,20 @@ Thank you to all who took the time to contribute!
 - [#10618](https://github.com/ember-cli/ember-cli/pull/10618) [INTERNAL] Avoid output for `deprecate` tests [@bertdeblock](https://github.com/bertdeblock)
 - [#10619](https://github.com/ember-cli/ember-cli/pull/10619) [BUGFIX] Only remove type imports when removing the types from `.gts` files in blueprints [@Windvis](https://github.com/Windvis)
 - [#10621](https://github.com/ember-cli/ember-cli/pull/10621) [ENHANCEMENT] Bump `@ember/test-helpers` to v5.1.0 in blueprints [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
+## v6.2.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.2.1...v6.2.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.2.1...v6.2.2)
+
+#### Changelog
+
+- [#10633](https://github.com/ember-cli/ember-cli/pull/10633) [BUGFIX release] Update all EmberData deps to stable [@Windvis](https://github.com/Windvis)
+- [#10643](https://github.com/ember-cli/ember-cli/pull/10643) Remove unmaintained ember-cli-lodash-subset in favor of requiring functions directly from lodash [@kategengler](https://github.com/kategengler)
 
 Thank you to all who took the time to contribute!
 
