@@ -12,7 +12,8 @@
           "isBaseBlueprint": true,
           "options": [
             "--ci-provider=github",
-            "--typescript"
+            "--typescript",
+            "--no-ember-data"
           ]
         }
       ]

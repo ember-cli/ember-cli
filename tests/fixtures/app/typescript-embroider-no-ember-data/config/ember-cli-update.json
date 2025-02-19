@@ -13,7 +13,8 @@
           "options": [
             "--embroider",
             "--ci-provider=github",
-            "--typescript"
+            "--typescript",
+            "--no-ember-data"
           ]
         }
       ]
