@@ -56,7 +56,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-load-initializers": "^3.0.1",
-    "ember-page-title": "^8.2.3",
+    "ember-page-title": "^9.0.1",
     "ember-qunit": "^9.0.1",
     "ember-resolver": "^13.1.0",
     "ember-source": "~6.3.0-beta.1",
