@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v6.3.0-beta.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.2...v6.3.0-beta.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.2...v6.3.0-beta.3)
+
+#### Changelog
+
+- [#10646](https://github.com/ember-cli/ember-cli/pull/10646) [Bugfix release]: Fix eslint parser for js when using --typescript [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v6.3.0-beta.2
 
 #### Blueprint Changes
