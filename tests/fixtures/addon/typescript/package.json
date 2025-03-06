@@ -54,6 +54,8 @@
     "ember-template-imports": "^4.3.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.26.5",
+    "@babel/plugin-proposal-decorators": "^7.25.9",
     "@ember/optional-features": "^2.2.0",
     "@ember/test-helpers": "^5.1.0",
     "@embroider/macros": "^1.16.10",
