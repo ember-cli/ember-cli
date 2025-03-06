@@ -41,6 +41,7 @@ module.exports = {
           embroider && '"--embroider"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
           options.typescript && `"--typescript"`,
+          !options.emberData && `"--no-ember-data"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
