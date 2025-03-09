@@ -87,6 +87,22 @@ const bar = 'bar';
       );
       expect(output).to.equal("const x = '💩';\n<template>Hello {{x}}!</template>\n");
     });
+
+    it('can handle template tags as function argument', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'await render(<template>Hello {{foo}}</template>);\n'
+      );
+      expect(output).to.equal('await render(<template>Hello {{foo}}</template>);\n');
+    });
+
+    it('can handle template tags as function argument, including newlines', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        'await render(\n  <template>Hello {{foo}}</template>\n);\n'
+      );
+      expect(output).to.equal('await render(<template>Hello {{foo}}</template>);\n');
+    });
   });
 
   describe('.mapFile', function () {
