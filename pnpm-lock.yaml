@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@pnpm/find-workspace-dir':
-        specifier: ^7.0.2
-        version: 7.0.3
+        specifier: ^1000.1.0
+        version: 1000.1.0
       babel-remove-types:
         specifier: ^1.0.1
         version: 1.0.1
@@ -626,16 +626,16 @@ packages:
     resolution: {integrity: sha512-htyl8TWnKL7K/ESFa1oW2UB5lVDxuF5DpM7tBi6Hu2LNL3mWkIzNLG6N4zoCUP1lCKNxWy/3iu8mS8MvToGd6w==}
     engines: {node: '>=12.22.0'}
 
-  '@pnpm/constants@10.0.0':
-    resolution: {integrity: sha512-dxIXcW1F1dxIGfye2JXE7Q8WVwYB0axVzdBOkvE1WKIVR4xjB8e6k/Dkjo7DpbyfW5Vu2k21p6dyM32YLSAWoQ==}
+  '@pnpm/constants@1001.1.0':
+    resolution: {integrity: sha512-xb9dfSGi1qfUKY3r4Zy9JdC9+ZeaDxwfE7HrrGIEsBVY1hvIn6ntbR7A97z3nk44yX7vwbINNf9sizTp0WEtEw==}
     engines: {node: '>=18.12'}
 
-  '@pnpm/error@6.0.3':
-    resolution: {integrity: sha512-OIYhG7HQh4zUFh2s8/6bp7glVRjNxms7bpzXVOLV7pyRa+rSYFmqJ8zDsBC64k58nuaxS85Ip+SCDjFxsFGeOg==}
+  '@pnpm/error@1000.0.2':
+    resolution: {integrity: sha512-2SfE4FFL73rE1WVIoESbqlj4sLy5nWW4M/RVdHvCRJPjlQHa9MH7m7CVJM204lz6I+eHoB+E7rL3zmpJR5wYnQ==}
     engines: {node: '>=18.12'}
 
-  '@pnpm/find-workspace-dir@7.0.3':
-    resolution: {integrity: sha512-eGjkyHSufkHyZ66WpygWnslcRePB0U1lJg1dF3rgWqTChpregYoDyNGDzK7l9Gk+CHVgGZZS5aWp7uKKVmAAEg==}
+  '@pnpm/find-workspace-dir@1000.1.0':
+    resolution: {integrity: sha512-K5iG/z0SLV6bVW1jIYvbNBI6vWAD6ETJKyWj/wwHr7hxloxtm9xJCGbe/41pmM9nfFFUPbr1Z0YOi4q9yWkj6g==}
     engines: {node: '>=18.12'}
 
   '@pnpm/network.ca-file@1.0.2':
@@ -5835,15 +5835,15 @@ snapshots:
 
   '@pnpm/config.env-replace@1.1.0': {}
 
-  '@pnpm/constants@10.0.0': {}
+  '@pnpm/constants@1001.1.0': {}
 
-  '@pnpm/error@6.0.3':
+  '@pnpm/error@1000.0.2':
     dependencies:
-      '@pnpm/constants': 10.0.0
+      '@pnpm/constants': 1001.1.0
 
-  '@pnpm/find-workspace-dir@7.0.3':
+  '@pnpm/find-workspace-dir@1000.1.0':
     dependencies:
-      '@pnpm/error': 6.0.3
+      '@pnpm/error': 1000.0.2
       find-up: 5.0.0
 
   '@pnpm/network.ca-file@1.0.2':
