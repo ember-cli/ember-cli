@@ -1,14 +1,12 @@
 {
-  "keywords": [
-    "ember-addon"
-  ],
+  "keywords": ["ember-addon"],
   "scripts": {
     "test:ember-compatibility": "ember try:each"
   },
   "devDependencies": {
     "@embroider/test-setup": "^4.0.0",
     "ember-source-channel-url": "^3.0.0",
-    "ember-try": "^3.0.0"
+    "ember-try": "^4.0.0"
   },
   "peerDependencies": {
     "ember-source": ">= 4.0.0"

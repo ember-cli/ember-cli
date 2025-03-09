@@ -283,8 +283,6 @@ module.exports = {
     '^config.*': 'tests/dummy/:path',
     '^public.*': 'tests/dummy/:path',
 
-    '^addon-config/ember-try.js': 'tests/dummy/config/ember-try.js',
-
     '^npmignore': '.npmignore',
   },
 
