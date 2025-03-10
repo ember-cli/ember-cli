@@ -24,8 +24,7 @@
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",
     "start": "ember serve",
-    "test": "concurrently \"yarn:lint\" \"yarn:test:*\" --names \"lint,test:\" --prefixColors auto",
-    "test:ember": "ember test"
+    "test": "ember test"
   },
   "devDependencies": {
     "@babel/core": "^7.26.7",

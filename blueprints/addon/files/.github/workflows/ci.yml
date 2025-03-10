@@ -32,7 +32,7 @@ jobs:
       - name: Lint
         run: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm run' %> lint
       - name: Run Tests
-        run: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm run' %> test:ember
+        run: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm run' %> test
 
   floating:
     name: "Floating Dependencies"
@@ -51,7 +51,7 @@ jobs:
       - name: Install Dependencies
         run: <%= pnpm ? 'pnpm install --no-lockfile' : yarn ? 'yarn install --no-lockfile' : 'npm install --no-shrinkwrap' %>
       - name: Run Tests
-        run: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm run' %> test:ember
+        run: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm run' %> test
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}

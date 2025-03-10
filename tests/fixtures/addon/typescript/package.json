@@ -43,8 +43,7 @@
     "prepack": "tsc --project tsconfig.declarations.json",
     "postpack": "rimraf declarations",
     "start": "ember serve",
-    "test": "concurrently \"yarn:lint\" \"yarn:test:*\" --names \"lint,test:\" --prefixColors auto",
-    "test:ember": "ember test",
+    "test": "ember test",
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {

@@ -25,8 +25,7 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
-    "test": "concurrently \"pnpm:lint\" \"pnpm:test:*\" --names \"lint,test:\" --prefixColors auto",
-    "test:ember": "ember test",
+    "test": "ember test",
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {

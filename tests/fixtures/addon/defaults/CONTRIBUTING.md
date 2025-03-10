@@ -14,7 +14,7 @@
 ## Running tests
 
 - `npm run test` – Runs the test suite on the current Ember version
-- `npm run test:ember -- --server` – Runs the test suite in "watch mode"
+- `npm run test -- --server` – Runs the test suite in "watch mode"
 - `npm run test:ember-compatibility` – Runs the test suite against multiple Ember versions
 
 ## Running the dummy application

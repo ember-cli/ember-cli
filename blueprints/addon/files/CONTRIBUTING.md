@@ -14,7 +14,7 @@
 ## Running tests
 
 - `<%= invokeScriptPrefix %> test` – Runs the test suite on the current Ember version
-- `<%= invokeScriptPrefix %> test:ember <% if (npm) { %>-- <% } %>--server` – Runs the test suite in "watch mode"
+- `<%= invokeScriptPrefix %> test <% if (npm) { %>-- <% } %>--server` – Runs the test suite in "watch mode"
 - `<%= invokeScriptPrefix %> test:ember-compatibility` – Runs the test suite against multiple Ember versions
 
 ## Running the dummy application

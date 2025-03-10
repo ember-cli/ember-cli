@@ -33,7 +33,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Running Tests
 
 - `<%= invokeScriptPrefix %> test`
-- `<%= invokeScriptPrefix %> test:ember <% if (npm) { %>-- <% } %>--server`
+- `<%= invokeScriptPrefix %> test <% if (npm) { %>-- <% } %>--server`
 
 ### Linting
 
