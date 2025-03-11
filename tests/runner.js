@@ -53,10 +53,11 @@ function runMocha() {
     console.timeEnd('Mocha Tests Running Time');
 
     console.log(`[Mocha Debug]`, failures, typeof failures);
-    console.info(`Exiting with status ${failures}`);
-
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(failures > 0 ? 1 : 0);
+    // On Windows, process.exit at all causes exit code 1
+    if (failures > 0) {
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(1);
+    }
   });
 }
 
@@ -64,4 +65,14 @@ process.on('exit', (...args) => {
   console.info(`on:exit`, ...args);
 });
 
-runMocha();
+Promise.resolve()
+  .then(() => runMocha())
+  .then(() => console.info('Success'))
+  .catch((error) => {
+    console.info(`An error occurred!`);
+    console.error(error);
+    console.error(error.stack);
+
+    // eslint-disable-next-line n/no-process-exit
+    process.exit(1);
+  });
