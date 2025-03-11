@@ -61,8 +61,4 @@ function runMocha() {
   });
 }
 
-process.on('exit', (...args) => {
-  console.info(`on:exit`, ...args);
-});
-
 runMocha();
