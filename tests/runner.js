@@ -65,14 +65,4 @@ process.on('exit', (...args) => {
   console.info(`on:exit`, ...args);
 });
 
-Promise.resolve()
-  .then(() => runMocha())
-  .then(() => console.info('Success'))
-  .catch((error) => {
-    console.info(`An error occurred!`);
-    console.error(error);
-    console.error(error.stack);
-
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(1);
-  });
+runMocha();
