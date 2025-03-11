@@ -710,6 +710,35 @@ describe('Acceptance: ember new', function () {
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
     });
+
+    it('app + no-ember-data', async function () {
+      await ember(['new', 'foo', '--no-ember-data', '--skip-npm', '--skip-git']);
+
+      let fixturePath;
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/embroider-no-ember-data';
+      } else {
+        fixturePath = 'app/no-ember-data';
+      }
+
+      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
+    });
+
+    it('app + typescript + no-ember-data', async function () {
+      await ember(['new', 'foo', '--typescript', '--no-ember-data', '--skip-npm', '--skip-git']);
+
+      let fixturePath;
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/typescript-embroider-no-ember-data';
+      } else {
+        fixturePath = 'app/typescript-no-ember-data';
+      }
+
+      checkFile('tsconfig.json', path.join(__dirname, '../fixtures', fixturePath, 'tsconfig.json'));
+      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
+    });
   });
 
   describe('verify dependencies', function () {
