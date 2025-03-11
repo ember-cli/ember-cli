@@ -68,6 +68,7 @@ process.on('exit', (...args) => {
 
 Promise.resolve()
   .then(() => runMocha())
+  .then(() => console.info('Success'))
   .catch((error) => {
     console.info(`An error occurred!`);
     console.error(error);
