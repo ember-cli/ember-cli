@@ -1,5 +1,22 @@
 # ember-cli Changelog
 
+## v6.4.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0...v6.4.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0...v6.4.0-beta.0)
+
+#### Changelog
+
+- [#10598](https://github.com/ember-cli/ember-cli/pull/10598) [INTERNAL] Remove "locked versions for pre-v1.0.0 packages" tests [@bertdeblock](https://github.com/bertdeblock)
+- [#10620](https://github.com/ember-cli/ember-cli/pull/10620) [BUGFIX] Handle errors gracefully when proxy target is down [@dwickern](https://github.com/dwickern)
+- [#10641](https://github.com/ember-cli/ember-cli/pull/10641) [Bugfix] Fix missing lint dependency for typescript projects [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10659](https://github.com/ember-cli/ember-cli/pull/10659) [BUGFIX] Improve de-typing `.gts` files [@bertdeblock](https://github.com/bertdeblock)
+- [#10661](https://github.com/ember-cli/ember-cli/pull/10661) [ENHANCEMENT] Update `ember-try` to v4 in blueprints [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
 ## v6.3.0
 
 #### Blueprint Changes
