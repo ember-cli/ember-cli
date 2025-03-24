@@ -163,6 +163,7 @@ Thank you to all who took the time to contribute!
 
 #### Changelog
 
+- [BREAKING] app name (configurable via `name` in ember-cli-build.js' options) may no longer differ from the package.json#name field's value
 - [#10559](https://github.com/ember-cli/ember-cli/pull/10559) [ENHANCEMENT] Make deprecations throw when the `until` for `ember-cli` has passed [@kategengler](https://github.com/kategengler)
 - [#10453](https://github.com/ember-cli/ember-cli/pull/10453) [ENHANCEMENT] Allow specifying no CI provider [@deanylev](https://github.com/deanylev)
 - [#10505](https://github.com/ember-cli/ember-cli/pull/10505) use our fork of remove-types with config: false [@mansona](https://github.com/mansona)
