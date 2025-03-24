@@ -1,5 +1,77 @@
 # ember-cli Changelog
 
+## v6.3.0-beta.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.2...v6.3.0-beta.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.2...v6.3.0-beta.3)
+
+#### Changelog
+
+- [#10646](https://github.com/ember-cli/ember-cli/pull/10646) [Bugfix release]: Fix eslint parser for js when using --typescript [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
+## v6.3.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.1...v6.3.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.1...v6.3.0-beta.2)
+
+#### Changelog
+
+- [#10633](https://github.com/ember-cli/ember-cli/pull/10633) [BUGFIX release] Update all EmberData deps to stable [@Windvis](https://github.com/Windvis)
+- [#10643](https://github.com/ember-cli/ember-cli/pull/10643) Remove unmaintained ember-cli-lodash-subset in favor of requiring functions directly from lodash [@kategengler](https://github.com/kategengler)
+
+Thank you to all who took the time to contribute!
+
+## v6.3.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.0...v6.3.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.0...v6.3.0-beta.1)
+
+#### Changelog
+
+- [#10638](https://github.com/ember-cli/ember-cli/pull/10638) [BUGFIX release] Fix ember-data configuration again [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
+## v6.3.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.2.0...v6.3.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.2.0...v6.3.0-beta.0)
+
+#### Changelog
+
+- [#10534](https://github.com/ember-cli/ember-cli/pull/10534) [CLEANUP] Clean up `outputPaths` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10538](https://github.com/ember-cli/ember-cli/pull/10538) [CLEANUP] Clean up Travis CI deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10586](https://github.com/ember-cli/ember-cli/pull/10586) [INTERNAL] Add tests to ensure no linting errors post generating a new app or addon [@bertdeblock](https://github.com/bertdeblock)
+- [#10587](https://github.com/ember-cli/ember-cli/pull/10587) [BUGFIX] Fix including `ember-source` types for v1 addons [@bertdeblock](https://github.com/bertdeblock)
+- [#10589](https://github.com/ember-cli/ember-cli/pull/10589) [ENHANCEMENT] Deprecate v1 addon `contentFor` types [RFC 1044] [@bertdeblock](https://github.com/bertdeblock)
+- [#10592](https://github.com/ember-cli/ember-cli/pull/10592) [BUGFIX] Fix ESLint config for v1 addons [@bertdeblock](https://github.com/bertdeblock)
+- [#10593](https://github.com/ember-cli/ember-cli/pull/10593) [CLEANUP] Clean up old `broccoli-builder` fallback [@bertdeblock](https://github.com/bertdeblock)
+- [#10594](https://github.com/ember-cli/ember-cli/pull/10594) [CLEANUP] Clean up old `heimdalljs` deprecation [@bertdeblock](https://github.com/bertdeblock)
+- [#10595](https://github.com/ember-cli/ember-cli/pull/10595) [ENHANCEMENT] Update `@glimmer/component` to v2 in blueprints [@bertdeblock](https://github.com/bertdeblock)
+- [#10596](https://github.com/ember-cli/ember-cli/pull/10596) [ENHANCEMENT] Vanilla Prettier setup in blueprints [RFC 1055] [@bertdeblock](https://github.com/bertdeblock)
+- [#10597](https://github.com/ember-cli/ember-cli/pull/10597) [CLEANUP] Clean up remaining Travis fixtures [@bertdeblock](https://github.com/bertdeblock)
+- [#10599](https://github.com/ember-cli/ember-cli/pull/10599) [INTERNAL] Bump `content-tag` to v3 [@SergeAstapov](https://github.com/SergeAstapov)
+- [#10612](https://github.com/ember-cli/ember-cli/pull/10612) [BUGFIX release]: tsconfig.json referenced paths to types instead of imports [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10613](https://github.com/ember-cli/ember-cli/pull/10613) [ENHANCEMENT] Support `--ember-data` / `--no-ember-data` flags when creating a new app [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10615](https://github.com/ember-cli/ember-cli/pull/10615) [ENHANCEMENT] Simplify Prettier config in blueprints [@bendemboski](https://github.com/bendemboski)
+- [#10616](https://github.com/ember-cli/ember-cli/pull/10616) [INTERNAL] Add test to ensure all package files are parseable [@bertdeblock](https://github.com/bertdeblock)
+- [#10617](https://github.com/ember-cli/ember-cli/pull/10617) [ENHANCEMENT] Use `staticInvokables` in the `app` blueprint [@bertdeblock](https://github.com/bertdeblock)
+- [#10618](https://github.com/ember-cli/ember-cli/pull/10618) [INTERNAL] Avoid output for `deprecate` tests [@bertdeblock](https://github.com/bertdeblock)
+- [#10619](https://github.com/ember-cli/ember-cli/pull/10619) [BUGFIX] Only remove type imports when removing the types from `.gts` files in blueprints [@Windvis](https://github.com/Windvis)
+- [#10621](https://github.com/ember-cli/ember-cli/pull/10621) [ENHANCEMENT] Bump `@ember/test-helpers` to v5.1.0 in blueprints [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+Thank you to all who took the time to contribute!
+
 ## v6.2.3
 
 #### Blueprint Changes

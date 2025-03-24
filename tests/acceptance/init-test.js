@@ -18,7 +18,6 @@ const lintFix = require('../../lib/utilities/lint-fix');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
-const { DEPRECATIONS } = require('../../lib/debug');
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -49,9 +48,9 @@ describe('Acceptance: ember init', function () {
 
   function confirmBlueprinted(typescript = false) {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    // ignore .travis.yml and TypeScript files
+    // ignore TypeScript files
     let expected = walkSync(blueprintPath, {
-      ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config'],
+      ignore: ['tsconfig.json', 'types', 'app/config'],
     }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
 
     // This style of assertion can't handle conditionally available files
@@ -197,16 +196,10 @@ describe('Acceptance: ember init', function () {
     confirmBlueprinted();
   });
 
-  it('configurable CI option', async function () {
-    if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
-      this.skip();
-    }
+  it('no CI provider', async function () {
+    await ember(['init', '--ci-provider=none', '--skip-install', '--skip-git']);
 
-    await ember(['init', '--ci-provider=travis', '--skip-npm']);
-
-    let fixturePath = 'app/npm-travis';
-
-    expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
     expect(file('.github/workflows/ci.yml')).to.not.exist;
+    expect(file('config/ember-cli-update.json')).to.include('--ci-provider=none');
   });
 });

@@ -9,7 +9,7 @@ const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
 const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 
-const broccoli = require('broccoli-builder');
+const broccoli = require('broccoli');
 const walkSync = require('walk-sync');
 const td = require('testdouble');
 
@@ -722,9 +722,9 @@ describe('models/addon.js', function () {
     it('should move files in the root of the addons app/styles tree into the app/styles path', async function () {
       builder = new broccoli.Builder(addon.treeFor('styles'));
 
-      let results = await builder.build();
-      let outputPath = results.directory;
+      await builder.build();
 
+      let outputPath = builder.outputPath;
       let expected = ['app/', 'app/styles/', 'app/styles/foo-bar.css'];
 
       expect(walkSync(outputPath)).to.eql(expected);

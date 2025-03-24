@@ -29,7 +29,7 @@
     "@babel/plugin-proposal-decorators": "^7.20.13",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.5",
-    "@glimmer/component": "^1.0.4",
+    "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.0.4",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^7.4.0",

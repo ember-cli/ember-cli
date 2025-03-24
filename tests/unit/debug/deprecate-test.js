@@ -5,6 +5,24 @@ const stripAnsi = require('strip-ansi');
 const { deprecate } = require('../../../lib/debug');
 
 describe('deprecate', function () {
+  let consoleWarn;
+  let deprecations;
+
+  beforeEach(function () {
+    consoleWarn = console.warn;
+    deprecations = [];
+
+    // TODO: This should be updated once we can register deprecation handlers:
+    console.warn = (deprecation) => {
+      // Remove the stack trace:
+      deprecations.push(stripAnsi(deprecation).split('at getStackTrace')[0].trimEnd());
+    };
+  });
+
+  afterEach(function () {
+    console.warn = consoleWarn;
+  });
+
   it('it throws when the description argument is missing', function () {
     expect(() => {
       deprecate();
@@ -132,7 +150,7 @@ describe('deprecate', function () {
   });
 
   it('it does nothing when the condition argument is truthy', function () {
-    let message = deprecate('description', true, {
+    deprecate('description', true, {
       for: 'foo',
       id: 'foo',
       since: {
@@ -142,11 +160,11 @@ describe('deprecate', function () {
       until: '5.0.0',
     });
 
-    expect(message).to.be.undefined;
+    expect(deprecations).to.deep.equal([]);
   });
 
   it('it displays a deprecation message when the condition argument is falsy', function () {
-    let message = deprecate('description', false, {
+    deprecate('description', false, {
       for: 'foo',
       id: 'foo',
       since: {
@@ -156,15 +174,17 @@ describe('deprecate', function () {
       until: '5.0.0',
     });
 
-    expect(stripAnsi(message)).to.be.equal(` DEPRECATION \n
+    expect(deprecations).to.deep.equal([
+      ` DEPRECATION \n
 description
 
 ID     foo
-UNTIL  5.0.0`);
+UNTIL  5.0.0`,
+    ]);
   });
 
   it('it includes the `url` option in the deprecation message when provided', function () {
-    let message = deprecate('description', false, {
+    deprecate('description', false, {
       for: 'foo',
       id: 'foo',
       since: {
@@ -175,12 +195,14 @@ UNTIL  5.0.0`);
       url: 'https://example.com',
     });
 
-    expect(stripAnsi(message)).to.be.equal(` DEPRECATION \n
+    expect(deprecations).to.deep.equal([
+      ` DEPRECATION \n
 description
 
 ID     foo
 UNTIL  5.0.0
-URL    https://example.com`);
+URL    https://example.com`,
+    ]);
   });
 
   it('throws an deprecation if the current ember-cli version is greater than the until version of deprecation', function () {

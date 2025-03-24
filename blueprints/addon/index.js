@@ -243,6 +243,7 @@ module.exports = {
       blueprintOptions,
       embroider: false,
       lang: options.lang,
+      emberData: options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       packageManager: options.packageManager ?? 'npm',
@@ -253,9 +254,7 @@ module.exports = {
     let appFiles = this.lookupBlueprint(this.appBlueprintName).files(options);
     let addonFilesPath = this.filesPath(this.options);
     let ignore = [];
-    if (this.options.ciProvider !== 'travis') {
-      ignore.push('.travis.yml');
-    }
+
     if (this.options.ciProvider !== 'github') {
       ignore.push('.github');
     }

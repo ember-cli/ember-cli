@@ -72,11 +72,17 @@ module.exports = {
           required: false
         },
         {
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
+          required: false
+        },
+        {
           name: 'ci-provider',
           key: 'ciProvider',
-          type: ['travis', 'github', 'none'],
+          type: ['github', 'none'],
           default: 'github',
-          description: 'Installs the optional default CI blueprint. Either Travis or Github Actions is supported.',
+          description: 'Installs the optional default CI blueprint. Only Github Actions is supported at the moment.',
           required: false
         },
         {
@@ -494,10 +500,17 @@ module.exports = {
         {
           name: 'ci-provider',
           key: 'ciProvider',
-          type: ['travis', 'github', 'none'],
+          type: ['github', 'none'],
           default: 'github',
-          description: 'Installs the optional default CI blueprint. Either Travis or Github Actions is supported.',
+          description: 'Installs the optional default CI blueprint. Only Github Actions is supported at the moment.',
           required: false,
+        },
+        {
+          name: 'ember-data',
+          key: 'emberData',
+          description: 'Include ember-data dependencies and configuration',
+          required: false,
+          default: true
         },
         {
           default: false,
@@ -616,6 +629,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'lint-fix',
+          default: true,
+          key: 'lintFix',
+          required: false
+        },
+        {
           default: false,
           key: 'embroider',
           name: 'embroider',
@@ -625,9 +644,16 @@ module.exports = {
         {
           name: 'ci-provider',
           key: 'ciProvider',
-          type: ['travis', 'github', 'none'],
-          description: 'Installs the optional default CI blueprint. Either Travis or Github Actions is supported.',
+          type: ['github', 'none'],
+          description: 'Installs the optional default CI blueprint. Only Github Actions is supported at the moment.',
           required: false,
+        },
+        {
+          name: 'ember-data',
+          key: 'emberData',
+          description: 'Include ember-data dependencies and configuration',
+          required: false,
+          default: true
         },
         {
           name: 'interactive',

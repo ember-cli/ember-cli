@@ -15,7 +15,6 @@ let cleanupRun = acceptance.cleanupRun;
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
-const { DEPRECATIONS } = require('../../lib/debug');
 
 let appName = 'some-cool-app';
 let appRoot;
@@ -236,35 +235,6 @@ describe('Acceptance: brocfile-smoke-test', function () {
     });
   });
 
-  // custom outputPaths are deprecated under embroider
-  if (!isExperimentEnabled('EMBROIDER')) {
-    // skipping this as it seems this functionality doesn't work with ember-auto-import@2.2.3
-    it.skip('specifying custom output paths works properly', async function () {
-      await copyFixtureFiles('brocfile-tests/custom-output-paths');
-
-      let themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
-      fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
-
-      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-      let files = [
-        '/css/app.css',
-        '/css/theme/a.css',
-        '/js/app.js',
-        '/css/vendor.css',
-        '/js/vendor.js',
-        '/css/test-support.css',
-        '/js/test-support.js',
-        '/my-app.html',
-      ];
-
-      let basePath = path.join(appRoot, 'dist');
-      files.forEach(function (f) {
-        expect(file(path.join(basePath, f))).to.exist;
-      });
-    });
-  }
-
   // skipping this as it seems this functionality doesn't work with ember-auto-import@2.2.3
   it.skip('specifying outputFile results in an explicitly generated assets', async function () {
     await copyFixtureFiles('brocfile-tests/app-import-output-file');
@@ -376,73 +346,6 @@ describe('Acceptance: brocfile-smoke-test', function () {
     ).to.be;
   });
 
-  // custom outputPaths are deprecated under embroider
-  if (!isExperimentEnabled('EMBROIDER')) {
-    // skipped because of potentially broken assertion that should be fixed correctly at a later point
-    it.skip('specifying partial `outputPaths` hash deep merges options correctly', async function () {
-      await copyFixtureFiles('brocfile-tests/custom-output-paths');
-
-      let themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
-      fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
-
-      let brocfilePath = path.join(appRoot, 'ember-cli-build.js');
-      let brocfile = fs.readFileSync(brocfilePath, 'utf8');
-
-      // remove outputPaths.app.js option
-      brocfile = brocfile.replace(/js: '\/js\/app.js'/, '');
-      // remove outputPaths.app.css.app option
-      brocfile = brocfile.replace(/'app': '\/css\/app\.css',/, '');
-
-      fs.writeFileSync(brocfilePath, brocfile, 'utf8');
-
-      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-      let files = [
-        '/css/theme/a.css',
-        '/assets/some-cool-app.js',
-        '/css/vendor.css',
-        '/js/vendor.js',
-        '/css/test-support.css',
-        '/js/test-support.js',
-      ];
-
-      let basePath = path.join(appRoot, 'dist');
-      files.forEach(function (f) {
-        expect(file(path.join(basePath, f))).to.exist;
-      });
-
-      expect(file(path.join(basePath, '/assets/some-cool-app.css'))).to.not.exist;
-    });
-  }
-
-  // custom outputPaths are deprecated under embroider
-  if (!isExperimentEnabled('EMBROIDER')) {
-    it('multiple paths can be CSS preprocessed', async function () {
-      if (DEPRECATIONS.DEPRECATE_OUTPUT_PATHS.isRemoved) {
-        this.skip();
-      }
-
-      await copyFixtureFiles('brocfile-tests/multiple-sass-files');
-
-      let packageJsonPath = path.join(appRoot, 'package.json');
-      let packageJson = fs.readJsonSync(packageJsonPath);
-      packageJson.devDependencies['ember-cli-sass'] = 'latest';
-      fs.writeJsonSync(packageJsonPath, packageJson);
-
-      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-      expect(file('dist/assets/main.css')).to.equal(
-        'body { background: black; }\n',
-        'main.css contains correct content'
-      );
-
-      expect(file('dist/assets/theme/a.css')).to.equal(
-        '.theme { color: red; }\n',
-        'theme/a.css contains correct content'
-      );
-    });
-  }
-
   it('app.css is output to <app name>.css by default', async function () {
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
     expect(file(`dist/assets/${appName}.css`)).to.exist;
@@ -454,9 +357,6 @@ describe('Acceptance: brocfile-smoke-test', function () {
 
     let brocfilePath = path.join(appRoot, 'ember-cli-build.js');
     let brocfile = fs.readFileSync(brocfilePath, 'utf8');
-
-    // remove custom preprocessCss paths, use app.scss instead
-    brocfile = brocfile.replace(/outputPaths.*/, '');
 
     fs.writeFileSync(brocfilePath, brocfile, 'utf8');
 

@@ -152,7 +152,7 @@ describe('new command', function () {
             name: newCommandOptions.name,
             langSelection: 'nl-BE',
             packageManager: 'yarn',
-            ciProvider: 'travis',
+            ciProvider: 'github',
           });
         }
       }
@@ -168,7 +168,7 @@ describe('new command', function () {
             name: 'bar',
             lang: 'nl-BE',
             packageManager: 'yarn',
-            ciProvider: 'travis',
+            ciProvider: 'github',
           });
         }
       }

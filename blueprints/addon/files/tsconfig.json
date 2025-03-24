@@ -16,9 +16,7 @@
       "<%= addonName %>/test-support": ["addon-test-support"],
       "<%= addonName %>/test-support/*": ["addon-test-support/*"],
       "*": ["types/*"]
-    }
-  },
-  "types": [
-    "ember-source/types"
-  ]
+    },
+    "types": ["ember-source/types"]
+  }
 }

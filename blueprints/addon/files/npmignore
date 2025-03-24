@@ -15,7 +15,6 @@
 /.stylelintignore
 /.stylelintrc.js
 /.template-lintrc.js
-/.travis.yml
 /.watchmanconfig
 /CONTRIBUTING.md
 /ember-cli-build.js

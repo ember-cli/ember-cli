@@ -50,12 +50,16 @@ const PACKAGE_FILES = [
   '../tests/fixtures/app/npm/package.json',
   '../tests/fixtures/app/yarn/package.json',
   '../tests/fixtures/app/pnpm/package.json',
+  '../tests/fixtures/app/no-ember-data/package.json',
   '../tests/fixtures/app/embroider/package.json',
   '../tests/fixtures/app/embroider-yarn/package.json',
   '../tests/fixtures/app/embroider-pnpm/package.json',
   '../tests/fixtures/app/embroider-no-welcome/package.json',
+  '../tests/fixtures/app/embroider-no-ember-data/package.json',
   '../tests/fixtures/app/typescript/package.json',
+  '../tests/fixtures/app/typescript-no-ember-data/package.json',
   '../tests/fixtures/app/typescript-embroider/package.json',
+  '../tests/fixtures/app/typescript-embroider-no-ember-data/package.json',
   '../tests/fixtures/addon/defaults/package.json',
   '../tests/fixtures/addon/yarn/package.json',
   '../tests/fixtures/addon/pnpm/package.json',
@@ -189,4 +193,4 @@ if (module === require.main) {
   }
 }
 
-module.exports = { updateDependencies };
+module.exports = { PACKAGE_FILES, updateDependencies };

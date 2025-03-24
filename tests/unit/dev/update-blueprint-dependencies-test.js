@@ -1,7 +1,9 @@
 'use strict';
 
 const { expect } = require('chai');
-const { updateDependencies } = require('../../../dev/update-blueprint-dependencies');
+const { readFileSync } = require('node:fs');
+const { join } = require('node:path');
+const { PACKAGE_FILES, updateDependencies } = require('../../../dev/update-blueprint-dependencies');
 
 describe('updateDependencies', function () {
   it('it works', async function () {
@@ -32,6 +34,15 @@ describe('updateDependencies', function () {
       } else {
         expect(dependenciesAfterUpdate[dependency]).to.not.equal(dependenciesBeforeUpdate[dependency]);
       }
+    }
+  });
+
+  it('all package files are parseable', function () {
+    for (let pkgFile of PACKAGE_FILES) {
+      let pkgPath = join(__dirname, '..', '..', pkgFile);
+      let pkg = JSON.parse(readFileSync(pkgPath, { encoding: 'utf8' }));
+
+      expect(pkg).to.be.ok;
     }
   });
 });

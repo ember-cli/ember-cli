@@ -41,6 +41,7 @@ module.exports = {
           embroider && '"--embroider"',
           options.ciProvider && `"--ci-provider=${options.ciProvider}"`,
           options.typescript && `"--typescript"`,
+          !options.emberData && `"--no-ember-data"`,
         ]
           .filter(Boolean)
           .join(',\n            ') +
@@ -76,6 +77,7 @@ module.exports = {
       blueprintOptions,
       embroider,
       lang: options.lang,
+      emberData: options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       packageManager: options.packageManager ?? 'npm',
@@ -88,9 +90,6 @@ module.exports = {
     }
 
     let files = this._super();
-    if (options.ciProvider !== 'travis') {
-      files = files.filter((file) => file !== '.travis.yml');
-    }
 
     if (options.ciProvider !== 'github') {
       files = files.filter((file) => file.indexOf('.github') < 0);
@@ -100,6 +99,11 @@ module.exports = {
       files = files.filter(
         (file) => !['tsconfig.json', 'app/config/', 'types/'].includes(file) && !file.endsWith('.d.ts')
       );
+    }
+
+    if (!options.emberData) {
+      files = files.filter((file) => !file.includes('models/'));
+      files = files.filter((file) => !file.includes('ember-data/'));
     }
 
     this._files = files;

@@ -17,7 +17,6 @@ const { isExperimentEnabled } = require('../../lib/experiments');
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
 const assertVersionLock = require('../helpers/assert-version-lock');
-const { DEPRECATIONS } = require('../../lib/debug');
 
 let tmpDir = './tmp/new-test';
 
@@ -42,9 +41,9 @@ describe('Acceptance: ember new', function () {
 
   function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', typescript = false) {
     let blueprintPath = path.join(root, blueprintDir, 'files');
-    // ignore .travis.yml and TypeScript files
+    // ignore TypeScript files
     let expected = walkSync(blueprintPath, {
-      ignore: ['.travis.yml', 'tsconfig.json', 'types', 'app/config'],
+      ignore: ['tsconfig.json', 'types', 'app/config'],
     }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
 
     // This style of assertion can't handle conditionally available files
@@ -470,8 +469,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = `${namespace}/embroider`;
       }
@@ -515,8 +512,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkFileWithJSONReplacement(
         fixturePath,
@@ -552,8 +547,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-no-welcome';
       }
@@ -573,8 +566,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-yarn';
       }
@@ -591,8 +582,6 @@ describe('Acceptance: ember new', function () {
       ['app/templates/application.hbs', '.github/workflows/ci.yml', 'README.md'].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
-
-      expect(file('.travis.yml')).to.not.exist;
 
       if (isExperimentEnabled('EMBROIDER')) {
         fixturePath = 'app/embroider-pnpm';
@@ -616,8 +605,6 @@ describe('Acceptance: ember new', function () {
       ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
-
-      expect(file('.travis.yml')).to.not.exist;
 
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkFileWithJSONReplacement(
@@ -644,8 +631,6 @@ describe('Acceptance: ember new', function () {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
 
-      expect(file('.travis.yml')).to.not.exist;
-
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkFileWithJSONReplacement(
         fixturePath,
@@ -655,63 +640,18 @@ describe('Acceptance: ember new', function () {
       );
     });
 
-    it('configurable CI option', async function () {
-      if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
-        this.skip();
-      }
-
-      await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git']);
-
-      let fixturePath = 'app/npm-travis';
-
-      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
+    it('new - no CI provider', async function () {
+      await ember(['new', 'foo', '--ci-provider=none', '--skip-install', '--skip-git']);
 
       expect(file('.github/workflows/ci.yml')).to.not.exist;
-
-      if (isExperimentEnabled('EMBROIDER')) {
-        fixturePath = 'app/npm-travis-embroider';
-      }
-
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      expect(file('config/ember-cli-update.json')).to.include('--ci-provider=none');
     });
 
-    it('configurable CI option with yarn', async function () {
-      if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
-        this.skip();
-      }
-      await ember(['new', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git', '--yarn']);
+    it('addon - no CI provider', async function () {
+      await ember(['addon', 'foo', '--ci-provider=none', '--skip-install', '--skip-git']);
 
-      let fixturePath = 'app/yarn-travis';
-
-      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
       expect(file('.github/workflows/ci.yml')).to.not.exist;
-
-      if (isExperimentEnabled('EMBROIDER')) {
-        fixturePath = 'app/yarn-travis-embroider';
-      }
-
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
-    });
-
-    it('addon configurable CI option', async function () {
-      if (DEPRECATIONS.DEPRECATE_TRAVIS_CI_SUPPORT.isRemoved) {
-        this.skip();
-      }
-
-      await ember(['addon', 'foo', '--ci-provider=travis', '--skip-npm', '--skip-git']);
-
-      let namespace = 'addon';
-      let fixturePath = `${namespace}/defaults-travis`;
-
-      expect(file('.travis.yml')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.travis.yml')));
-      expect(file('.github/workflows/ci.yml')).to.not.exist;
-
-      checkFileWithJSONReplacement(
-        fixturePath,
-        'tests/dummy/config/ember-cli-update.json',
-        'packages[0].version',
-        currentVersion
-      );
+      expect(file('tests/dummy/config/ember-cli-update.json')).to.include('--ci-provider=none');
     });
 
     it('app + typescript', async function () {
@@ -769,6 +709,35 @@ describe('Acceptance: ember new', function () {
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
+    });
+
+    it('app + no-ember-data', async function () {
+      await ember(['new', 'foo', '--no-ember-data', '--skip-npm', '--skip-git']);
+
+      let fixturePath;
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/embroider-no-ember-data';
+      } else {
+        fixturePath = 'app/no-ember-data';
+      }
+
+      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
+    });
+
+    it('app + typescript + no-ember-data', async function () {
+      await ember(['new', 'foo', '--typescript', '--no-ember-data', '--skip-npm', '--skip-git']);
+
+      let fixturePath;
+      if (isExperimentEnabled('EMBROIDER')) {
+        fixturePath = 'app/typescript-embroider-no-ember-data';
+      } else {
+        fixturePath = 'app/typescript-no-ember-data';
+      }
+
+      checkFile('tsconfig.json', path.join(__dirname, '../fixtures', fixturePath, 'tsconfig.json'));
+      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
     });
   });
 
