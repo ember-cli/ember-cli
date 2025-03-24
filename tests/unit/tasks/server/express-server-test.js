@@ -509,6 +509,30 @@ describe('express-server', function () {
             done();
           });
       });
+
+      it('handles errors gracefully when proxy target is down', function (done) {
+        proxy.httpServer.close();
+
+        request(subject.httpServer)
+          .get('/api/get')
+          .end(function (err, res) {
+            if (err) {
+              return done(err);
+            }
+            expect(res.status, 'proxied request fails gracefully').to.equal(502);
+            done();
+          });
+      });
+
+      it('handles websocket errors gracefully when proxy target is down', function (done) {
+        proxy.httpServer.close();
+
+        let client = new WebSocket('ws://localhost:1337/foo');
+        client.onerror = (error) => {
+          expect(error).to.be.ok;
+          done();
+        };
+      });
     });
 
     describe('proxy with subdomain', function () {
