@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "6.3.0-beta.3",
+  "version": "6.3.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",

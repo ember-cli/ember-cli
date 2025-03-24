@@ -1,54 +1,21 @@
 # ember-cli Changelog
 
-## v6.3.0-beta.3
+## v6.3.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.2...v6.3.0-beta.3)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.2...v6.3.0-beta.3)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.2.0...v6.3.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.2.0...v6.3.0)
 
 #### Changelog
 
+- [#10644](https://github.com/ember-cli/ember-cli/pull/10644)  [BUGFIX beta] `--no-ember-data` fixes [@Windvis](https://github.com/Windvis)
+- [#10647](https://github.com/ember-cli/ember-cli/pull/10647) [Bugfix beta]: Update ember-page-title to latest (v9) [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#10668](https://github.com/ember-cli/ember-cli/pull/10668) Update the `--no-ember-data` fixtures [@Windvis](https://github.com/Windvis)
 - [#10646](https://github.com/ember-cli/ember-cli/pull/10646) [Bugfix release]: Fix eslint parser for js when using --typescript [@NullVoxPopuli](https://github.com/NullVoxPopuli)
-
-Thank you to all who took the time to contribute!
-
-## v6.3.0-beta.2
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.1...v6.3.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.1...v6.3.0-beta.2)
-
-#### Changelog
-
 - [#10633](https://github.com/ember-cli/ember-cli/pull/10633) [BUGFIX release] Update all EmberData deps to stable [@Windvis](https://github.com/Windvis)
 - [#10643](https://github.com/ember-cli/ember-cli/pull/10643) Remove unmaintained ember-cli-lodash-subset in favor of requiring functions directly from lodash [@kategengler](https://github.com/kategengler)
-
-Thank you to all who took the time to contribute!
-
-## v6.3.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0-beta.0...v6.3.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0-beta.0...v6.3.0-beta.1)
-
-#### Changelog
-
 - [#10638](https://github.com/ember-cli/ember-cli/pull/10638) [BUGFIX release] Fix ember-data configuration again [@NullVoxPopuli](https://github.com/NullVoxPopuli)
-
-Thank you to all who took the time to contribute!
-
-## v6.3.0-beta.0
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.2.0...v6.3.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.2.0...v6.3.0-beta.0)
-
-#### Changelog
-
 - [#10534](https://github.com/ember-cli/ember-cli/pull/10534) [CLEANUP] Clean up `outputPaths` deprecation [@bertdeblock](https://github.com/bertdeblock)
 - [#10538](https://github.com/ember-cli/ember-cli/pull/10538) [CLEANUP] Clean up Travis CI deprecation [@bertdeblock](https://github.com/bertdeblock)
 - [#10586](https://github.com/ember-cli/ember-cli/pull/10586) [INTERNAL] Add tests to ensure no linting errors post generating a new app or addon [@bertdeblock](https://github.com/bertdeblock)
