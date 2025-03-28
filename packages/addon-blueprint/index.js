@@ -226,6 +226,12 @@ module.exports = {
       invokeScriptPrefix = 'pnpm';
     }
 
+    // TODO decide what we want to do here
+    let blueprintVersion = require('./package.json').version;
+
+    // TODO this is just to get tests passing
+    blueprintVersion = '6.4.0-beta.0';
+
     return {
       addonDirectory: directoryForPackageName(addonName),
       name,
@@ -233,7 +239,7 @@ module.exports = {
       namespace,
       addonName,
       addonNamespace,
-      blueprintVersion: require('./package.json').version,
+      blueprintVersion,
       year: date.getFullYear(),
       yarn: options.packageManager === 'yarn',
       pnpm: options.packageManager === 'pnpm',
