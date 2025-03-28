@@ -6,7 +6,7 @@ const jsdiff = require('diff');
 const quickTemp = require('quick-temp');
 const path = require('path');
 const SilentError = require('silent-error');
-const openEditor = require('../utilities/open-editor');
+const openEditor = require('./open-editor');
 const hash = require('promise.hash.helper');
 
 const readFile = util.promisify(fs.readFile);

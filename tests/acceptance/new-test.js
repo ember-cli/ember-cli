@@ -12,7 +12,7 @@ const EOL = require('os').EOL;
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { set, get, cloneDeep } = require('lodash');
 
-const { isExperimentEnabled } = require('../../lib/experiments');
+const { isExperimentEnabled } = require('@ember/blueprint-model/utilities/experiments');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
