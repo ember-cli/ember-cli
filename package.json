@@ -46,6 +46,9 @@
     "publishTag": "alpha"
   },
   "dependencies": {
+    "@ember/classic-app-blueprint": "workspace:*",
+    "@ember/classic-addon-blueprint": "workspace:*",
+    "@ember/blueprint-blueprint": "workspace:*",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
     "broccoli": "^3.5.2",

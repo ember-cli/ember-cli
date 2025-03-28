@@ -11,6 +11,15 @@ importers:
 
   .:
     dependencies:
+      '@ember/blueprint-blueprint':
+        specifier: workspace:*
+        version: link:packages/blueprint-blueprint
+      '@ember/classic-addon-blueprint':
+        specifier: workspace:*
+        version: link:packages/addon-blueprint
+      '@ember/classic-app-blueprint':
+        specifier: workspace:*
+        version: link:packages/app-blueprint
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0
         version: 1000.1.0
@@ -354,6 +363,12 @@ importers:
       yuidocjs:
         specifier: 0.10.2
         version: 0.10.2
+
+  packages/addon-blueprint: {}
+
+  packages/app-blueprint: {}
+
+  packages/blueprint-blueprint: {}
 
 packages:
 
