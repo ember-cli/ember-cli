@@ -1,6 +1,6 @@
 'use strict';
 
-const Blueprint = require('../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 const isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
