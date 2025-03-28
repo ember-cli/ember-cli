@@ -1,23 +1,24 @@
 'use strict';
 
-const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+const tmp = require('tmp-promise');
 const execa = require('execa');
 const { join } = require('node:path');
-const { chdir, cwd } = require('node:process');
 const ember = require('../helpers/ember');
 
-const tmpDir = join(cwd(), 'tmp/new-test-slow');
+const root = process.cwd();
+let tmpDir;
 
 describe('Acceptance: ember new | ember addon', function () {
   this.timeout(500000);
 
   beforeEach(async function () {
-    await tmp.setup(tmpDir);
-    chdir(tmpDir);
+    const { path } = await tmp.dir();
+    tmpDir = path;
+    process.chdir(path);
   });
 
-  afterEach(async function () {
-    await tmp.teardown(tmpDir);
+  this.afterEach(function () {
+    process.chdir(root);
   });
 
   describe('ember new', function () {
