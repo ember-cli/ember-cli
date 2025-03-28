@@ -1,13 +1,11 @@
 'use strict';
 
 const ember = require('../helpers/ember');
-const { outputFile, remove } = require('fs-extra');
-const path = require('path');
+const { outputFile } = require('fs-extra');
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-const mkTmpDirIn = require('../helpers/mk-tmp-dir-in');
+const tmp = require('tmp-promise');
 
 const { expect } = require('chai');
 const { file } = require('chai-files');
@@ -24,13 +22,12 @@ describe('Acceptance: ember generate in-repo-addon', function () {
   });
 
   beforeEach(async function () {
-    const tmpdir = await mkTmpDirIn(tmproot);
-    return process.chdir(tmpdir);
+    const { path } = await tmp.dir();
+    process.chdir(path);
   });
 
   afterEach(function () {
     process.chdir(root);
-    return remove(tmproot);
   });
 
   function initApp() {
