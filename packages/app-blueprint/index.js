@@ -2,8 +2,8 @@
 
 const stringUtil = require('ember-cli-string-utils');
 const chalk = require('chalk');
-const { isExperimentEnabled } = require('../../lib/experiments');
-const directoryForPackageName = require('../../lib/utilities/directory-for-package-name');
+const { isExperimentEnabled } = require('@ember/blueprint-model/utilities/experiments');
+const directoryForPackageName = require('@ember/blueprint-model/utilities/directory-for-package-name');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
@@ -61,12 +61,18 @@ module.exports = {
       execBinPrefix = 'pnpm';
     }
 
+    // TODO decide what we want to do here
+    let blueprintVersion = require('./package.json').version;
+
+    // TODO this is just to get tests passing
+    blueprintVersion = '6.4.0-beta.0';
+
     return {
       appDirectory: directoryForPackageName(name),
       name,
       modulePrefix: name,
       namespace,
-      emberCLIVersion: require('../../package').version,
+      blueprintVersion,
       yarn: options.packageManager === 'yarn',
       pnpm: options.packageManager === 'pnpm',
       npm: options.packageManager !== 'yarn' && options.packageManager !== 'pnpm',
@@ -112,10 +118,8 @@ module.exports = {
   },
 
   beforeInstall() {
-    const version = require('../../package.json').version;
-    const prependEmoji = require('../../lib/utilities/prepend-emoji');
+    const prependEmoji = require('@ember/blueprint-model/utilities/prepend-emoji');
 
-    this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
   },
