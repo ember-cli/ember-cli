@@ -6,13 +6,10 @@ const BuildCommand = require('../../../lib/commands/build');
 const commandOptions = require('../../factories/command-options');
 const fixturify = require('fixturify');
 const MockProject = require('../../helpers/mock-project');
-const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 const td = require('testdouble');
 const { expect } = require('chai');
 const { file } = require('chai-files');
-
-let root = process.cwd();
-let tmpRoot = path.join(root, 'tmp');
+const tmp = require('tmp-promise');
 
 let Builder;
 
@@ -53,17 +50,14 @@ describe('models/builder.js', function () {
 
   describe('copyToOutputPath', function () {
     beforeEach(async function () {
-      tmpdir = await mkTmpDirIn(tmpRoot);
+      const { path } = await tmp.dir();
+      tmpdir = path;
       let project = new MockProject();
       builder = new Builder({
         project,
         ui: project.ui,
         setupBroccoliBuilder,
       });
-    });
-
-    afterEach(function () {
-      return fs.remove(tmpRoot);
     });
 
     it('allows for non-existent output-paths at arbitrary depth', function () {
