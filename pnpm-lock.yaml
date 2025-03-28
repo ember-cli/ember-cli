@@ -7,6 +7,11 @@ settings:
 overrides:
   github-changelog: github:embroider-build/github-changelog#ignore-pre-release
 
+patchedDependencies:
+  ember-cli-blueprint-test-helpers:
+    hash: 533d97539466d41e743654400cfee9ed25e55841f8aefb4c1e16ba5d94c8b225
+    path: patches/ember-cli-blueprint-test-helpers.patch
+
 importers:
 
   .:
@@ -293,7 +298,7 @@ importers:
         version: 2.0.0(chai@4.5.0)
       ember-cli-blueprint-test-helpers:
         specifier: ^0.19.2
-        version: 0.19.2
+        version: 0.19.2(patch_hash=533d97539466d41e743654400cfee9ed25e55841f8aefb4c1e16ba5d94c8b225)
       ember-cli-internal-test-helpers:
         specifier: ^0.9.1
         version: 0.9.1
@@ -7219,7 +7224,7 @@ snapshots:
 
   electron-to-chromium@1.5.74: {}
 
-  ember-cli-blueprint-test-helpers@0.19.2:
+  ember-cli-blueprint-test-helpers@0.19.2(patch_hash=533d97539466d41e743654400cfee9ed25e55841f8aefb4c1e16ba5d94c8b225):
     dependencies:
       chai: 4.5.0
       chai-as-promised: 7.1.2(chai@4.5.0)
