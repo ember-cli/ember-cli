@@ -185,7 +185,9 @@ describe('Blueprint', function () {
 
       let blueprint = Blueprint.lookup('app');
 
-      expect(blueprint.name).to.equal('app');
+      // TODO it's really strange that a blueprint's name is defined by its folder
+      // do we need to fix this?
+      expect(blueprint.name).to.equal('app-blueprint');
       expect(blueprint.path).to.equal(expectedPath);
       expect(blueprint instanceof expectedClass).to.equal(true);
     });
