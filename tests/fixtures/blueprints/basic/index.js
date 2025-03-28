@@ -1,6 +1,6 @@
 'use strict';
 
-const Blueprint = require('../../../../lib/models/blueprint');
+const Blueprint = require ('@ember/blueprint-model');
 
 module.exports = Blueprint.extend({
   description: 'A basic blueprint',
