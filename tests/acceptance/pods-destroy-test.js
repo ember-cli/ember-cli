@@ -1,12 +1,10 @@
 'use strict';
 
 const ember = require('../helpers/ember');
-const { outputFile, remove } = require('fs-extra');
+const { outputFile } = require('fs-extra');
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
-const path = require('path');
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
-const mkTmpDirIn = require('../helpers/mk-tmp-dir-in');
+const tmp = require('tmp-promise');
 
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
@@ -15,8 +13,6 @@ const { expect } = require('chai');
 const { file } = require('chai-files');
 
 describe('Acceptance: ember destroy pod', function () {
-  let tmpdir;
-
   this.timeout(20000);
 
   before(function () {
@@ -28,15 +24,14 @@ describe('Acceptance: ember destroy pod', function () {
   });
 
   beforeEach(async function () {
-    tmpdir = await mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
+    const { path } = await tmp.dir();
+    process.chdir(path);
   });
 
   afterEach(function () {
     this.timeout(10000);
 
     process.chdir(root);
-    return remove(tmproot);
   });
 
   function initApp() {

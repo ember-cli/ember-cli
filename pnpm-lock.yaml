@@ -336,6 +336,9 @@ importers:
       tmp:
         specifier: ^0.2.1
         version: 0.2.3
+      tmp-promise:
+        specifier: ^3.0.3
+        version: 3.0.3
       websocket:
         specifier: ^1.0.32
         version: 1.0.35
@@ -4987,6 +4990,9 @@ packages:
   tldts@6.1.68:
     resolution: {integrity: sha512-JKF17jROiYkjJPT73hUTEiTp2OBCf+kAlB+1novk8i6Q6dWjHsgEjw9VLiipV4KTJavazXhY1QUXyQFSem2T7w==}
     hasBin: true
+
+  tmp-promise@3.0.3:
+    resolution: {integrity: sha512-RwM7MoPojPxsOBYnyd2hy0bxtIlVrihNs9pj5SUvY8Zz1sQcQG2tG1hSr8PDxfgEB8RNKDhqbIlroIarSNDNsQ==}
 
   tmp-sync@1.1.2:
     resolution: {integrity: sha512-npRDYJiMaPWhcLf6q06v/vA3o/ZG4hfHDiBuj1N3Yeh3GTkFQb1YLFs6inDGMWIHjGidl4Oc1+oXHNKKj5vkDQ==}
@@ -10957,6 +10963,10 @@ snapshots:
     dependencies:
       tldts-core: 6.1.68
     optional: true
+
+  tmp-promise@3.0.3:
+    dependencies:
+      tmp: 0.2.3
 
   tmp-sync@1.1.2:
     dependencies:
