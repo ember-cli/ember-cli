@@ -179,5 +179,10 @@
       "release": true,
       "tokenRef": "GITHUB_AUTH"
     }
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "ember-cli-blueprint-test-helpers": "patches/ember-cli-blueprint-test-helpers.patch"
+    }
   }
 }

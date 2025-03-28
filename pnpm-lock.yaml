@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   ember-cli-blueprint-test-helpers:
-    hash: rjeb45xyry7qekte2umt6cfje4
+    hash: oowjeaddudclhzjbq5haymuivu
     path: patches/ember-cli-blueprint-test-helpers.patch
 
 importers:
@@ -295,7 +295,7 @@ importers:
         version: 2.0.0(chai@4.5.0)
       ember-cli-blueprint-test-helpers:
         specifier: ^0.19.2
-        version: 0.19.2(patch_hash=rjeb45xyry7qekte2umt6cfje4)
+        version: 0.19.2(patch_hash=oowjeaddudclhzjbq5haymuivu)
       ember-cli-internal-test-helpers:
         specifier: ^0.9.1
         version: 0.9.1
@@ -7366,7 +7366,7 @@ snapshots:
 
   electron-to-chromium@1.5.74: {}
 
-  ember-cli-blueprint-test-helpers@0.19.2(patch_hash=rjeb45xyry7qekte2umt6cfje4):
+  ember-cli-blueprint-test-helpers@0.19.2(patch_hash=oowjeaddudclhzjbq5haymuivu):
     dependencies:
       chai: 4.5.0
       chai-as-promised: 7.1.2(chai@4.5.0)
