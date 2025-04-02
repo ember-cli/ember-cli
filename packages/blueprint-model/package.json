@@ -7,7 +7,6 @@
     "content-tag": "^3.1.1",
     "core-object": "^3.1.5",
     "diff": "^7.0.0",
-    "ember-cli": "workspace:*",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-string-utils": "^1.1.0",
     "fs-extra": "^11.3.0",
