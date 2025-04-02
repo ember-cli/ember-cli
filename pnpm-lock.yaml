@@ -433,9 +433,6 @@ importers:
       diff:
         specifier: ^7.0.0
         version: 7.0.0
-      ember-cli:
-        specifier: workspace:*
-        version: link:../..
       ember-cli-normalize-entity-name:
         specifier: ^1.0.0
         version: 1.0.0
