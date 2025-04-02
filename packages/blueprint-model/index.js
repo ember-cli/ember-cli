@@ -5,11 +5,11 @@
 */
 const FileInfo = require('@ember/blueprint-model/utilities/file-info');
 const chalk = require('chalk');
-const MarkdownColor = require('../utilities/markdown-color');
-const sequence = require('../utilities/sequence');
-const printCommand = require('../utilities/print-command');
-const insertIntoFile = require('../utilities/insert-into-file');
-const cleanRemove = require('../utilities/clean-remove');
+const MarkdownColor = require('@ember/blueprint-model/utilities/markdown-color');
+const sequence = require('./utilities/sequence');
+const printCommand = require('@ember/blueprint-model/utilities/print-command');
+const insertIntoFile = require('@ember/blueprint-model/utilities/insert-into-file');
+const cleanRemove = require('@ember/blueprint-model/utilities/clean-remove');
 const fs = require('fs-extra');
 const inflector = require('inflection');
 const minimatch = require('minimatch');
@@ -28,7 +28,7 @@ const CoreObject = require('core-object');
 const EOL = require('os').EOL;
 const logger = require('heimdalljs-logger')('ember-cli:blueprint');
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
-const isAddon = require('../utilities/is-addon');
+const isAddon = require('@ember/blueprint-model/utilities/is-addon');
 
 const initialIgnoredFiles = ['.DS_Store'];
 
@@ -1260,7 +1260,9 @@ let Blueprint = CoreObject.extend({
       // below will have the same root dir as the NullProject and that makes bad
       // things happen.
       this.project.packageInfoCache._clear();
-      const Project = require('../../lib/models/project');
+
+      // TODO remove the need for Project here
+      const Project = require('ember-cli/lib/models/project');
       this.project = taskOptions.blueprintOptions.project = Project.closestSync(
         options.blueprintOptions.target,
         this.project.ui,
