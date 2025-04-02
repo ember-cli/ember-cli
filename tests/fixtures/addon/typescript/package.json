@@ -40,7 +40,7 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",
-    "prepack": "tsc --project tsconfig.declarations.json",
+    "prepack": "tsc --declaration --project tsconfig.declarations.json",
     "postpack": "rimraf declarations",
     "start": "ember serve",
     "test": "concurrently \"yarn:lint\" \"yarn:test:*\" --names \"lint,test:\" --prefixColors auto",
