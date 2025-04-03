@@ -56,6 +56,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.26.10",
     "@babel/plugin-proposal-decorators": "^7.25.9",
+    "@ember/library-tsconfig": "^1.0.0",
     "@ember/optional-features": "^2.2.0",
     "@ember/test-helpers": "^5.1.0",
     "@embroider/macros": "^1.16.12",
@@ -66,7 +67,6 @@
     "@glint/environment-ember-loose": "^1.5.2",
     "@glint/environment-ember-template-imports": "^1.5.2",
     "@glint/template": "^1.5.2",
-    "@tsconfig/ember": "^3.0.10",
     "@types/eslint__js": "^8.42.3",
     "@types/qunit": "^2.19.12",
     "@types/rsvp": "^4.0.9",
