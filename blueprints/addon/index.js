@@ -94,6 +94,9 @@ module.exports = {
 
     // add scripts to build type declarations for TypeScript addons
     if (this.options.typescript) {
+      delete contents.devDependencies['@ember/app-tsconfig'];
+      contents.devDependencies['@ember/library-tsconfig'] = '^1.0.0';
+
       contents.devDependencies.rimraf = '^5.0.1';
 
       contents.scripts.prepack = 'tsc --project tsconfig.declarations.json';

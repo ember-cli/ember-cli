@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/ember/tsconfig.json",
+  "extends": "@ember/library-tsconfig",
   "glint": {
     "environment": ["ember-loose", "ember-template-imports"]
   },
