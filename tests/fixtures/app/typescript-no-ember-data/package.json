@@ -41,7 +41,6 @@
     "@glint/environment-ember-template-imports": "^1.5.2",
     "@glint/template": "^1.5.2",
     "@tsconfig/ember": "^3.0.10",
-    "@types/eslint__js": "^8.42.3",
     "@types/qunit": "^2.19.12",
     "@types/rsvp": "^4.0.9",
     "broccoli-asset-rev": "^3.0.0",
