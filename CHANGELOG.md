@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v6.4.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.4.0-beta.0...v6.4.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.4.0-beta.0...v6.4.0-beta.1)
+
+#### Changelog
+
+- [#10685](https://github.com/ember-cli/ember-cli/pull/10685) Add configuration to ember-cli-build to opt new projects out of the deprecated behavior of the Store class extending EmberObject [@kategengler](https://github.com/kategengler)
+
+Thank you to all who took the time to contribute!
+
 ## v6.4.0-beta.0
 
 #### Blueprint Changes
@@ -14,6 +27,19 @@
 - [#10641](https://github.com/ember-cli/ember-cli/pull/10641) [Bugfix] Fix missing lint dependency for typescript projects [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 - [#10659](https://github.com/ember-cli/ember-cli/pull/10659) [BUGFIX] Improve de-typing `.gts` files [@bertdeblock](https://github.com/bertdeblock)
 - [#10661](https://github.com/ember-cli/ember-cli/pull/10661) [ENHANCEMENT] Update `ember-try` to v4 in blueprints [@bertdeblock](https://github.com/bertdeblock)
+
+Thank you to all who took the time to contribute!
+
+## v6.3.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.3.0...v6.3.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.3.0...v6.3.1)
+
+#### Changelog
+
+- [#10685](https://github.com/ember-cli/ember-cli/pull/10685) Add configuration to ember-cli-build to opt new projects out of the deprecated behavior of the Store class extending EmberObject [@kategengler](https://github.com/kategengler)
 
 Thank you to all who took the time to contribute!
 
