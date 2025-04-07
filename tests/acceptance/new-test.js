@@ -90,7 +90,7 @@ describe('Acceptance: ember new', function () {
     confirmBlueprintedForDir('blueprints/app', 'bar');
   });
 
-  it('ember new @foo/bar, when parent directory heirarchy contains `foo`', async function () {
+  it('ember new @foo/bar, when parent directory hierarchy contains `foo`', async function () {
     let scopedDirectoryPath = path.join(process.cwd(), 'foo', 'packages');
     fs.mkdirsSync(scopedDirectoryPath);
     process.chdir(scopedDirectoryPath);
@@ -722,6 +722,7 @@ describe('Acceptance: ember new', function () {
 
       checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
+      checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
     });
 
     it('app + typescript + no-ember-data', async function () {
@@ -737,6 +738,7 @@ describe('Acceptance: ember new', function () {
       checkFile('tsconfig.json', path.join(__dirname, '../fixtures', fixturePath, 'tsconfig.json'));
       checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
+      checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
     });
   });
 });
