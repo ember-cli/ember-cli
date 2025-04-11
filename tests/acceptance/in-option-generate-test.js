@@ -4,10 +4,9 @@ const ember = require('../helpers/ember');
 const fs = require('fs-extra');
 const path = require('path');
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-const mkTmpDirIn = require('../helpers/mk-tmp-dir-in');
+const tmp = require('tmp-promise');
 const initApp = require('../helpers/init-app');
 const generateUtils = require('../helpers/generate-utils');
 
@@ -25,15 +24,13 @@ describe('Acceptance: ember generate with --in option', function () {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(function () {
-    return mkTmpDirIn(tmproot).then(function (tmpdir) {
-      process.chdir(tmpdir);
-    });
+  beforeEach(async function () {
+    const { path } = await tmp.dir();
+    process.chdir(path);
   });
 
   afterEach(function () {
     process.chdir(root);
-    return fs.remove(tmproot);
   });
 
   function removeAddonPath() {

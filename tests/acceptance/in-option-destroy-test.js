@@ -1,11 +1,8 @@
 'use strict';
 
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
-const path = require('path');
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
-const mkTmpDirIn = require('../helpers/mk-tmp-dir-in');
+const tmp = require('tmp-promise');
 const initApp = require('../helpers/init-app');
 const generateUtils = require('../helpers/generate-utils');
 
@@ -16,8 +13,6 @@ const { expect } = require('chai');
 const { file } = require('chai-files');
 
 describe('Acceptance: ember destroy with --in option', function () {
-  let tmpdir;
-
   this.timeout(20000);
 
   before(function () {
@@ -29,15 +24,14 @@ describe('Acceptance: ember destroy with --in option', function () {
   });
 
   beforeEach(async function () {
-    tmpdir = await mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
+    const { path } = await tmp.dir();
+    process.chdir(path);
   });
 
   afterEach(function () {
     this.timeout(10000);
 
     process.chdir(root);
-    return fs.remove(tmproot);
   });
 
   function generate(args) {

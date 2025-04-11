@@ -7,14 +7,11 @@ const Addon = require('../../../lib/models/addon');
 const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
-const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 
 const broccoli = require('broccoli');
 const walkSync = require('walk-sync');
 const td = require('testdouble');
-
-let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
+const tmp = require('tmp-promise');
 
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 
@@ -496,12 +493,9 @@ describe('models/addon.js', function () {
       let tmpdir;
 
       beforeEach(async function () {
-        tmpdir = await mkTmpDirIn(tmproot);
-        addon.root = tmpdir;
-      });
-
-      afterEach(function () {
-        return fs.remove(tmproot);
+        const { path } = await tmp.dir();
+        tmpdir = path;
+        addon.root = path;
       });
 
       it('returns undefined if the `blueprint` folder does not exist', function () {
