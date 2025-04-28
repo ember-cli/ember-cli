@@ -1,6 +1,6 @@
 'use strict';
 
-const openEditor = require('../../../lib/utilities/open-editor');
+const openEditor = require('@ember/blueprint-model/utilities/open-editor');
 
 const { expect } = require('chai');
 const td = require('testdouble');

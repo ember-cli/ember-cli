@@ -3,6 +3,7 @@
 /.nyc_output/
 /docs/build/
 /node_modules/
+/packages/*/node_modules/
 /tmp/
 *.log
 *.tgz
