@@ -61,18 +61,12 @@ module.exports = {
       execBinPrefix = 'pnpm';
     }
 
-    // TODO decide what we want to do here
-    let blueprintVersion = require('./package.json').version;
-
-    // TODO this is just to get tests passing
-    blueprintVersion = '6.4.0-beta.0';
-
     return {
       appDirectory: directoryForPackageName(name),
       name,
       modulePrefix: name,
       namespace,
-      blueprintVersion,
+      blueprintVersion: require('./package.json').version,
       yarn: options.packageManager === 'yarn',
       pnpm: options.packageManager === 'pnpm',
       npm: options.packageManager !== 'yarn' && options.packageManager !== 'pnpm',
