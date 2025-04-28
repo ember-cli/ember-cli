@@ -1,6 +1,6 @@
 {
   "name": "@ember/classic-addon-blueprint",
-  "version": "0.0.0",
+  "version": "6.7.0-alpha.1",
   "dependencies": {
     "@ember/blueprint-model": "workspace:*",
     "chalk": "^4.1.2",
