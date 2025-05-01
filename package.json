@@ -89,7 +89,7 @@
     "inflection": "^2.0.1",
     "inquirer": "^9.1.5",
     "is-git-url": "^1.0.0",
-    "is-language-code": "^3.1.0",
+    "is-language-code": "^5.0.15",
     "isbinaryfile": "^5.0.4",
     "lodash": "^4.17.21",
     "markdown-it": "^14.1.0",

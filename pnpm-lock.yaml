@@ -162,8 +162,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       is-language-code:
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: ^5.0.15
+        version: 5.0.15
       isbinaryfile:
         specifier: ^5.0.4
         version: 5.0.4
@@ -455,10 +455,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-
-  '@babel/runtime@7.26.0':
-    resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/template@7.25.9':
     resolution: {integrity: sha512-9DGttpmPvIxBb/2uwpVo3dqJ+O6RooAFOS+lB+xDqoE2PVCE8nfoHMdZLpfCQRLwvohzXISPZcgxt80xLfsuwg==}
@@ -1398,6 +1394,10 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
+
+  codsen-utils@1.6.7:
+    resolution: {integrity: sha512-M+9D3IhFAk4T8iATX62herVuIx1sp5kskWgxEegKD/JwTTSSGjGQs5Q5J4vVJ4mLcn1uhfxDYv6Yzr8zleHF3w==}
+    engines: {node: '>=14.18.0'}
 
   collection-visit@1.0.0:
     resolution: {integrity: sha512-lNkKvzEeMBBjUGHZ+q6z9pSJla0KWAQPvtzhEV9+iGyQYG+pBpl7xKDhxoNSOZH2hhv0v5k0y2yAM4o4SjoSkw==}
@@ -3126,8 +3126,9 @@ packages:
     resolution: {integrity: sha512-qP1vozQRI+BMOPcjFzrjXuQvdak2pHNUMZoeG2eRbiSqyvbEf/wQtEOTOX1guk6E3t36RkaqiSt8A/6YElNxLQ==}
     engines: {node: '>=12'}
 
-  is-language-code@3.1.0:
-    resolution: {integrity: sha512-zJdQ3QTeLye+iphMeK3wks+vXSRFKh68/Pnlw7aOfApFSEIOhYa8P9vwwa6QrImNNBMJTiL1PpYF0f4BxDuEgA==}
+  is-language-code@5.0.15:
+    resolution: {integrity: sha512-ehxYi3CYrF9PUd/4HraTADTzB1/Jo3ZizMeCFhlVMIQyyQfofdQ0hKoAwozr9A35kY0SkWtxGEyaubXxYUkasA==}
+    engines: {node: '>=14.18.0'}
 
   is-map@2.0.3:
     resolution: {integrity: sha512-1Qed0/Hr2m+YqxnM09CjA2d/i6YZNfF6R2oRAOj36eUdS6qIV/huPJNSEpKbupewFs+ZsJlxsjjPbc0/afW6Lw==}
@@ -3837,6 +3838,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
@@ -4369,9 +4371,6 @@ packages:
     resolution: {integrity: sha512-B5dj6usc5dkk8uFliwjwDHM8To5/QwdKz9JcBZ8Ic4G1f0YmeeJTtE/ZTdgRFPAfxZFiUaPhZ1Jcs4qeagItGQ==}
     engines: {node: '>= 0.4'}
 
-  regenerator-runtime@0.14.1:
-    resolution: {integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==}
-
   regex-not@1.0.2:
     resolution: {integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==}
     engines: {node: '>=0.10.0'}
@@ -4499,6 +4498,9 @@ packages:
   reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
+
+  rfdc@1.4.1:
+    resolution: {integrity: sha512-q1b3N5QkRUWUl7iyylaaj3kOpIT0N2i9MqIEQXP73GVsN9cw3fdx8X63cEmWhJGi2PPCF23Ijp7ktmd39rawIA==}
 
   rimraf@2.6.3:
     resolution: {integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==}
@@ -5658,10 +5660,6 @@ snapshots:
       '@babel/plugin-syntax-typescript': 7.25.9(@babel/core@7.26.0)
     transitivePeerDependencies:
       - supports-color
-
-  '@babel/runtime@7.26.0':
-    dependencies:
-      regenerator-runtime: 0.14.1
 
   '@babel/template@7.25.9':
     dependencies:
@@ -6885,6 +6883,10 @@ snapshots:
       mimic-response: 1.0.1
 
   clone@1.0.4: {}
+
+  codsen-utils@1.6.7:
+    dependencies:
+      rfdc: 1.4.1
 
   collection-visit@1.0.0:
     dependencies:
@@ -8820,9 +8822,9 @@ snapshots:
 
   is-interactive@2.0.0: {}
 
-  is-language-code@3.1.0:
+  is-language-code@5.0.15:
     dependencies:
-      '@babel/runtime': 7.26.0
+      codsen-utils: 1.6.7
 
   is-map@2.0.3: {}
 
@@ -10135,8 +10137,6 @@ snapshots:
       gopd: 1.2.0
       which-builtin-type: 1.2.1
 
-  regenerator-runtime@0.14.1: {}
-
   regex-not@1.0.2:
     dependencies:
       extend-shallow: 3.0.2
@@ -10294,6 +10294,8 @@ snapshots:
   retry@0.13.1: {}
 
   reusify@1.0.4: {}
+
+  rfdc@1.4.1: {}
 
   rimraf@2.6.3:
     dependencies:
