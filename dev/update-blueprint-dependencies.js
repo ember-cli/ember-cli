@@ -104,6 +104,10 @@ async function latestVersion(packageName, semverRange) {
       version: semverRange,
     };
 
+    if (isEmberDataPackage(packageName) && OPTIONS['ember-data']) {
+      options.version = OPTIONS['ember-data'];
+    }
+
     if (OPTIONS[packageName]) {
       options.version = OPTIONS[packageName];
     }
@@ -191,6 +195,10 @@ if (module === require.main) {
     process.exitCode = 1;
     return;
   }
+}
+
+function isEmberDataPackage(packageName) {
+  return packageName.includes('ember-data');
 }
 
 module.exports = { PACKAGE_FILES, updateDependencies };
