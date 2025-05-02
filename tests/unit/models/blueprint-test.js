@@ -25,7 +25,7 @@ describe('Blueprint', function () {
       expect(output).to.equal('const x = 1;\n');
     });
 
-    it('stripes types when converting gts', async function () {
+    it('strips types when converting gts', async function () {
       const output = await Blueprint.prototype.removeTypes(
         '.gts',
         'const x: number = 1;\n<template>Hello {{x}}!</template>\n'
@@ -55,6 +55,30 @@ const bar = 'bar';
     it('can handle template-only gts', async function () {
       const output = await Blueprint.prototype.removeTypes('.gts', '<template>Hello!</template>\n');
       expect(output).to.equal('<template>Hello!</template>\n');
+    });
+
+    it('can handle template-only gts with type signatures', async function () {
+      const output = await Blueprint.prototype.removeTypes(
+        '.gts',
+        `import type { TOC } from '@ember/component/template-only';
+
+export interface FooSignature {
+  // The arguments accepted by the component
+  Args: {};
+  // Any blocks yielded by the component
+  Blocks: {
+    default: []
+  };
+  // The element to which \`...attributes\` is applied in the component template
+  Element: null;
+}
+
+<template>
+  {{yield}}
+</template> satisfies TOC<FooSignature>;
+`
+      );
+      expect(output).to.equal('<template>\n  {{yield}}\n</template>\n');
     });
 
     it('can handle multi-line template tag', async function () {
