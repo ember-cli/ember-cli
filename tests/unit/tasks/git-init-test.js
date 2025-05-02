@@ -1,15 +1,12 @@
 'use strict';
 
-const fs = require('fs-extra');
 const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const GitInitTask = require('../../../lib/tasks/git-init');
 const MockProject = require('../../helpers/mock-project');
-const path = require('path');
 let root = process.cwd();
-const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
-let tmproot = path.join(root, 'tmp');
 const td = require('testdouble');
+const tmp = require('tmp-promise');
 
 describe('git-init', function () {
   let task;
@@ -24,13 +21,12 @@ describe('git-init', function () {
       _gitCommit: td.function(),
     });
 
-    let tmpdir = await mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
+    const { path } = await tmp.dir();
+    process.chdir(path);
   });
 
   afterEach(async function () {
     process.chdir(root);
-    await fs.remove(tmproot);
   });
 
   describe('skipGit: true', function () {
