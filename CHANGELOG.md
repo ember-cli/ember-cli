@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v6.5.0-beta.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.4.0...v6.5.0-beta.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.4.0...v6.5.0-beta.0)
+
+#### Changelog
+
+- [#10684](https://github.com/ember-cli/ember-cli/pull/10684) [BUGFIX] Remove deprecated `@types/eslint__js` dependency from `app` blueprint [@gvdp](https://github.com/gvdp)
+
+Thank you to all who took the time to contribute!
+
 ## v6.4.0
 
 #### Blueprint Changes
