@@ -10,9 +10,6 @@
     "ember-source-channel-url": "^3.0.0",
     "ember-try": "^4.0.0"
   },
-  "peerDependencies": {
-    "ember-source": ">= 4.0.0"
-  },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   }
