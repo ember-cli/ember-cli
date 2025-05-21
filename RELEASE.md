@@ -1,44 +1,93 @@
 # Release Process
 
-ember-cli follows the same channel based release process that Ember does:
+> [!WARNING]
+> This release process is currently changing and is making its way from the `master` branch to `beta` and `release` as part of the normal release train. Be careful following this document over the next 12 weeks.
+> As of time of writing release-plan is only being used for the master branch and the instructions below are for illustrative purposes only
+
+`ember-cli` follows the same channel based release process that Ember does:
 
 * `release` - This branch represents the `latest` dist-tag on NPM
 * `beta` - This branch represents the `beta` dist-tag on NPM
-* `master` - The branch is not released to the NPM registry, but (generally speaking) can be used directly
+* `master` - The branch represents the `alpha` dist-tag on NPM
 
-## Initial Stable Release
+Most changes should be made as a PR that targets the `master` branch and make their way through `beta` and `release` over the course of 12 weeks as part of the Ember release train. Generally speaking we do not backport functional changes to `beta` or `release` but we can if needs be.
 
-* Update blueprint dependencies to latest
+This release process is managed by [release-plan](https://github.com/embroider-build/release-plan) which means that all changes should be made as a pull request to make sure it is captured in the changelog.
+
+## Release process overview
+
+During the release week each of the versions are effectively "promoted" i.e. the current `beta` version is released as `latest`, the current `alpha` version is released as `beta` and a **new** `alpha` version is created. This requires PRs to each of the active branches to update ember-source (and potentially ember-data) versions. Each of those PRs that update dependencies should be marked as `enhancement` if we are releasing a minor version.
+
+The release process during release week should look like this:
+
+- Do an intial stable release from the `release` branch
+- Merge `release` into `beta`
+- Do a `beta` release
+- Merge `beta` into `master`
+- Do an `alpha` release
+
+
+
+### Initial Stable Release from the `release` branch
+
+- fetch latest from origin `git fetch`
+- create a new branch to do the release e.g. `git checkout -B release-6-4 origin/release`
+- Update blueprint dependencies to latest
 
 ```
 node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
 ```
 
-* Commit
-* Send pull request to `beta` branch
-* Wait for PR (for updating blueprint dependencies) to be merged
+- push and open a PR targeting `release`
+- mark this PR as an `enhancement` if it is a minor release
+- check that everything is ok
+- merge branch
+- check that the Prepare Release PR has been correctly opened by `release-plan`
+- Merge it when you are ready to release
 
-* Checkout the `release` branch
+### Beta release from the `beta` branch
 
-```
-git fetch origin
-git checkout -B release --track origin/release
-```
-
-* Merge `beta` branch into `release`
-
-```
-git fetch origin
-git merge origin/beta
-git push origin release
-```
-
-* Ensure you have the correct dependencies
+- fetch latest from origin `git fetch`
+- create a new branch to merge `release` into `beta` e.g. `git checkout -B merge-release origin/beta`
+- merge release into this new branch e.g. `git merge origin/release --no-ff`
+- Update blueprint dependencies to beta
 
 ```
-git clean -fdx
-pnpm install
+node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
 ```
+
+- push and open a PR targeting `beta`
+- mark this PR as an `enchancement` if the next beta is a minor release
+- check that everything is ok
+- merge branch
+- check that the Prepare Release PR has been correctly opened by `release-plan`
+  - note: the release-plan config will automatically make this version a pre-release
+- Merge it when you are ready to release
+
+
+### Alpha release from the `master` branch
+
+- fetch latest from origin `git fetch`
+- create a new branch to merge `beta` into `master` e.g. `git checkout -B merge-beta origin/master`
+- merge release into this new branch e.g. `git merge origin/beta --no-ff`
+- Update blueprint dependencies to alpha
+
+```
+node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=canary
+```
+
+- push and open a PR targeting `master`
+- mark this PR as an `enchancement` if the next alpha is a minor release
+- check that everything is ok
+- merge branch
+- check that the Prepare Release PR has been correctly opened by `release-plan`
+  - note: the release-plan config will automatically make this version a pre-release
+- Merge it when you are ready to release
+
+
+<!--
+
+TODO decide on changelog process - i.e. do we need it to be manual any more
 
 * Update the CHANGELOG.md
   * Run `node ./dev/changelog`
@@ -48,17 +97,14 @@ pnpm install
   * Merge any prior beta entries together
   * Update changelog header for current release
   * Commit
-* Release: `npx release-it`
+
 * Update GitHub Release with changelog contents
-* Merge `release` into `beta` branch
 
-```
-git checkout -B beta --track origin/beta
-git merge origin/release
-git push origin beta
-```
+-->
 
-## Stable Patch Release
+## Patch Releases
+
+TODO add some documentation here
 
 * Checkout the `release` branch
 
@@ -91,88 +137,6 @@ git merge origin/release
 git push origin beta
 ```
 
-## Initial Beta Release
-
-* Update `ember-source` and `ember-data` to latest beta
-
-```
-node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
-```
-
-* Commit
-* Send pull request to `master` branch
-* Wait for PR (for updating blueprint dependencies) to be merged
-* Checkout the `beta` branch
-
-```
-git fetch origin
-git checkout -B beta --track origin/beta
-```
-
-* Merge `master` branch into `beta`
-
-```
-git fetch origin
-git merge origin/master
-git push origin beta
-```
-
-* Ensure you have the correct dependencies
-
-```
-git clean -fdx
-pnpm install
-```
-
-* Update the CHANGELOG.md
-  * Run `node ./dev/changelog`
-  * Copy output into `CHANGELOG.md`
-  * Edit to make clearer for consumers (remove non-consumer facing entries, etc)
-  * Ensure blueprint change diff URLs are correct
-  * Update changelog header for current release
-  * Commit
-* Release: `npx release-it`
-* Update GitHub Release with changelog contents
-* Merge `beta` into `master` branch
-
-```
-git checkout master
-git merge origin/beta
-git push origin master
-```
-
-## Subsequent Beta Release
-
-* Checkout the `beta` branch
-
-```
-git fetch origin
-git checkout -B beta --track origin/beta
-```
-
-* Ensure you have the correct dependencies
-
-```
-git clean -fdx
-pnpm install
-```
-
-* Update the CHANGELOG.md
-  * Run `node ./dev/changelog`
-  * Copy output into `CHANGELOG.md`
-  * Edit to make clearer for consumers (remove non-consumer facing entries, etc)
-  * Ensure blueprint change diff URLs are correct
-  * Update changelog header for current release
-  * Commit
-* Release: `npx release-it`
-* Update GitHub Release with changelog contents
-* Merge `beta` into `master` branch
-
-```
-git checkout master
-git merge origin/beta
-git push origin master
-```
 
 ## Post-release Automation
 
