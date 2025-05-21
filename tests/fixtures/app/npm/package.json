@@ -49,7 +49,7 @@
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
-    "ember-data": "~5.4.1-beta.1",
+    "ember-data": "~5.5.0",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^3.0.1",
     "ember-modifier": "^4.2.0",
