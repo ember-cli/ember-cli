@@ -17,7 +17,7 @@ describe('Acceptance: ember new | ember addon', function () {
     process.chdir(path);
   });
 
-  this.afterEach(function () {
+  afterEach(function () {
     process.chdir(root);
   });
 

@@ -60,6 +60,11 @@ describe('Acceptance: ember new', function () {
 
     expected.sort();
 
+    // since the test is quite dynamic we want to make sure that the
+    // directory and the expected aren't empty
+    expect(directory).to.not.be.empty;
+    expect(expected).to.not.be.empty;
+
     expect(directory).to.equal(expectedAppDir);
     expect(expected).to.deep.equal(
       actual,
