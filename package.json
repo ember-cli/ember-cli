@@ -29,8 +29,8 @@
   "scripts": {
     "docs": "yuidoc",
     "lint": "eslint . --cache",
-    "prepack": "pnpm docs",
     "mocha": "pnpm exec mocha --require ./tests/bootstrap.js tests/**/*-test.js",
+    "prepack": "pnpm docs",
     "test": "node --unhandled-rejections=strict tests/runner",
     "test:all": "node --unhandled-rejections=strict tests/runner all",
     "test:cover": "nyc --all --reporter=text --reporter=lcov node tests/runner all",
@@ -144,7 +144,7 @@
     "nock": "^13.5.5",
     "nyc": "^15.1.0",
     "prettier": "2.8.7",
-    "release-it": "^15.10.0",
+    "release-plan": "^0.16.0",
     "strip-ansi": "^6.0.0",
     "supertest": "^7.0.0",
     "testdouble": "^3.18.0",
@@ -154,25 +154,15 @@
     "yuidoc-ember-cli-theme": "^1.0.4",
     "yuidocjs": "0.10.2"
   },
+  "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">= 18"
   },
-  "packageManager": "pnpm@9.15.0",
   "volta": {
-    "pnpm": "9.15.0",
-    "node": "18.12.0"
+    "node": "18.12.0",
+    "pnpm": "9.15.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
-  "release-it": {
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "draft": true,
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    }
   }
 }
