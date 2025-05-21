@@ -5,7 +5,7 @@ const ember = require('../helpers/ember');
 const walkSync = require('walk-sync');
 const Blueprint = require('../../lib/models/blueprint');
 const path = require('path');
-const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+const tmp = require('tmp-promise');
 let root = process.cwd();
 const util = require('util');
 const EOL = require('os').EOL;
@@ -17,15 +17,16 @@ const { isExperimentEnabled } = require('../../lib/experiments');
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
 
-let tmpDir = './tmp/new-test';
+let tmpDir;
 
 describe('Acceptance: ember new', function () {
   this.timeout(300000);
   let ORIGINAL_PROCESS_ENV_CI;
 
   beforeEach(async function () {
-    await tmp.setup(tmpDir);
-    process.chdir(tmpDir);
+    const { path } = await tmp.dir();
+    tmpDir = path;
+    process.chdir(path);
     ORIGINAL_PROCESS_ENV_CI = process.env.CI;
   });
 
@@ -35,11 +36,11 @@ describe('Acceptance: ember new', function () {
     } else {
       process.env.CI = ORIGINAL_PROCESS_ENV_CI;
     }
-    return tmp.teardown(tmpDir);
+    process.chdir(root);
   });
 
   function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', typescript = false) {
-    let blueprintPath = path.join(root, blueprintDir, 'files');
+    let blueprintPath = path.join(blueprintDir, 'files');
     // ignore TypeScript files
     let expected = walkSync(blueprintPath, {
       ignore: ['tsconfig.json', 'types', 'app/config'],
@@ -59,6 +60,11 @@ describe('Acceptance: ember new', function () {
 
     expected.sort();
 
+    // since the test is quite dynamic we want to make sure that the
+    // directory and the expected aren't empty
+    expect(directory).to.not.be.empty;
+    expect(expected).to.not.be.empty;
+
     expect(directory).to.equal(expectedAppDir);
     expect(expected).to.deep.equal(
       actual,
@@ -77,7 +83,7 @@ describe('Acceptance: ember new', function () {
   it('ember new @foo/bar, when parent directory does not contain `foo`', async function () {
     await ember(['new', '@foo/bar', '--skip-npm']);
 
-    confirmBlueprintedForDir('blueprints/app', 'foo-bar');
+    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'foo-bar');
   });
 
   it('ember new @foo/bar, when direct parent directory contains `foo`', async function () {
@@ -87,7 +93,7 @@ describe('Acceptance: ember new', function () {
 
     await ember(['new', '@foo/bar', '--skip-npm']);
 
-    confirmBlueprintedForDir('blueprints/app', 'bar');
+    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'bar');
   });
 
   it('ember new @foo/bar, when parent directory hierarchy contains `foo`', async function () {
@@ -97,7 +103,7 @@ describe('Acceptance: ember new', function () {
 
     await ember(['new', '@foo/bar', '--skip-npm']);
 
-    confirmBlueprintedForDir('blueprints/app', 'bar');
+    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'bar');
   });
 
   it('ember new --no-welcome skips installation of ember-welcome-page', async function () {
@@ -161,7 +167,7 @@ describe('Acceptance: ember new', function () {
   it('ember new foo, where foo does not yet exist, works', async function () {
     await ember(['new', 'foo', '--skip-npm']);
 
-    confirmBlueprintedForDir('blueprints/app');
+    confirmBlueprintedForDir(path.join(root, 'blueprints/app'));
   });
 
   it('ember new foo, blueprint targets match the default ember-cli targets', async function () {
@@ -201,10 +207,10 @@ describe('Acceptance: ember new', function () {
 
   it('successfully runs `ember new` inside of an existing ember-cli project', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-git']);
-    confirmBlueprintedForDir('blueprints/app');
+    confirmBlueprintedForDir(path.join(root, 'blueprints/app'));
 
     await ember(['new', 'bar', '--skip-npm', '--skip-git']);
-    confirmBlueprintedForDir('blueprints/app', 'bar');
+    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'bar');
   });
 
   it('ember new with blueprint uses the specified blueprint directory with a relative path', async function () {

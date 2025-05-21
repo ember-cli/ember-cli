@@ -1,13 +1,10 @@
 'use strict';
 
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
-const path = require('path');
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-const mkTmpDirIn = require('../helpers/mk-tmp-dir-in');
+const tmp = require('tmp-promise');
 
 const { expect } = require('chai');
 const { file } = require('chai-files');
@@ -24,13 +21,12 @@ describe('Acceptance: ember generate in-addon-dummy', function () {
   });
 
   beforeEach(async function () {
-    let tmpdir = await mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
+    const { path } = await tmp.dir();
+    process.chdir(path);
   });
 
   afterEach(function () {
     process.chdir(root);
-    return fs.remove(tmproot);
   });
 
   function initAddon() {
