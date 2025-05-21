@@ -483,7 +483,10 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       let emberCliRealPath = path.resolve(`${projectPackageInfo.realPath}/../../../../`);
       expect(restPkgInfo.realPath).to.equal(
         // TODO: Make this package-manager agnostic?
-        path.join(emberCliRealPath, 'node_modules/.pnpm/@octokit+rest@19.0.13/node_modules/@octokit/rest')
+        path.join(
+          emberCliRealPath,
+          'node_modules/.pnpm/@octokit+rest@19.0.13_encoding@0.1.13/node_modules/@octokit/rest'
+        )
       );
     });
   });
