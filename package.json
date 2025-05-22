@@ -144,7 +144,7 @@
     "nock": "^13.5.5",
     "nyc": "^15.1.0",
     "prettier": "2.8.7",
-    "release-it": "^15.10.0",
+    "release-it": "^19.0.1",
     "strip-ansi": "^6.0.0",
     "supertest": "^7.1.0",
     "testdouble": "^3.18.0",
