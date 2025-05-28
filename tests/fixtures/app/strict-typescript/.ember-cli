@@ -9,5 +9,5 @@
     Setting `strict` to true will force the blueprint generators to generate GJS or GTS template
     files rather than .hbs template file
   */
-  "strict": false
+  "strict": true
 }
