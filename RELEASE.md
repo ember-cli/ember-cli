@@ -85,57 +85,15 @@ node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=ca
 - Merge it when you are ready to release
 
 
-<!--
+## Changelog updates
 
-TODO decide on changelog process - i.e. do we need it to be manual any more
+`release-plan` is designed to automatically generate a Changelog that includes the titles of every PR that was merged since the last release. As we would like to make use of this auto-generated Changelog we need to make sure that PRs are named correctly and the Changelog included in the "Prepare Release" PRs are what we were expecting.
 
-* Update the CHANGELOG.md
-  * Run `node ./dev/changelog`
-  * Copy output into `CHANGELOG.md`
-  * Edit to make clearer for consumers (remove non-consumer facing entries, etc)
-  * Ensure blueprint change diff URLs are correct
-  * Merge any prior beta entries together
-  * Update changelog header for current release
-  * Commit
-
-* Update GitHub Release with changelog contents
-
--->
+If you want to change the content of the Changelog then you should update the PR titles you want to update and re-run the `Prepare Release` CI job for that branch
 
 ## Patch Releases
 
-TODO add some documentation here
-
-* Checkout the `release` branch
-
-```
-git fetch origin
-git checkout -B release --track origin/release
-```
-
-* Ensure you have the correct dependencies
-
-```
-git clean -fdx
-pnpm install
-```
-
-* Update the CHANGELOG.md
-  * Run `node ./dev/changelog`
-  * Copy output into `CHANGELOG.md`
-  * Edit to make clearer for consumers (remove non-consumer facing entries, etc)
-  * Ensure blueprint change diff URLs are correct
-  * Update changelog header for current release
-  * Commit
-* Release: `npx release-it`
-* Update GitHub Release with changelog contents
-* Merge `release` into `beta` branch
-
-```
-git checkout -B beta --track origin/beta
-git merge origin/release
-git push origin beta
-```
+Now that we're using release-plan for all releases, patch releases have become super easy! Every time you merge a PR to any branch that is being released with `release-plan` a new `Prepare Release` PR will be created. When you merge this `Prepare Release` branch it will automatically release the new Patch version.
 
 
 ## Post-release Automation
