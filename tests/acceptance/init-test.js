@@ -57,6 +57,9 @@ describe('Acceptance: ember init', function () {
     if (expected.some((x) => x.endsWith('eslint.config.mjs'))) {
       expected = [...expected.filter((x) => !x.endsWith('eslint.config.mjs')), 'eslint.config.mjs'];
     }
+    // GJS and GTS files are also conditionally available
+    expected = expected.filter((x) => !x.endsWith('.gjs') && !x.endsWith('.gts'));
+
     expected.sort();
 
     let actual = walkSync('.').sort();
