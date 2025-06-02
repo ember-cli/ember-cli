@@ -1,16 +1,9 @@
 /**
- * Debugging:
- *   https://eslint.org/docs/latest/use/configure/debug
- *  ----------------------------------------------------
+ * https://eslint.org/docs/latest/use/configure
  *
- *   Print a file's calculated configuration
+ * To understand what your configuration is doing and which files it applies to:
  *
- *     npx eslint --print-config path/to/file.js
- *
- *   Inspecting the config
- *
- *     npx eslint --inspect-config
- *
+ *   npx eslint --inspect-config
  */
 import babelEslintParser from '@babel/eslint-parser';
 import eslint from '@eslint/js';
@@ -43,21 +36,17 @@ export default [
   eslintConfigPrettier,
   eslintPluginEmber.configs.base,
   eslintPluginEmber.configs.gjs,
-  /**
-   * Ignores must be in their own object
-   * https://eslint.org/docs/latest/use/configure/ignore
-   */
+
   {
     ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
   },
-  /**
-   * https://eslint.org/docs/latest/use/configure/configuration-files#configuring-linter-options
-   */
   {
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
     },
   },
+
+  // Ember files
   {
     files: ['**/*.js'],
     languageOptions: {
@@ -71,6 +60,8 @@ export default [
       globals: globals.browser,
     },
   },
+
+  // Test files
   {
     ...eslintPluginQunit.configs.recommended,
     files: ['tests/**/*-test.{js,gjs}'],
@@ -78,9 +69,8 @@ export default [
       qunit: eslintPluginQunit,
     },
   },
-  /**
-   * CJS node files
-   */
+
+  // Configuration files
   {
     ...eslintPluginN.configs['flat/recommended-script'],
     files: [
@@ -104,9 +94,6 @@ export default [
       globals: globals.node,
     },
   },
-  /**
-   * ESM node files
-   */
   {
     ...eslintPluginN.configs['flat/recommended-module'],
     files: ['**/*.mjs'],
