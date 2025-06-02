@@ -33,9 +33,9 @@ const parserOptionsJs = {
 
 export default [
   eslint.configs.recommended,
-  eslintConfigPrettier,
   eslintPluginEmber.configs.base,
   eslintPluginEmber.configs.gjs,
+  eslintConfigPrettier,
 
   {
     ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
