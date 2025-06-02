@@ -21,26 +21,27 @@ import eslintPluginQunit from 'eslint-plugin-qunit';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-const parserOptions = {
-  esm: {
-    js: {
-      ecmaFeatures: { modules: true },
-      ecmaVersion: 'latest',
-      requireConfigFile: false,
-      babelOptions: {
-        plugins: [
-          [
-            '@babel/plugin-proposal-decorators',
-            { decoratorsBeforeExport: true },
-          ],
-        ],
-      },
-    },
-    ts: {
-      projectService: true,
-      tsconfigRootDir: import.meta.dirname,
-    },
+const parserOptionsJs = {
+  babelOptions: {
+    plugins: [
+      [
+        '@babel/plugin-proposal-decorators',
+        {
+          decoratorsBeforeExport: true,
+        },
+      ],
+    ],
   },
+  ecmaFeatures: {
+    modules: true,
+  },
+  ecmaVersion: 'latest',
+  requireConfigFile: false,
+};
+
+const parserOptionsTs = {
+  projectService: true,
+  tsconfigRootDir: import.meta.dirname,
 };
 
 export default tseslint.config(
@@ -73,19 +74,20 @@ export default tseslint.config(
   {
     files: ['**/*.{js,gjs}'],
     languageOptions: {
-      parserOptions: parserOptions.esm.js,
-      globals: {
-        ...globals.browser,
-      },
+      parserOptions: parserOptionsJs,
+      globals: globals.browser,
     },
   },
   {
     files: ['**/*.{ts,gts}'],
     languageOptions: {
       parser: eslintPluginEmber.parser,
-      parserOptions: parserOptions.esm.ts,
+      parserOptions: parserOptionsTs,
     },
-    extends: [...tseslint.configs.recommendedTypeChecked, eslintPluginEmber.configs.gts],
+    extends: [
+      tseslint.configs.recommendedTypeChecked,
+      eslintPluginEmber.configs.gts,
+    ],
   },
   {
     ...eslintPluginQunit.configs.recommended,
@@ -117,9 +119,7 @@ export default tseslint.config(
     languageOptions: {
       sourceType: 'script',
       ecmaVersion: 'latest',
-      globals: {
-        ...globals.node,
-      },
+      globals: globals.node,
     },
   },
   /**
@@ -134,10 +134,8 @@ export default tseslint.config(
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 'latest',
-      parserOptions: parserOptions.esm.js,
-      globals: {
-        ...globals.node,
-      },
+      parserOptions: parserOptionsJs,
+      globals: globals.node,
     },
     rules: {
       'n/no-extraneous-import': 'warn',

@@ -20,15 +20,22 @@ import eslintPluginN from 'eslint-plugin-n';
 import eslintPluginQunit from 'eslint-plugin-qunit';
 import globals from 'globals';
 
-const esmParserOptions = {
-  ecmaFeatures: { modules: true },
-  ecmaVersion: 'latest',
-  requireConfigFile: false,
+const parserOptionsJs = {
   babelOptions: {
     plugins: [
-      ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
+      [
+        '@babel/plugin-proposal-decorators',
+        {
+          decoratorsBeforeExport: true,
+        },
+      ],
     ],
   },
+  ecmaFeatures: {
+    modules: true,
+  },
+  ecmaVersion: 'latest',
+  requireConfigFile: false,
 };
 
 export default [
@@ -60,10 +67,8 @@ export default [
   {
     files: ['**/*.{js,gjs}'],
     languageOptions: {
-      parserOptions: esmParserOptions,
-      globals: {
-        ...globals.browser,
-      },
+      parserOptions: parserOptionsJs,
+      globals: globals.browser,
     },
   },
   {
@@ -96,9 +101,7 @@ export default [
     languageOptions: {
       sourceType: 'script',
       ecmaVersion: 'latest',
-      globals: {
-        ...globals.node,
-      },
+      globals: globals.node,
     },
   },
   /**
@@ -113,10 +116,8 @@ export default [
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 'latest',
-      parserOptions: esmParserOptions,
-      globals: {
-        ...globals.node,
-      },
+      parserOptions: parserOptionsJs,
+      globals: globals.node,
     },
     rules: {
       'n/no-extraneous-import': 'warn',
