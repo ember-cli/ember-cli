@@ -37,6 +37,14 @@
     "test:debug": "node --unhandled-rejections=strict debug tests/runner",
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
+  "release-plan": {
+    "semverIncrementAs": {
+      "minor": "prerelease",
+      "patch": "prerelease"
+    },
+    "semverIncrementTag": "alpha",
+    "publishTag": "alpha"
+  },
   "dependencies": {
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
