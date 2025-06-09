@@ -31,7 +31,8 @@ The release process during release week should look like this:
 ### Initial Stable Release from the `release` branch
 
 - fetch latest from origin `git fetch`
-- create a new branch to do the release e.g. `git checkout -B release-6-4 origin/release`
+- create a new branch to do the release e.g. `git checkout -B release-plan-6-4 origin/release`
+  - note: branches named like `release-6-4` are used to manage LTS patch releases so we don't want to create a branch with that name at this time
 - Update blueprint dependencies to latest
 
 ```
@@ -42,8 +43,9 @@ node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=l
 - mark this PR as an `enhancement` if it is a minor release
 - check that everything is ok
 - merge branch
-- check that the Prepare Release PR has been correctly opened by `release-plan`
-- Merge it when you are ready to release
+- check that the `Prepare Release` PR has been correctly opened by `release-plan`
+- Merge the `Prepare Release` branch when you are ready to release
+- Check the `Release Stable` GitHub action to make sure the release succeeded
 
 ### Beta release from the `beta` branch
 
@@ -58,11 +60,12 @@ node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=bet
 
 - push and open a PR targeting `beta`
 - mark this PR as an `enchancement` if the next beta is a minor release
-- check that everything is ok
-- merge branch
-- check that the Prepare Release PR has been correctly opened by `release-plan`
+- check that everything is ok i.e. CI passes
+- merge the `merge-release` branch into `beta` in GitHub
+- check that the `Prepare Beta Release` PR has been correctly opened by `release-plan`
   - note: the release-plan config will automatically make this version a pre-release
-- Merge it when you are ready to release
+- Merge the `Prepare Beta Release` when you are ready to release the next beta version
+- Check the `Release Beta` GitHub action to make sure the release succeeded
 
 
 ### Alpha release from the `master` branch
@@ -78,11 +81,12 @@ node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=ca
 
 - push and open a PR targeting `master`
 - mark this PR as an `enchancement` if the next alpha is a minor release
-- check that everything is ok
-- merge branch
-- check that the Prepare Release PR has been correctly opened by `release-plan`
+- check that everything is ok i.e. CI passes
+- merge the `merge-beta` branch into `master` in GitHub
+- check that the `Prepare Alpha Release` PR has been correctly opened by `release-plan`
   - note: the release-plan config will automatically make this version a pre-release
-- Merge it when you are ready to release
+- Merge the `Prepare Alpha Release` when you are ready to release the next alpha version
+- Check the `Release Alpha` GitHub action to make sure the release succeeded
 
 
 ## Changelog updates
