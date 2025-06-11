@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "6.5.0-beta.0",
+  "version": "6.6.0-alpha.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -36,6 +36,14 @@
     "test:cover": "nyc --all --reporter=text --reporter=lcov node tests/runner all",
     "test:debug": "node --unhandled-rejections=strict debug tests/runner",
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
+  },
+  "release-plan": {
+    "semverIncrementAs": {
+      "minor": "prerelease",
+      "patch": "prerelease"
+    },
+    "semverIncrementTag": "alpha",
+    "publishTag": "alpha"
   },
   "dependencies": {
     "@pnpm/find-workspace-dir": "^1000.1.0",
@@ -155,13 +163,13 @@
     "yuidoc-ember-cli-theme": "^1.0.4",
     "yuidocjs": "0.10.2"
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.12.1",
   "engines": {
     "node": ">= 18"
   },
   "volta": {
     "node": "18.12.0",
-    "pnpm": "9.15.0"
+    "pnpm": "10.12.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
