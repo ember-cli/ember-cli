@@ -2,6 +2,17 @@
 
 ## Release (2025-06-11)
 
+* ember-cli 6.6.0-alpha.3 (patch)
+
+#### :house: Internal
+* `ember-cli`
+  * [#10713](https://github.com/ember-cli/ember-cli/pull/10713) make sure alphas releases are set as prerelease ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2025-06-11)
+
 * ember-cli 6.6.0-alpha.2 (minor)
 
 #### :rocket: Enhancement
