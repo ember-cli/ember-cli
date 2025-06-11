@@ -42,8 +42,8 @@
       "minor": "prerelease",
       "patch": "prerelease"
     },
-    "semverIncrementTag": "alpha",
-    "publishTag": "alpha"
+    "semverIncrementTag": "beta",
+    "publishTag": "beta"
   },
   "dependencies": {
     "@pnpm/find-workspace-dir": "^1000.1.0",
