@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## Release (2025-06-11)
+
+* ember-cli 6.5.0-beta.1 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`
+  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## v6.5.0-beta.0
 
 #### Blueprint Changes
