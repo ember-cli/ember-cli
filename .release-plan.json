@@ -2,8 +2,8 @@
   "solution": {
     "ember-cli": {
       "impact": "minor",
-      "oldVersion": "6.5.0-beta.0",
-      "newVersion": "6.5.0-beta.1",
+      "oldVersion": "6.5.0-beta.1",
+      "newVersion": "6.5.0-beta.2",
       "tagName": "beta",
       "constraints": [
         {
@@ -18,5 +18,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-06-11)\n\n* ember-cli 6.5.0-beta.1 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`\n  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-06-11)\n\n* ember-cli 6.5.0-beta.2 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`\n  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10717](https://github.com/ember-cli/ember-cli/pull/10717) pass --publish-branch to release-plan publish ([@mansona](https://github.com/mansona))\n  * [#10716](https://github.com/ember-cli/ember-cli/pull/10716) Prepare Beta Release v6.5.0-beta.1 ([@github-actions[bot]](https://github.com/apps/github-actions))\n  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }
