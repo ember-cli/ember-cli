@@ -1,0 +1,22 @@
+{
+  "solution": {
+    "ember-cli": {
+      "impact": "minor",
+      "oldVersion": "6.5.0-beta.0",
+      "newVersion": "6.5.0-beta.1",
+      "tagName": "beta",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./package.json"
+    }
+  },
+  "description": "## Release (2025-06-11)\n\n* ember-cli 6.5.0-beta.1 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`\n  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+}
