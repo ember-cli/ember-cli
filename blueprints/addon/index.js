@@ -94,7 +94,7 @@ module.exports = {
 
     // add scripts to build type declarations for TypeScript addons
     if (this.options.typescript) {
-      contents.devDependencies.rimraf = '^5.0.1';
+      contents.devDependencies.rimraf = '^5.0.10';
 
       contents.scripts.prepack = 'tsc --project tsconfig.declarations.json';
       contents.scripts.postpack = 'rimraf declarations';
@@ -246,6 +246,7 @@ module.exports = {
       emberData: options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
+      strict: options.strict,
       packageManager: options.packageManager ?? 'npm',
     };
   },

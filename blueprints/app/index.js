@@ -80,6 +80,7 @@ module.exports = {
       emberData: options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
+      strict: options.strict,
       packageManager: options.packageManager ?? 'npm',
     };
   },
@@ -104,6 +105,12 @@ module.exports = {
     if (!options.emberData) {
       files = files.filter((file) => !file.includes('models/'));
       files = files.filter((file) => !file.includes('ember-data/'));
+    }
+
+    if (options.strict) {
+      files = files.filter((file) => !file.endsWith('.hbs'));
+    } else {
+      files = files.filter((file) => !file.endsWith('.gjs') && !file.endsWith('.gts'));
     }
 
     this._files = files;
