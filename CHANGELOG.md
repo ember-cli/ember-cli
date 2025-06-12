@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+## Release (2025-06-12)
+
+* ember-cli 6.4.1 (patch)
+
+#### :house: Internal
+* `ember-cli`
+  * [#10719](https://github.com/ember-cli/ember-cli/pull/10719) [Backport release]: start using release-plan to release ember-cli ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## v6.4.0
 
 #### Blueprint Changes

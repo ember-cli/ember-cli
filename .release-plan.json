@@ -1,0 +1,18 @@
+{
+  "solution": {
+    "ember-cli": {
+      "impact": "patch",
+      "oldVersion": "6.4.0",
+      "newVersion": "6.4.1",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./package.json"
+    }
+  },
+  "description": "## Release (2025-06-12)\n\n* ember-cli 6.4.1 (patch)\n\n#### :house: Internal\n* `ember-cli`\n  * [#10719](https://github.com/ember-cli/ember-cli/pull/10719) [Backport release]: start using release-plan to release ember-cli ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+}
