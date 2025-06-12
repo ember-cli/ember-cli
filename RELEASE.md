@@ -1,16 +1,12 @@
 # Release Process
 
-> [!WARNING]
-> This release process is currently changing and is making its way from the `master` branch to `beta` and `release` as part of the normal release train. Be careful following this document over the next 12 weeks.
-> As of time of writing release-plan is only being used for the master branch and the instructions below are for illustrative purposes only
-
 `ember-cli` follows the same channel based release process that Ember does:
 
 * `release` - This branch represents the `latest` dist-tag on NPM
 * `beta` - This branch represents the `beta` dist-tag on NPM
 * `master` - The branch represents the `alpha` dist-tag on NPM
 
-Most changes should be made as a PR that targets the `master` branch and make their way through `beta` and `release` over the course of 12 weeks as part of the Ember release train. Generally speaking we do not backport functional changes to `beta` or `release` but we can if needs be.
+Most changes should be made as a PR that targets the `master` branch and then makes their way through `beta` and `release` over the course of 12 weeks as part of the Ember release train. Generally speaking we do not backport functional changes to `beta` or `release` but we can if needs be.
 
 This release process is managed by [release-plan](https://github.com/embroider-build/release-plan) which means that all changes should be made as a pull request to make sure it is captured in the changelog.
 
@@ -27,18 +23,22 @@ The release process during release week should look like this:
 - Do an `alpha` release
 
 
-
 ### Initial Stable Release from the `release` branch
 
 - fetch latest from origin `git fetch`
-- create a new branch to do the release e.g. `git checkout -B release-plan-6-4 origin/release`
+- create a new branch to do the release e.g. `git checkout --no-track -b release-plan-6-4 origin/release`
   - note: branches named like `release-6-4` are used to manage LTS patch releases so we don't want to create a branch with that name at this time
+- Merge `origin/beta` into the release branch
+  - `git merge origin/beta --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - make sure to not update the version in the package.json during this step, this will be release-plan's job
 - Update blueprint dependencies to latest
 
 ```
 node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
 ```
 
+- commit this update `git commit -am "update dependencies to latest"`
 - push and open a PR targeting `release`
 - mark this PR as an `enhancement` if it is a minor release
 - check that everything is ok
