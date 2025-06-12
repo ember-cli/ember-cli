@@ -246,6 +246,7 @@ module.exports = {
       emberData: options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
+      strict: options.strict,
       packageManager: options.packageManager ?? 'npm',
     };
   },
