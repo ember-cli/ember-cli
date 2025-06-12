@@ -10,7 +10,7 @@ on:
       - unlabeled
 
 concurrency:
-  group: plan-release # only the latest one of these should ever be running
+  group: plan-release-stable # only the latest one of these should ever be running
   cancel-in-progress: true
 
 jobs:
@@ -83,7 +83,7 @@ jobs:
         with:
           commit-message: "Prepare Stable Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
           labels: "internal"
-          branch: release-preview
+          branch: release-preview-stable
           title: Prepare Stable Release ${{ steps.explanation.outputs.new_version }}
           body: |
             This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍
