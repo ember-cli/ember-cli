@@ -1,5 +1,10 @@
 # ember-cli Changelog
 
+
+
+
+
+
 ## Release (2025-06-11)
 
 * ember-cli 6.6.0-alpha.3 (patch)
