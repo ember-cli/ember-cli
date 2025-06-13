@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  github-changelog: github:embroider-build/github-changelog#ignore-pre-release
+
 importers:
 
   .:
@@ -2593,8 +2596,9 @@ packages:
     resolution: {integrity: sha512-8aCohiDo4jwjOwma4FmYFd3i97urZulL8XL24nIPxuE+GZnfsAyy/g2Shqx6OjUiFKUXZM+Yy+KHnOmmA3FVcg==}
     engines: {node: '>= 4.0'}
 
-  github-changelog@2.0.0:
-    resolution: {integrity: sha512-JdAwddNCvHkZY/pTMqpoaLEfksaWiTc+beDjBkPEnr7iVlKfu8SeyCT8Sef+KsonRgIj6pl3SiWDPSefWmeicw==}
+  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836:
+    resolution: {tarball: https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836}
+    version: 2.0.0
     engines: {node: 18.* || 20.* || >= 22}
     hasBin: true
 
@@ -4420,6 +4424,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.2:
+    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@0.19.0:
     resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
     engines: {node: '>= 0.8.0'}
@@ -5589,7 +5598,7 @@ snapshots:
   '@npmcli/fs@1.1.1':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.7.1
+      semver: 7.7.2
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -7996,7 +8005,7 @@ snapshots:
 
   git-repo-info@2.1.1: {}
 
-  github-changelog@2.0.0:
+  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836:
     dependencies:
       '@manypkg/get-packages': 2.2.2
       chalk: 4.1.2
@@ -8006,6 +8015,7 @@ snapshots:
       make-fetch-happen: 9.1.0
       p-map: 3.0.0
       progress: 2.0.3
+      semver: 7.7.2
       yargs: 17.7.2
     transitivePeerDependencies:
       - bluebird
@@ -9775,7 +9785,7 @@ snapshots:
       cli-highlight: 2.1.11
       execa: 9.5.3
       fs-extra: 11.3.0
-      github-changelog: 2.0.0
+      github-changelog: https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836
       js-yaml: 4.1.0
       latest-version: 9.0.0
       parse-github-repo-url: 1.4.1
@@ -9970,6 +9980,8 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.7.1: {}
+
+  semver@7.7.2: {}
 
   send@0.19.0:
     dependencies:
