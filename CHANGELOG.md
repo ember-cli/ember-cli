@@ -2,6 +2,32 @@
 
 ## Release (2025-06-16)
 
+* ember-cli 6.6.0-beta.1 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`
+  * [#10701](https://github.com/ember-cli/ember-cli/pull/10701) [ENHANCEMENT] Support Bun ([@hexadecy](https://github.com/hexadecy))
+  * [#10664](https://github.com/ember-cli/ember-cli/pull/10664) [ENHANCEMENT] Remove ember-fetch ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10711](https://github.com/ember-cli/ember-cli/pull/10711) fix yuidoc generation on publish ([@mansona](https://github.com/mansona))
+  * [#10702](https://github.com/ember-cli/ember-cli/pull/10702) [Bugfix]: Update ember-data and unify the versions between @ and non-@ ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10728](https://github.com/ember-cli/ember-cli/pull/10728) Prepare Beta 6.6.0 ([@mansona](https://github.com/mansona))
+  * [#10726](https://github.com/ember-cli/ember-cli/pull/10726) use patched github-changelog for properly rolling up beta changelog ([@mansona](https://github.com/mansona))
+  * [#10699](https://github.com/ember-cli/ember-cli/pull/10699) Start using release-plan for releasing ember-cli ([@mansona](https://github.com/mansona))
+  * [#10670](https://github.com/ember-cli/ember-cli/pull/10670) testing: don't generate temp directories in the repo ([@mansona](https://github.com/mansona))
+
+#### Committers: 3
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Michel Couillard ([@hexadecy](https://github.com/hexadecy))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+## Release (2025-06-16)
+
 * ember-cli 6.5.0 (minor)
 
 #### :rocket: Enhancement
