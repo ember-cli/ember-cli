@@ -76,20 +76,24 @@ node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=bet
 ### Alpha release from the `master` branch
 
 - fetch latest from origin `git fetch`
-- create a new branch to merge `beta` into `master` e.g. `git checkout -B merge-beta origin/master`
-- merge release into this new branch e.g. `git merge origin/beta --no-ff`
+- create a new branch to merge `beta` into `master` e.g. `git checkout --no-track -b merge-beta origin/master`
+- merge beta into this new branch e.g. `git merge origin/beta --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+- manually update the version in pacakge.json to be the next alpha.
+  - e.g. if the current alpha is `"version": "6.6.0-alpha.3",` update it to be `"version": "6.7.0-alpha.0",`
+- commit this change to the version in package.json: `git commit -am "update to the next alpha version"`
 - Update blueprint dependencies to alpha
 
 ```
 node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=canary
 ```
 
+- commit this update `git commit -am "update blueprint dependencies to alpha"`
 - push and open a PR targeting `master`
 - mark this PR as an `enchancement` if the next alpha is a minor release
 - check that everything is ok i.e. CI passes
 - merge the `merge-beta` branch into `master` in GitHub
 - check that the `Prepare Alpha Release` PR has been correctly opened by `release-plan`
-  - note: the release-plan config will automatically make this version a pre-release
 - Merge the `Prepare Alpha Release` when you are ready to release the next alpha version
 - Check the `Release Alpha` GitHub action to make sure the release succeeded
 
@@ -98,7 +102,7 @@ node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=ca
 
 `release-plan` is designed to automatically generate a Changelog that includes the titles of every PR that was merged since the last release. As we would like to make use of this auto-generated Changelog we need to make sure that PRs are named correctly and the Changelog included in the "Prepare Release" PRs are what we were expecting.
 
-If you want to change the content of the Changelog then you should update the PR titles you want to update and re-run the `Prepare Release` CI job for that branch
+If you want to change the content of the Changelog then you should update the PR titles you want to update and re-run the `Prepare Release` CI job for that branch. If there are PRs that you would prefer to exclude from the changelog (such as the `merge-beta` or `merge-release` PRs) then you can add the `ignore` label to the PR and they will be removed from the changelog.
 
 ## Patch Releases
 
