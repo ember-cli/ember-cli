@@ -30,8 +30,22 @@ describe('Acceptance: ember new | ember addon', function () {
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
     });
 
+    it('generates a new strict app with no linting errors', async function () {
+      await ember(['new', 'foo-app', '--strict', '--pnpm', '--skip-npm']);
+      // link current version of ember-cli in the newly generated app
+      await execa('pnpm', ['link', emberCliRoot]);
+      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
+    });
+
     it('generates a new TS app with no linting errors', async function () {
       await ember(['new', 'foo-app', '--pnpm', '--typescript', '--skip-npm']);
+      // link current version of ember-cli in the newly generated app
+      await execa('pnpm', ['link', emberCliRoot]);
+      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
+    });
+
+    it('generates a new strict TS app with no linting errors', async function () {
+      await ember(['new', 'foo-app', '--strict', '--pnpm', '--typescript', '--skip-npm']);
       // link current version of ember-cli in the newly generated app
       await execa('pnpm', ['link', emberCliRoot]);
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });

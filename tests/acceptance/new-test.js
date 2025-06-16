@@ -50,6 +50,8 @@ describe('Acceptance: ember new', function () {
     if (expected.some((x) => x.endsWith('eslint.config.mjs'))) {
       expected = [...expected.filter((x) => !x.endsWith('eslint.config.mjs')), 'eslint.config.mjs'];
     }
+    // GJS and GTS files are also conditionally available
+    expected = expected.filter((x) => !x.endsWith('.gjs') && !x.endsWith('.gts'));
 
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
@@ -657,6 +659,34 @@ describe('Acceptance: ember new', function () {
 
       expect(file('.github/workflows/ci.yml')).to.not.exist;
       expect(file('tests/dummy/config/ember-cli-update.json')).to.include('--ci-provider=none');
+    });
+
+    it('app + strict', async function () {
+      await ember(['new', 'foo', '--strict', '--skip-npm', '--skip-git']);
+
+      let fixturePath = 'app/strict';
+
+      // check fixtures
+      ['app/templates/application.gjs', '.ember-cli'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
+      });
+
+      expect(file('app/templates/application.gts')).to.not.exist;
+      expect(file('app/templates/application.hbs')).to.not.exist;
+    });
+
+    it('app + strict + typescript', async function () {
+      await ember(['new', 'foo', '--typescript', '--strict', '--skip-npm', '--skip-git']);
+
+      let fixturePath = 'app/strict-typescript';
+
+      // check fixtures
+      ['app/templates/application.gts', '.ember-cli'].forEach((filePath) => {
+        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
+      });
+
+      expect(file('app/templates/application.gjs')).to.not.exist;
+      expect(file('app/templates/application.hbs')).to.not.exist;
     });
 
     it('app + typescript', async function () {

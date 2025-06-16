@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "6.6.0-alpha.3",
+  "version": "6.7.0-alpha.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -164,6 +164,11 @@
     "yuidocjs": "0.10.2"
   },
   "packageManager": "pnpm@10.12.1",
+  "pnpm": {
+    "overrides": {
+      "github-changelog": "github:embroider-build/github-changelog#ignore-pre-release"
+    }
+  },
   "engines": {
     "node": ">= 18"
   },

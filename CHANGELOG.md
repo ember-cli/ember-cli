@@ -1,19 +1,8 @@
 # ember-cli Changelog
 
-## Release (2025-06-11)
+## Release (2025-06-16)
 
-* ember-cli 6.6.0-alpha.3 (patch)
-
-#### :house: Internal
-* `ember-cli`
-  * [#10713](https://github.com/ember-cli/ember-cli/pull/10713) make sure alphas releases are set as prerelease ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## Release (2025-06-11)
-
-* ember-cli 6.6.0-alpha.2 (minor)
+* ember-cli 6.6.0-beta.1 (minor)
 
 #### :rocket: Enhancement
 * `ember-cli`
@@ -23,37 +12,12 @@
 #### :bug: Bug Fix
 * `ember-cli`
   * [#10711](https://github.com/ember-cli/ember-cli/pull/10711) fix yuidoc generation on publish ([@mansona](https://github.com/mansona))
-  * [#10710](https://github.com/ember-cli/ember-cli/pull/10710) make sure we release alpha with release-plan ([@mansona](https://github.com/mansona))
   * [#10702](https://github.com/ember-cli/ember-cli/pull/10702) [Bugfix]: Update ember-data and unify the versions between @ and non-@ ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
 
 #### :house: Internal
 * `ember-cli`
-  * [#10709](https://github.com/ember-cli/ember-cli/pull/10709) Prepare Alpha Release v6.6.0-alpha.1 ([@github-actions[bot]](https://github.com/apps/github-actions))
-  * [#10699](https://github.com/ember-cli/ember-cli/pull/10699) Start using release-plan for releasing ember-cli ([@mansona](https://github.com/mansona))
-  * [#10670](https://github.com/ember-cli/ember-cli/pull/10670) testing: don't generate temp directories in the repo ([@mansona](https://github.com/mansona))
-
-#### Committers: 4
-- Chris Manson ([@mansona](https://github.com/mansona))
-- Michel Couillard ([@hexadecy](https://github.com/hexadecy))
-- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
-- [@github-actions[bot]](https://github.com/apps/github-actions)
-
-## Release (2025-06-11)
-
-* ember-cli 6.6.0-alpha.1 (minor)
-
-#### :rocket: Enhancement
-* `ember-cli`
-  * [#10701](https://github.com/ember-cli/ember-cli/pull/10701) [ENHANCEMENT] Support Bun ([@hexadecy](https://github.com/hexadecy))
-  * [#10664](https://github.com/ember-cli/ember-cli/pull/10664) [ENHANCEMENT] Remove ember-fetch ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
-
-#### :bug: Bug Fix
-* `ember-cli`
-  * [#10710](https://github.com/ember-cli/ember-cli/pull/10710) make sure we release alpha with release-plan ([@mansona](https://github.com/mansona))
-  * [#10702](https://github.com/ember-cli/ember-cli/pull/10702) [Bugfix]: Update ember-data and unify the versions between @ and non-@ ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
-
-#### :house: Internal
-* `ember-cli`
+  * [#10728](https://github.com/ember-cli/ember-cli/pull/10728) Prepare Beta 6.6.0 ([@mansona](https://github.com/mansona))
+  * [#10726](https://github.com/ember-cli/ember-cli/pull/10726) use patched github-changelog for properly rolling up beta changelog ([@mansona](https://github.com/mansona))
   * [#10699](https://github.com/ember-cli/ember-cli/pull/10699) Start using release-plan for releasing ember-cli ([@mansona](https://github.com/mansona))
   * [#10670](https://github.com/ember-cli/ember-cli/pull/10670) testing: don't generate temp directories in the repo ([@mansona](https://github.com/mansona))
 
@@ -62,18 +26,33 @@
 - Michel Couillard ([@hexadecy](https://github.com/hexadecy))
 - [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 
-## v6.5.0-beta.0
+## Release (2025-06-16)
 
-#### Blueprint Changes
+* ember-cli 6.5.0 (minor)
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.4.0...v6.5.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.4.0...v6.5.0-beta.0)
+#### :rocket: Enhancement
+* `ember-cli`
+  * [#10721](https://github.com/ember-cli/ember-cli/pull/10721) Prepare 6.5.0 release ([@mansona](https://github.com/mansona))
+  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))
 
-#### Changelog
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10684](https://github.com/ember-cli/ember-cli/pull/10684) [BUGFIX] Remove deprecated `@types/eslint__js` dependency from `app` blueprint ([@gvdp](https://github.com/gvdp))
 
-- [#10684](https://github.com/ember-cli/ember-cli/pull/10684) [BUGFIX] Remove deprecated `@types/eslint__js` dependency from `app` blueprint [@gvdp](https://github.com/gvdp)
+#### :house: Internal
+* `ember-cli`
+  * [#10726](https://github.com/ember-cli/ember-cli/pull/10726) use patched github-changelog for properly rolling up beta changelog ([@mansona](https://github.com/mansona))
+  * [#10722](https://github.com/ember-cli/ember-cli/pull/10722) prevent clashes between release-plan branches ([@mansona](https://github.com/mansona))
+  * [#10719](https://github.com/ember-cli/ember-cli/pull/10719) [Backport release]: start using release-plan to release ember-cli ([@mansona](https://github.com/mansona))
+  * [#10718](https://github.com/ember-cli/ember-cli/pull/10718) Prepare Beta Release v6.5.0-beta.2 ([@github-actions[bot]](https://github.com/apps/github-actions))
+  * [#10717](https://github.com/ember-cli/ember-cli/pull/10717) pass --publish-branch to release-plan publish ([@mansona](https://github.com/mansona))
+  * [#10716](https://github.com/ember-cli/ember-cli/pull/10716) Prepare Beta Release v6.5.0-beta.1 ([@github-actions[bot]](https://github.com/apps/github-actions))
+  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))
 
-Thank you to all who took the time to contribute!
+#### Committers: 3
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+- [@gvdp](https://github.com/gvdp)
 
 ## v6.4.0
 

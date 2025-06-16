@@ -92,6 +92,13 @@ module.exports = {
           description: 'Set up the addon to use TypeScript',
           required: false,
         },
+        {
+          default: false,
+          description: 'Use GJS/GTS templates by default for generated components, tests, and route templates',
+          key: 'strict',
+          name: 'strict',
+          required: false
+        },
       ],
       anonymousOptions: ['<addon-name>']
     },
@@ -519,6 +526,13 @@ module.exports = {
           description: 'Set up the app to use TypeScript',
           required: false,
         },
+        {
+          default: false,
+          description: 'Use GJS/GTS templates by default for generated components, tests, and route templates',
+          key: 'strict',
+          name: 'strict',
+          required: false
+        },
       ],
       anonymousOptions: ['<glob-pattern>']
     },
@@ -669,6 +683,13 @@ module.exports = {
           name: 'typescript',
           description: 'Set up the app to use TypeScript',
           required: false,
+        },
+        {
+          default: false,
+          description: 'Use GJS/GTS templates by default for generated components, tests, and route templates',
+          key: 'strict',
+          name: 'strict',
+          required: false
         },
       ],
       anonymousOptions: ['<app-name>']
