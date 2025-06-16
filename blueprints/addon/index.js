@@ -79,7 +79,6 @@ module.exports = {
         delete contents.devDependencies[depName];
       }
     }
-    delete contents.devDependencies['ember-fetch'];
 
     // Per RFC #811, addons should not have this dependency.
     // @see https://github.com/emberjs/rfcs/blob/master/text/0811-element-modifiers.md#detailed-design
@@ -94,7 +93,7 @@ module.exports = {
 
     // add scripts to build type declarations for TypeScript addons
     if (this.options.typescript) {
-      contents.devDependencies.rimraf = '^5.0.1';
+      contents.devDependencies.rimraf = '^5.0.10';
 
       contents.scripts.prepack = 'tsc --project tsconfig.declarations.json';
       contents.scripts.postpack = 'rimraf declarations';

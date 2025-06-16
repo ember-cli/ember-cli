@@ -1,14 +1,13 @@
 'use strict';
 
 const ember = require('../helpers/ember');
-const { outputFile, remove } = require('fs-extra');
+const { outputFile } = require('fs-extra');
 const path = require('path');
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-const mkTmpDirIn = require('../helpers/mk-tmp-dir-in');
+const tmp = require('tmp-promise');
 const td = require('testdouble');
 const lintFix = require('../../lib/utilities/lint-fix');
 
@@ -29,14 +28,14 @@ describe('Acceptance: ember generate', function () {
   });
 
   beforeEach(async function () {
-    tmpdir = await mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
+    const { path } = await tmp.dir();
+    tmpdir = path;
+    process.chdir(path);
   });
 
   afterEach(function () {
     td.reset();
     process.chdir(root);
-    return remove(tmproot);
   });
 
   function initApp() {

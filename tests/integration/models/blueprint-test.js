@@ -13,7 +13,7 @@ const EOL = require('os').EOL;
 let root = process.cwd();
 let tempRoot = path.join(root, 'tmp');
 const SilentError = require('silent-error');
-const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
+const tmp = require('tmp-promise');
 const td = require('testdouble');
 const Blueprint = require('../../../lib/models/blueprint');
 
@@ -241,7 +241,7 @@ describe('Blueprint', function () {
     let tmpdir;
 
     beforeEach(async function () {
-      const dir = await mkTmpDirIn(tempRoot);
+      const { path: dir } = await tmp.dir();
       tmpdir = dir;
       blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
       ui = new MockUI();
@@ -615,7 +615,7 @@ describe('Blueprint', function () {
     }
 
     beforeEach(async function () {
-      let dir = await mkTmpDirIn(tempRoot);
+      const { path: dir } = await tmp.dir();
 
       tmpdir = dir;
       blueprint = new BasicBlueprintClass(basicBlueprint);
@@ -697,7 +697,7 @@ describe('Blueprint', function () {
     }
 
     beforeEach(async function () {
-      let dir = await mkTmpDirIn(tempRoot);
+      const { path: dir } = await tmp.dir();
       tmpdir = dir;
       blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
       project = new MockProject();
@@ -1275,7 +1275,7 @@ describe('Blueprint', function () {
     let project;
 
     beforeEach(async function () {
-      let dir = await mkTmpDirIn(tempRoot);
+      const { path: dir } = await tmp.dir();
       tmpdir = dir;
       blueprint = new Blueprint(basicBlueprint);
       project = new MockProject();
