@@ -13,9 +13,13 @@ const { sortPackageJson } = require('sort-package-json');
 let date = new Date();
 
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
-const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
-const directoryForPackageName = require('../../lib/utilities/directory-for-package-name');
-const FileInfo = require('../../lib/models/file-info');
+
+const directoryForPackageName = require('@ember/blueprint-model/utilities/directory-for-package-name');
+const FileInfo = require('@ember/blueprint-model/utilities/file-info');
+
+function stringifyAndNormalize(contents) {
+  return `${JSON.stringify(contents, null, 2)}\n`;
+}
 
 const replacers = {
   'package.json'(content) {
@@ -175,10 +179,8 @@ module.exports = {
   },
 
   beforeInstall() {
-    const version = require('../../package.json').version;
-    const prependEmoji = require('../../lib/utilities/prepend-emoji');
+    const prependEmoji = require('@ember/blueprint-model/utilities/prepend-emoji');
 
-    this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
   },
@@ -231,7 +233,7 @@ module.exports = {
       namespace,
       addonName,
       addonNamespace,
-      emberCLIVersion: require('../../package').version,
+      blueprintVersion: require('./package.json').version,
       year: date.getFullYear(),
       yarn: options.packageManager === 'yarn',
       pnpm: options.packageManager === 'pnpm',
