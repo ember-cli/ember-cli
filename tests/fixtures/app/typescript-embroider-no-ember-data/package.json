@@ -81,7 +81,7 @@
     "stylelint-config-standard": "^36.0.1",
     "tracked-built-ins": "^3.4.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0",
+    "typescript-eslint": "^8.34.1",
     "webpack": "^5.99.9"
   },
   "engines": {
