@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs-extra');
-const path = require('path');
 const { expect } = require('chai');
 const { file } = require('chai-files');
 const walkSync = require('walk-sync');
@@ -9,36 +8,30 @@ const BuildTask = require('../../../lib/tasks/build');
 const MockProject = require('../../helpers/mock-project');
 const MockProcess = require('../../helpers/mock-process');
 const copyFixtureFiles = require('../../helpers/copy-fixture-files');
-const mkTmpDirIn = require('../../helpers/mk-tmp-dir-in');
 const willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
+const tmp = require('tmp-promise');
 
 describe('build task test', function () {
   let project, ui, _process;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     _process = new MockProcess();
     willInterruptProcess.capture(_process);
-    return mkTmpDirIn(tmproot)
-      .then(function (tmpdir) {
-        process.chdir(tmpdir);
-      })
-      .then(function () {
-        return copyFixtureFiles('tasks/builder');
-      })
-      .then(function () {
-        project = new MockProject();
-        ui = project.ui;
-      });
+
+    const { path } = await tmp.dir();
+    process.chdir(path);
+
+    await copyFixtureFiles('tasks/builder');
+
+    project = new MockProject();
+    ui = project.ui;
   });
 
   afterEach(function () {
     willInterruptProcess.release();
     process.chdir(root);
     delete process.env.BROCCOLI_VIZ;
-
-    return fs.remove(tmproot);
   });
 
   it('can build', function () {

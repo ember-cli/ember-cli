@@ -339,6 +339,9 @@ importers:
       tmp:
         specifier: ^0.2.1
         version: 0.2.3
+      tmp-promise:
+        specifier: ^3.0.3
+        version: 3.0.3
       websocket:
         specifier: ^1.0.32
         version: 1.0.35
@@ -2596,8 +2599,8 @@ packages:
     resolution: {integrity: sha512-8aCohiDo4jwjOwma4FmYFd3i97urZulL8XL24nIPxuE+GZnfsAyy/g2Shqx6OjUiFKUXZM+Yy+KHnOmmA3FVcg==}
     engines: {node: '>= 4.0'}
 
-  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836:
-    resolution: {tarball: https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836}
+  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488:
+    resolution: {tarball: https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488}
     version: 2.0.0
     engines: {node: 18.* || 20.* || >= 22}
     hasBin: true
@@ -4807,6 +4810,9 @@ packages:
   tldts@6.1.68:
     resolution: {integrity: sha512-JKF17jROiYkjJPT73hUTEiTp2OBCf+kAlB+1novk8i6Q6dWjHsgEjw9VLiipV4KTJavazXhY1QUXyQFSem2T7w==}
     hasBin: true
+
+  tmp-promise@3.0.3:
+    resolution: {integrity: sha512-RwM7MoPojPxsOBYnyd2hy0bxtIlVrihNs9pj5SUvY8Zz1sQcQG2tG1hSr8PDxfgEB8RNKDhqbIlroIarSNDNsQ==}
 
   tmp-sync@1.1.2:
     resolution: {integrity: sha512-npRDYJiMaPWhcLf6q06v/vA3o/ZG4hfHDiBuj1N3Yeh3GTkFQb1YLFs6inDGMWIHjGidl4Oc1+oXHNKKj5vkDQ==}
@@ -8005,7 +8011,7 @@ snapshots:
 
   git-repo-info@2.1.1: {}
 
-  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836:
+  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488:
     dependencies:
       '@manypkg/get-packages': 2.2.2
       chalk: 4.1.2
@@ -9785,7 +9791,7 @@ snapshots:
       cli-highlight: 2.1.11
       execa: 9.5.3
       fs-extra: 11.3.0
-      github-changelog: https://codeload.github.com/embroider-build/github-changelog/tar.gz/31b8203ea7f6f65cb3f63439792aa1649f649836
+      github-changelog: https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488
       js-yaml: 4.1.0
       latest-version: 9.0.0
       parse-github-repo-url: 1.4.1
@@ -10549,6 +10555,10 @@ snapshots:
     dependencies:
       tldts-core: 6.1.68
     optional: true
+
+  tmp-promise@3.0.3:
+    dependencies:
+      tmp: 0.2.3
 
   tmp-sync@1.1.2:
     dependencies:
