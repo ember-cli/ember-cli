@@ -1,11 +1,15 @@
 {
   "solution": {
     "ember-cli": {
-      "impact": "patch",
-      "oldVersion": "6.6.0-alpha.2",
-      "newVersion": "6.6.0-alpha.3",
+      "impact": "minor",
+      "oldVersion": "6.7.0-alpha.0",
+      "newVersion": "6.7.0-alpha.1",
       "tagName": "alpha",
       "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :house: Internal"
@@ -14,5 +18,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-06-11)\n\n* ember-cli 6.6.0-alpha.3 (patch)\n\n#### :house: Internal\n* `ember-cli`\n  * [#10713](https://github.com/ember-cli/ember-cli/pull/10713) make sure alphas releases are set as prerelease ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-06-16)\n\n* ember-cli 6.7.0-alpha.1 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`\n  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10731](https://github.com/ember-cli/ember-cli/pull/10731) Prepare Alpha 6.7.0 ([@mansona](https://github.com/mansona))\n  * [#10729](https://github.com/ember-cli/ember-cli/pull/10729) Prepare Beta Release v6.6.0-beta.1 ([@github-actions[bot]](https://github.com/apps/github-actions))\n  * [#10728](https://github.com/ember-cli/ember-cli/pull/10728) Prepare Beta 6.6.0 ([@mansona](https://github.com/mansona))\n  * [#10726](https://github.com/ember-cli/ember-cli/pull/10726) use patched github-changelog for properly rolling up beta changelog ([@mansona](https://github.com/mansona))\n  * [#10717](https://github.com/ember-cli/ember-cli/pull/10717) pass --publish-branch to release-plan publish ([@mansona](https://github.com/mansona))\n  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }

@@ -2,6 +2,27 @@
 
 ## Release (2025-06-16)
 
+* ember-cli 6.7.0-alpha.1 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`
+  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10731](https://github.com/ember-cli/ember-cli/pull/10731) Prepare Alpha 6.7.0 ([@mansona](https://github.com/mansona))
+  * [#10729](https://github.com/ember-cli/ember-cli/pull/10729) Prepare Beta Release v6.6.0-beta.1 ([@github-actions[bot]](https://github.com/apps/github-actions))
+  * [#10728](https://github.com/ember-cli/ember-cli/pull/10728) Prepare Beta 6.6.0 ([@mansona](https://github.com/mansona))
+  * [#10726](https://github.com/ember-cli/ember-cli/pull/10726) use patched github-changelog for properly rolling up beta changelog ([@mansona](https://github.com/mansona))
+  * [#10717](https://github.com/ember-cli/ember-cli/pull/10717) pass --publish-branch to release-plan publish ([@mansona](https://github.com/mansona))
+  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+
+## Release (2025-06-16)
+
 * ember-cli 6.6.0-beta.1 (minor)
 
 #### :rocket: Enhancement
