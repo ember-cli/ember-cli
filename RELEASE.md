@@ -1,16 +1,12 @@
 # Release Process
 
-> [!WARNING]
-> This release process is currently changing and is making its way from the `master` branch to `beta` and `release` as part of the normal release train. Be careful following this document over the next 12 weeks.
-> As of time of writing release-plan is only being used for the master branch and the instructions below are for illustrative purposes only
-
 `ember-cli` follows the same channel based release process that Ember does:
 
 * `release` - This branch represents the `latest` dist-tag on NPM
 * `beta` - This branch represents the `beta` dist-tag on NPM
 * `master` - The branch represents the `alpha` dist-tag on NPM
 
-Most changes should be made as a PR that targets the `master` branch and make their way through `beta` and `release` over the course of 12 weeks as part of the Ember release train. Generally speaking we do not backport functional changes to `beta` or `release` but we can if needs be.
+Most changes should be made as a PR that targets the `master` branch and then makes their way through `beta` and `release` over the course of 12 weeks as part of the Ember release train. Generally speaking we do not backport functional changes to `beta` or `release` but we can if needs be.
 
 This release process is managed by [release-plan](https://github.com/embroider-build/release-plan) which means that all changes should be made as a pull request to make sure it is captured in the changelog.
 
@@ -27,18 +23,22 @@ The release process during release week should look like this:
 - Do an `alpha` release
 
 
-
 ### Initial Stable Release from the `release` branch
 
 - fetch latest from origin `git fetch`
-- create a new branch to do the release e.g. `git checkout -B release-plan-6-4 origin/release`
+- create a new branch to do the release e.g. `git checkout --no-track -b release-plan-6-4 origin/release`
   - note: branches named like `release-6-4` are used to manage LTS patch releases so we don't want to create a branch with that name at this time
+- Merge `origin/beta` into the release branch
+  - `git merge origin/beta --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - make sure to not update the version in the package.json during this step, this will be release-plan's job
 - Update blueprint dependencies to latest
 
 ```
 node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
 ```
 
+- commit this update `git commit -am "update blueprint dependencies to latest"`
 - push and open a PR targeting `release`
 - mark this PR as an `enhancement` if it is a minor release
 - check that everything is ok
@@ -50,14 +50,19 @@ node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=l
 ### Beta release from the `beta` branch
 
 - fetch latest from origin `git fetch`
-- create a new branch to merge `release` into `beta` e.g. `git checkout -B merge-release origin/beta`
+- create a new branch to merge `release` into `beta` e.g. `git checkout --no-track -b merge-release origin/beta`
 - merge release into this new branch e.g. `git merge origin/release --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+- merge master into this new branch too e.g. `git merge origin/master --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - update the alpha version in package.json to be a beta i.e. if the incoming merge is `"version": "6.6.0-alpha.3",` update it to `"version": "6.6.0-beta.0",`
 - Update blueprint dependencies to beta
 
 ```
 node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
 ```
 
+- commit this update `git commit -am "update blueprint dependencies to beta"`
 - push and open a PR targeting `beta`
 - mark this PR as an `enchancement` if the next beta is a minor release
 - check that everything is ok i.e. CI passes
@@ -71,20 +76,24 @@ node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=bet
 ### Alpha release from the `master` branch
 
 - fetch latest from origin `git fetch`
-- create a new branch to merge `beta` into `master` e.g. `git checkout -B merge-beta origin/master`
-- merge release into this new branch e.g. `git merge origin/beta --no-ff`
+- create a new branch to merge `beta` into `master` e.g. `git checkout --no-track -b merge-beta origin/master`
+- merge beta into this new branch e.g. `git merge origin/beta --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+- manually update the version in pacakge.json to be the next alpha.
+  - e.g. if the current alpha is `"version": "6.6.0-alpha.3",` update it to be `"version": "6.7.0-alpha.0",`
+- commit this change to the version in package.json: `git commit -am "update to the next alpha version"`
 - Update blueprint dependencies to alpha
 
 ```
 node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=canary
 ```
 
+- commit this update `git commit -am "update blueprint dependencies to alpha"`
 - push and open a PR targeting `master`
 - mark this PR as an `enchancement` if the next alpha is a minor release
 - check that everything is ok i.e. CI passes
 - merge the `merge-beta` branch into `master` in GitHub
 - check that the `Prepare Alpha Release` PR has been correctly opened by `release-plan`
-  - note: the release-plan config will automatically make this version a pre-release
 - Merge the `Prepare Alpha Release` when you are ready to release the next alpha version
 - Check the `Release Alpha` GitHub action to make sure the release succeeded
 
@@ -93,7 +102,7 @@ node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=ca
 
 `release-plan` is designed to automatically generate a Changelog that includes the titles of every PR that was merged since the last release. As we would like to make use of this auto-generated Changelog we need to make sure that PRs are named correctly and the Changelog included in the "Prepare Release" PRs are what we were expecting.
 
-If you want to change the content of the Changelog then you should update the PR titles you want to update and re-run the `Prepare Release` CI job for that branch
+If you want to change the content of the Changelog then you should update the PR titles you want to update and re-run the `Prepare Release` CI job for that branch. If there are PRs that you would prefer to exclude from the changelog (such as the `merge-beta` or `merge-release` PRs) then you can add the `ignore` label to the PR and they will be removed from the changelog.
 
 ## Patch Releases
 
