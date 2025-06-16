@@ -38,7 +38,7 @@ The release process during release week should look like this:
 node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
 ```
 
-- commit this update `git commit -am "update dependencies to latest"`
+- commit this update `git commit -am "update blueprint dependencies to latest"`
 - push and open a PR targeting `release`
 - mark this PR as an `enhancement` if it is a minor release
 - check that everything is ok
@@ -50,14 +50,19 @@ node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=l
 ### Beta release from the `beta` branch
 
 - fetch latest from origin `git fetch`
-- create a new branch to merge `release` into `beta` e.g. `git checkout -B merge-release origin/beta`
+- create a new branch to merge `release` into `beta` e.g. `git checkout --no-track -b merge-release origin/beta`
 - merge release into this new branch e.g. `git merge origin/release --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+- merge master into this new branch too e.g. `git merge origin/master --no-ff`
+  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - update the alpha version in package.json to be a beta i.e. if the incoming merge is `"version": "6.6.0-alpha.3",` update it to `"version": "6.6.0-beta.0",`
 - Update blueprint dependencies to beta
 
 ```
 node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
 ```
 
+- commit this update `git commit -am "update blueprint dependencies to beta"`
 - push and open a PR targeting `beta`
 - mark this PR as an `enchancement` if the next beta is a minor release
 - check that everything is ok i.e. CI passes
