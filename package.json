@@ -164,6 +164,11 @@
     "yuidocjs": "0.10.2"
   },
   "packageManager": "pnpm@10.12.1",
+  "pnpm": {
+    "overrides": {
+      "github-changelog": "github:embroider-build/github-changelog#ignore-pre-release"
+    }
+  },
   "engines": {
     "node": ">= 18"
   },
