@@ -1,50 +1,32 @@
 # ember-cli Changelog
 
-## Release (2025-06-11)
+## Release (2025-06-16)
 
-* ember-cli 6.5.0-beta.2 (minor)
+* ember-cli 6.5.0 (minor)
 
 #### :rocket: Enhancement
 * `ember-cli`
+  * [#10721](https://github.com/ember-cli/ember-cli/pull/10721) Prepare 6.5.0 release ([@mansona](https://github.com/mansona))
   * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10684](https://github.com/ember-cli/ember-cli/pull/10684) [BUGFIX] Remove deprecated `@types/eslint__js` dependency from `app` blueprint ([@gvdp](https://github.com/gvdp))
 
 #### :house: Internal
 * `ember-cli`
+  * [#10726](https://github.com/ember-cli/ember-cli/pull/10726) use patched github-changelog for properly rolling up beta changelog ([@mansona](https://github.com/mansona))
+  * [#10722](https://github.com/ember-cli/ember-cli/pull/10722) prevent clashes between release-plan branches ([@mansona](https://github.com/mansona))
+  * [#10719](https://github.com/ember-cli/ember-cli/pull/10719) [Backport release]: start using release-plan to release ember-cli ([@mansona](https://github.com/mansona))
+  * [#10718](https://github.com/ember-cli/ember-cli/pull/10718) Prepare Beta Release v6.5.0-beta.2 ([@github-actions[bot]](https://github.com/apps/github-actions))
   * [#10717](https://github.com/ember-cli/ember-cli/pull/10717) pass --publish-branch to release-plan publish ([@mansona](https://github.com/mansona))
   * [#10716](https://github.com/ember-cli/ember-cli/pull/10716) Prepare Beta Release v6.5.0-beta.1 ([@github-actions[bot]](https://github.com/apps/github-actions))
   * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))
 
-#### Committers: 2
+#### Committers: 3
 - Chris Manson ([@mansona](https://github.com/mansona))
 - [@github-actions[bot]](https://github.com/apps/github-actions)
-
-## Release (2025-06-11)
-
-* ember-cli 6.5.0-beta.1 (minor)
-
-#### :rocket: Enhancement
-* `ember-cli`
-  * [#10705](https://github.com/ember-cli/ember-cli/pull/10705) add `--strict` flag for new app and addon generation ([@mansona](https://github.com/mansona))
-
-#### :house: Internal
-* `ember-cli`
-  * [#10715](https://github.com/ember-cli/ember-cli/pull/10715) [Backport beta]: Set up release-plan ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## v6.5.0-beta.0
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v6.4.0...v6.5.0-beta.0)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v6.4.0...v6.5.0-beta.0)
-
-#### Changelog
-
-- [#10684](https://github.com/ember-cli/ember-cli/pull/10684) [BUGFIX] Remove deprecated `@types/eslint__js` dependency from `app` blueprint [@gvdp](https://github.com/gvdp)
-
-Thank you to all who took the time to contribute!
+- [@gvdp](https://github.com/gvdp)
 
 ## v6.4.0
 
