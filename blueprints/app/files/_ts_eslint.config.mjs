@@ -41,7 +41,6 @@ export default tseslint.config(
   eslint.configs.recommended,
   eslintPluginEmber.configs.base,
   eslintPluginEmber.configs.gjs,
-  eslintPluginEmber.configs.gts,
   eslintConfigPrettier,
 
   {
