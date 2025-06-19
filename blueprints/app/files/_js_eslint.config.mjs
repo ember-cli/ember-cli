@@ -13,14 +13,14 @@
  *
  */
 import globals from 'globals';
-import js from '@eslint/js';
+import eslint from '@eslint/js';
 
-import ember from 'eslint-plugin-ember/recommended';
+import eslintPluginEmber from 'eslint-plugin-ember/recommended';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import qunit from 'eslint-plugin-qunit';
-import n from 'eslint-plugin-n';
+import eslintPluginQunit from 'eslint-plugin-qunit';
+import eslintPluginN from 'eslint-plugin-n';
 
-import babelParser from '@babel/eslint-parser';
+import babelEslintParser from '@babel/eslint-parser';
 
 const esmParserOptions = {
   ecmaFeatures: { modules: true },
@@ -34,10 +34,10 @@ const esmParserOptions = {
 };
 
 export default [
-  js.configs.recommended,
+  eslint.configs.recommended,
   eslintConfigPrettier,
-  ember.configs.base,
-  ember.configs.gjs,
+  eslintPluginEmber.configs.base,
+  eslintPluginEmber.configs.gjs,
   /**
    * Ignores must be in their own object
    * https://eslint.org/docs/latest/use/configure/ignore
@@ -56,7 +56,7 @@ export default [
   {
     files: ['**/*.js'],
     languageOptions: {
-      parser: babelParser,
+      parser: babelEslintParser,
     },
   },
   {
@@ -69,17 +69,17 @@ export default [
     },
   },
   {
-    ...qunit.configs.recommended,
+    ...eslintPluginQunit.configs.recommended,
     files: ['tests/**/*-test.{js,gjs}'],
     plugins: {
-      qunit,
+      qunit: eslintPluginQunit,
     },
   },
   /**
    * CJS node files
    */
   {
-    ...n.configs['flat/recommended-script'],
+    ...eslintPluginN.configs['flat/recommended-script'],
     files: [
       '**/*.cjs',
       'config/**/*.js',
@@ -93,9 +93,8 @@ export default [
       'ember-cli-build.js',
     ],
     plugins: {
-      n,
+      n: eslintPluginN,
     },
-
     languageOptions: {
       sourceType: 'script',
       ecmaVersion: 'latest',
@@ -108,12 +107,11 @@ export default [
    * ESM node files
    */
   {
-    ...n.configs['flat/recommended-module'],
+    ...eslintPluginN.configs['flat/recommended-module'],
     files: ['**/*.mjs'],
     plugins: {
-      n,
+      n: eslintPluginN,
     },
-
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 'latest',

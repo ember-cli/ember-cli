@@ -13,17 +13,17 @@
  *
  */
 import globals from 'globals';
-import js from '@eslint/js';
+import eslint from '@eslint/js';
 
-import ts from 'typescript-eslint';
+import tseslint from 'typescript-eslint';
 
-import ember from 'eslint-plugin-ember/recommended';
+import eslintPluginEmber from 'eslint-plugin-ember/recommended';
 
 import eslintConfigPrettier from 'eslint-config-prettier';
-import qunit from 'eslint-plugin-qunit';
-import n from 'eslint-plugin-n';
+import eslintPluginQunit from 'eslint-plugin-qunit';
+import eslintPluginN from 'eslint-plugin-n';
 
-import babelParser from '@babel/eslint-parser';
+import babelEslintParser from '@babel/eslint-parser';
 
 const parserOptions = {
   esm: {
@@ -47,11 +47,11 @@ const parserOptions = {
   },
 };
 
-export default ts.config(
-  js.configs.recommended,
-  ember.configs.base,
-  ember.configs.gjs,
-  ember.configs.gts,
+export default tseslint.config(
+  eslint.configs.recommended,
+  eslintPluginEmber.configs.base,
+  eslintPluginEmber.configs.gjs,
+  eslintPluginEmber.configs.gts,
   eslintConfigPrettier,
   /**
    * Ignores must be in their own object
@@ -71,7 +71,7 @@ export default ts.config(
   {
     files: ['**/*.js'],
     languageOptions: {
-      parser: babelParser,
+      parser: babelEslintParser,
     },
   },
   {
@@ -86,23 +86,23 @@ export default ts.config(
   {
     files: ['**/*.{ts,gts}'],
     languageOptions: {
-      parser: ember.parser,
+      parser: eslintPluginEmber.parser,
       parserOptions: parserOptions.esm.ts,
     },
-    extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts],
+    extends: [...tseslint.configs.recommendedTypeChecked, eslintPluginEmber.configs.gts],
   },
   {
-    ...qunit.configs.recommended,
+    ...eslintPluginQunit.configs.recommended,
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],
     plugins: {
-      qunit,
+      qunit: eslintPluginQunit,
     },
   },
   /**
    * CJS node files
    */
   {
-    ...n.configs['flat/recommended-script'],
+    ...eslintPluginN.configs['flat/recommended-script'],
     files: [
       '**/*.cjs',
       'config/**/*.js',
@@ -116,9 +116,8 @@ export default ts.config(
       'ember-cli-build.js',
     ],
     plugins: {
-      n,
+      n: eslintPluginN,
     },
-
     languageOptions: {
       sourceType: 'script',
       ecmaVersion: 'latest',
@@ -131,12 +130,11 @@ export default ts.config(
    * ESM node files
    */
   {
-    ...n.configs['flat/recommended-module'],
+    ...eslintPluginN.configs['flat/recommended-module'],
     files: ['**/*.mjs'],
     plugins: {
-      n,
+      n: eslintPluginN,
     },
-
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 'latest',
