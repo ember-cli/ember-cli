@@ -95,7 +95,7 @@ module.exports = {
     if (this.options.typescript) {
       contents.devDependencies.rimraf = '^5.0.10';
 
-      contents.scripts.prepack = 'tsc --project tsconfig.declarations.json';
+      contents.scripts.prepack = 'tsc --declaration --project tsconfig.declarations.json';
       contents.scripts.postpack = 'rimraf declarations';
 
       contents.typesVersions = {
