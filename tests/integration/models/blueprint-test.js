@@ -79,7 +79,6 @@ let instrumented = {
   },
 };
 
-let defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 let fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
 let basicBlueprint = path.join(fixtureBlueprints, 'basic');
 let basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
@@ -181,12 +180,14 @@ describe('Blueprint', function () {
     });
 
     it('finds blueprints in the ember-cli package', function () {
-      let expectedPath = path.resolve(defaultBlueprints, 'app');
+      let expectedPath = path.dirname(require.resolve('@ember/classic-app-blueprint'));
       let expectedClass = Blueprint;
 
       let blueprint = Blueprint.lookup('app');
 
-      expect(blueprint.name).to.equal('app');
+      // TODO it's really strange that a blueprint's name is defined by its folder
+      // do we need to fix this?
+      expect(blueprint.name).to.equal('app-blueprint');
       expect(blueprint.path).to.equal(expectedPath);
       expect(blueprint instanceof expectedClass).to.equal(true);
     });

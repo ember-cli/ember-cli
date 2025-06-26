@@ -1,0 +1,23 @@
+{
+  "name": "@ember/classic-addon-blueprint",
+  "version": "6.7.0-alpha.1",
+  "dependencies": {
+    "@ember/blueprint-model": "workspace:*",
+    "chalk": "^4.1.2",
+    "ember-cli-normalize-entity-name": "^1.0.0",
+    "ember-cli-string-utils": "^1.1.0",
+    "fs-extra": "^11.3.0",
+    "lodash": "^4.17.21",
+    "silent-error": "^1.1.1",
+    "sort-package-json": "^2.12.0",
+    "walk-sync": "^3.0.0"
+  },
+  "release-plan": {
+    "semverIncrementAs": {
+      "minor": "prerelease",
+      "patch": "prerelease"
+    },
+    "semverIncrementTag": "alpha",
+    "publishTag": "alpha"
+  }
+}

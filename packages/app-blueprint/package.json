@@ -1,0 +1,17 @@
+{
+  "name": "@ember/classic-app-blueprint",
+  "version": "6.7.0-alpha.1",
+  "dependencies": {
+    "@ember/blueprint-model": "workspace:*",
+    "chalk": "^4.1.2",
+    "ember-cli-string-utils": "^1.1.0"
+  },
+  "release-plan": {
+    "semverIncrementAs": {
+      "minor": "prerelease",
+      "patch": "prerelease"
+    },
+    "semverIncrementTag": "alpha",
+    "publishTag": "alpha"
+  }
+}

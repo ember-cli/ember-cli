@@ -8,8 +8,8 @@ const EOL = require('os').EOL;
 const rxEOL = new RegExp(EOL, 'g');
 const isBinaryFile = require('isbinaryfile').isBinaryFileSync;
 const hash = require('promise.hash.helper');
-const canEdit = require('../utilities/open-editor').canEdit;
-const processTemplate = require('../utilities/process-template');
+const canEdit = require('./open-editor').canEdit;
+const processTemplate = require('./process-template');
 
 const readFile = util.promisify(fs.readFile);
 const lstat = util.promisify(fs.stat);

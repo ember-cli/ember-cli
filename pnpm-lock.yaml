@@ -11,6 +11,18 @@ importers:
 
   .:
     dependencies:
+      '@ember/blueprint-blueprint':
+        specifier: workspace:*
+        version: link:packages/blueprint-blueprint
+      '@ember/blueprint-model':
+        specifier: workspace:*
+        version: link:packages/blueprint-model
+      '@ember/classic-addon-blueprint':
+        specifier: workspace:*
+        version: link:packages/addon-blueprint
+      '@ember/classic-app-blueprint':
+        specifier: workspace:*
+        version: link:packages/app-blueprint
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0
         version: 1000.1.0
@@ -354,6 +366,74 @@ importers:
       yuidocjs:
         specifier: 0.10.2
         version: 0.10.2
+
+  packages/addon-blueprint:
+    dependencies:
+      '@ember/blueprint-model':
+        specifier: workspace:*
+        version: link:../blueprint-model
+      chalk:
+        specifier: ^4.1.2
+        version: 4.1.2
+      ember-cli-normalize-entity-name:
+        specifier: ^1.0.0
+        version: 1.0.0
+      ember-cli-string-utils:
+        specifier: ^1.1.0
+        version: 1.1.0
+      fs-extra:
+        specifier: ^11.3.0
+        version: 11.3.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      silent-error:
+        specifier: ^1.1.1
+        version: 1.1.1
+      sort-package-json:
+        specifier: ^2.12.0
+        version: 2.12.0
+      walk-sync:
+        specifier: ^3.0.0
+        version: 3.0.0
+
+  packages/app-blueprint:
+    dependencies:
+      '@ember/blueprint-model':
+        specifier: workspace:*
+        version: link:../blueprint-model
+      chalk:
+        specifier: ^4.1.2
+        version: 4.1.2
+      ember-cli-string-utils:
+        specifier: ^1.1.0
+        version: 1.1.0
+
+  packages/blueprint-blueprint: {}
+
+  packages/blueprint-model:
+    dependencies:
+      chalk:
+        specifier: ^4.1.2
+        version: 4.1.2
+      diff:
+        specifier: ^7.0.0
+        version: 7.0.0
+      isbinaryfile:
+        specifier: ^5.0.4
+        version: 5.0.4
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      promise.hash.helper:
+        specifier: ^1.0.8
+        version: 1.0.8
+      quick-temp:
+        specifier: ^0.1.8
+        version: 0.1.8
+      silent-error:
+        specifier: ^1.1.1
+        version: 1.1.1
 
 packages:
 
