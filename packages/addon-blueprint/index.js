@@ -17,6 +17,8 @@ const normalizeEntityName = require('ember-cli-normalize-entity-name');
 const directoryForPackageName = require('@ember/blueprint-model/utilities/directory-for-package-name');
 const FileInfo = require('@ember/blueprint-model/utilities/file-info');
 
+const blueprintVersion = require('./package.json').version;
+
 function stringifyAndNormalize(contents) {
   return `${JSON.stringify(contents, null, 2)}\n`;
 }
@@ -181,6 +183,7 @@ module.exports = {
   beforeInstall() {
     const prependEmoji = require('@ember/blueprint-model/utilities/prepend-emoji');
 
+    this.ui.writeLine(chalk.blue(`@ember/classic-addon-blueprint v${blueprintVersion}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
   },
@@ -233,7 +236,7 @@ module.exports = {
       namespace,
       addonName,
       addonNamespace,
-      blueprintVersion: require('./package.json').version,
+      blueprintVersion,
       year: date.getFullYear(),
       yarn: options.packageManager === 'yarn',
       pnpm: options.packageManager === 'pnpm',
