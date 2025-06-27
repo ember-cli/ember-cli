@@ -53,7 +53,7 @@ describe('blueprint - addon', function () {
   describe('direct blueprint require', function () {
     let blueprint;
     beforeEach(function () {
-      blueprint = require('@ember/classic-addon-blueprint');
+      blueprint = require('@ember-tooling/classic-build-addon-blueprint');
       blueprint.options = {
         entity: { name: 'my-cool-addon' },
       };

@@ -1,5 +1,5 @@
 {
-  "name": "@ember/blueprint-model",
+  "name": "@ember-tooling/blueprint-model",
   "version": "0.0.0",
   "dependencies": {
     "chalk": "^4.1.2",

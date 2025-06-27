@@ -1,5 +1,5 @@
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const { isExperimentEnabled } = require('@ember/blueprint-model/utilities/experiments');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 module.exports = function (defaults) {
   var app = new EmberApp(defaults, {

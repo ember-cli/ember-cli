@@ -4,7 +4,7 @@ const { expect } = require('chai');
 const {
   isExperimentEnabled,
   _deprecatedExperimentsDeprecationsIssued,
-} = require('@ember/blueprint-model/utilities/experiments');
+} = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 function resetProcessEnv(originalProcessEnv) {
   for (let key in process.env) {
