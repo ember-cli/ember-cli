@@ -2,7 +2,7 @@
 
 const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
-const FileInfo = require('@ember/blueprint-model/utilities/file-info');
+const FileInfo = require('@ember-tooling/blueprint-model/utilities/file-info');
 const path = require('path');
 const fs = require('fs-extra');
 const EOL = require('os').EOL;

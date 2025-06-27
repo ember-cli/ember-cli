@@ -2,12 +2,12 @@
 
 const stringUtil = require('ember-cli-string-utils');
 const chalk = require('chalk');
-const { isExperimentEnabled } = require('@ember/blueprint-model/utilities/experiments');
-const directoryForPackageName = require('@ember/blueprint-model/utilities/directory-for-package-name');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
+const directoryForPackageName = require('@ember-tooling/blueprint-model/utilities/directory-for-package-name');
 const blueprintVersion = require('./package.json').version;
 
 module.exports = {
-  name: '@ember/classic-app-blueprint',
+  name: '@ember-tooling/classic-build-app-blueprint',
   description: 'The default blueprint for ember-cli projects.',
 
   shouldTransformTypeScript: true,
@@ -121,8 +121,8 @@ module.exports = {
   },
 
   beforeInstall() {
-    const prependEmoji = require('@ember/blueprint-model/utilities/prepend-emoji');
-    this.ui.writeLine(chalk.blue(`@ember/classic-app-blueprint v${blueprintVersion}`));
+    const prependEmoji = require('@ember-tooling/blueprint-model/utilities/prepend-emoji');
+    this.ui.writeLine(chalk.blue(`@ember-tooling/classic-build-app-blueprint v${blueprintVersion}`));
     this.ui.writeLine('');
     this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
   },

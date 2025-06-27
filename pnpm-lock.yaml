@@ -11,16 +11,16 @@ importers:
 
   .:
     dependencies:
-      '@ember/blueprint-blueprint':
+      '@ember-tooling/blueprint-blueprint':
         specifier: workspace:*
         version: link:packages/blueprint-blueprint
-      '@ember/blueprint-model':
+      '@ember-tooling/blueprint-model':
         specifier: workspace:*
         version: link:packages/blueprint-model
-      '@ember/classic-addon-blueprint':
+      '@ember-tooling/classic-build-addon-blueprint':
         specifier: workspace:*
         version: link:packages/addon-blueprint
-      '@ember/classic-app-blueprint':
+      '@ember-tooling/classic-build-app-blueprint':
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@pnpm/find-workspace-dir':
@@ -369,7 +369,7 @@ importers:
 
   packages/addon-blueprint:
     dependencies:
-      '@ember/blueprint-model':
+      '@ember-tooling/blueprint-model':
         specifier: workspace:*
         version: link:../blueprint-model
       chalk:
@@ -399,7 +399,7 @@ importers:
 
   packages/app-blueprint:
     dependencies:
-      '@ember/blueprint-model':
+      '@ember-tooling/blueprint-model':
         specifier: workspace:*
         version: link:../blueprint-model
       chalk:

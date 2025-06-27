@@ -1,8 +1,8 @@
 {
-  "name": "@ember/classic-addon-blueprint",
+  "name": "@ember-tooling/classic-build-addon-blueprint",
   "version": "6.7.0-alpha.1",
   "dependencies": {
-    "@ember/blueprint-model": "workspace:*",
+    "@ember-tooling/blueprint-model": "workspace:*",
     "chalk": "^4.1.2",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-string-utils": "^1.1.0",

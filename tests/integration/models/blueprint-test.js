@@ -180,7 +180,7 @@ describe('Blueprint', function () {
     });
 
     it('finds blueprints in the ember-cli package', function () {
-      let expectedPath = path.dirname(require.resolve('@ember/classic-app-blueprint'));
+      let expectedPath = path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint'));
       let expectedClass = Blueprint;
 
       let blueprint = Blueprint.lookup('app');
