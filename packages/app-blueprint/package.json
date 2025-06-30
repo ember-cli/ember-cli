@@ -1,6 +1,11 @@
 {
   "name": "@ember-tooling/classic-build-app-blueprint",
   "version": "6.7.0-alpha.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ember-cli/ember-cli.git",
+    "directory": "packages/app-blueprint"
+  },
   "dependencies": {
     "@ember-tooling/blueprint-model": "workspace:*",
     "chalk": "^4.1.2",

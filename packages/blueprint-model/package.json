@@ -1,6 +1,11 @@
 {
   "name": "@ember-tooling/blueprint-model",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ember-cli/ember-cli.git",
+    "directory": "packages/blueprint-model"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "diff": "^7.0.0",
