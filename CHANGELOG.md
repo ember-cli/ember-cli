@@ -1,5 +1,23 @@
 # ember-cli Changelog
 
+## Release (2025-06-30)
+
+* @ember-tooling/classic-build-addon-blueprint 6.7.0-alpha.2 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.7.0-alpha.2 (patch)
+* @ember-tooling/blueprint-blueprint 0.0.1 (patch)
+* @ember-tooling/blueprint-model 0.0.1 (patch)
+* ember-cli 6.7.0-alpha.2 (patch)
+
+#### :house: Internal
+* Other
+  * [#10735](https://github.com/ember-cli/ember-cli/pull/10735) remove unnecessary project override ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10736](https://github.com/ember-cli/ember-cli/pull/10736) update all sub-packages to have the @ember-tooling prefix ([@mansona](https://github.com/mansona))
+  * [#10671](https://github.com/ember-cli/ember-cli/pull/10671) Implement the built in app, addon, and blueprint blueprints by package lookup ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-06-16)
 
 * ember-cli 6.7.0-alpha.1 (minor)
