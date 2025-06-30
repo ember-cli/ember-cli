@@ -2,6 +2,21 @@
 
 ## Release (2025-06-30)
 
+* @ember-tooling/classic-build-addon-blueprint 6.7.0-alpha.3 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.7.0-alpha.3 (patch)
+* @ember-tooling/blueprint-blueprint 0.0.2 (patch)
+* @ember-tooling/blueprint-model 0.0.2 (patch)
+* ember-cli 6.7.0-alpha.3 (patch)
+
+#### :house: Internal
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10738](https://github.com/ember-cli/ember-cli/pull/10738) add a repository for each of the packages ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2025-06-30)
+
 * @ember-tooling/classic-build-addon-blueprint 6.7.0-alpha.2 (patch)
 * @ember-tooling/classic-build-app-blueprint 6.7.0-alpha.2 (patch)
 * @ember-tooling/blueprint-blueprint 0.0.1 (patch)
