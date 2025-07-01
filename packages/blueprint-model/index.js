@@ -5,11 +5,11 @@
 */
 const FileInfo = require('@ember-tooling/blueprint-model/utilities/file-info');
 const chalk = require('chalk');
-const MarkdownColor = require('../utilities/markdown-color');
-const sequence = require('../utilities/sequence');
-const printCommand = require('../utilities/print-command');
-const insertIntoFile = require('../utilities/insert-into-file');
-const cleanRemove = require('../utilities/clean-remove');
+const MarkdownColor = require('@ember-tooling/blueprint-model/utilities/markdown-color');
+const sequence = require('./utilities/sequence');
+const printCommand = require('@ember-tooling/blueprint-model/utilities/print-command');
+const insertIntoFile = require('@ember-tooling/blueprint-model/utilities/insert-into-file');
+const cleanRemove = require('@ember-tooling/blueprint-model/utilities/clean-remove');
 const fs = require('fs-extra');
 const inflector = require('inflection');
 const minimatch = require('minimatch');
@@ -28,7 +28,7 @@ const CoreObject = require('core-object');
 const EOL = require('os').EOL;
 const logger = require('heimdalljs-logger')('ember-cli:blueprint');
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
-const isAddon = require('../utilities/is-addon');
+const isAddon = require('@ember-tooling/blueprint-model/utilities/is-addon');
 
 const initialIgnoredFiles = ['.DS_Store'];
 

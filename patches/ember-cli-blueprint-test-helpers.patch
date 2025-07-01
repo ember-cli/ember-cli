@@ -1,0 +1,15 @@
+diff --git a/lib/helpers/setup.js b/lib/helpers/setup.js
+index c337ec0020f46e0e9ed3f76b325c7d174168a900..29dfd7fb0acd5ae895d470b80be15bf1c8ff9a25 100644
+--- a/lib/helpers/setup.js
++++ b/lib/helpers/setup.js
+@@ -31,7 +31,9 @@ module.exports = function setupTestHooks(scope, options) {
+   }
+ 
+   if (disabledTasks.length) {
+-    let Blueprint = requireFromCLI('lib/models/blueprint');
++    let Blueprint = require('@ember-tooling/blueprint-model', {
++      paths: [options.cliPath]
++    });
+ 
+     before(() => {
+       MockBlueprintTaskFor.disableTasks(Blueprint, disabledTasks);

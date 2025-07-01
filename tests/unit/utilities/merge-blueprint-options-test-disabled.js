@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const Blueprint = require('../../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 const Project = require('../../../lib/models/project');
 const Command = require('../../../lib/models/command');
 const mergeBlueprintOptions = require('../../../lib/utilities/merge-blueprint-options');

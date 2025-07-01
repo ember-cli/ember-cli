@@ -4,10 +4,10 @@ const processHelpString = require('../../helpers/process-help-string');
 const { expect } = require('chai');
 const path = require('path');
 const EOL = require('os').EOL;
-const MarkdownColor = require('../../../lib/utilities/markdown-color');
+const MarkdownColor = require('@ember-tooling/blueprint-model/utilities/markdown-color');
 const td = require('testdouble');
 
-let Blueprint = require('../../../lib/models/blueprint');
+let Blueprint = require('@ember-tooling/blueprint-model');
 
 describe('Blueprint', function () {
   afterEach(function () {

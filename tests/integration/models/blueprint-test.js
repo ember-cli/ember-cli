@@ -15,7 +15,7 @@ let tempRoot = path.join(root, 'tmp');
 const SilentError = require('silent-error');
 const tmp = require('tmp-promise');
 const td = require('testdouble');
-const Blueprint = require('../../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 
 let localsCalled;
 let normalizeEntityNameCalled;
