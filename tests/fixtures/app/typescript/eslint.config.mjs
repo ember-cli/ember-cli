@@ -145,9 +145,5 @@ export default ts.config(
         ...globals.node,
       },
     },
-    rules: {
-      'n/no-extraneous-import': 'warn',
-      'n/no-unsupported-features/node-builtins': 'warn',
-    },
   },
 );
