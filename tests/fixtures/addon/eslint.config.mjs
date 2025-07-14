@@ -122,8 +122,5 @@ export default [
         ...globals.node,
       },
     },
-    rules: {
-      'n/no-extraneous-import': 'warn',
-    },
   },
 ];
