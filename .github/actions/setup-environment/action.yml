@@ -3,7 +3,7 @@ description: Setup environment
 
 inputs:
   node-version:
-    default: '18'
+    default: '20'
     description: Node version
 
 runs:
