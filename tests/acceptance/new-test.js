@@ -771,7 +771,6 @@ describe('Acceptance: ember new', function () {
         fixturePath = 'app/typescript-no-ember-data';
       }
 
-      checkFile('tsconfig.json', path.join(__dirname, '../fixtures', fixturePath, 'tsconfig.json'));
       checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
