@@ -80,6 +80,14 @@ jobs:
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
 
+      # this is needed because our fixtures are highly dependent on the exact version of ember-cli in the monorepo
+      # and release-plan updates the version during the plan phase
+      - name: "Update blueprint to use new ember-cli version"
+        # if you're planning to test this locally and you're on a mac then you should use `gsed` because bsd sed has different
+        # arguments. You can install gsed with `brew install gnu-sed`
+        run: |
+          sed -i 's/"ember-cli".*/"ember-cli": "~'$(jq -r .version package.json)'",/' packages/app-blueprint/files/package.json
+
       - uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "Prepare Alpha Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
