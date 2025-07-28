@@ -1,5 +1,32 @@
 # ember-cli Changelog
 
+## Release (2025-07-26)
+
+* @ember-tooling/classic-build-addon-blueprint 6.7.0-alpha.4 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.7.0-alpha.4 (minor)
+* ember-cli 6.7.0-alpha.4 (patch)
+
+#### :rocket: Enhancement
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10742](https://github.com/ember-cli/ember-cli/pull/10742) Drop node 18, add node 24 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10742](https://github.com/ember-cli/ember-cli/pull/10742) Drop node 18, add node 24 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :memo: Documentation
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10742](https://github.com/ember-cli/ember-cli/pull/10742) Drop node 18, add node 24 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* [#10748](https://github.com/ember-cli/ember-cli/pull/10748) update blueprint version of ember-cli as part of release plan ([@mansona](https://github.com/mansona))
+* [#10747](https://github.com/ember-cli/ember-cli/pull/10747) only use the PAT for the PR creation in release-plan ([@mansona](https://github.com/mansona))
+* [#10744](https://github.com/ember-cli/ember-cli/pull/10744) run tests on the release-plan PR ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-06-30)
 
 * @ember-tooling/classic-build-addon-blueprint 6.7.0-alpha.3 (patch)
