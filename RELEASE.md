@@ -16,11 +16,18 @@ During the release week each of the versions are effectively "promoted" i.e. the
 
 The release process during release week should look like this:
 
+- Merge any outstanding `Prepare Alpha Release` branches
 - Do an intial stable release from the `release` branch
 - Merge `release` into `beta`
 - Do a `beta` release
 - Merge `beta` into `master`
 - Do an `alpha` release
+
+### Merge any outstanding `Prepare Alpha Release` branches
+
+This makes sure that you are starting from a "clean slate" before doing any other releases. This will make each of the following steps easier to follow.
+
+You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=is%3Apr+is%3Aopen+Prepare) to find any outstanding `Prepare Release` branches.
 
 
 ### Initial Stable Release from the `release` branch
@@ -31,7 +38,11 @@ The release process during release week should look like this:
 - Merge `origin/beta` into the release branch
   - `git merge origin/beta --no-ff`
   - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - **make sure to not update the .github/workflows/plan-release.yml file** this should still plan a stable release
+  - **make sure to not update the .github/workflows/publish.yml file** this should still publish a stable release
+  - **make sure to not update the CHANGELOG.md file** so as not to include the beta or alpha changelogs in the next release
   - make sure to not update the version in the package.json during this step, this will be release-plan's job
+  - make sure to not add the `release-plan` config section to the package.json during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
 - Update blueprint dependencies to latest
 
 ```
@@ -39,9 +50,9 @@ node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=l
 ```
 
 - commit this update `git commit -am "update blueprint dependencies to latest"`
-- push and open a PR targeting `release`
+- push and open a PR targeting `release` with a PR title like `Update all dependencies for 6.4 release`
 - mark this PR as an `enhancement` if it is a minor release
-- check that everything is ok
+- check that everything is ok (i.e. that CI has run correctly and that you have the changes you expect)
 - merge branch
 - check that the `Prepare Release` PR has been correctly opened by `release-plan`
 - Merge the `Prepare Release` branch when you are ready to release
