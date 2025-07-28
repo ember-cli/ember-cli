@@ -25,7 +25,6 @@
       "@ember-data/request-utils/unstable-preview-types",
       "@ember-data/model/unstable-preview-types",
       "@ember-data/serializer/unstable-preview-types",
-      "@ember-data/tracking/unstable-preview-types",
       "@warp-drive/core-types/unstable-preview-types"
     ]
   }

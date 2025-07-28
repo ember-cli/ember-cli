@@ -60,7 +60,7 @@
     "@ember/test-helpers": "^5.2.2",
     "@embroider/macros": "^1.18.0",
     "@embroider/test-setup": "^4.0.0",
-    "@eslint/js": "^9.28.0",
+    "@eslint/js": "^9.29.0",
     "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@glint/environment-ember-loose": "^1.5.2",
@@ -83,14 +83,14 @@
     "ember-page-title": "^9.0.2",
     "ember-qunit": "^9.0.3",
     "ember-resolver": "^13.1.1",
-    "ember-source": "~6.5.0",
+    "ember-source": "~6.6.0-beta.1",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^6.1.0",
     "ember-try": "^4.0.0",
-    "eslint": "^9.28.0",
+    "eslint": "^9.29.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-ember": "^12.5.0",
-    "eslint-plugin-n": "^17.19.0",
+    "eslint-plugin-n": "^17.20.0",
     "eslint-plugin-qunit": "^8.1.2",
     "globals": "^15.15.0",
     "loader.js": "^4.7.0",
@@ -102,14 +102,14 @@
     "stylelint": "^16.20.0",
     "stylelint-config-standard": "^36.0.1",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0",
+    "typescript-eslint": "^8.34.1",
     "webpack": "^5.99.9"
   },
   "peerDependencies": {
     "ember-source": ">= 4.0.0"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.11"
   },
   "ember": {
     "edition": "octane"

@@ -108,6 +108,14 @@ async function latestVersion(packageName, semverRange) {
       options.version = OPTIONS[packageName];
     }
 
+    /**
+     * We need any @ember-data/* or @warp-drive/* packages to match the same version as ember-data in the
+     * package.json files.
+     */
+    if (packageName.startsWith('@ember-data/') || packageName.startsWith('@warp-drive/')) {
+      options.version = OPTIONS['ember-data'];
+    }
+
     result = _latestVersion(packageName, options);
     LATEST.set(packageName, result);
   }

@@ -68,7 +68,7 @@
     "tracked-built-ins": "^3.1.0"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.11"
   },
   "ember": {
     "edition": "octane"
