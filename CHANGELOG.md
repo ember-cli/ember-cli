@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+## Release (2025-07-28)
+
+* ember-cli 6.6.0-beta.2 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`
+  * [#10751](https://github.com/ember-cli/ember-cli/pull/10751) [BETA BACKPORT] Backport drop node 18 ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-06-16)
 
 * ember-cli 6.6.0-beta.1 (minor)
