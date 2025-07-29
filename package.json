@@ -149,23 +149,24 @@
     "supertest": "^7.1.0",
     "testdouble": "^3.18.0",
     "tmp": "^0.2.1",
+    "tmp-promise": "^3.0.3",
     "websocket": "^1.0.32",
     "which": "3.0.1",
     "yuidoc-ember-cli-theme": "^1.0.4",
     "yuidocjs": "0.10.2"
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.12.1",
   "pnpm": {
     "overrides": {
       "github-changelog": "github:embroider-build/github-changelog#ignore-pre-release"
     }
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.11"
   },
   "volta": {
-    "node": "18.12.0",
-    "pnpm": "9.15.0"
+    "node": "20.11.0",
+    "pnpm": "10.12.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

@@ -68,7 +68,7 @@
     "stylelint-prettier": "^5.0.2"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.11"
   },
   "ember": {
     "edition": "octane"
