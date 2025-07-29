@@ -47,7 +47,7 @@ describe('Acceptance: ember init', function () {
   });
 
   function confirmBlueprinted(typescript = false) {
-    let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
+    let blueprintPath = path.join(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')), 'files');
     // ignore TypeScript files
     let expected = walkSync(blueprintPath, {
       ignore: ['tsconfig.json', 'types', 'app/config'],
@@ -83,7 +83,7 @@ describe('Acceptance: ember init', function () {
   }
 
   function confirmGlobBlueprinted(pattern) {
-    let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
+    let blueprintPath = path.join(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')), 'files');
     let actual = pickSync('.', pattern);
     let expected = intersect(actual, pickSync(blueprintPath, pattern));
 

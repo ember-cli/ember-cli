@@ -1,13 +1,14 @@
 # For every push to the primary branch with .release-plan.json modified,
 # runs release-plan.
 
-name: Publish Stable (Beta)
+name: Publish Stable (Alpha)
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - beta
+      - main
+      - master
     paths:
       - '.release-plan.json'
 
@@ -36,7 +37,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Publish to NPM
-        run: NPM_CONFIG_PROVENANCE=true pnpm release-plan publish --github-prerelease --publish-branch=beta
+        run: NPM_CONFIG_PROVENANCE=true pnpm release-plan publish --github-prerelease
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

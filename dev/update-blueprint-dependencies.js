@@ -44,8 +44,8 @@ const OPTIONS = nopt({
 });
 
 const PACKAGE_FILES = [
-  '../blueprints/app/files/package.json',
-  '../blueprints/addon/additional-package.json',
+  '../packages/app-blueprint/files/package.json',
+  '../packages/addon-blueprint/additional-package.json',
   '../tests/fixtures/app/defaults/package.json',
   '../tests/fixtures/app/npm/package.json',
   '../tests/fixtures/app/yarn/package.json',

@@ -1,5 +1,6 @@
 /bin/
 /blueprints/**/files/
+/packages/*-blueprint/files/
 /common-tmp/
 /coverage/
 /docs/build/
