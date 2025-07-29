@@ -64,9 +64,18 @@ node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=l
 - create a new branch to merge `release` into `beta` e.g. `git checkout --no-track -b merge-release origin/beta`
 - merge release into this new branch e.g. `git merge origin/release --no-ff`
   - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - **make sure to not update any .github/workflows/plan-release.yml file** this should still plan a beta release
+  - **make sure to not update any .github/workflows/publish.yml file** this should still publish a beta release
+  - make sure to not update the version in the package.json during this step, that step comes later
+  - make sure to not remove the `release-plan` config section to the `package.json`, `packages/addon-blueprint/package.json`, or `packages/app-blueprint/package.json`, during this step.
 - merge master into this new branch too e.g. `git merge origin/master --no-ff`
   - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - **make sure to not update the CHANGELOG.md file** in this step. It should match the changelog on `origin/release` at this stage.
   - update the alpha version in package.json to be a beta i.e. if the incoming merge is `"version": "6.6.0-alpha.3",` update it to `"version": "6.6.0-beta.0",`
+  - update the alpha version in `packages/addon-blueprint/package.json` to be a beta
+  - update the alpha version in `packages/app-blueprint/package.json` to be a beta
+  - make sure not to update the `release-plan` config in `package.json`, `packages/addon-blueprint/package.json`, or `packages/app-blueprint/package.json`
+  - update the `ember-cli` reference in `packages/app-blueprint/files/package.json` to be the same as the version you just put in the top level package.json
 - Update blueprint dependencies to beta
 
 ```
@@ -74,7 +83,7 @@ node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=bet
 ```
 
 - commit this update `git commit -am "update blueprint dependencies to beta"`
-- push and open a PR targeting `beta`
+- push and open a PR targeting `beta` with a PR title like `Prepare 6.5-beta`
 - mark this PR as an `enchancement` if the next beta is a minor release
 - check that everything is ok i.e. CI passes
 - merge the `merge-release` branch into `beta` in GitHub
