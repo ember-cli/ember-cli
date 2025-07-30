@@ -3,7 +3,7 @@
   "packages": [
     {
       "name": "ember-cli",
-      "version": "<%= emberCLIVersion %>",
+      "version": "<%= blueprintVersion %>",
       "blueprints": [
         {
           "name": "<%= blueprint %>",

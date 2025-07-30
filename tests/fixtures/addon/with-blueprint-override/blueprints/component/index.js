@@ -1,4 +1,4 @@
-const { isExperimentEnabled } = require('../../../../lib/experiments');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 const path = require('path');
 
 

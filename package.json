@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "6.6.0-beta.2",
+  "version": "6.7.0-beta.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -46,6 +46,10 @@
     "publishTag": "beta"
   },
   "dependencies": {
+    "@ember-tooling/blueprint-blueprint": "^0.0.2",
+    "@ember-tooling/blueprint-model": "^0.0.2",
+    "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
+    "@ember-tooling/classic-build-app-blueprint": "workspace:*",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
     "broccoli": "^3.5.2",

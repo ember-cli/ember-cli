@@ -79,12 +79,23 @@ jobs:
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
 
+      # this is needed because our fixtures are highly dependent on the exact version of ember-cli in the monorepo
+      # and release-plan updates the version during the plan phase
+      - name: "Update blueprint to use new ember-cli version"
+        # if you're planning to test this locally and you're on a mac then you should use `gsed` because bsd sed has different
+        # arguments. You can install gsed with `brew install gnu-sed`
+        run: |
+          sed -i 's/"ember-cli".*/"ember-cli": "~'$(jq -r .version package.json)'",/' packages/app-blueprint/files/package.json
+
       - uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "Prepare Beta Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
           labels: "internal"
           branch: release-preview-beta
           title: Prepare Beta Release ${{ steps.explanation.outputs.new_version }}
+          # this doesn't use secrets.GITHUB_TOKEN because we want CI to run on the PR that it opens.
+          # See: https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+          token: ${{ secrets.RELEASE_PLAN_GH_PAT }}
           body: |
             This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍
 
