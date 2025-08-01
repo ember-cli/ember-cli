@@ -367,8 +367,8 @@ importers:
   packages/addon-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: workspace:*
+        version: link:../blueprint-model
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -397,8 +397,8 @@ importers:
   packages/app-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: workspace:*
+        version: link:../blueprint-model
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -559,9 +559,6 @@ packages:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
     hasBin: true
-
-  '@ember-tooling/blueprint-model@0.0.2':
-    resolution: {integrity: sha512-mZ6GZQE3zNfldN0qpZ8qAwCKH2fog60af72yppQueraYqRgL1SSd46An7sxRb1ur60+xlCMZAlj3086Fk1cKuQ==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -5576,18 +5573,6 @@ snapshots:
     dependencies:
       exec-sh: 0.3.6
       minimist: 1.2.8
-
-  '@ember-tooling/blueprint-model@0.0.2':
-    dependencies:
-      chalk: 4.1.2
-      diff: 7.0.0
-      isbinaryfile: 5.0.4
-      lodash: 4.17.21
-      promise.hash.helper: 1.0.8
-      quick-temp: 0.1.8
-      silent-error: 1.1.1
-    transitivePeerDependencies:
-      - supports-color
 
   '@eslint-community/eslint-utils@4.4.1(eslint@8.57.1)':
     dependencies:
