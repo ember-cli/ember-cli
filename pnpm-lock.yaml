@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  github-changelog: github:embroider-build/github-changelog#ignore-pre-release
-
 importers:
 
   .:
@@ -337,8 +334,8 @@ importers:
         specifier: 2.8.7
         version: 2.8.7
       release-plan:
-        specifier: ^0.17.0
-        version: 0.17.0
+        specifier: ^0.17.2
+        version: 0.17.2
       strip-ansi:
         specifier: ^6.0.0
         version: 6.0.1
@@ -370,8 +367,8 @@ importers:
   packages/addon-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: workspace:*
-        version: link:../blueprint-model
+        specifier: ^0.0.2
+        version: 0.0.2
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -400,8 +397,8 @@ importers:
   packages/app-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: workspace:*
-        version: link:../blueprint-model
+        specifier: ^0.0.2
+        version: 0.0.2
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -562,6 +559,9 @@ packages:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
     hasBin: true
+
+  '@ember-tooling/blueprint-model@0.0.2':
+    resolution: {integrity: sha512-mZ6GZQE3zNfldN0qpZ8qAwCKH2fog60af72yppQueraYqRgL1SSd46An7sxRb1ur60+xlCMZAlj3086Fk1cKuQ==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -2679,9 +2679,8 @@ packages:
     resolution: {integrity: sha512-8aCohiDo4jwjOwma4FmYFd3i97urZulL8XL24nIPxuE+GZnfsAyy/g2Shqx6OjUiFKUXZM+Yy+KHnOmmA3FVcg==}
     engines: {node: '>= 4.0'}
 
-  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488:
-    resolution: {tarball: https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488}
-    version: 2.0.0
+  github-changelog@2.1.1:
+    resolution: {integrity: sha512-MRJXYVBJi5EUtIvaMokAIMAOmDwx8EtO2xK2yhK/jSHQBRGVwuhVGYhSCWPSnku8MTtL4mfk2qFNqUhx2ZC98A==}
     engines: {node: 18.* || 20.* || >= 22}
     hasBin: true
 
@@ -4313,8 +4312,8 @@ packages:
     resolution: {integrity: sha512-+crtS5QjFRqFCoQmvGduwYWEBng99ZvmFvF+cUJkGYF1L1BfU8C6Zp9T7f5vPAwyLkUExpvK+ANVZmGU49qi4Q==}
     engines: {node: '>=12'}
 
-  release-plan@0.17.0:
-    resolution: {integrity: sha512-mE6ZKEC2FLl0bMeHcd0mKXTxM8rb+gaiaLaEyL6pUmo8zKLAtJxpj6dufaoLd7peKtiw4rDyKKB2IreoGJoqXQ==}
+  release-plan@0.17.2:
+    resolution: {integrity: sha512-LgE/3CU8sFZt28uJR886xvWdw/CL0g5g5YSFTAJUvUy5qdERZdcc1pu317nKpYFs/yEDjiUasLj3rxnXBJf1zA==}
     hasBin: true
 
   release-zalgo@1.0.0:
@@ -4799,6 +4798,7 @@ packages:
   supertest@7.1.1:
     resolution: {integrity: sha512-aI59HBTlG9e2wTjxGJV+DygfNLgnWbGdZxiA/sgrnNNikIW8lbDvCtF6RnhZoJ82nU7qv7ZLjrvWqCEm52fAmw==}
     engines: {node: '>=14.18.0'}
+    deprecated: Please upgrade to supertest v7.1.3+, see release notes at https://github.com/forwardemail/supertest/releases/tag/v7.1.3 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -5577,6 +5577,18 @@ snapshots:
       exec-sh: 0.3.6
       minimist: 1.2.8
 
+  '@ember-tooling/blueprint-model@0.0.2':
+    dependencies:
+      chalk: 4.1.2
+      diff: 7.0.0
+      isbinaryfile: 5.0.4
+      lodash: 4.17.21
+      promise.hash.helper: 1.0.8
+      quick-temp: 0.1.8
+      silent-error: 1.1.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@eslint-community/eslint-utils@4.4.1(eslint@8.57.1)':
     dependencies:
       eslint: 8.57.1
@@ -5694,7 +5706,7 @@ snapshots:
       npm-pick-manifest: 10.0.0
       proc-log: 5.0.0
       promise-retry: 2.0.1
-      semver: 7.7.1
+      semver: 7.7.2
       which: 5.0.0
 
   '@npmcli/move-file@1.1.2':
@@ -5709,7 +5721,7 @@ snapshots:
       hosted-git-info: 8.0.2
       json-parse-even-better-errors: 4.0.0
       proc-log: 5.0.0
-      semver: 7.7.1
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
 
   '@npmcli/promise-spawn@8.0.2':
@@ -8091,7 +8103,7 @@ snapshots:
 
   git-repo-info@2.1.1: {}
 
-  github-changelog@https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488:
+  github-changelog@2.1.1:
     dependencies:
       '@manypkg/get-packages': 2.2.2
       chalk: 4.1.2
@@ -8101,7 +8113,6 @@ snapshots:
       make-fetch-happen: 9.1.0
       p-map: 3.0.0
       progress: 2.0.3
-      semver: 7.7.2
       yargs: 17.7.2
     transitivePeerDependencies:
       - bluebird
@@ -9368,7 +9379,7 @@ snapshots:
 
   npm-install-checks@7.1.1:
     dependencies:
-      semver: 7.7.1
+      semver: 7.7.2
 
   npm-normalize-package-bin@4.0.0: {}
 
@@ -9384,7 +9395,7 @@ snapshots:
       npm-install-checks: 7.1.1
       npm-normalize-package-bin: 4.0.0
       npm-package-arg: 12.0.2
-      semver: 7.7.1
+      semver: 7.7.2
 
   npm-run-path@2.0.2:
     dependencies:
@@ -9587,7 +9598,7 @@ snapshots:
       ky: 1.8.1
       registry-auth-token: 5.1.0
       registry-url: 6.0.1
-      semver: 7.7.1
+      semver: 7.7.2
 
   package-json@6.5.0:
     dependencies:
@@ -9861,7 +9872,7 @@ snapshots:
     dependencies:
       rc: 1.2.8
 
-  release-plan@0.17.0:
+  release-plan@0.17.2:
     dependencies:
       '@manypkg/get-packages': 2.2.2
       '@npmcli/package-json': 6.1.1
@@ -9871,11 +9882,11 @@ snapshots:
       cli-highlight: 2.1.11
       execa: 9.5.3
       fs-extra: 11.3.0
-      github-changelog: https://codeload.github.com/embroider-build/github-changelog/tar.gz/ec0585b718a88e17c1d0370de92191a849c40488
+      github-changelog: 2.1.1
       js-yaml: 4.1.0
       latest-version: 9.0.0
       parse-github-repo-url: 1.4.1
-      semver: 7.7.1
+      semver: 7.7.2
       yargs: 17.7.2
     transitivePeerDependencies:
       - bluebird

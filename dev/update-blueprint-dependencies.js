@@ -145,9 +145,13 @@ async function updateDependencies(dependencies) {
 
     if (hasVersion && isValidPrefix) {
       const semverRange = OPTIONS.latest ? 'latest' : removeTemplateExpression(previousValue);
-      const newVersion = await latestVersion(dependencyName, semverRange);
+      try {
+        const newVersion = await latestVersion(dependencyName, semverRange);
 
-      dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
+        dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
+      } catch (err) {
+        console.warn(`Error checking new version of ${dependencyName}: ${err.message}`);
+      }
     }
   }
 }
