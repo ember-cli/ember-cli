@@ -1,5 +1,35 @@
 # ember-cli Changelog
 
+## Release (2025-08-01)
+
+* @ember-tooling/classic-build-addon-blueprint 6.7.0-beta.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.7.0-beta.1 (minor)
+* ember-cli 6.7.0-beta.1 (patch)
+
+#### :rocket: Enhancement
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10755](https://github.com/ember-cli/ember-cli/pull/10755) Prepare 6.7-beta ([@mansona](https://github.com/mansona))
+  * [#10742](https://github.com/ember-cli/ember-cli/pull/10742) Drop node 18, add node 24 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :memo: Documentation
+* [#10724](https://github.com/ember-cli/ember-cli/pull/10724) Update RELEASE.md to fully document new release-plan setup ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* Other
+  * [#10761](https://github.com/ember-cli/ember-cli/pull/10761) update release-plan ([@mansona](https://github.com/mansona))
+  * [#10748](https://github.com/ember-cli/ember-cli/pull/10748) update blueprint version of ember-cli as part of release plan ([@mansona](https://github.com/mansona))
+  * [#10747](https://github.com/ember-cli/ember-cli/pull/10747) only use the PAT for the PR creation in release-plan ([@mansona](https://github.com/mansona))
+  * [#10744](https://github.com/ember-cli/ember-cli/pull/10744) run tests on the release-plan PR ([@mansona](https://github.com/mansona))
+  * [#10735](https://github.com/ember-cli/ember-cli/pull/10735) remove unnecessary project override ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10738](https://github.com/ember-cli/ember-cli/pull/10738) add a repository for each of the packages ([@mansona](https://github.com/mansona))
+  * [#10736](https://github.com/ember-cli/ember-cli/pull/10736) update all sub-packages to have the @ember-tooling prefix ([@mansona](https://github.com/mansona))
+  * [#10671](https://github.com/ember-cli/ember-cli/pull/10671) Implement the built in app, addon, and blueprint blueprints by package lookup ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-07-29)
 
 * ember-cli 6.6.0 (minor)
