@@ -3,7 +3,7 @@
 const ember = require('../helpers/ember');
 const { outputFile, writeJson } = require('fs-extra');
 let root = process.cwd();
-const Blueprint = require('../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 const tmp = require('tmp-promise');
 const td = require('testdouble');

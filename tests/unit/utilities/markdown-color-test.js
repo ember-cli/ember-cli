@@ -1,6 +1,6 @@
 'use strict';
 
-const MarkdownColor = require('../../../lib/utilities/markdown-color');
+const MarkdownColor = require('@ember-tooling/blueprint-model/utilities/markdown-color');
 const { expect } = require('chai');
 const path = require('path');
 const chalk = require('chalk');
