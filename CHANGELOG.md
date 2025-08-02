@@ -1,5 +1,10 @@
 # ember-cli Changelog
 
+
+
+
+
+
 ## Release (2025-08-01)
 
 * @ember-tooling/classic-build-addon-blueprint 6.7.0-beta.1 (minor)
