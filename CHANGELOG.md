@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+## Release (2025-08-02)
+
+* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.1 (minor)
+* ember-cli 6.8.0-alpha.1 (patch)
+
+#### :rocket: Enhancement
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10755](https://github.com/ember-cli/ember-cli/pull/10755) Prepare 6.7-beta ([@mansona](https://github.com/mansona))
+* Other
+  * [#10751](https://github.com/ember-cli/ember-cli/pull/10751) [BETA BACKPORT] Backport drop node 18 ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10763](https://github.com/ember-cli/ember-cli/pull/10763) Prepare 6.8-alpha ([@mansona](https://github.com/mansona))
+  * [#10754](https://github.com/ember-cli/ember-cli/pull/10754) Prepare Beta Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+* Other
+  * [#10761](https://github.com/ember-cli/ember-cli/pull/10761) update release-plan ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+
 ## Release (2025-07-26)
 
 * @ember-tooling/classic-build-addon-blueprint 6.7.0-alpha.4 (minor)
