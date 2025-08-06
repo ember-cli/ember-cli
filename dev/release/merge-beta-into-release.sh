@@ -44,6 +44,8 @@ git commit -am "update blueprint dependencies to latest"
 echo "Remaining manual steps:"
 echo "- push and open a PR targeting 'release' with a PR title like 'Update all dependencies for 6.4 release'"
 echo "- mark the PR as an 'enhancement'"
+
+# The rest of this can't be automated -- this is just how merge-to-release processes work
 echo "- CI should pass on that PR"
 echo "- merge that PR"
 echo "- check that the 'Prepare Release' PR has been opened by 'release-plan'"
