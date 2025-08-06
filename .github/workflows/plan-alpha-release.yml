@@ -92,7 +92,7 @@ jobs:
         with:
           commit-message: "Prepare Alpha Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
           labels: "internal"
-          branch: release-preview
+          branch: releaseplan-preview
           title: Prepare Alpha Release ${{ steps.explanation.outputs.new_version }}
           # this doesn't use secrets.GITHUB_TOKEN because we want CI to run on the PR that it opens.
           # See: https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
