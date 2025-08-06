@@ -35,28 +35,11 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - fetch latest from origin `git fetch`
 - create a new branch to do the release e.g. `git checkout --no-track -b release-plan-6-4 origin/release`
   - note: branches named like `release-6-4` are used to manage LTS patch releases so we don't want to create a branch with that name at this time
-- Merge `origin/beta` into the release branch
-  - `git merge origin/beta --no-ff`
-  - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
-  - **make sure to not update the .github/workflows/plan-release.yml file** this should still plan a stable release
-  - **make sure to not update the .github/workflows/publish.yml file** this should still publish a stable release
-  - **make sure to not update the CHANGELOG.md file** so as not to include the beta or alpha changelogs in the next release
-  - make sure to not update the version in the package.json during this step, this will be release-plan's job
-  - make sure to not add the `release-plan` config section to the package.json during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
-- Update blueprint dependencies to latest
 
-```
-node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
-```
-
-- commit this update `git commit -am "update blueprint dependencies to latest"`
-- push and open a PR targeting `release` with a PR title like `Update all dependencies for 6.4 release`
-- mark this PR as an `enhancement` if it is a minor release
-- check that everything is ok (i.e. that CI has run correctly and that you have the changes you expect)
-- merge branch
-- check that the `Prepare Release` PR has been correctly opened by `release-plan`
-- Merge the `Prepare Release` branch when you are ready to release
-- Check the `Release Stable` GitHub action to make sure the release succeeded
+- Run the merge beta into release script, making note of its instructions as it runs
+  ```bash
+  ./dev/release/merge-beta-into-release.sh
+  ```
 
 ### Beta release from the `beta` branch
 
