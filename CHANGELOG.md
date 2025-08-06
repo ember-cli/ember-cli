@@ -1,5 +1,15 @@
 # ember-cli Changelog
 
+## Release (2025-08-06)
+
+
+
+#### :house: Internal
+* [#10750](https://github.com/ember-cli/ember-cli/pull/10750) Add more notes to the Release.md ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-08-02)
 
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.1 (minor)
