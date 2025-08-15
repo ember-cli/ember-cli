@@ -12,6 +12,8 @@
  *     npx eslint --inspect-config
  *
  */
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 import globals from 'globals';
 import js from '@eslint/js';
 
@@ -42,7 +44,7 @@ const parserOptions = {
     },
     ts: {
       projectService: true,
-      tsconfigRootDir: import.meta.dirname,
+      tsconfigRootDir: dirname(fileURLToPath(import.meta.url)),
     },
   },
 };
