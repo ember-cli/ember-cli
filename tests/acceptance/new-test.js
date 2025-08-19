@@ -418,7 +418,8 @@ describe('Acceptance: ember new', function () {
       let pkgJson = fs.readJsonSync('package.json');
       expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
       expect(pkgJson.devDependencies['@embroider/core']).to.exist;
-      expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/webpack']).to.not.exist;
+      expect(pkgJson.devDependencies['@embroider/vite']).to.exist;
     });
   }
 
@@ -428,7 +429,8 @@ describe('Acceptance: ember new', function () {
     let pkgJson = fs.readJsonSync('package.json');
     expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
     expect(pkgJson.devDependencies['@embroider/core']).to.exist;
-    expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+    expect(pkgJson.devDependencies['@embroider/webpack']).to.not.exist;
+    expect(pkgJson.devDependencies['@embroider/vite']).to.exist;
   });
 
   describe('verify fixtures', function () {

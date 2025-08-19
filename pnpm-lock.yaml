@@ -20,6 +20,9 @@ importers:
       '@ember-tooling/classic-build-app-blueprint':
         specifier: workspace:*
         version: link:packages/app-blueprint
+      '@ember/app-blueprint':
+        specifier: ^0.8.1
+        version: 0.8.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0
         version: 1000.1.0
@@ -559,6 +562,9 @@ packages:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
     hasBin: true
+
+  '@ember/app-blueprint@0.8.1':
+    resolution: {integrity: sha512-eKf622lVo+IEnf2STZYCezaY4GfrzxL/0kg9BK050G+2bPN9I7XIcbL+1/MJMSqsNp3u6qhir9W3r3IdZ6PWiw==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -5573,6 +5579,13 @@ snapshots:
     dependencies:
       exec-sh: 0.3.6
       minimist: 1.2.8
+
+  '@ember/app-blueprint@0.8.1':
+    dependencies:
+      chalk: 4.1.2
+      ember-cli-string-utils: 1.1.0
+      lodash: 4.17.21
+      walk-sync: 3.0.0
 
   '@eslint-community/eslint-utils@4.4.1(eslint@8.57.1)':
     dependencies:
