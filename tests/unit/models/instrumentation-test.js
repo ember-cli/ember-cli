@@ -40,6 +40,10 @@ describe('models/instrumentation.js', function () {
 
     afterEach(function () {
       td.reset();
+      // Manually reset statSync as node@24.6 returns [Function: statSync],
+      // which doesn't match with what `heimdalljs-fs-monitor` does to this
+      // It's likely that this was never correct and just masked by lose types in node<24.6
+      fs.statSync = originalStatSync;
     });
 
     it('if VIZ is NOT enabled, do not monitor', function () {
