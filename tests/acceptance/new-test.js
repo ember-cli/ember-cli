@@ -11,6 +11,7 @@ const util = require('util');
 const EOL = require('os').EOL;
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { set, get, cloneDeep } = require('lodash');
+const { DEPRECATIONS } = require('../../lib/debug');
 
 const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
@@ -423,6 +424,10 @@ describe('Acceptance: ember new', function () {
   }
 
   it('embroider enabled with --embroider', async function () {
+    if (DEPRECATIONS.EMBROIDER.isRemoved) {
+      this.skip();
+    }
+
     await ember(['new', 'foo', '--skip-npm', '--skip-git', '--embroider']);
 
     let pkgJson = fs.readJsonSync('package.json');
