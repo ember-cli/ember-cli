@@ -1,35 +1,17 @@
 {
   "solution": {
     "@ember-tooling/classic-build-addon-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.8.0-alpha.0",
-      "newVersion": "6.8.0-alpha.1",
-      "tagName": "alpha",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./packages/addon-blueprint/package.json"
+      "oldVersion": "6.8.0-alpha.1"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.8.0-alpha.0",
-      "newVersion": "6.8.0-alpha.1",
+      "impact": "patch",
+      "oldVersion": "6.8.0-alpha.1",
+      "newVersion": "6.8.0-alpha.2",
       "tagName": "alpha",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/app-blueprint/package.json"
@@ -42,14 +24,10 @@
     },
     "ember-cli": {
       "impact": "patch",
-      "oldVersion": "6.8.0-alpha.0",
-      "newVersion": "6.8.0-alpha.1",
+      "oldVersion": "6.8.0-alpha.1",
+      "newVersion": "6.8.0-alpha.2",
       "tagName": "alpha",
       "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
-        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
@@ -58,5 +36,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-08-02)\n\n* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.1 (minor)\n* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.1 (minor)\n* ember-cli 6.8.0-alpha.1 (patch)\n\n#### :rocket: Enhancement\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10755](https://github.com/ember-cli/ember-cli/pull/10755) Prepare 6.7-beta ([@mansona](https://github.com/mansona))\n* Other\n  * [#10751](https://github.com/ember-cli/ember-cli/pull/10751) [BETA BACKPORT] Backport drop node 18 ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10763](https://github.com/ember-cli/ember-cli/pull/10763) Prepare 6.8-alpha ([@mansona](https://github.com/mansona))\n  * [#10754](https://github.com/ember-cli/ember-cli/pull/10754) Prepare Beta Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n* Other\n  * [#10761](https://github.com/ember-cli/ember-cli/pull/10761) update release-plan ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
+  "description": "## Release (2025-08-23)\n\n* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.2 (patch)\n* ember-cli 6.8.0-alpha.2 (patch)\n\n#### :bug: Bug Fix\n* `@ember-tooling/classic-build-app-blueprint`\n  * [#10707](https://github.com/ember-cli/ember-cli/pull/10707) Enabled recommended configs from eslint-plugin-n and eslint-plugin-qunit ([@ijlee2](https://github.com/ijlee2))\n\n#### :house: Internal\n* [#10750](https://github.com/ember-cli/ember-cli/pull/10750) Add more notes to the Release.md ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Isaac Lee ([@ijlee2](https://github.com/ijlee2))\n"
 }
