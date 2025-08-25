@@ -9,10 +9,14 @@ const tmp = require('tmp-promise');
 const fse = require('fs-extra');
 const MockUI = require('console-ui/mock');
 const Yam = require('yam');
+const semver = require('semver');
 
 const MockProject = require('../../helpers/mock-project');
 const hwinfo = require('../../../lib/models/hardware-info');
 const Instrumentation = require('../../../lib/models/instrumentation');
+
+const currentEmberCLIVersion = require('../../../package').version;
+const currentHeimdallFSMonitorVersion = require('../../../package').dependencies['heimdalljs-fs-monitor'];
 
 const any = td.matchers.anything;
 const contains = td.matchers.contains;
@@ -34,6 +38,20 @@ describe('models/instrumentation.js', function () {
     beforeEach(function () {
       expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
       expect(!!process.env.EMBER_CLI_INSTRUMENTATION).to.eql(false);
+
+      /**
+       * heimdall-fs-monitor is currently doing things that are not working since Node 24.6.0 was released.
+       * We are planning to release a new major version an bump the dependency on main so this is to allow us to
+       * continue working until that has been done. These conditions are to prevent us from accidentially skipping
+       * this test forever.
+       */
+      if (
+        semver.gte(process.versions.node, '24.6.0') &&
+        currentEmberCLIVersion.includes('alpha') &&
+        semver.lt(semver.minVersion(currentHeimdallFSMonitorVersion), '2.0.0')
+      ) {
+        this.skip();
+      }
       expect(fs.statSync).to.equal(originalStatSync);
     });
 
