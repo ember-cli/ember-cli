@@ -1,5 +1,21 @@
 # ember-cli Changelog
 
+## Release (2025-08-23)
+
+* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.2 (patch)
+* ember-cli 6.8.0-alpha.2 (patch)
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-app-blueprint`
+  * [#10707](https://github.com/ember-cli/ember-cli/pull/10707) Enabled recommended configs from eslint-plugin-n and eslint-plugin-qunit ([@ijlee2](https://github.com/ijlee2))
+
+#### :house: Internal
+* [#10750](https://github.com/ember-cli/ember-cli/pull/10750) Add more notes to the Release.md ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Isaac Lee ([@ijlee2](https://github.com/ijlee2))
+
 ## Release (2025-08-02)
 
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.1 (minor)
