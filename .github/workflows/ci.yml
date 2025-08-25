@@ -63,6 +63,8 @@ jobs:
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: ./.github/actions/refs-temp-dir
+        if: matrix.os == 'windows-latest'
       - run: pnpm test
 
   slow-tests:
@@ -96,6 +98,8 @@ jobs:
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: ./.github/actions/refs-temp-dir
+        if: matrix.os == 'windows-latest'
       - run: pnpm test tests/acceptance/${{ matrix.test-file }}-test-slow.js
 
   feature-flags:
