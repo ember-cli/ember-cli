@@ -23,6 +23,41 @@ const { checkFile } = require('../helpers-internal/file-utils');
 let root = process.cwd();
 let tmpDir;
 
+function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', typescript = false) {
+  let blueprintPath = path.join(blueprintDir, 'files');
+  // ignore TypeScript files
+  let expected = walkSync(blueprintPath, {
+    ignore: ['tsconfig.json', 'types', 'app/config'],
+  }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
+
+  // This style of assertion can't handle conditionally available files
+  if (expected.some((x) => x.endsWith('eslint.config.mjs'))) {
+    expected = [...expected.filter((x) => !x.endsWith('eslint.config.mjs')), 'eslint.config.mjs'];
+  }
+  // GJS and GTS files are also conditionally available
+  expected = expected.filter((x) => !x.endsWith('.gjs') && !x.endsWith('.gts'));
+
+  let actual = walkSync('.').sort();
+  let directory = path.basename(process.cwd());
+
+  Object.keys(Blueprint.renamedFiles).forEach((srcFile) => {
+    expected[expected.indexOf(srcFile)] = Blueprint.renamedFiles[srcFile];
+  });
+
+  expected.sort();
+
+  // since the test is quite dynamic we want to make sure that the
+  // directory and the expected aren't empty
+  expect(directory).to.not.be.empty;
+  expect(expected).to.not.be.empty;
+
+  expect(directory).to.equal(expectedAppDir);
+  expect(expected).to.deep.equal(
+    actual,
+    `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`
+  );
+}
+
 describe('Acceptance: ember new', function () {
   this.timeout(300000);
   let ORIGINAL_PROCESS_ENV_CI;
@@ -42,41 +77,6 @@ describe('Acceptance: ember new', function () {
     }
     process.chdir(root);
   });
-
-  function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo', typescript = false) {
-    let blueprintPath = path.join(blueprintDir, 'files');
-    // ignore TypeScript files
-    let expected = walkSync(blueprintPath, {
-      ignore: ['tsconfig.json', 'types', 'app/config'],
-    }).map((name) => (typescript ? name : name.replace(/\.ts$/, '.js')));
-
-    // This style of assertion can't handle conditionally available files
-    if (expected.some((x) => x.endsWith('eslint.config.mjs'))) {
-      expected = [...expected.filter((x) => !x.endsWith('eslint.config.mjs')), 'eslint.config.mjs'];
-    }
-    // GJS and GTS files are also conditionally available
-    expected = expected.filter((x) => !x.endsWith('.gjs') && !x.endsWith('.gts'));
-
-    let actual = walkSync('.').sort();
-    let directory = path.basename(process.cwd());
-
-    Object.keys(Blueprint.renamedFiles).forEach((srcFile) => {
-      expected[expected.indexOf(srcFile)] = Blueprint.renamedFiles[srcFile];
-    });
-
-    expected.sort();
-
-    // since the test is quite dynamic we want to make sure that the
-    // directory and the expected aren't empty
-    expect(directory).to.not.be.empty;
-    expect(expected).to.not.be.empty;
-
-    expect(directory).to.equal(expectedAppDir);
-    expect(expected).to.deep.equal(
-      actual,
-      `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`
-    );
-  }
 
   it('ember new adds ember-welcome-page by default', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-git']);
