@@ -1,22 +1,26 @@
 'use strict';
 
 const fs = require('fs-extra');
-const ember = require('../helpers/ember');
-const walkSync = require('walk-sync');
-const Blueprint = require('../../lib/models/blueprint');
 const path = require('path');
 const tmp = require('tmp-promise');
-let root = process.cwd();
 const util = require('util');
-const EOL = require('os').EOL;
-const hasGlobalYarn = require('../helpers/has-global-yarn');
-const { set, get, cloneDeep } = require('lodash');
+const walkSync = require('walk-sync');
 
+const { cloneDeep, get, set } = require('lodash');
 const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
+
+const EOL = require('os').EOL;
+
+const Blueprint = require('../../lib/models/blueprint');
+const hasGlobalYarn = require('../helpers/has-global-yarn');
+const ember = require('../helpers/ember');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
 
+const { checkFile } = require('../helpers-internal/file-utils');
+
+let root = process.cwd();
 let tmpDir;
 
 describe('Acceptance: ember new', function () {
@@ -355,54 +359,6 @@ describe('Acceptance: ember new', function () {
     expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
   });
 
-  it('ember addon with --directory uses given directory name and has correct package name', async function () {
-    let workdir = process.cwd();
-
-    await ember(['addon', 'foo', '--skip-npm', '--skip-git', '--directory=bar']);
-
-    expect(dir(path.join(workdir, 'foo'))).to.not.exist;
-    expect(dir(path.join(workdir, 'bar'))).to.exist;
-
-    let cwd = process.cwd();
-    expect(cwd).to.not.match(/foo/, 'does not use addon name for directory name');
-    expect(cwd).to.match(/bar/, 'uses given directory name');
-
-    let pkgJson = fs.readJsonSync('package.json');
-    expect(pkgJson.name).to.equal('foo', 'uses addon name for package name');
-  });
-
-  it('ember addon @foo/bar when parent directory does not contain `foo`', async function () {
-    await ember(['addon', '@foo/bar', '--skip-npm', '--skip-git']);
-
-    let directoryName = path.basename(process.cwd());
-
-    expect(directoryName).to.equal('foo-bar');
-
-    let pkgJson = fs.readJsonSync('package.json');
-    expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
-  });
-
-  it('ember addon @foo/bar when parent directory contains `foo`', async function () {
-    let scopedDirectoryPath = path.join(process.cwd(), 'foo');
-    fs.mkdirsSync(scopedDirectoryPath);
-    process.chdir(scopedDirectoryPath);
-
-    await ember(['addon', '@foo/bar', '--skip-npm', '--skip-git']);
-
-    let directoryName = path.basename(process.cwd());
-
-    expect(directoryName).to.equal('bar');
-
-    let pkgJson = fs.readJsonSync('package.json');
-    expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
-  });
-
-  it('ember addon generates the correct directory name in `CONTRIBUTING.md` for scoped package names', async function () {
-    await ember(['addon', '@foo/bar', '--skip-npm', '--skip-git']);
-
-    expect(file('CONTRIBUTING.md')).to.match(/- `cd foo-bar`/);
-  });
-
   if (!isExperimentEnabled('CLASSIC')) {
     it('embroider experiment creates the correct files', async function () {
       let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
@@ -502,48 +458,6 @@ describe('Acceptance: ember new', function () {
       });
     });
 
-    it('addon defaults', async function () {
-      await ember(['addon', 'foo', '--skip-npm', '--skip-git']);
-
-      let namespace = 'addon';
-      let fixturePath = `${namespace}/defaults`;
-
-      [
-        'tests/dummy/config/ember-try.js',
-        'tests/dummy/app/templates/application.hbs',
-        '.github/workflows/ci.yml',
-        'README.md',
-        'CONTRIBUTING.md',
-        '.ember-cli',
-      ].forEach((filePath) => {
-        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
-      });
-
-      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
-      checkFileWithJSONReplacement(
-        fixturePath,
-        'tests/dummy/config/ember-cli-update.json',
-        'packages[0].version',
-        currentVersion
-      );
-
-      // option independent, but piggy-backing on an existing generate for speed
-      checkEslintConfig(namespace);
-
-      // ember addon without --lang flag (default) has no lang attribute in dummy index.html
-      expect(file('tests/dummy/app/index.html')).to.contain('<html>');
-
-      // no TypeScript files
-      [
-        'tsconfig.json',
-        'tsconfig.declarations.json',
-        'tests/dummy/app/config/environment.d.ts',
-        'types/global.d.ts',
-      ].forEach((filePath) => {
-        expect(file(filePath)).to.not.exist;
-      });
-    });
-
     it('app + npm + !welcome', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-git', '--no-welcome']);
 
@@ -598,67 +512,11 @@ describe('Acceptance: ember new', function () {
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
     });
 
-    it('addon + yarn + welcome', async function () {
-      await ember(['addon', 'foo', '--skip-npm', '--skip-git', '--yarn', '--welcome']);
-
-      let fixturePath = 'addon/yarn';
-
-      [
-        'tests/dummy/config/ember-try.js',
-        'tests/dummy/app/templates/application.hbs',
-        '.github/workflows/ci.yml',
-        'README.md',
-        'CONTRIBUTING.md',
-      ].forEach((filePath) => {
-        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
-      });
-
-      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
-      checkFileWithJSONReplacement(
-        fixturePath,
-        'tests/dummy/config/ember-cli-update.json',
-        'packages[0].version',
-        currentVersion
-      );
-    });
-
-    it('addon + pnpm + welcome', async function () {
-      await ember(['addon', 'foo', '--skip-npm', '--skip-git', '--pnpm', '--welcome']);
-
-      let fixturePath = 'addon/pnpm';
-
-      [
-        'tests/dummy/config/ember-try.js',
-        'tests/dummy/app/templates/application.hbs',
-        '.github/workflows/ci.yml',
-        'README.md',
-        'CONTRIBUTING.md',
-        '.npmrc',
-      ].forEach((filePath) => {
-        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
-      });
-
-      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
-      checkFileWithJSONReplacement(
-        fixturePath,
-        'tests/dummy/config/ember-cli-update.json',
-        'packages[0].version',
-        currentVersion
-      );
-    });
-
     it('new - no CI provider', async function () {
       await ember(['new', 'foo', '--ci-provider=none', '--skip-install', '--skip-git']);
 
       expect(file('.github/workflows/ci.yml')).to.not.exist;
       expect(file('config/ember-cli-update.json')).to.include('--ci-provider=none');
-    });
-
-    it('addon - no CI provider', async function () {
-      await ember(['addon', 'foo', '--ci-provider=none', '--skip-install', '--skip-git']);
-
-      expect(file('.github/workflows/ci.yml')).to.not.exist;
-      expect(file('tests/dummy/config/ember-cli-update.json')).to.include('--ci-provider=none');
     });
 
     it('app + strict', async function () {
@@ -718,34 +576,6 @@ describe('Acceptance: ember new', function () {
       expect(file('tsconfig.declarations.json')).to.not.exist;
     });
 
-    it('addon + typescript', async function () {
-      await ember(['addon', 'foo', '--typescript', '--skip-npm', '--skip-git', '--yarn']);
-
-      let fixturePath = 'addon/typescript';
-
-      // check fixtures
-      [
-        '.ember-cli',
-        'index.js',
-        'tests/helpers/index.ts',
-        'tsconfig.json',
-        'tsconfig.declarations.json',
-        'tests/dummy/app/config/environment.d.ts',
-        'types/global.d.ts',
-      ].forEach((filePath) => {
-        checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
-      });
-      checkFileWithJSONReplacement(
-        fixturePath,
-        'tests/dummy/config/ember-cli-update.json',
-        'packages[0].version',
-        currentVersion
-      );
-      checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
-      checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
-      checkEslintConfig(fixturePath);
-    });
-
     it('app + no-ember-data', async function () {
       await ember(['new', 'foo', '--no-ember-data', '--skip-npm', '--skip-git']);
 
@@ -777,13 +607,3 @@ describe('Acceptance: ember new', function () {
     });
   });
 });
-
-function checkFile(inputPath, outputPath) {
-  if (process.env.WRITE_FIXTURES) {
-    let content = fs.readFileSync(inputPath, { encoding: 'utf-8' });
-    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-    fs.writeFileSync(outputPath, content, { encoding: 'utf-8' });
-  }
-
-  expect(file(inputPath)).to.equal(file(outputPath));
-}
