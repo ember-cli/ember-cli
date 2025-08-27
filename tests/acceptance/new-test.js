@@ -6,6 +6,7 @@ const tmp = require('tmp-promise');
 const util = require('util');
 const walkSync = require('walk-sync');
 
+const { sync: globSync } = require('glob');
 const { cloneDeep, get, set } = require('lodash');
 const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
@@ -79,6 +80,13 @@ describe('Acceptance: ember new', function () {
   });
 
   describe('default', function () {
+    before(function () {
+      // Using `VITE` switches to an external blueprint, which should not be tested within ember-cli
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     it('ember new adds ember-welcome-page by default', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-git']);
 
@@ -210,6 +218,12 @@ describe('Acceptance: ember new', function () {
   });
 
   describe('--lang', function () {
+    before(function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     // Good: Correct Usage
     it('ember new foo --lang=(valid code): no message + set `lang` in index.html', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=en-US']);
@@ -364,6 +378,12 @@ describe('Acceptance: ember new', function () {
   });
 
   describe('Experiment: Embroider', function () {
+    before(function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     if (!isExperimentEnabled('CLASSIC')) {
       it('embroider experiment creates the correct files', async function () {
         let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
@@ -393,7 +413,28 @@ describe('Acceptance: ember new', function () {
     });
   });
 
+  if (isExperimentEnabled('VITE')) {
+    describe('Experiment: Vite', function () {
+      it('uses the correct blueprint', async function () {
+        await ember(['new', 'foo', '--skip-npm', '--skip-git']);
+
+        let pkgJson = fs.readJsonSync('package.json');
+        let viteConfig = globSync('vite.config.{js,cjs,mjs}');
+
+        expect(pkgJson.devDependencies['vite'], 'Installs vite').to.exist;
+        expect(pkgJson.scripts['start']).to.contain('vite');
+        expect(viteConfig.length, 'creates a vite configuration').to.equal(1);
+      });
+    });
+  }
+
   describe('verify fixtures', function () {
+    before(function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     function checkEslintConfig(fixturePath) {
       expect(file('eslint.config.mjs')).to.equal(
         file(path.join(__dirname, '../fixtures', fixturePath, 'eslint.config.mjs'))
