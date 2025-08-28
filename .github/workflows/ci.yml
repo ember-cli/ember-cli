@@ -111,6 +111,7 @@ jobs:
           - ENABLE_ALL_EXPERIMENTS
           - EMBROIDER
           - CLASSIC
+          - VITE
 
     steps:
       - uses: actions/checkout@v4
