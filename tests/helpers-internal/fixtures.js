@@ -8,6 +8,8 @@ const { file } = require('chai-files');
 const { set, get, cloneDeep } = require('lodash');
 
 const currentVersion = require('../../package').version;
+const currentAppBlueprintVersion = require('@ember-tooling/classic-build-app-blueprint/package').version;
+const currentAddonBlueprintVersion = require('@ember-tooling/classic-build-addon-blueprint/package').version;
 
 function checkEslintConfig(fixturePath) {
   expect(file('eslint.config.mjs')).to.equal(
@@ -43,6 +45,8 @@ function checkEmberCLIBuild(fixtureName, fileName) {
 
 module.exports = {
   currentVersion,
+  currentAppBlueprintVersion,
+  currentAddonBlueprintVersion,
   checkEslintConfig,
   checkFileWithJSONReplacement,
   checkEmberCLIBuild,

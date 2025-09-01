@@ -22,6 +22,7 @@ const { dir, file } = require('chai-files');
 const { checkFile } = require('../helpers-internal/file-utils');
 const {
   currentVersion,
+  currentAppBlueprintVersion,
   checkEslintConfig,
   checkFileWithJSONReplacement,
   checkEmberCLIBuild,
@@ -268,7 +269,12 @@ describe('Acceptance: ember new', function () {
         fixturePath = `${namespace}/embroider`;
       }
 
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(
+        fixturePath,
+        'config/ember-cli-update.json',
+        'packages[0].version',
+        currentAppBlueprintVersion
+      );
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
 
@@ -304,7 +310,12 @@ describe('Acceptance: ember new', function () {
         fixturePath = 'app/embroider-no-welcome';
       }
 
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(
+        fixturePath,
+        'config/ember-cli-update.json',
+        'packages[0].version',
+        currentAppBlueprintVersion
+      );
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       // option independent, but piggy-backing on an existing generate for speed
       checkEslintConfig(namespace);
@@ -323,7 +334,12 @@ describe('Acceptance: ember new', function () {
         fixturePath = 'app/embroider-yarn';
       }
 
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(
+        fixturePath,
+        'config/ember-cli-update.json',
+        'packages[0].version',
+        currentAppBlueprintVersion
+      );
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
     });
 
@@ -340,7 +356,12 @@ describe('Acceptance: ember new', function () {
         fixturePath = 'app/embroider-pnpm';
       }
 
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(
+        fixturePath,
+        'config/ember-cli-update.json',
+        'packages[0].version',
+        currentAppBlueprintVersion
+      );
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
     });
 
@@ -400,7 +421,12 @@ describe('Acceptance: ember new', function () {
       ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(
+        fixturePath,
+        'config/ember-cli-update.json',
+        'packages[0].version',
+        currentAppBlueprintVersion
+      );
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
       checkEslintConfig(fixturePath);
@@ -418,7 +444,12 @@ describe('Acceptance: ember new', function () {
         fixturePath = 'app/no-ember-data';
       }
 
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(
+        fixturePath,
+        'config/ember-cli-update.json',
+        'packages[0].version',
+        currentAppBlueprintVersion
+      );
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
     });
@@ -433,7 +464,12 @@ describe('Acceptance: ember new', function () {
         fixturePath = 'app/typescript-no-ember-data';
       }
 
-      checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
+      checkFileWithJSONReplacement(
+        fixturePath,
+        'config/ember-cli-update.json',
+        'packages[0].version',
+        currentAppBlueprintVersion
+      );
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
     });

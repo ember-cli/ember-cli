@@ -75,7 +75,7 @@ module.exports = {
       invokeScriptPrefix,
       execBinPrefix,
       welcome: options.welcome,
-      blueprint: 'app',
+      blueprint: '@ember-tooling/classic-build-app-blueprint',
       blueprintOptions,
       embroider,
       lang: options.lang,
