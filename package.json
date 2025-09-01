@@ -136,7 +136,7 @@
   "devDependencies": {
     "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
-    "chai": "^4.3.7",
+    "chai": "^5.3.3",
     "chai-as-promised": "^7.1.1",
     "chai-files": "^1.4.0",
     "chai-jest-snapshot": "^2.0.0",
