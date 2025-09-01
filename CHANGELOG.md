@@ -1,5 +1,35 @@
 # ember-cli Changelog
 
+## Release (2025-09-01)
+
+* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.2 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.2 (minor)
+* ember-cli 6.8.0-alpha.2 (patch)
+
+#### :rocket: Enhancement
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10791](https://github.com/ember-cli/ember-cli/pull/10791) update the format of the ember-cli-update.json ([@mansona](https://github.com/mansona))
+* Other
+  * [#10785](https://github.com/ember-cli/ember-cli/pull/10785) Depracate passing filenames and globs to `init` ([@pichfl](https://github.com/pichfl))
+  * [#10776](https://github.com/ember-cli/ember-cli/pull/10776) Add deprecation warning for the `--embroider` argument ([@pichfl](https://github.com/pichfl))
+
+#### :bug: Bug Fix
+* Other
+  * [#10782](https://github.com/ember-cli/ember-cli/pull/10782) update heimdall-fs-monitor ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-app-blueprint`
+  * [#10707](https://github.com/ember-cli/ember-cli/pull/10707) Enabled recommended configs from eslint-plugin-n and eslint-plugin-qunit ([@ijlee2](https://github.com/ijlee2))
+
+#### :house: Internal
+* [#10790](https://github.com/ember-cli/ember-cli/pull/10790) Reorganize tests for `new` and `addon` commands ([@pichfl](https://github.com/pichfl))
+* [#10783](https://github.com/ember-cli/ember-cli/pull/10783) remove unused changelog script ([@mansona](https://github.com/mansona))
+* [#10764](https://github.com/ember-cli/ember-cli/pull/10764) fix double CI run on release-plan PR ([@mansona](https://github.com/mansona))
+* [#10750](https://github.com/ember-cli/ember-cli/pull/10750) Add more notes to the Release.md ([@mansona](https://github.com/mansona))
+
+#### Committers: 3
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Florian Pichler ([@pichfl](https://github.com/pichfl))
+- Isaac Lee ([@ijlee2](https://github.com/ijlee2))
+
 ## Release (2025-08-02)
 
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.1 (minor)
