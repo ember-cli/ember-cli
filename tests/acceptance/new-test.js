@@ -439,6 +439,40 @@ describe('Acceptance: ember new', function () {
     });
   });
 
+  describe('Experiment: Embroider', function () {
+    if (!isExperimentEnabled('CLASSIC')) {
+      it('embroider experiment creates the correct files', async function () {
+        let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
+        process.env['EMBER_CLI_EMBROIDER'] = 'true';
+        await ember(['new', 'foo', '--skip-npm', '--skip-git']);
+
+        if (ORIGINAL_PROCESS_ENV === undefined) {
+          delete process.env['EMBER_CLI_EMBROIDER'];
+        } else {
+          process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
+        }
+
+        let pkgJson = fs.readJsonSync('package.json');
+        expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
+        expect(pkgJson.devDependencies['@embroider/core']).to.exist;
+        expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+      });
+    }
+
+    it('embroider enabled with --embroider', async function () {
+      if (DEPRECATIONS.EMBROIDER.isRemoved) {
+        this.skip();
+      }
+
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--embroider']);
+
+      let pkgJson = fs.readJsonSync('package.json');
+      expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/core']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+    });
+  });
+
   describe('--blueprint', function () {
     it('ember new npm blueprint with old version', async function () {
       await ember(['new', 'foo', '--blueprint', '@glimmer/blueprint@0.6.4', '--skip-npm']);
@@ -552,40 +586,6 @@ describe('Acceptance: ember new', function () {
 
       expect(file('yarn.lock')).to.not.be.empty;
       expect(dir('node_modules/ember-try-test-suite-helper')).to.not.be.empty;
-    });
-  });
-
-  describe('Experiment: Embroider', function () {
-    if (!isExperimentEnabled('CLASSIC')) {
-      it('embroider experiment creates the correct files', async function () {
-        let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
-        process.env['EMBER_CLI_EMBROIDER'] = 'true';
-        await ember(['new', 'foo', '--skip-npm', '--skip-git']);
-
-        if (ORIGINAL_PROCESS_ENV === undefined) {
-          delete process.env['EMBER_CLI_EMBROIDER'];
-        } else {
-          process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
-        }
-
-        let pkgJson = fs.readJsonSync('package.json');
-        expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
-        expect(pkgJson.devDependencies['@embroider/core']).to.exist;
-        expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
-      });
-    }
-
-    it('embroider enabled with --embroider', async function () {
-      if (DEPRECATIONS.EMBROIDER.isRemoved) {
-        this.skip();
-      }
-
-      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--embroider']);
-
-      let pkgJson = fs.readJsonSync('package.json');
-      expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
-      expect(pkgJson.devDependencies['@embroider/core']).to.exist;
-      expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
     });
   });
 });
