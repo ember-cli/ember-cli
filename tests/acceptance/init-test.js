@@ -16,7 +16,10 @@ const EOL = require('os').EOL;
 const td = require('testdouble');
 const lintFix = require('../../lib/utilities/lint-fix');
 
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
+
 const { DEPRECATIONS } = require('../../lib/debug');
+const { confirmViteBlueprint } = require('../helpers-internal/blueprint');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
@@ -49,6 +52,11 @@ describe('Acceptance: ember init', function () {
   });
 
   function confirmBlueprinted(typescript = false) {
+    if (isExperimentEnabled('VITE')) {
+      confirmViteBlueprint();
+      return;
+    }
+
     let blueprintPath = path.join(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')), 'files');
     // ignore TypeScript files
     let expected = walkSync(blueprintPath, {
@@ -144,7 +152,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it('init a single file', async function () {
-    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved) {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
       this.skip();
     }
 
@@ -154,7 +162,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it("init a single file on already init'd folder", async function () {
-    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved) {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
       this.skip();
     }
 
@@ -166,7 +174,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it('init multiple files by glob pattern', async function () {
-    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved) {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
       this.skip();
     }
 
@@ -176,7 +184,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it("init multiple files by glob pattern on already init'd folder", async function () {
-    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved) {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
       this.skip();
     }
 
@@ -188,7 +196,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it('init multiple files by glob patterns', async function () {
-    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved) {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
       this.skip();
     }
 
@@ -198,7 +206,7 @@ describe('Acceptance: ember init', function () {
   });
 
   it("init multiple files by glob patterns on already init'd folder", async function () {
-    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved) {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
       this.skip();
     }
 
