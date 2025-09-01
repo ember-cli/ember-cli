@@ -253,156 +253,6 @@ describe('Acceptance: ember new', function () {
     });
   });
 
-  describe('--blueprint', function () {
-    it('ember new npm blueprint with old version', async function () {
-      await ember(['new', 'foo', '--blueprint', '@glimmer/blueprint@0.6.4', '--skip-npm']);
-
-      expect(dir('src')).to.exist;
-    });
-
-    it('ember new with blueprint uses the specified blueprint directory with a relative path', async function () {
-      fs.mkdirsSync('my_blueprint/files');
-      fs.writeFileSync('my_blueprint/files/gitignore', '');
-
-      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--blueprint=./my_blueprint']);
-
-      confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint'));
-    });
-
-    it('ember new with blueprint uses the specified blueprint directory with an absolute path', async function () {
-      fs.mkdirsSync('my_blueprint/files');
-      fs.writeFileSync('my_blueprint/files/gitignore', '');
-
-      await ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-git',
-        `--blueprint=${path.resolve(process.cwd(), 'my_blueprint')}`,
-      ]);
-
-      confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint'));
-    });
-
-    it('ember new with git blueprint checks out the blueprint and uses it', async function () {
-      this.timeout(20000); // relies on GH network stuff
-
-      await ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-git',
-        '--blueprint=https://github.com/ember-cli/app-blueprint-test.git',
-      ]);
-
-      expect(file('.ember-cli')).to.exist;
-    });
-
-    it('ember new with git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
-      this.timeout(20000); // relies on GH network stuff
-
-      await ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-git',
-        '--blueprint=https://github.com/ember-cli/app-blueprint-test.git#named-ref',
-      ]);
-
-      expect(file('.named-ref')).to.exist;
-    });
-
-    it('ember new with shorthand git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
-      this.timeout(20000); // relies on GH network stuff
-
-      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--blueprint=ember-cli/app-blueprint-test#named-ref']);
-
-      expect(file('.named-ref')).to.exist;
-    });
-
-    it('ember new passes blueprint options through to blueprint', async function () {
-      fs.mkdirsSync('my_blueprint/files');
-      fs.writeFileSync(
-        'my_blueprint/index.js',
-        [
-          'module.exports = {',
-          "  availableOptions: [ { name: 'custom-option' } ],",
-          '  locals(options) {',
-          '    return {',
-          '      customOption: options.customOption',
-          '    };',
-          '  }',
-          '};',
-        ].join('\n')
-      );
-      fs.writeFileSync('my_blueprint/files/gitignore', '<%= customOption %>');
-
-      await ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-git',
-        '--blueprint=./my_blueprint',
-        '--custom-option=customValue',
-      ]);
-
-      expect(file('.gitignore')).to.contain('customValue');
-    });
-
-    it('ember new uses yarn when blueprint has yarn.lock', async function () {
-      if (!hasGlobalYarn) {
-        this.skip();
-      }
-
-      fs.mkdirsSync('my_blueprint/files');
-      fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
-      fs.writeFileSync(
-        'my_blueprint/files/package.json',
-        '{ "name": "foo", "dependencies": { "ember-try-test-suite-helper": "*" }}'
-      );
-      fs.writeFileSync('my_blueprint/files/yarn.lock', '');
-
-      await ember(['new', 'foo', '--skip-git', '--blueprint=./my_blueprint']);
-
-      expect(file('yarn.lock')).to.not.be.empty;
-      expect(dir('node_modules/ember-try-test-suite-helper')).to.not.be.empty;
-    });
-  });
-
-  describe('Experiment: Embroider', function () {
-    if (!isExperimentEnabled('CLASSIC')) {
-      it('embroider experiment creates the correct files', async function () {
-        let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
-        process.env['EMBER_CLI_EMBROIDER'] = 'true';
-        await ember(['new', 'foo', '--skip-npm', '--skip-git']);
-
-        if (ORIGINAL_PROCESS_ENV === undefined) {
-          delete process.env['EMBER_CLI_EMBROIDER'];
-        } else {
-          process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
-        }
-
-        let pkgJson = fs.readJsonSync('package.json');
-        expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
-        expect(pkgJson.devDependencies['@embroider/core']).to.exist;
-        expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
-      });
-    }
-
-    it('embroider enabled with --embroider', async function () {
-      if (DEPRECATIONS.EMBROIDER.isRemoved) {
-        this.skip();
-      }
-
-      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--embroider']);
-
-      let pkgJson = fs.readJsonSync('package.json');
-      expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
-      expect(pkgJson.devDependencies['@embroider/core']).to.exist;
-      expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
-    });
-  });
-
   describe('verify fixtures', function () {
     it('app defaults', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-git']);
@@ -586,6 +436,156 @@ describe('Acceptance: ember new', function () {
       checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
+    });
+  });
+
+  describe('--blueprint', function () {
+    it('ember new npm blueprint with old version', async function () {
+      await ember(['new', 'foo', '--blueprint', '@glimmer/blueprint@0.6.4', '--skip-npm']);
+
+      expect(dir('src')).to.exist;
+    });
+
+    it('ember new with blueprint uses the specified blueprint directory with a relative path', async function () {
+      fs.mkdirsSync('my_blueprint/files');
+      fs.writeFileSync('my_blueprint/files/gitignore', '');
+
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--blueprint=./my_blueprint']);
+
+      confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint'));
+    });
+
+    it('ember new with blueprint uses the specified blueprint directory with an absolute path', async function () {
+      fs.mkdirsSync('my_blueprint/files');
+      fs.writeFileSync('my_blueprint/files/gitignore', '');
+
+      await ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-git',
+        `--blueprint=${path.resolve(process.cwd(), 'my_blueprint')}`,
+      ]);
+
+      confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint'));
+    });
+
+    it('ember new with git blueprint checks out the blueprint and uses it', async function () {
+      this.timeout(20000); // relies on GH network stuff
+
+      await ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-git',
+        '--blueprint=https://github.com/ember-cli/app-blueprint-test.git',
+      ]);
+
+      expect(file('.ember-cli')).to.exist;
+    });
+
+    it('ember new with git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
+      this.timeout(20000); // relies on GH network stuff
+
+      await ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-git',
+        '--blueprint=https://github.com/ember-cli/app-blueprint-test.git#named-ref',
+      ]);
+
+      expect(file('.named-ref')).to.exist;
+    });
+
+    it('ember new with shorthand git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
+      this.timeout(20000); // relies on GH network stuff
+
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--blueprint=ember-cli/app-blueprint-test#named-ref']);
+
+      expect(file('.named-ref')).to.exist;
+    });
+
+    it('ember new passes blueprint options through to blueprint', async function () {
+      fs.mkdirsSync('my_blueprint/files');
+      fs.writeFileSync(
+        'my_blueprint/index.js',
+        [
+          'module.exports = {',
+          "  availableOptions: [ { name: 'custom-option' } ],",
+          '  locals(options) {',
+          '    return {',
+          '      customOption: options.customOption',
+          '    };',
+          '  }',
+          '};',
+        ].join('\n')
+      );
+      fs.writeFileSync('my_blueprint/files/gitignore', '<%= customOption %>');
+
+      await ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-git',
+        '--blueprint=./my_blueprint',
+        '--custom-option=customValue',
+      ]);
+
+      expect(file('.gitignore')).to.contain('customValue');
+    });
+
+    it('ember new uses yarn when blueprint has yarn.lock', async function () {
+      if (!hasGlobalYarn) {
+        this.skip();
+      }
+
+      fs.mkdirsSync('my_blueprint/files');
+      fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
+      fs.writeFileSync(
+        'my_blueprint/files/package.json',
+        '{ "name": "foo", "dependencies": { "ember-try-test-suite-helper": "*" }}'
+      );
+      fs.writeFileSync('my_blueprint/files/yarn.lock', '');
+
+      await ember(['new', 'foo', '--skip-git', '--blueprint=./my_blueprint']);
+
+      expect(file('yarn.lock')).to.not.be.empty;
+      expect(dir('node_modules/ember-try-test-suite-helper')).to.not.be.empty;
+    });
+  });
+
+  describe('Experiment: Embroider', function () {
+    if (!isExperimentEnabled('CLASSIC')) {
+      it('embroider experiment creates the correct files', async function () {
+        let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
+        process.env['EMBER_CLI_EMBROIDER'] = 'true';
+        await ember(['new', 'foo', '--skip-npm', '--skip-git']);
+
+        if (ORIGINAL_PROCESS_ENV === undefined) {
+          delete process.env['EMBER_CLI_EMBROIDER'];
+        } else {
+          process.env['EMBER_CLI_EMBROIDER'] = ORIGINAL_PROCESS_ENV;
+        }
+
+        let pkgJson = fs.readJsonSync('package.json');
+        expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
+        expect(pkgJson.devDependencies['@embroider/core']).to.exist;
+        expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+      });
+    }
+
+    it('embroider enabled with --embroider', async function () {
+      if (DEPRECATIONS.EMBROIDER.isRemoved) {
+        this.skip();
+      }
+
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--embroider']);
+
+      let pkgJson = fs.readJsonSync('package.json');
+      expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/core']).to.exist;
+      expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
     });
   });
 });
