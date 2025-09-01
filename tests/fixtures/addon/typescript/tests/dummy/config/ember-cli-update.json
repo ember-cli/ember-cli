@@ -2,11 +2,11 @@
   "schemaVersion": "1.0.0",
   "packages": [
     {
-      "name": "@ember-tooling/classic-build-app-blueprint",
+      "name": "@ember-tooling/classic-build-addon-blueprint",
       "version": "<%= blueprintVersion %>",
       "blueprints": [
         {
-          "name": "@ember-tooling/classic-build-app-blueprint",
+          "name": "@ember-tooling/classic-build-addon-blueprint",
           "isBaseBlueprint": true,
           "options": [
             "--yarn",

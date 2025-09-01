@@ -12,6 +12,7 @@ const ember = require('../helpers/ember');
 const { checkFile } = require('../helpers-internal/file-utils');
 const {
   currentVersion,
+  currentAddonBlueprintVersion,
   checkEslintConfig,
   checkFileWithJSONReplacement,
   checkEmberCLIBuild,
@@ -177,7 +178,7 @@ describe('Acceptance: ember addon', function () {
       fixturePath,
       'tests/dummy/config/ember-cli-update.json',
       'packages[0].version',
-      currentVersion
+      currentAddonBlueprintVersion
     );
   });
 
@@ -209,7 +210,7 @@ describe('Acceptance: ember addon', function () {
       fixturePath,
       'tests/dummy/config/ember-cli-update.json',
       'packages[0].version',
-      currentVersion
+      currentAddonBlueprintVersion
     );
     checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
     checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');
