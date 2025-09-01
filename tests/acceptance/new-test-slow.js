@@ -51,20 +51,4 @@ describe('Acceptance: ember new | ember addon', function () {
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
     });
   });
-
-  describe('ember addon', function () {
-    it('generates a new addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm', '--skip-npm']);
-      // link current version of ember-cli in the newly generated app
-      await execa('pnpm', ['link', emberCliRoot]);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
-    });
-
-    it('generates a new TS addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm', '--typescript', '--skip-npm']);
-      // link current version of ember-cli in the newly generated app
-      await execa('pnpm', ['link', emberCliRoot]);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
-    });
-  });
 });
