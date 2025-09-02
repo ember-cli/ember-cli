@@ -20,6 +20,7 @@ const contains = td.matchers.contains;
 const root = process.cwd();
 
 let instrumentation;
+let originalStatSync = fs.statSync;
 
 describe('models/instrumentation.js', function () {
   afterEach(async function () {
@@ -30,8 +31,6 @@ describe('models/instrumentation.js', function () {
   });
 
   describe('._enableFSMonitorIfInstrumentationEnabled', function () {
-    let originalStatSync = fs.statSync;
-
     beforeEach(function () {
       expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
       expect(!!process.env.EMBER_CLI_INSTRUMENTATION).to.eql(false);

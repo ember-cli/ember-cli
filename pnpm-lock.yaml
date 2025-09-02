@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@ember-tooling/blueprint-blueprint':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: workspace:*
+        version: link:packages/blueprint-blueprint
       '@ember-tooling/blueprint-model':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: workspace:*
+        version: link:packages/blueprint-model
       '@ember-tooling/classic-build-addon-blueprint':
         specifier: workspace:*
         version: link:packages/addon-blueprint
@@ -153,8 +153,8 @@ importers:
         specifier: ^0.2.6
         version: 0.2.6
       heimdalljs-fs-monitor:
-        specifier: ^1.1.1
-        version: 1.1.1
+        specifier: ^1.1.2
+        version: 1.1.2
       heimdalljs-graph:
         specifier: ^1.0.0
         version: 1.0.0
@@ -367,8 +367,8 @@ importers:
   packages/addon-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: workspace:*
+        version: link:../blueprint-model
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -397,14 +397,40 @@ importers:
   packages/app-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: workspace:*
+        version: link:../blueprint-model
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
       ember-cli-string-utils:
         specifier: ^1.1.0
         version: 1.1.0
+
+  packages/blueprint-blueprint: {}
+
+  packages/blueprint-model:
+    dependencies:
+      chalk:
+        specifier: ^4.1.2
+        version: 4.1.2
+      diff:
+        specifier: ^7.0.0
+        version: 7.0.0
+      isbinaryfile:
+        specifier: ^5.0.4
+        version: 5.0.4
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      promise.hash.helper:
+        specifier: ^1.0.8
+        version: 1.0.8
+      quick-temp:
+        specifier: ^0.1.8
+        version: 0.1.8
+      silent-error:
+        specifier: ^1.1.1
+        version: 1.1.1
 
 packages:
 
@@ -533,12 +559,6 @@ packages:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
     hasBin: true
-
-  '@ember-tooling/blueprint-blueprint@0.0.2':
-    resolution: {integrity: sha512-W0Ulvny2PT+80qy2X9wSlNTobgfobI3cNfxoDgIlEr1f5ifyUg6rydyErl9RUupPxfsvuya6ss9TV6y86+qOjA==}
-
-  '@ember-tooling/blueprint-model@0.0.2':
-    resolution: {integrity: sha512-mZ6GZQE3zNfldN0qpZ8qAwCKH2fog60af72yppQueraYqRgL1SSd46An7sxRb1ur60+xlCMZAlj3086Fk1cKuQ==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -2804,8 +2824,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  heimdalljs-fs-monitor@1.1.1:
-    resolution: {integrity: sha512-BHB8oOXLRlrIaON0MqJSEjGVPDyqt2Y6gu+w2PaEZjrCxeVtZG7etEZp7M4ZQ80HNvnr66KIQ2lot2qdeG8HgQ==}
+  heimdalljs-fs-monitor@1.1.2:
+    resolution: {integrity: sha512-M7OPf3Tu+ybhAXdiC07O1vUYFyhCgfew4L3vaG2nn4Be05xzNvtBcU6IKMTfHJ9AxWFa3w9rrmiJovkxHhpopw==}
 
   heimdalljs-graph@1.0.0:
     resolution: {integrity: sha512-v2AsTERBss0ukm/Qv4BmXrkwsT5x6M1V5Om6E8NcDQ/ruGkERsfsuLi5T8jx8qWzKMGYlwzAd7c/idymxRaPzA==}
@@ -5554,20 +5574,6 @@ snapshots:
       exec-sh: 0.3.6
       minimist: 1.2.8
 
-  '@ember-tooling/blueprint-blueprint@0.0.2': {}
-
-  '@ember-tooling/blueprint-model@0.0.2':
-    dependencies:
-      chalk: 4.1.2
-      diff: 7.0.0
-      isbinaryfile: 5.0.4
-      lodash: 4.17.21
-      promise.hash.helper: 1.0.8
-      quick-temp: 0.1.8
-      silent-error: 1.1.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@eslint-community/eslint-utils@4.4.1(eslint@8.57.1)':
     dependencies:
       eslint: 8.57.1
@@ -8278,7 +8284,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  heimdalljs-fs-monitor@1.1.1:
+  heimdalljs-fs-monitor@1.1.2:
     dependencies:
       callsites: 3.1.0
       clean-stack: 2.2.0

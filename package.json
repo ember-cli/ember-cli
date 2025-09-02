@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "6.7.0-beta.1",
+  "version": "6.8.0-alpha.1",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -42,12 +42,12 @@
       "minor": "prerelease",
       "patch": "prerelease"
     },
-    "semverIncrementTag": "beta",
-    "publishTag": "beta"
+    "semverIncrementTag": "alpha",
+    "publishTag": "alpha"
   },
   "dependencies": {
-    "@ember-tooling/blueprint-blueprint": "^0.0.2",
-    "@ember-tooling/blueprint-model": "^0.0.2",
+    "@ember-tooling/blueprint-blueprint": "workspace:*",
+    "@ember-tooling/blueprint-model": "workspace:*",
     "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
     "@ember-tooling/classic-build-app-blueprint": "workspace:*",
     "@pnpm/find-workspace-dir": "^1000.1.0",
@@ -94,7 +94,7 @@
     "git-repo-info": "^2.1.1",
     "glob": "^8.1.0",
     "heimdalljs": "^0.2.6",
-    "heimdalljs-fs-monitor": "^1.1.1",
+    "heimdalljs-fs-monitor": "^1.1.2",
     "heimdalljs-graph": "^1.0.0",
     "heimdalljs-logger": "^0.1.10",
     "http-proxy": "^1.18.1",
