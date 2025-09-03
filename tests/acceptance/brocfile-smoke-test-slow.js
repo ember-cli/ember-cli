@@ -216,6 +216,10 @@ describe('Acceptance: brocfile-smoke-test', function () {
   });
 
   it('using pods based templates', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await copyFixtureFiles('brocfile-tests/pods-templates');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
