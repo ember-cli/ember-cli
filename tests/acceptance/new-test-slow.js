@@ -4,7 +4,6 @@ const tmp = require('tmp-promise');
 const execa = require('execa');
 const { join, resolve } = require('node:path');
 const ember = require('../helpers/ember');
-const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 const emberCliRoot = resolve(join(__dirname, '../..'));
 const root = process.cwd();
@@ -24,12 +23,6 @@ describe('Acceptance: ember new (slow)', function () {
   });
 
   describe('ember new', function () {
-    if (isExperimentEnabled('VITE')) {
-      before(function () {
-        this.skip();
-      });
-    }
-
     it('generates a new app with no linting errors', async function () {
       await ember(['new', 'foo-app', '--pnpm', '--skip-npm']);
       // link current version of ember-cli in the newly generated app
