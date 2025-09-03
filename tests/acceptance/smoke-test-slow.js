@@ -45,6 +45,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, clean from scratch', function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 

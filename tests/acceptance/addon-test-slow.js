@@ -9,7 +9,7 @@ const emberCliRoot = resolve(join(__dirname, '../..'));
 const root = process.cwd();
 let tmpDir;
 
-describe('Acceptance: ember new | ember addon', function () {
+describe('Acceptance: ember addon (slow)', function () {
   this.timeout(500000);
 
   beforeEach(async function () {
