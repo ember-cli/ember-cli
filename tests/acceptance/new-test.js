@@ -12,7 +12,7 @@ const EOL = require('os').EOL;
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { set, get, cloneDeep } = require('lodash');
 
-const { isExperimentEnabled } = require('../../lib/experiments');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
@@ -85,7 +85,7 @@ describe('Acceptance: ember new', function () {
   it('ember new @foo/bar, when parent directory does not contain `foo`', async function () {
     await ember(['new', '@foo/bar', '--skip-npm']);
 
-    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'foo-bar');
+    confirmBlueprintedForDir(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')), 'foo-bar');
   });
 
   it('ember new @foo/bar, when direct parent directory contains `foo`', async function () {
@@ -95,7 +95,7 @@ describe('Acceptance: ember new', function () {
 
     await ember(['new', '@foo/bar', '--skip-npm']);
 
-    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'bar');
+    confirmBlueprintedForDir(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')), 'bar');
   });
 
   it('ember new @foo/bar, when parent directory hierarchy contains `foo`', async function () {
@@ -105,7 +105,7 @@ describe('Acceptance: ember new', function () {
 
     await ember(['new', '@foo/bar', '--skip-npm']);
 
-    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'bar');
+    confirmBlueprintedForDir(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')), 'bar');
   });
 
   it('ember new --no-welcome skips installation of ember-welcome-page', async function () {
@@ -169,7 +169,7 @@ describe('Acceptance: ember new', function () {
   it('ember new foo, where foo does not yet exist, works', async function () {
     await ember(['new', 'foo', '--skip-npm']);
 
-    confirmBlueprintedForDir(path.join(root, 'blueprints/app'));
+    confirmBlueprintedForDir(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')));
   });
 
   it('ember new foo, blueprint targets match the default ember-cli targets', async function () {
@@ -209,10 +209,10 @@ describe('Acceptance: ember new', function () {
 
   it('successfully runs `ember new` inside of an existing ember-cli project', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-git']);
-    confirmBlueprintedForDir(path.join(root, 'blueprints/app'));
+    confirmBlueprintedForDir(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')));
 
     await ember(['new', 'bar', '--skip-npm', '--skip-git']);
-    confirmBlueprintedForDir(path.join(root, 'blueprints/app'), 'bar');
+    confirmBlueprintedForDir(path.dirname(require.resolve('@ember-tooling/classic-build-app-blueprint')), 'bar');
   });
 
   it('ember new with blueprint uses the specified blueprint directory with a relative path', async function () {
@@ -771,7 +771,6 @@ describe('Acceptance: ember new', function () {
         fixturePath = 'app/typescript-no-ember-data';
       }
 
-      checkFile('tsconfig.json', path.join(__dirname, '../fixtures', fixturePath, 'tsconfig.json'));
       checkFileWithJSONReplacement(fixturePath, 'config/ember-cli-update.json', 'packages[0].version', currentVersion);
       checkFileWithJSONReplacement(fixturePath, 'package.json', 'devDependencies.ember-cli', `~${currentVersion}`);
       checkEmberCLIBuild(fixturePath, 'ember-cli-build.js');

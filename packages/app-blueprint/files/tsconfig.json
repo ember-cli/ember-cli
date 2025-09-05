@@ -9,12 +9,10 @@
     // work with TypeScript.
     "baseUrl": ".",
     "paths": {
-      "foo/tests/*": ["tests/*"],
-      "foo/*": ["app/*"],
+      "<%= name %>/tests/*": ["tests/*"],
+      "<%= name %>/*": ["app/*"],
       "*": ["types/*"]
     },
-    "types": [
-      "ember-source/types"
-    ]
+    "types": ["ember-source/types"]
   }
 }

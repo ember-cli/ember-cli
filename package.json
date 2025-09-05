@@ -38,6 +38,10 @@
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
   "dependencies": {
+    "@ember-tooling/blueprint-blueprint": "^0.0.2",
+    "@ember-tooling/blueprint-model": "^0.0.2",
+    "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
+    "@ember-tooling/classic-build-app-blueprint": "workspace:*",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
     "broccoli": "^3.5.2",
@@ -82,7 +86,7 @@
     "git-repo-info": "^2.1.1",
     "glob": "^8.1.0",
     "heimdalljs": "^0.2.6",
-    "heimdalljs-fs-monitor": "^1.1.1",
+    "heimdalljs-fs-monitor": "^1.1.2",
     "heimdalljs-graph": "^1.0.0",
     "heimdalljs-logger": "^0.1.10",
     "http-proxy": "^1.18.1",
@@ -144,7 +148,7 @@
     "nock": "^13.5.5",
     "nyc": "^15.1.0",
     "prettier": "2.8.7",
-    "release-plan": "^0.17.0",
+    "release-plan": "^0.17.2",
     "strip-ansi": "^6.0.0",
     "supertest": "^7.1.0",
     "testdouble": "^3.18.0",
@@ -156,11 +160,6 @@
     "yuidocjs": "0.10.2"
   },
   "packageManager": "pnpm@10.12.1",
-  "pnpm": {
-    "overrides": {
-      "github-changelog": "github:embroider-build/github-changelog#ignore-pre-release"
-    }
-  },
   "engines": {
     "node": ">= 20.11"
   },
