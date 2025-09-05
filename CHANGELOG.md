@@ -1,5 +1,15 @@
 # ember-cli Changelog
 
+## Release (2025-09-05)
+
+
+
+#### :bug: Bug Fix
+* [#10794](https://github.com/ember-cli/ember-cli/pull/10794) Fix potential NPE ([@boris-petrov](https://github.com/boris-petrov))
+
+#### Committers: 1
+- Boris Petrov ([@boris-petrov](https://github.com/boris-petrov))
+
 ## Release (2025-08-01)
 
 * @ember-tooling/classic-build-addon-blueprint 6.7.0-beta.1 (minor)
