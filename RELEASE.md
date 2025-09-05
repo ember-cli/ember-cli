@@ -45,9 +45,9 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - make sure to not add the `release-plan` config section to the package.json during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
 - Update blueprint dependencies to latest
 
-```
-node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
-```
+  ```
+  node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
+  ```
 
 - commit this update `git commit -am "update blueprint dependencies to latest"`
 - push and open a PR targeting `release` with a PR title like `Update all dependencies for 6.4 release`
@@ -78,11 +78,12 @@ node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=l
   - update the `ember-cli` reference in `packages/app-blueprint/files/package.json` to be the same as the version you just put in the top level package.json
 - Update blueprint dependencies to beta
 
-```
-node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
-```
+  ```
+  node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
+  ```
 
 - commit this update `git commit -am "update blueprint dependencies to beta"`
+- **TODO**: document how to update @ember/app-blueprint dependency
 - push and open a PR targeting `beta` with a PR title like `Prepare 6.5-beta`
 - mark this PR as an `enchancement` if the next beta is a minor release
 - check that everything is ok i.e. CI passes
@@ -110,11 +111,12 @@ node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=bet
 - commit this change to the version in package.json: `git commit -am "update to the next alpha version"`
 - Update blueprint dependencies to alpha
 
-```
-node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=canary
-```
+  ```
+  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=canary
+  ```
 
 - commit this update `git commit -am "update blueprint dependencies to alpha"`
+- **TODO**: document how to update @ember/app-blueprint dependency
 - push and open a PR targeting `master` with a PR title like `Prepare 6.6-alpha`
 - mark this PR as an `enchancement` if the next alpha is a minor release
 - check that everything is ok i.e. CI passes

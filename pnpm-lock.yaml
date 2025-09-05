@@ -20,6 +20,9 @@ importers:
       '@ember-tooling/classic-build-app-blueprint':
         specifier: workspace:*
         version: link:packages/app-blueprint
+      '@ember/app-blueprint':
+        specifier: ^6.8.0-beta.1
+        version: 6.8.0-beta.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0
         version: 1000.1.0
@@ -556,6 +559,9 @@ packages:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
     hasBin: true
+
+  '@ember/app-blueprint@6.8.0-beta.1':
+    resolution: {integrity: sha512-numsThY0m1gXrOSpe4B8luGds0vPi0Jlh4BHltE0nOxX5LwfXGDadeNh1uezfjimuRJmRtPE0EXyX5BOOEpcew==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -4712,6 +4718,7 @@ packages:
   superagent@10.2.1:
     resolution: {integrity: sha512-O+PCv11lgTNJUzy49teNAWLjBZfc+A1enOwTpLlH6/rsvKcTwcdTT8m9azGkVqM7HBl5jpyZ7KTPhHweokBcdg==}
     engines: {node: '>=14.18.0'}
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supertest@7.1.1:
     resolution: {integrity: sha512-aI59HBTlG9e2wTjxGJV+DygfNLgnWbGdZxiA/sgrnNNikIW8lbDvCtF6RnhZoJ82nU7qv7ZLjrvWqCEm52fAmw==}
@@ -5482,6 +5489,13 @@ snapshots:
     dependencies:
       exec-sh: 0.3.6
       minimist: 1.2.8
+
+  '@ember/app-blueprint@6.8.0-beta.1':
+    dependencies:
+      chalk: 4.1.2
+      ember-cli-string-utils: 1.1.0
+      lodash: 4.17.21
+      walk-sync: 3.0.0
 
   '@eslint-community/eslint-utils@4.4.1(eslint@8.57.1)':
     dependencies:

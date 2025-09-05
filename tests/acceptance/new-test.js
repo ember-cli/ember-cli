@@ -20,6 +20,7 @@ const { expect } = require('chai');
 const { dir, file } = require('chai-files');
 
 const { checkFile } = require('../helpers-internal/file-utils');
+const { confirmViteBlueprint } = require('../helpers-internal/blueprint');
 const {
   currentVersion,
   currentAppBlueprintVersion,
@@ -86,6 +87,12 @@ describe('Acceptance: ember new', function () {
   });
 
   describe('built-in app blueprint', function () {
+    before(function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     it('ember new adds ember-welcome-page by default', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-git']);
 
@@ -217,6 +224,12 @@ describe('Acceptance: ember new', function () {
   });
 
   describe('--lang', function () {
+    before(function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     // Good: Correct Usage
     it('ember new foo --lang=(valid code): no message + set `lang` in index.html', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=en-US']);
@@ -255,6 +268,12 @@ describe('Acceptance: ember new', function () {
   });
 
   describe('verify fixtures', function () {
+    before(function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     it('app defaults', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-git']);
 
@@ -475,7 +494,13 @@ describe('Acceptance: ember new', function () {
     });
   });
 
-  describe('Experiment: Embroider', function () {
+  describe('Experiment(EMBROIDER)', function () {
+    before(function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
     if (!isExperimentEnabled('CLASSIC')) {
       it('embroider experiment creates the correct files', async function () {
         let ORIGINAL_PROCESS_ENV = process.env.EMBER_CLI_EMBROIDER;
@@ -506,6 +531,20 @@ describe('Acceptance: ember new', function () {
       expect(pkgJson.devDependencies['@embroider/compat']).to.exist;
       expect(pkgJson.devDependencies['@embroider/core']).to.exist;
       expect(pkgJson.devDependencies['@embroider/webpack']).to.exist;
+    });
+  });
+
+  describe('Experiment(VITE)', function () {
+    before(function () {
+      if (!isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
+    it('uses the correct blueprint', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git']);
+
+      confirmViteBlueprint();
     });
   });
 
