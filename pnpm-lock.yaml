@@ -153,8 +153,8 @@ importers:
         specifier: ^0.2.6
         version: 0.2.6
       heimdalljs-fs-monitor:
-        specifier: ^1.1.1
-        version: 1.1.1
+        specifier: ^1.1.2
+        version: 1.1.2
       heimdalljs-graph:
         specifier: ^1.0.0
         version: 1.0.0
@@ -2804,8 +2804,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  heimdalljs-fs-monitor@1.1.1:
-    resolution: {integrity: sha512-BHB8oOXLRlrIaON0MqJSEjGVPDyqt2Y6gu+w2PaEZjrCxeVtZG7etEZp7M4ZQ80HNvnr66KIQ2lot2qdeG8HgQ==}
+  heimdalljs-fs-monitor@1.1.2:
+    resolution: {integrity: sha512-M7OPf3Tu+ybhAXdiC07O1vUYFyhCgfew4L3vaG2nn4Be05xzNvtBcU6IKMTfHJ9AxWFa3w9rrmiJovkxHhpopw==}
 
   heimdalljs-graph@1.0.0:
     resolution: {integrity: sha512-v2AsTERBss0ukm/Qv4BmXrkwsT5x6M1V5Om6E8NcDQ/ruGkERsfsuLi5T8jx8qWzKMGYlwzAd7c/idymxRaPzA==}
@@ -4771,6 +4771,7 @@ packages:
   superagent@10.2.1:
     resolution: {integrity: sha512-O+PCv11lgTNJUzy49teNAWLjBZfc+A1enOwTpLlH6/rsvKcTwcdTT8m9azGkVqM7HBl5jpyZ7KTPhHweokBcdg==}
     engines: {node: '>=14.18.0'}
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supertest@7.1.1:
     resolution: {integrity: sha512-aI59HBTlG9e2wTjxGJV+DygfNLgnWbGdZxiA/sgrnNNikIW8lbDvCtF6RnhZoJ82nU7qv7ZLjrvWqCEm52fAmw==}
@@ -8278,7 +8279,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  heimdalljs-fs-monitor@1.1.1:
+  heimdalljs-fs-monitor@1.1.2:
     dependencies:
       callsites: 3.1.0
       clean-stack: 2.2.0
