@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## Release (2025-09-05)
+
+* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.3 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.3 (patch)
+* @ember-tooling/blueprint-model 0.1.0 (minor)
+* ember-cli 6.8.0-alpha.3 (patch)
+
+#### :rocket: Enhancement
+* `@ember-tooling/blueprint-model`
+  * [#10781](https://github.com/ember-cli/ember-cli/pull/10781) Add new `VITE` experiment to generate app with new Vite blueprint ([@pichfl](https://github.com/pichfl))
+
+#### Committers: 1
+- Florian Pichler ([@pichfl](https://github.com/pichfl))
+
 ## Release (2025-09-01)
 
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.2 (minor)
