@@ -1,5 +1,5 @@
 <% if (emberData) { %>import '@warp-drive/ember/install';
-<% } %> import Application from '@ember/application';
+<% } %>import Application from '@ember/application';
 import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from '<%= modulePrefix %>/config/environment';
