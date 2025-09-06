@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-const { isExperimentEnabled } = require('../../lib/experiments');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');

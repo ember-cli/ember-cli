@@ -1,7 +1,10 @@
 'use strict';
 
 const { expect } = require('chai');
-const { isExperimentEnabled, _deprecatedExperimentsDeprecationsIssued } = require('../../lib/experiments');
+const {
+  isExperimentEnabled,
+  _deprecatedExperimentsDeprecationsIssued,
+} = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 function resetProcessEnv(originalProcessEnv) {
   for (let key in process.env) {

@@ -44,8 +44,8 @@ const OPTIONS = nopt({
 });
 
 const PACKAGE_FILES = [
-  '../blueprints/app/files/package.json',
-  '../blueprints/addon/additional-package.json',
+  '../packages/app-blueprint/files/package.json',
+  '../packages/addon-blueprint/additional-package.json',
   '../tests/fixtures/app/defaults/package.json',
   '../tests/fixtures/app/npm/package.json',
   '../tests/fixtures/app/yarn/package.json',
@@ -145,9 +145,13 @@ async function updateDependencies(dependencies) {
 
     if (hasVersion && isValidPrefix) {
       const semverRange = OPTIONS.latest ? 'latest' : removeTemplateExpression(previousValue);
-      const newVersion = await latestVersion(dependencyName, semverRange);
+      try {
+        const newVersion = await latestVersion(dependencyName, semverRange);
 
-      dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
+        dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
+      } catch (err) {
+        console.warn(`Error checking new version of ${dependencyName}: ${err.message}`);
+      }
     }
   }
 }
