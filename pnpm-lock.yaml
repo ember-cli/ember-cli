@@ -2656,8 +2656,8 @@ packages:
     resolution: {integrity: sha512-8aCohiDo4jwjOwma4FmYFd3i97urZulL8XL24nIPxuE+GZnfsAyy/g2Shqx6OjUiFKUXZM+Yy+KHnOmmA3FVcg==}
     engines: {node: '>= 4.0'}
 
-  github-changelog@2.1.1:
-    resolution: {integrity: sha512-MRJXYVBJi5EUtIvaMokAIMAOmDwx8EtO2xK2yhK/jSHQBRGVwuhVGYhSCWPSnku8MTtL4mfk2qFNqUhx2ZC98A==}
+  github-changelog@2.1.2:
+    resolution: {integrity: sha512-psDEGxwD5fWDLOW+BOORg1JgZOnbCuMhNLevsD/nP7QVXEVExUGnXBP6MmrFm0hAao9LgBLSBKfcNzGuwecRDA==}
     engines: {node: 18.* || 20.* || >= 22}
     hasBin: true
 
@@ -8083,7 +8083,7 @@ snapshots:
 
   git-repo-info@2.1.1: {}
 
-  github-changelog@2.1.1:
+  github-changelog@2.1.2:
     dependencies:
       '@manypkg/get-packages': 2.2.2
       chalk: 4.1.2
@@ -9862,7 +9862,7 @@ snapshots:
       cli-highlight: 2.1.11
       execa: 9.5.3
       fs-extra: 11.3.0
-      github-changelog: 2.1.1
+      github-changelog: 2.1.2
       js-yaml: 4.1.0
       latest-version: 9.0.0
       parse-github-repo-url: 1.4.1
