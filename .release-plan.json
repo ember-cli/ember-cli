@@ -2,8 +2,8 @@
   "solution": {
     "ember-cli": {
       "impact": "minor",
-      "oldVersion": "6.5.0",
-      "newVersion": "6.6.0",
+      "oldVersion": "6.6.0",
+      "newVersion": "6.7.0",
       "tagName": "latest",
       "constraints": [
         {
@@ -12,7 +12,19 @@
         },
         {
           "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
+        },
+        {
+          "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :memo: Documentation"
         },
         {
           "impact": "patch",
@@ -20,7 +32,41 @@
         }
       ],
       "pkgJSONPath": "./package.json"
+    },
+    "@ember-tooling/classic-build-addon-blueprint": {
+      "impact": "minor",
+      "oldVersion": "6.6.0",
+      "newVersion": "6.7.0",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./packages/addon-blueprint/package.json"
+    },
+    "@ember-tooling/classic-build-app-blueprint": {
+      "impact": "minor",
+      "oldVersion": "6.6.0",
+      "newVersion": "6.7.0",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./packages/app-blueprint/package.json"
     }
   },
-  "description": "## Release (2025-07-29)\n\n* ember-cli 6.6.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`\n  * [#10749](https://github.com/ember-cli/ember-cli/pull/10749) Update all dependencies for 6.6 release ([@mansona](https://github.com/mansona))\n  * [#10751](https://github.com/ember-cli/ember-cli/pull/10751) [BETA BACKPORT] Backport drop node 18 ([@mansona](https://github.com/mansona))\n  * [#10701](https://github.com/ember-cli/ember-cli/pull/10701) [ENHANCEMENT] Support Bun ([@hexadecy](https://github.com/hexadecy))\n  * [#10664](https://github.com/ember-cli/ember-cli/pull/10664) [ENHANCEMENT] Remove ember-fetch ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10711](https://github.com/ember-cli/ember-cli/pull/10711) fix yuidoc generation on publish ([@mansona](https://github.com/mansona))\n  * [#10702](https://github.com/ember-cli/ember-cli/pull/10702) [Bugfix]: Update ember-data and unify the versions between @ and non-@ ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10699](https://github.com/ember-cli/ember-cli/pull/10699) Start using release-plan for releasing ember-cli ([@mansona](https://github.com/mansona))\n  * [#10670](https://github.com/ember-cli/ember-cli/pull/10670) testing: don't generate temp directories in the repo ([@mansona](https://github.com/mansona))\n\n#### Committers: 3\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Michel Couillard ([@hexadecy](https://github.com/hexadecy))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-09-06)\n\n* ember-cli 6.7.0 (minor)\n* @ember-tooling/classic-build-addon-blueprint 6.7.0 (minor)\n* @ember-tooling/classic-build-app-blueprint 6.7.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10796](https://github.com/ember-cli/ember-cli/pull/10796) Promote Beta and update all dependencies for 6.7 release ([@mansona](https://github.com/mansona))\n  * [#10742](https://github.com/ember-cli/ember-cli/pull/10742) Drop node 18, add node 24 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10794](https://github.com/ember-cli/ember-cli/pull/10794) Fix potential NPE ([@boris-petrov](https://github.com/boris-petrov))\n\n#### :memo: Documentation\n* `ember-cli`\n  * [#10724](https://github.com/ember-cli/ember-cli/pull/10724) Update RELEASE.md to fully document new release-plan setup ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10801](https://github.com/ember-cli/ember-cli/pull/10801) update github-changelog ([@mansona](https://github.com/mansona))\n  * [#10761](https://github.com/ember-cli/ember-cli/pull/10761) update release-plan ([@mansona](https://github.com/mansona))\n  * [#10748](https://github.com/ember-cli/ember-cli/pull/10748) update blueprint version of ember-cli as part of release plan ([@mansona](https://github.com/mansona))\n  * [#10747](https://github.com/ember-cli/ember-cli/pull/10747) only use the PAT for the PR creation in release-plan ([@mansona](https://github.com/mansona))\n  * [#10744](https://github.com/ember-cli/ember-cli/pull/10744) run tests on the release-plan PR ([@mansona](https://github.com/mansona))\n  * [#10735](https://github.com/ember-cli/ember-cli/pull/10735) remove unnecessary project override ([@mansona](https://github.com/mansona))\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10800](https://github.com/ember-cli/ember-cli/pull/10800) fix release-plan for stable release ([@mansona](https://github.com/mansona))\n  * [#10736](https://github.com/ember-cli/ember-cli/pull/10736) update all sub-packages to have the @ember-tooling prefix ([@mansona](https://github.com/mansona))\n  * [#10671](https://github.com/ember-cli/ember-cli/pull/10671) Implement the built in app, addon, and blueprint blueprints by package lookup ([@mansona](https://github.com/mansona))\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`\n  * [#10738](https://github.com/ember-cli/ember-cli/pull/10738) add a repository for each of the packages ([@mansona](https://github.com/mansona))\n\n#### Committers: 3\n- Boris Petrov ([@boris-petrov](https://github.com/boris-petrov))\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
