@@ -10,13 +10,5 @@
     "@ember-tooling/blueprint-model": "^0.0.2",
     "chalk": "^4.1.2",
     "ember-cli-string-utils": "^1.1.0"
-  },
-  "release-plan": {
-    "semverIncrementAs": {
-      "minor": "prerelease",
-      "patch": "prerelease"
-    },
-    "semverIncrementTag": "beta",
-    "publishTag": "beta"
   }
 }
