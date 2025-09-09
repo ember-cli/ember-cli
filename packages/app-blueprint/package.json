@@ -6,6 +6,9 @@
     "url": "https://github.com/ember-cli/ember-cli.git",
     "directory": "packages/app-blueprint"
   },
+  "keywords": [
+    "ember-blueprint"
+  ],
   "dependencies": {
     "@ember-tooling/blueprint-model": "workspace:*",
     "chalk": "^4.1.2",
