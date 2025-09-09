@@ -1,5 +1,22 @@
 # ember-cli Changelog
 
+## Release (2025-09-09)
+
+* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.4 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.4 (patch)
+* @ember-tooling/blueprint-blueprint 0.0.3 (patch)
+* ember-cli 6.8.0-alpha.4 (patch)
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`
+  * [#10803](https://github.com/ember-cli/ember-cli/pull/10803) Add "ember-blueprint" to keywords in `package.json` for the classic blueprints ([@pichfl](https://github.com/pichfl))
+* `@ember-tooling/classic-build-app-blueprint`
+  * [#10798](https://github.com/ember-cli/ember-cli/pull/10798) Add import from ember-data breakage/deprecation ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- Florian Pichler ([@pichfl](https://github.com/pichfl))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-09-05)
 
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.3 (patch)
