@@ -86,6 +86,7 @@ module.exports = {
           required: false
         },
         {
+          aliases: ['ts'],
           default: false,
           key: 'typescript',
           name: 'typescript',
@@ -488,6 +489,7 @@ module.exports = {
           default: true
         },
         {
+          aliases: ['ts'],
           default: false,
           key: 'typescript',
           name: 'typescript',
@@ -646,6 +648,7 @@ module.exports = {
           required: false,
         },
         {
+          aliases: ['ts'],
           default: false,
           key: 'typescript',
           name: 'typescript',
