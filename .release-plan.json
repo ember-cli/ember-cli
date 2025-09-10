@@ -2,50 +2,50 @@
   "solution": {
     "@ember-tooling/classic-build-addon-blueprint": {
       "impact": "patch",
-      "oldVersion": "6.8.0-alpha.3",
-      "newVersion": "6.8.0-alpha.4",
+      "oldVersion": "6.8.0-alpha.4",
+      "newVersion": "6.8.0-alpha.5",
       "tagName": "alpha",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
         }
       ],
       "pkgJSONPath": "./packages/addon-blueprint/package.json"
     },
     "@ember-tooling/classic-build-app-blueprint": {
       "impact": "patch",
-      "oldVersion": "6.8.0-alpha.3",
-      "newVersion": "6.8.0-alpha.4",
+      "oldVersion": "6.8.0-alpha.4",
+      "newVersion": "6.8.0-alpha.5",
       "tagName": "alpha",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
         }
       ],
       "pkgJSONPath": "./packages/app-blueprint/package.json"
     },
     "@ember-tooling/blueprint-blueprint": {
-      "impact": "patch",
-      "oldVersion": "0.0.2",
-      "newVersion": "0.0.3",
+      "oldVersion": "0.0.3"
+    },
+    "@ember-tooling/blueprint-model": {
+      "impact": "minor",
+      "oldVersion": "0.1.0",
+      "newVersion": "0.2.0",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
-      "pkgJSONPath": "./packages/blueprint-blueprint/package.json"
-    },
-    "@ember-tooling/blueprint-model": {
-      "oldVersion": "0.1.0"
+      "pkgJSONPath": "./packages/blueprint-model/package.json"
     },
     "ember-cli": {
       "impact": "patch",
-      "oldVersion": "6.8.0-alpha.3",
-      "newVersion": "6.8.0-alpha.4",
+      "oldVersion": "6.8.0-alpha.4",
+      "newVersion": "6.8.0-alpha.5",
       "tagName": "alpha",
       "constraints": [
         {
@@ -58,11 +58,11 @@
         },
         {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-blueprint"
+          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-09-09)\n\n* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.4 (patch)\n* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.4 (patch)\n* @ember-tooling/blueprint-blueprint 0.0.3 (patch)\n* ember-cli 6.8.0-alpha.4 (patch)\n\n#### :bug: Bug Fix\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`\n  * [#10803](https://github.com/ember-cli/ember-cli/pull/10803) Add \"ember-blueprint\" to keywords in `package.json` for the classic blueprints ([@pichfl](https://github.com/pichfl))\n* `@ember-tooling/classic-build-app-blueprint`\n  * [#10798](https://github.com/ember-cli/ember-cli/pull/10798) Add import from ember-data breakage/deprecation ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 2\n- Florian Pichler ([@pichfl](https://github.com/pichfl))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-09-10)\n\n* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.5 (patch)\n* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.5 (patch)\n* @ember-tooling/blueprint-model 0.2.0 (minor)\n* ember-cli 6.8.0-alpha.5 (patch)\n\n#### :rocket: Enhancement\n* `@ember-tooling/blueprint-model`\n  * [#10802](https://github.com/ember-cli/ember-cli/pull/10802) enable Vite by default ([@mansona](https://github.com/mansona))\n* Other\n  * [#10804](https://github.com/ember-cli/ember-cli/pull/10804) Support a `--ts` alias for the `addon`, `init` and `new` commands ([@bertdeblock](https://github.com/bertdeblock))\n\n#### :house: Internal\n* [#10806](https://github.com/ember-cli/ember-cli/pull/10806) skip build watch tests when vite is enabled ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
