@@ -86,6 +86,7 @@ module.exports = {
           required: false
         },
         {
+          aliases: ['ts'],
           default: false,
           key: 'typescript',
           name: 'typescript',
@@ -469,7 +470,7 @@ module.exports = {
           default: false,
           key: 'embroider',
           name: 'embroider',
-          description: 'Enables the build system to use Embroider',
+          description: 'Deprecated: Enables the build system to use Embroider',
           required: false
         },
         {
@@ -488,6 +489,7 @@ module.exports = {
           default: true
         },
         {
+          aliases: ['ts'],
           default: false,
           key: 'typescript',
           name: 'typescript',
@@ -620,7 +622,7 @@ module.exports = {
           default: false,
           key: 'embroider',
           name: 'embroider',
-          description: 'Enables the build system to use Embroider',
+          description: 'Deprecated: Enables the build system to use Embroider',
           required: false
         },
         {
@@ -646,6 +648,7 @@ module.exports = {
           required: false,
         },
         {
+          aliases: ['ts'],
           default: false,
           key: 'typescript',
           name: 'typescript',

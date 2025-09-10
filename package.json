@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "6.7.0-beta.1",
+  "version": "6.8.0-beta.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -46,10 +46,11 @@
     "publishTag": "beta"
   },
   "dependencies": {
-    "@ember-tooling/blueprint-blueprint": "^0.0.2",
-    "@ember-tooling/blueprint-model": "^0.0.2",
+    "@ember-tooling/blueprint-blueprint": "workspace:*",
+    "@ember-tooling/blueprint-model": "workspace:*",
     "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
     "@ember-tooling/classic-build-app-blueprint": "workspace:*",
+    "@ember/app-blueprint": "~6.8.0-beta.1",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
     "broccoli": "^3.5.2",
@@ -134,7 +135,6 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
-    "@octokit/rest": "^19.0.7",
     "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.3.7",
