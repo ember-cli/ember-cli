@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-environment
       - name: Test && Report to Code Climate
         uses: paambaati/codeclimate-action@v5.0.0
