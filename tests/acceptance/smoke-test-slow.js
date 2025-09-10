@@ -269,6 +269,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after change', async function () {
+    if (isExperimentEnabled('VITE')) {
+      // we should never be running build --watch when Vite is enabled
+      this.skip();
+    }
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
     let text = 'anotuhaonteuhanothunaothanoteh';
@@ -297,6 +301,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', async function () {
+    if (isExperimentEnabled('VITE')) {
+      // we should never be running build --watch when Vite is enabled
+      this.skip();
+    }
     let buildCount = 0;
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
