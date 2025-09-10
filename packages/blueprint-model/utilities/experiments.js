@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const availableExperiments = Object.freeze(['EMBROIDER', 'CLASSIC', 'VITE']);
 
 const deprecatedExperiments = Object.freeze([]);
-const enabledExperiments = Object.freeze([]);
+const enabledExperiments = Object.freeze(['VITE']);
 const deprecatedExperimentsDeprecationsIssued = [];
 
 function isExperimentEnabled(experimentName) {
