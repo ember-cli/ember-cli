@@ -1,5 +1,25 @@
 # ember-cli Changelog
 
+## Release (2025-09-10)
+
+* @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.5 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.8.0-alpha.5 (patch)
+* @ember-tooling/blueprint-model 0.2.0 (minor)
+* ember-cli 6.8.0-alpha.5 (patch)
+
+#### :rocket: Enhancement
+* `@ember-tooling/blueprint-model`
+  * [#10802](https://github.com/ember-cli/ember-cli/pull/10802) enable Vite by default ([@mansona](https://github.com/mansona))
+* Other
+  * [#10804](https://github.com/ember-cli/ember-cli/pull/10804) Support a `--ts` alias for the `addon`, `init` and `new` commands ([@bertdeblock](https://github.com/bertdeblock))
+
+#### :house: Internal
+* [#10806](https://github.com/ember-cli/ember-cli/pull/10806) skip build watch tests when vite is enabled ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-09-09)
 
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.4 (patch)
