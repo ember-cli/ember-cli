@@ -243,7 +243,7 @@ module.exports = {
       npm: options.packageManager !== 'yarn' && options.packageManager !== 'pnpm',
       invokeScriptPrefix,
       welcome: options.welcome,
-      blueprint: 'addon',
+      blueprint: '@ember-tooling/classic-build-addon-blueprint',
       blueprintOptions,
       embroider: false,
       lang: options.lang,

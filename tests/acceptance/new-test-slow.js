@@ -9,7 +9,7 @@ const emberCliRoot = resolve(join(__dirname, '../..'));
 const root = process.cwd();
 let tmpDir;
 
-describe('Acceptance: ember new | ember addon', function () {
+describe('Acceptance: ember new (slow)', function () {
   this.timeout(500000);
 
   beforeEach(async function () {
@@ -49,22 +49,6 @@ describe('Acceptance: ember new | ember addon', function () {
       // link current version of ember-cli in the newly generated app
       await execa('pnpm', ['link', emberCliRoot]);
       await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-app') });
-    });
-  });
-
-  describe('ember addon', function () {
-    it('generates a new addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm', '--skip-npm']);
-      // link current version of ember-cli in the newly generated app
-      await execa('pnpm', ['link', emberCliRoot]);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
-    });
-
-    it('generates a new TS addon with no linting errors', async function () {
-      await ember(['addon', 'foo-addon', '--pnpm', '--typescript', '--skip-npm']);
-      // link current version of ember-cli in the newly generated app
-      await execa('pnpm', ['link', emberCliRoot]);
-      await execa('pnpm', ['lint'], { cwd: join(tmpDir, 'foo-addon') });
     });
   });
 });

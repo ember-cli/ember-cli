@@ -12,6 +12,9 @@ const InitCommand = require('../../../lib/commands/init');
 const MockCLI = require('../../helpers/mock-cli');
 const td = require('testdouble');
 
+const { DEPRECATIONS } = require('../../../lib/debug');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
+
 describe('init command', function () {
   let ui, tasks, command, workingDir;
 
@@ -135,10 +138,18 @@ describe('init command', function () {
     });
   });
 
+  // FIXME: This test is wrong.
+  // This behavior only works because "." is passed as a target file
+  // to the app blueprint, which in turn fails to create files
   it("doesn't use . as the name", function () {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     tasks.InstallBlueprint = class extends Task {
       run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
+        expect(blueprintOpts.rawArgs).to.equal('.'); // <-- this is wrong
         return Promise.reject('Called run');
       }
     };
@@ -151,6 +162,10 @@ describe('init command', function () {
   });
 
   it('Uses the "app" blueprint by default', function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     tasks.InstallBlueprint = class extends Task {
       run(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('app');
@@ -165,7 +180,30 @@ describe('init command', function () {
     });
   });
 
+  it('Experiment(VITE): Uses @ember/app-blueprint by default', function () {
+    if (!isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
+    tasks.InstallBlueprint = class extends Task {
+      run(blueprintOpts) {
+        expect(blueprintOpts.blueprint).to.equal('@ember/app-blueprint');
+        return Promise.reject('Called run');
+      }
+    };
+
+    buildCommand();
+
+    return command.validateAndRun(['--name=provided-name']).catch(function (reason) {
+      expect(reason).to.equal('Called run');
+    });
+  });
+
   it('Uses arguments to select files to init', function () {
+    if (DEPRECATIONS.INIT_TARGET_FILES.isRemoved || isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     tasks.InstallBlueprint = class extends Task {
       run(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('app');

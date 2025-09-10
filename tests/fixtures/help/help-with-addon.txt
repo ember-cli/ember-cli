@@ -22,6 +22,7 @@ ember addon [33m<addon-name>[39m [36m<options...>[39m
   [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m
   [36m--ci-provider[39m [36m(github, none)[39m [36m(Default: github)[39m Installs the optional default CI blueprint. Only Github Actions is supported at the moment.
   [36m--typescript[39m [36m(Boolean)[39m [36m(Default: false)[39m Set up the addon to use TypeScript
+    [90maliases: -ts[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: false)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember asset-sizes [36m<options...>[39m
@@ -105,10 +106,11 @@ ember init [33m<glob-pattern>[39m [36m<options...>[39m
   [36m--name[39m [36m(String)[39m [36m(Default: "")[39m
     [90maliases: -n <value>[39m
   [36m--lang[39m [36m(String)[39m Sets the base human language of the application via index.html
-  [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Enables the build system to use Embroider
+  [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Deprecated: Enables the build system to use Embroider
   [36m--ci-provider[39m [36m(github, none)[39m [36m(Default: github)[39m Installs the optional default CI blueprint. Only Github Actions is supported at the moment.
   [36m--ember-data[39m [36m(Boolean)[39m [36m(Default: true)[39m Include ember-data dependencies and configuration
   [36m--typescript[39m [36m(Boolean)[39m [36m(Default: false)[39m Set up the app to use TypeScript
+    [90maliases: -ts[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: false)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember install [33m<addon-name>[39m [36m<options...>[39m
@@ -142,12 +144,13 @@ ember new [33m<app-name>[39m [36m<options...>[39m
     [90maliases: -dir <value>[39m
   [36m--lang[39m [36m(String)[39m Sets the base human language of the application via index.html
   [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m
-  [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Enables the build system to use Embroider
+  [36m--embroider[39m [36m(Boolean)[39m [36m(Default: false)[39m Deprecated: Enables the build system to use Embroider
   [36m--ci-provider[39m [36m(github, none)[39m Installs the optional default CI blueprint. Only Github Actions is supported at the moment.
   [36m--ember-data[39m [36m(Boolean)[39m [36m(Default: true)[39m Include ember-data dependencies and configuration
   [36m--interactive[39m [36m(Boolean)[39m [36m(Default: false)[39m Create a new Ember app/addon in an interactive way.
     [90maliases: -i[39m
   [36m--typescript[39m [36m(Boolean)[39m [36m(Default: false)[39m Set up the app to use TypeScript
+    [90maliases: -ts[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: false)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember serve [36m<options...>[39m

@@ -2,13 +2,11 @@
   "schemaVersion": "1.0.0",
   "packages": [
     {
-      "name": "ember-cli",
-      "version": "<%= emberCLIVersion %>",
+      "name": "@ember-tooling/classic-build-app-blueprint",
+      "version": "<%= blueprintVersion %>",
       "blueprints": [
         {
-          "name": "app",
-          "outputRepo": "https://github.com/ember-cli/ember-new-output",
-          "codemodsSource": "ember-app-codemods-manifest@1",
+          "name": "@ember-tooling/classic-build-app-blueprint",
           "isBaseBlueprint": true,
           "options": []
         }
