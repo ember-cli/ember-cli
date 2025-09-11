@@ -70,7 +70,7 @@ To update `ember help` fixtures, run the tests with `WRITE_HELP_FIXTURES=true`.
 
 ## Build the documentation
 
-Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place
+Use `npm run docs` to build HTML documentation with JSDoc and place
 it in `docs/build/`. Please help by improving this documentation.
 
 # Questions
@@ -214,7 +214,7 @@ taken straight from the Ruby on Rails guide:
 
 #### Inline Documentation Guidelines
 
-All inline documentation is written using YUIDoc. Follow these rules when
+All inline documentation is written using JSDoc. Follow these rules when
 updating or writing new documentation:
 
 1. All code blocks must be fenced.

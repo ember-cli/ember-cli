@@ -376,7 +376,7 @@ describe('models/addon.js', function () {
        | test_command  | set   | set   | unset | set   | set   |
        | RESULT        | true  | true  | false | false | true  |
 
-        @method hintingEnabled
+        @function hintingEnabled
        */
 
       let originalEnvValue, originalEmberEnvValue, originalTestCommand, addon, project;
