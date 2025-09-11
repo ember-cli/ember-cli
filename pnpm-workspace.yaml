@@ -1,2 +1,7 @@
 packages:
   - packages/*
+
+onlyBuiltDependencies:
+  - bufferutil
+  - es5-ext
+  - utf-8-validate
