@@ -26,7 +26,7 @@ let DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'o
  * The `npm` command helper.
  *
  * @private
- * @method npm
+ * @function npm
  * @param {String} subcommand The subcommand to be passed into npm.
  * @param {String} [...arguments] Arguments to be passed into the npm subcommand.
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
@@ -38,7 +38,7 @@ let npm = new CommandGenerator('npm');
  * The `yarn` command helper.
  *
  * @private
- * @method yarn
+ * @function yarn
  * @param {String} subcommand The subcommand to be passed into yarn.
  * @param {String} [...arguments] Arguments to be passed into the yarn subcommand.
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
@@ -75,7 +75,7 @@ let lookups = {
  * a convenience helper to avoid littering lookups throughout the code.
  *
  * @private
- * @method translate
+ * @function translate
  * @param {String} type Either 'npm' or 'yarn'.
  * @param {String} lookup Either 'manifest', 'path', or 'upgrade'.
  */
@@ -237,7 +237,7 @@ module.exports = class PackageCache {
    * The `__setupForTesting` modifies things in module scope.
    *
    * @private
-   * @method __setupForTesting
+   * @function __setupForTesting
    */
   __setupForTesting(stubs) {
     originals = commands;
@@ -248,7 +248,7 @@ module.exports = class PackageCache {
    * The `__resetForTesting` puts things back in module scope.
    *
    * @private
-   * @method __resetForTesting
+   * @function __resetForTesting
    */
   __resetForTesting() {
     commands = originals;
@@ -260,7 +260,7 @@ module.exports = class PackageCache {
    * are removed from `this.dirs`.
    *
    * @private
-   * @method _cleanDirs
+   * @function _cleanDirs
    */
   _cleanDirs() {
     let labels = Object.keys(this.dirs);
@@ -280,10 +280,10 @@ module.exports = class PackageCache {
    * cache and returns its value.
    *
    * @private
-   * @method _readManifest
+   * @function _readManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
-   * @return {String} The manifest file contents on disk.
+   * @returns {String} The manifest file contents on disk.
    */
   _readManifest(label, type) {
     let readManifestDir = this.dirs[label];
@@ -312,7 +312,7 @@ module.exports = class PackageCache {
    * the existing lock file.
    *
    * @private
-   * @method _writeManifest
+   * @function _writeManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file to write to disk.
@@ -350,7 +350,7 @@ module.exports = class PackageCache {
    * to the specified cache.
    *
    * @private
-   * @method _removeLinks
+   * @function _removeLinks
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
@@ -421,7 +421,7 @@ module.exports = class PackageCache {
    * It is also responsible for restoring these links into the `PackageCache`.
    *
    * @private
-   * @method _restoreLinks
+   * @function _restoreLinks
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
@@ -468,11 +468,11 @@ module.exports = class PackageCache {
    * exists in the cache.
    *
    * @private
-   * @method _checkManifest
+   * @function _checkManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file to compare to cache.
-   * @return {Boolean} `true` if identical.
+   * @returns {Boolean} `true` if identical.
    */
   _checkManifest(label, type, manifest) {
     let cachedManifest = this._readManifest(label, type);
@@ -509,7 +509,7 @@ module.exports = class PackageCache {
    * specified package cache.
    *
    * @private
-   * @method _install
+   * @function _install
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
@@ -528,7 +528,7 @@ module.exports = class PackageCache {
    * always running against the latest versions of all dependencies.
    *
    * @private
-   * @method _upgrade
+   * @function _upgrade
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
@@ -561,12 +561,12 @@ module.exports = class PackageCache {
   /**
    * The `create` method adds a new package cache entry.
    *
-   * @method create
+   * @function create
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file for the cache.
    * @param {Array} links Packages to omit for install and link.
-   * @return {String} The directory on disk which contains the cache.
+   * @returns {String} The directory on disk which contains the cache.
    */
   create(label, type, manifest, links) {
     links = links || [];
@@ -575,6 +575,18 @@ module.exports = class PackageCache {
     let packageManagerVersion = commands[type].invoke('--version').stdout;
 
     let jsonManifest = JSON.parse(manifest);
+    
+    // Ensure the packageManager field is set correctly based on the type being used
+    // This prevents issues where an existing packageManager field might get corrupted
+    if (type === 'yarn') {
+      jsonManifest.packageManager = `yarn@${packageManagerVersion.trim()}`;
+    } else if (type === 'pnpm') {
+      jsonManifest.packageManager = `pnpm@${packageManagerVersion.trim()}`;
+    } else {
+      // For npm, we don't set a packageManager field as it's not needed
+      delete jsonManifest.packageManager;
+    }
+    
     jsonManifest._packageCache = {
       node: process.version,
       packageManager: type,
@@ -602,12 +614,12 @@ module.exports = class PackageCache {
   /**
    * The `update` method aliases the `create` method.
    *
-   * @method update
+   * @function update
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file for the cache.
    * @param {Array} links Packages to elide for install and link.
-   * @return {String} The directory on disk which contains the cache.
+   * @returns {String} The directory on disk which contains the cache.
    */
   update(/*label, type, manifest, links*/) {
     return this.create.apply(this, arguments);
@@ -616,9 +628,9 @@ module.exports = class PackageCache {
   /**
    * The `get` method returns the directory for the cache.
    *
-   * @method get
+   * @function get
    * @param {String} label The label for the cache.
-   * @return {String} The directory on disk which contains the cache.
+   * @returns {String} The directory on disk which contains the cache.
    */
   get(label) {
     return this.dirs[label];
@@ -627,7 +639,7 @@ module.exports = class PackageCache {
   /**
    * The `destroy` method removes all evidence of the package cache.
    *
-   * @method destroy
+   * @function destroy
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
@@ -643,7 +655,7 @@ module.exports = class PackageCache {
    * The `clone` method duplicates a cache. Some package managers can
    * leverage a pre-existing state to speed up their installation.
    *
-   * @method destroy
+   * @function destroy
    * @param {String} fromLabel The label for the cache to clone.
    * @param {String} toLabel The label for the new cache.
    */

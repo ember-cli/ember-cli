@@ -152,7 +152,7 @@ const DEFAULT_SOURCE = {
  * @param {String} name The name of the app
  * @param {Object} options Customize output object
  *
- * @return {Object}
+ * @returns {Object}
  */
 function getDefaultUnpackagedDist(name, options) {
   options = options || {};
@@ -270,7 +270,7 @@ function setupRegistryFor(registryType, fn) {
  * ```
  *
  * @param {Object} registryMap
- * @return {Object}
+ * @returns {Object}
  */
 function setupRegistry(registryMap) {
   return {

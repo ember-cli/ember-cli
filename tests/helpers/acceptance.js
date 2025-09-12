@@ -52,11 +52,11 @@ function applyCommand(command, name /*, ...flags*/) {
  * setup of a project. This will ensure that we limit the amount of times
  * we go to the network to fetch dependencies.
  *
- * @method createTestTargets
+ * @function createTestTargets
  * @param  {String} projectName The name of the project. Can be an app or addon.
  * @param  {Object} options
  * @property {String} options.command The command you want to run
- * @return {Promise}  The result of the running the command
+ * @returns {Promise}  The result of the running the command
  */
 function createTestTargets(projectName, options) {
   let outputDir = quickTemp.makeOrReuse(dirs, projectName);
@@ -82,9 +82,9 @@ function teardownTestTargets() {
  * Creates symbolic links from the dependency temp directories
  * to the project that is under test.
  *
- * @method linkDependencies
+ * @function linkDependencies
  * @param  {String} projectName The name of the project under test
- * @return {String} The path to the hydrated fixture.
+ * @returns {String} The path to the hydrated fixture.
  */
 function linkDependencies(projectName) {
   let sourceFixture = dirs[projectName]; // original fixture for this acceptance test.

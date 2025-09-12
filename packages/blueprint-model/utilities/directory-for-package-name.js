@@ -6,9 +6,9 @@ const path = require('path');
  * Derive a directory name from a package name.
  * Takes scoped packages into account.
  *
- * @method directoryForPackageName
+ * @function directoryForPackageName
  * @param {String} packageName
- * @return {String} Derived directory name.
+ * @returns {String} Derived directory name.
  */
 module.exports = function directoryForPackageName(packageName) {
   let isScoped = packageName[0] === '@' && packageName.includes('/');

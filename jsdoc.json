@@ -1,0 +1,26 @@
+{
+  "source": {
+    "include": ["./lib/"],
+    "includePattern": "\\.(js)$",
+    "exclude": ["node_modules/", "./lib/broccoli/app-boot.js", "./lib/broccoli/app-config.js", "./lib/broccoli/app-prefix.js", "./lib/broccoli/app-suffix.js", "./lib/broccoli/test-support-prefix.js", "./lib/broccoli/test-support-suffix.js", "./lib/broccoli/vendor-prefix.js", "./lib/broccoli/vendor-suffix.js", "./lib/broccoli/tests-prefix.js", "./lib/broccoli/tests-suffix.js"]
+  },
+  "sourceType": "script",
+  "opts": {
+    "destination": "./docs/build/",
+    "readme": "./README.md",
+    "recurse": true,
+    "lenient": true
+  },
+  "plugins": [
+    "plugins/markdown",
+    "./docs/jsdoc-version-plugin.js"
+  ],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "metadata": {
+    "title": "Ember CLI API Documentation",
+    "version": "6.8.0-alpha.5"
+  }
+}
