@@ -662,5 +662,11 @@ describe('Acceptance: ember new', function () {
       expect(file('yarn.lock')).to.not.be.empty;
       expect(dir('node_modules/ember-try-test-suite-helper')).to.not.be.empty;
     });
+
+    it('works using the `app` alias', async function () {
+      await ember(['app', 'foo', '--skip-git', '--skip-install']);
+
+      expect(file('package.json')).to.contain('"name": "foo"');
+    });
   });
 });
