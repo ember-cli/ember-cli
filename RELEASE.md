@@ -110,7 +110,8 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - **make sure to not update any .github/workflows/plan-release.yml file** this should still plan a beta release
   - **make sure to not update any .github/workflows/publish.yml file** this should still publish a beta release
   - **make sure to not update the CHANGELOG.md file** in this step.
-- manually update the version in package.json to be the next alpha.
+  - commit this merge
+- manually update the version in `package.json` to be the next alpha.
   - e.g. if the current alpha is `"version": "6.6.0-alpha.3",` update it to be `"version": "6.7.0-alpha.0",`
 - manually update the alpha version in `packages/addon-blueprint/package.json` to be the same alpha
 - manually update the alpha version in `packages/app-blueprint/package.json` to be the same alpha
@@ -118,11 +119,11 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Update blueprint dependencies to alpha
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=canary
+  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=latest
   ```
 
+- update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@alpha`
 - commit this update `git commit -am "update blueprint dependencies to alpha"`
-- **TODO**: document how to update @ember/app-blueprint dependency
 - push and open a PR targeting `master` with a PR title like `Prepare 6.6-alpha`
 - mark this PR as an `enchancement` if the next alpha is a minor release
 - check that everything is ok i.e. CI passes
