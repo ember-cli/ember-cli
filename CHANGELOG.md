@@ -1,5 +1,40 @@
 # ember-cli Changelog
 
+## Release (2025-09-17)
+
+* ember-cli 6.9.0-alpha.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 6.9.0-alpha.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.9.0-alpha.1 (minor)
+* @ember-tooling/blueprint-blueprint 0.2.0 (minor)
+* @ember-tooling/blueprint-model 0.4.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10808](https://github.com/ember-cli/ember-cli/pull/10808) Prepare 6.8 Beta ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10796](https://github.com/ember-cli/ember-cli/pull/10796) Promote Beta and update all dependencies for 6.7 release ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10794](https://github.com/ember-cli/ember-cli/pull/10794) Fix potential NPE ([@boris-petrov](https://github.com/boris-petrov))
+
+#### :house: Internal
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10815](https://github.com/ember-cli/ember-cli/pull/10815) Merge beta into master and start 6.9 alpha ([@mansona](https://github.com/mansona))
+  * [#10810](https://github.com/ember-cli/ember-cli/pull/10810) Prepare Beta Release ([@mansona](https://github.com/mansona))
+* `@ember-tooling/blueprint-model`
+  * [#10813](https://github.com/ember-cli/ember-cli/pull/10813) Document need for future vite experiment test cleanup ([@ef4](https://github.com/ef4))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10797](https://github.com/ember-cli/ember-cli/pull/10797) Prepare Stable Release ([@mansona](https://github.com/mansona))
+  * [#10800](https://github.com/ember-cli/ember-cli/pull/10800) fix release-plan for stable release ([@mansona](https://github.com/mansona))
+* `ember-cli`
+  * [#10801](https://github.com/ember-cli/ember-cli/pull/10801) update github-changelog ([@mansona](https://github.com/mansona))
+
+#### Committers: 3
+- Boris Petrov ([@boris-petrov](https://github.com/boris-petrov))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Edward Faulkner ([@ef4](https://github.com/ef4))
+
 ## Release (2025-09-10)
 
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-alpha.5 (patch)
