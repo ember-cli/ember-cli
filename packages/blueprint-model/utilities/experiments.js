@@ -1,6 +1,15 @@
 'use strict';
 
 const chalk = require('chalk');
+
+/*
+  If you're here to remove the VITE experiment flag in favor of it being
+  permanently on, you can't do that until addressing
+  https://github.com/ember-cli/ember-cli/pull/10781#pullrequestreview-3230644293
+
+  A lot of test coverage would otherwise be lost, because valid tests are being
+  run only when the VITE experiment is off.
+*/
 const availableExperiments = Object.freeze(['EMBROIDER', 'CLASSIC', 'VITE']);
 
 const deprecatedExperiments = Object.freeze([]);
