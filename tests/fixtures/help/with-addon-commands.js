@@ -548,7 +548,7 @@ module.exports = {
     {
       name: 'new',
       description: processHelpString('Creates a new directory and runs \u001b[32member init\u001b[39m in it.'),
-      aliases: [],
+      aliases: ['app'],
       works: 'everywhere',
       availableOptions: [
         {

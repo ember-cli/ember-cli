@@ -56,6 +56,18 @@ describe('interactive new task', function () {
     });
   });
 
+  it('it only displays the `blueprint` question when no blueprint name is provided', async function () {
+    let questions = await interactiveNewTask.getQuestions();
+    let question = getQuestion('blueprint', questions);
+
+    expect(question.when).to.be.true;
+
+    questions = await interactiveNewTask.getQuestions({ blueprint: 'app' });
+    question = getQuestion('blueprint', questions);
+
+    expect(question.when).to.be.false;
+  });
+
   it('it only displays the `name` question when no app/addon name is provided', async function () {
     let questions = await interactiveNewTask.getQuestions();
     let question = getQuestion('name', questions);

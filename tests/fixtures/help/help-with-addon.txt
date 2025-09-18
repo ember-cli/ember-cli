@@ -127,6 +127,7 @@ ember install [33m<addon-name>[39m [36m<options...>[39m
 
 ember new [33m<app-name>[39m [36m<options...>[39m
   Creates a new directory and runs [32member init[39m in it.
+  [90maliases: app[39m
   [36m--dry-run[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -d[39m
   [36m--verbose[39m [36m(Boolean)[39m [36m(Default: false)[39m
