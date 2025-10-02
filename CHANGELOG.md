@@ -1,5 +1,17 @@
 # ember-cli Changelog
 
+## Release (2025-10-02)
+
+* ember-cli 6.8.0-beta.2 (patch)
+
+#### :house: Internal
+* `ember-cli`
+  * [#10823](https://github.com/ember-cli/ember-cli/pull/10823) fix incorrect ember-cli-update version in tests ([@mansona](https://github.com/mansona))
+  * [#10819](https://github.com/ember-cli/ember-cli/pull/10819) update @ember/app-blueprint beta version ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-09-10)
 
 * ember-cli 6.8.0-beta.1 (minor)
