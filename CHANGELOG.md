@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+## Release (2025-10-03)
+
+* ember-cli 6.8.0-beta.3 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10826](https://github.com/ember-cli/ember-cli/pull/10826) move resolution of @ember/app-blueprint to prevent loading latest ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-10-02)
 
 * ember-cli 6.8.0-beta.2 (patch)

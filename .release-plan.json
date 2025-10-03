@@ -2,13 +2,13 @@
   "solution": {
     "ember-cli": {
       "impact": "patch",
-      "oldVersion": "6.8.0-beta.1",
-      "newVersion": "6.8.0-beta.2",
+      "oldVersion": "6.8.0-beta.2",
+      "newVersion": "6.8.0-beta.3",
       "tagName": "beta",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
@@ -26,5 +26,5 @@
       "oldVersion": "0.3.0"
     }
   },
-  "description": "## Release (2025-10-02)\n\n* ember-cli 6.8.0-beta.2 (patch)\n\n#### :house: Internal\n* `ember-cli`\n  * [#10823](https://github.com/ember-cli/ember-cli/pull/10823) fix incorrect ember-cli-update version in tests ([@mansona](https://github.com/mansona))\n  * [#10819](https://github.com/ember-cli/ember-cli/pull/10819) update @ember/app-blueprint beta version ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-10-03)\n\n* ember-cli 6.8.0-beta.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10826](https://github.com/ember-cli/ember-cli/pull/10826) move resolution of @ember/app-blueprint to prevent loading latest ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
