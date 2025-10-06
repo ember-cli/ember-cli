@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## Release (2025-10-06)
+
+* ember-cli 6.7.1 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.7.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10834](https://github.com/ember-cli/ember-cli/pull/10834) [bugfix release] Fix tests using wrong versions ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-app-blueprint`
+  * [#10824](https://github.com/ember-cli/ember-cli/pull/10824) [bugfix release] fix app-blueprint being considered a blueprint ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-09-06)
 
 * ember-cli 6.7.0 (minor)
