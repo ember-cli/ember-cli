@@ -94,7 +94,7 @@ module.exports = {
           required: false,
         },
         {
-          default: false,
+          default: true,
           description: 'Use GJS/GTS templates by default for generated components, tests, and route templates',
           key: 'strict',
           name: 'strict',
@@ -529,7 +529,7 @@ module.exports = {
           required: false,
         },
         {
-          default: false,
+          default: true,
           description: 'Use GJS/GTS templates by default for generated components, tests, and route templates',
           key: 'strict',
           name: 'strict',
@@ -688,7 +688,7 @@ module.exports = {
           required: false,
         },
         {
-          default: false,
+          default: true,
           description: 'Use GJS/GTS templates by default for generated components, tests, and route templates',
           key: 'strict',
           name: 'strict',

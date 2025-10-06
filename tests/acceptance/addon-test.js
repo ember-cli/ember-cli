@@ -99,7 +99,7 @@ describe('Acceptance: ember addon', function () {
 
     [
       'tests/dummy/config/ember-try.js',
-      'tests/dummy/app/templates/application.hbs',
+      'tests/dummy/app/templates/application.gjs',
       '.github/workflows/ci.yml',
       'README.md',
       'CONTRIBUTING.md',
@@ -140,7 +140,7 @@ describe('Acceptance: ember addon', function () {
 
     [
       'tests/dummy/config/ember-try.js',
-      'tests/dummy/app/templates/application.hbs',
+      'tests/dummy/app/templates/application.gjs',
       '.github/workflows/ci.yml',
       'README.md',
       'CONTRIBUTING.md',
@@ -164,7 +164,7 @@ describe('Acceptance: ember addon', function () {
 
     [
       'tests/dummy/config/ember-try.js',
-      'tests/dummy/app/templates/application.hbs',
+      'tests/dummy/app/templates/application.gjs',
       '.github/workflows/ci.yml',
       'README.md',
       'CONTRIBUTING.md',
