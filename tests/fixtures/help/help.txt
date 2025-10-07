@@ -23,7 +23,7 @@ ember addon [33m<addon-name>[39m [36m<options...>[39m
   [36m--ci-provider[39m [36m(github, none)[39m [36m(Default: github)[39m Installs the optional default CI blueprint. Only Github Actions is supported at the moment.
   [36m--typescript[39m [36m(Boolean)[39m [36m(Default: false)[39m Set up the addon to use TypeScript
     [90maliases: -ts[39m
-  [36m--strict[39m [36m(Boolean)[39m [36m(Default: false)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
+  [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember asset-sizes [36m<options...>[39m
   Shows the sizes of your asset files.
@@ -111,7 +111,7 @@ ember init [33m<glob-pattern>[39m [36m<options...>[39m
   [36m--ember-data[39m [36m(Boolean)[39m [36m(Default: true)[39m Include ember-data dependencies and configuration
   [36m--typescript[39m [36m(Boolean)[39m [36m(Default: false)[39m Set up the app to use TypeScript
     [90maliases: -ts[39m
-  [36m--strict[39m [36m(Boolean)[39m [36m(Default: false)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
+  [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember install [33m<addon-name>[39m [36m<options...>[39m
   Installs an ember-cli addon from npm.
@@ -151,7 +151,7 @@ ember new [33m<app-name>[39m [36m<options...>[39m
     [90maliases: -i[39m
   [36m--typescript[39m [36m(Boolean)[39m [36m(Default: false)[39m Set up the app to use TypeScript
     [90maliases: -ts[39m
-  [36m--strict[39m [36m(Boolean)[39m [36m(Default: false)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
+  [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember serve [36m<options...>[39m
   Builds and serves your app, rebuilding on file changes.
