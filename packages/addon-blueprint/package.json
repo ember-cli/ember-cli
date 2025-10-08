@@ -6,6 +6,10 @@
     "url": "https://github.com/ember-cli/ember-cli.git",
     "directory": "packages/addon-blueprint"
   },
+  "license": "MIT",
+  "keywords": [
+    "ember-blueprint"
+  ],
   "dependencies": {
     "@ember-tooling/blueprint-model": "^0.0.2",
     "chalk": "^4.1.2",
