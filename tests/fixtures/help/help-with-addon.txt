@@ -25,12 +25,6 @@ ember addon [33m<addon-name>[39m [36m<options...>[39m
     [90maliases: -ts[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
-ember asset-sizes [36m<options...>[39m
-  Shows the sizes of your asset files.
-  [36m--output-path[39m [36m(Path)[39m [36m(Default: dist/)[39m
-    [90maliases: -o <value>[39m
-  [36m--json[39m [36m(Boolean)[39m [36m(Default: false)[39m
-
 ember build [36m<options...>[39m
   Builds your app and places it into the output path (dist/ by default).
   [90maliases: b[39m
