@@ -25,8 +25,14 @@ ember addon [33m<addon-name>[39m [36m<options...>[39m
     [90maliases: -ts[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
+ember asset-sizes [36m<options...>[39m
+  Shows the sizes of your asset files.
+  [36m--output-path[39m [36m(Path)[39m [36m(Default: dist/)[39m
+    [90maliases: -o <value>[39m
+  [36m--json[39m [36m(Boolean)[39m [36m(Default: false)[39m
+
 ember build [36m<options...>[39m
-  Vestigial command in Vite-based projects. Use the `build` script from package.json instead.
+  Builds your app and places it into the output path (dist/ by default).
   [90maliases: b[39m
   [36m--environment[39m [36m(String)[39m [36m(Default: development)[39m Possible values are "development", "production", and "test".
     [90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)[39m
@@ -148,7 +154,7 @@ ember new [33m<app-name>[39m [36m<options...>[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember serve [36m<options...>[39m
-  Vestigial command in Vite-based projects. Use the `start` script from package.json instead.
+  Builds and serves your app, rebuilding on file changes.
   [90maliases: server, s[39m
   [36m--port[39m [36m(Number)[39m [36m(Default: 4200)[39m Overrides $PORT (currently blank). If the port 0 or the default port 4200 is passed, ember will use any available port starting from 4200.
     [90maliases: -p <value>[39m
@@ -222,11 +228,4 @@ ember version [36m<options...>[39m
   outputs ember-cli version
   [90maliases: v, --version, -v[39m
   [36m--verbose[39m [36m(Boolean)[39m [36m(Default: false)[39m
-
-
-Available commands from dummy-addon:
-ember foo [33m<speed>[39m [36m<options...>[39m
-  Initializes the warp drive.
-  [36m--dry-run[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -d[39m
 

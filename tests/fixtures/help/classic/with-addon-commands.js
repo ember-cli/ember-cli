@@ -1,5 +1,5 @@
-const processHelpString = require('../../helpers/process-help-string');
-const versionUtils      = require('../../../lib/utilities/version-utils');
+const processHelpString = require('../../../helpers/process-help-string');
+const versionUtils      = require('../../../../lib/utilities/version-utils');
 var emberCLIVersion   = versionUtils.emberCLIVersion;
 
 module.exports = {
@@ -104,8 +104,31 @@ module.exports = {
       anonymousOptions: ['<addon-name>']
     },
     {
+      name: 'asset-sizes',
+      description: 'Shows the sizes of your asset files.',
+      works: 'insideProject',
+      aliases: [],
+      anonymousOptions: [],
+      availableOptions: [
+        {
+          name: 'output-path',
+          default: 'dist/',
+          key: 'outputPath',
+          required: false,
+          aliases: ['o'],
+          type: 'Path'
+        },
+        {
+          default: false,
+          key: 'json',
+          name: 'json',
+          required: false
+        }
+      ]
+    },
+    {
       name: 'build',
-      description: 'Vestigial command in Vite-based projects. Use the `build` script from package.json instead.',
+      description: 'Builds your app and places it into the output path (dist/ by default).',
       aliases: ['b'],
       works: 'insideProject',
       availableOptions: [
@@ -127,7 +150,7 @@ module.exports = {
           aliases: ['o'],
           key: 'outputPath',
           required: false,
-          type: 'Path'
+          type: 'Path',
         },
         {
           name: 'watch',
@@ -448,7 +471,7 @@ module.exports = {
           key: 'embroider',
           name: 'embroider',
           description: 'Deprecated: Enables the build system to use Embroider',
-          required: false,
+          required: false
         },
         {
           name: 'ci-provider',
@@ -600,7 +623,7 @@ module.exports = {
           key: 'embroider',
           name: 'embroider',
           description: 'Deprecated: Enables the build system to use Embroider',
-          required: false,
+          required: false
         },
         {
           name: 'ci-provider',
@@ -644,7 +667,7 @@ module.exports = {
     },
     {
       name: 'serve',
-      description: 'Vestigial command in Vite-based projects. Use the `start` script from package.json instead.',
+      description: 'Builds and serves your app, rebuilding on file changes.',
       aliases: ['server', 's'],
       works: 'insideProject',
       availableOptions: [
@@ -950,5 +973,31 @@ module.exports = {
       anonymousOptions: []
     }
   ],
-  addons: []
+  addons: [
+    {
+      name: 'dummy-addon',
+      commands: [
+        {
+          name: 'foo',
+          description: 'Initializes the warp drive.',
+          aliases: [],
+          works: 'insideProject',
+          availableOptions: [
+            {
+              aliases: [
+                'd'
+              ],
+              default: false,
+              key: 'dryRun',
+              name: 'dry-run',
+              required: false
+            }
+          ],
+          anonymousOptions: [
+            '<speed>'
+          ]
+        }
+      ]
+    }
+  ]
 };

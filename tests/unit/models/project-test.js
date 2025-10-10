@@ -562,6 +562,30 @@ describe('models/project.js', function () {
     });
   });
 
+  describe('isViteProject', function () {
+    beforeEach(function () {
+      projectPath = `${process.cwd()}/tmp/test-app`;
+
+      makeProject();
+    });
+
+    it('returns false when `@embroider/vite` is not a dependency', function () {
+      expect(project.isViteProject()).to.equal(false);
+    });
+
+    it('returns true when `@embroider/vite` is a devDependency', function () {
+      project.pkg.devDependencies = { '@embroider/vite': '*' };
+
+      expect(project.isViteProject()).to.equal(true);
+    });
+
+    it('returns true when `@embroider/vite` is a dependency', function () {
+      project.pkg.dependencies = { '@embroider/vite': '*' };
+
+      expect(project.isViteProject()).to.equal(true);
+    });
+  });
+
   describe('isEmberCLIAddon', function () {
     beforeEach(function () {
       projectPath = `${process.cwd()}/tmp/test-app`;

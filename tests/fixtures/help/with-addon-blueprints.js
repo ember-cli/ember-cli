@@ -104,31 +104,8 @@ module.exports = {
       anonymousOptions: ['<addon-name>']
     },
     {
-      name: 'asset-sizes',
-      description: 'Shows the sizes of your asset files.',
-      works: 'insideProject',
-      aliases: [],
-      anonymousOptions: [],
-      availableOptions: [
-        {
-          name: 'output-path',
-          default: 'dist/',
-          key: 'outputPath',
-          required: false,
-          aliases: ['o'],
-          type: 'Path'
-        },
-        {
-          default: false,
-          key: 'json',
-          name: 'json',
-          required: false
-        }
-      ]
-    },
-    {
       name: 'build',
-      description: 'Builds your app and places it into the output path (dist/ by default).',
+      description: 'Vestigial command in Vite-based projects. Use the `build` script from package.json instead.',
       aliases: ['b'],
       works: 'insideProject',
       availableOptions: [
@@ -699,7 +676,7 @@ module.exports = {
     },
     {
       name: 'serve',
-      description: 'Builds and serves your app, rebuilding on file changes.',
+      description: 'Vestigial command in Vite-based projects. Use the `start` script from package.json instead.',
       aliases: ['server', 's'],
       works: 'insideProject',
       availableOptions: [
