@@ -105,7 +105,7 @@ module.exports = {
     },
     {
       name: 'build',
-      description: 'Builds your app and places it into the output path (dist/ by default).',
+      description: 'Vestigial command in Vite-based projects. Use the `build` script from package.json instead.',
       aliases: ['b'],
       works: 'insideProject',
       availableOptions: [

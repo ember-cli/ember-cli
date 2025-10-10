@@ -26,7 +26,7 @@ ember addon [33m<addon-name>[39m [36m<options...>[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember build [36m<options...>[39m
-  Builds your app and places it into the output path (dist/ by default).
+  Vestigial command in Vite-based projects. Use the `build` script from package.json instead.
   [90maliases: b[39m
   [36m--environment[39m [36m(String)[39m [36m(Default: development)[39m Possible values are "development", "production", and "test".
     [90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)[39m
