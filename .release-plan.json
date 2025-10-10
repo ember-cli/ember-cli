@@ -2,13 +2,13 @@
   "solution": {
     "ember-cli": {
       "impact": "patch",
-      "oldVersion": "6.7.0",
-      "newVersion": "6.7.1",
+      "oldVersion": "6.7.1",
+      "newVersion": "6.7.2",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
         },
         {
           "impact": "patch",
@@ -18,9 +18,6 @@
       "pkgJSONPath": "./package.json"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
-      "oldVersion": "6.7.0"
-    },
-    "@ember-tooling/classic-build-app-blueprint": {
       "impact": "patch",
       "oldVersion": "6.7.0",
       "newVersion": "6.7.1",
@@ -31,8 +28,21 @@
           "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
+      "pkgJSONPath": "./packages/addon-blueprint/package.json"
+    },
+    "@ember-tooling/classic-build-app-blueprint": {
+      "impact": "patch",
+      "oldVersion": "6.7.1",
+      "newVersion": "6.7.2",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
       "pkgJSONPath": "./packages/app-blueprint/package.json"
     }
   },
-  "description": "## Release (2025-10-06)\n\n* ember-cli 6.7.1 (patch)\n* @ember-tooling/classic-build-app-blueprint 6.7.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10834](https://github.com/ember-cli/ember-cli/pull/10834) [bugfix release] Fix tests using wrong versions ([@mansona](https://github.com/mansona))\n* `@ember-tooling/classic-build-app-blueprint`\n  * [#10824](https://github.com/ember-cli/ember-cli/pull/10824) [bugfix release] fix app-blueprint being considered a blueprint ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-10-08)\n\n* ember-cli 6.7.2 (patch)\n* @ember-tooling/classic-build-addon-blueprint 6.7.1 (patch)\n* @ember-tooling/classic-build-app-blueprint 6.7.2 (patch)\n\n#### :bug: Bug Fix\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10838](https://github.com/ember-cli/ember-cli/pull/10838) Add package license metadata to match repository ([@davidtaylorhq](https://github.com/davidtaylorhq))\n\n#### Committers: 1\n- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))\n"
 }

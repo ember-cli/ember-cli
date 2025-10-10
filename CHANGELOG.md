@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## Release (2025-10-08)
+
+* ember-cli 6.7.2 (patch)
+* @ember-tooling/classic-build-addon-blueprint 6.7.1 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.7.2 (patch)
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10838](https://github.com/ember-cli/ember-cli/pull/10838) Add package license metadata to match repository ([@davidtaylorhq](https://github.com/davidtaylorhq))
+
+#### Committers: 1
+- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))
+
 ## Release (2025-10-06)
 
 * ember-cli 6.7.1 (patch)
