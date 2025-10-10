@@ -148,7 +148,7 @@ ember new [33m<app-name>[39m [36m<options...>[39m
   [36m--strict[39m [36m(Boolean)[39m [36m(Default: true)[39m Use GJS/GTS templates by default for generated components, tests, and route templates
 
 ember serve [36m<options...>[39m
-  Builds and serves your app, rebuilding on file changes.
+  Vestigial command in Vite-based projects. Use the `start` script from package.json instead.
   [90maliases: server, s[39m
   [36m--port[39m [36m(Number)[39m [36m(Default: 4200)[39m Overrides $PORT (currently blank). If the port 0 or the default port 4200 is passed, ember will use any available port starting from 4200.
     [90maliases: -p <value>[39m

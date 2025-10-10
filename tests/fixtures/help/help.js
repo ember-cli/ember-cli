@@ -644,7 +644,7 @@ module.exports = {
     },
     {
       name: 'serve',
-      description: 'Builds and serves your app, rebuilding on file changes.',
+      description: 'Vestigial command in Vite-based projects. Use the `start` script from package.json instead.',
       aliases: ['server', 's'],
       works: 'insideProject',
       availableOptions: [
