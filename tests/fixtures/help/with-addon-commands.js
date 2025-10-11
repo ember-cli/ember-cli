@@ -629,13 +629,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'server',
-          default: false,
-          aliases: ['s'],
-          key: 'server',
-          required: false
-        },
-        {
           name: 'host',
           aliases: ['H'],
           key: 'host',
@@ -736,13 +729,6 @@ module.exports = {
           description: 'A query string to append to the test page URL.',
           key: 'query',
           required: false
-        },
-        {
-          name: 'output-path',
-          aliases: ['o'],
-          key: 'outputPath',
-          required: false,
-          type: 'Path'
         }
       ],
       anonymousOptions: []

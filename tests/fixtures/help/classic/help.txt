@@ -198,8 +198,6 @@ ember test [36m<options...>[39m
     [90maliases: -e <value>[39m
   [36m--config-file[39m [36m(String)[39m
     [90maliases: -c <value>, -cf <value>[39m
-  [36m--server[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -s[39m
   [36m--host[39m [36m(String)[39m
     [90maliases: -H <value>[39m
   [36m--test-port[39m [36m(Number)[39m [36m(Default: 7357)[39m The test port to use when running tests. Pass 0 to automatically pick an available port
@@ -221,6 +219,8 @@ ember test [36m<options...>[39m
   [36m--test-page[39m [36m(String)[39m Test page to invoke
   [36m--path[39m [36m(Path)[39m Reuse an existing build at given path.
   [36m--query[39m [36m(String)[39m A query string to append to the test page URL.
+  [36m--server[39m [36m(Boolean)[39m [36m(Default: false)[39m
+    [90maliases: -s[39m
   [36m--output-path[39m [36m(Path)[39m
     [90maliases: -o <value>[39m
 
