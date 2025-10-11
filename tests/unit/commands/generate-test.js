@@ -58,6 +58,13 @@ describe('generate command', function () {
     await input.dispose();
   });
 
+  it('throws when the `--dummy` option is passed in a Vite project', async function () {
+    command.isViteProject = true;
+    await expect(command.validateAndRun(['controller', 'foo', '--dummy'])).to.be.rejectedWith(
+      'The `--dummy` option to `ember generate` is not supported in Vite-based projects.'
+    );
+  });
+
   it('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function () {
     command.project.hasDependencies = function () {
       return false;
