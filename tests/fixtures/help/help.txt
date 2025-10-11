@@ -30,11 +30,6 @@ ember build [36m<options...>[39m
   [90maliases: b[39m
   [36m--environment[39m [36m(String)[39m [36m(Default: development)[39m Possible values are "development", "production", and "test".
     [90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)[39m
-  [36m--output-path[39m [36m(Path)[39m [36m(Default: dist/)[39m
-    [90maliases: -o <value>[39m
-  [36m--watch[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -w[39m
-  [36m--watcher[39m [36m(String)[39m
   [36m--suppress-sizes[39m [36m(Boolean)[39m [36m(Default: false)[39m
 
 ember destroy [33m<blueprint>[39m [36m<options...>[39m

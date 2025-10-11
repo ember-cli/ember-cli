@@ -145,6 +145,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'suppress-sizes',
+          default: false,
+          key: 'suppressSizes',
+          required: false
+        },
+        {
           name: 'output-path',
           default: 'dist/',
           aliases: ['o'],
@@ -162,12 +168,6 @@ module.exports = {
         {
           name: 'watcher',
           key: 'watcher',
-          required: false
-        },
-        {
-          name: 'suppress-sizes',
-          default: false,
-          key: 'suppressSizes',
           required: false
         }
       ],

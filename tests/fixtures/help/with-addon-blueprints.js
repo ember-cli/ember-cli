@@ -122,26 +122,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'output-path',
-          default: 'dist/',
-          aliases: ['o'],
-          key: 'outputPath',
-          required: false,
-          type: 'Path',
-        },
-        {
-          name: 'watch',
-          default: false,
-          aliases: ['w'],
-          key: 'watch',
-          required: false
-        },
-        {
-          name: 'watcher',
-          key: 'watcher',
-          required: false
-        },
-        {
           name: 'suppress-sizes',
           default: false,
           key: 'suppressSizes',
