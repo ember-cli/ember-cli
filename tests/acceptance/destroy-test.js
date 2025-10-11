@@ -11,6 +11,7 @@ const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/di
 
 const { expect } = require('chai');
 const { file } = require('chai-files');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 describe('Acceptance: ember destroy', function () {
   this.timeout(60000);
@@ -86,17 +87,47 @@ describe('Acceptance: ember destroy', function () {
   });
 
   it('http-mock foo', function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     let commandArgs = ['http-mock', 'foo'];
     let files = ['server/mocks/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
+  it('http-mock throws', async function () {
+    if (isExperimentEnabled('VITE')) {
+      let commandArgs = ['http-mock', 'foo'];
+      let files = ['server/mocks/foo.js'];
+
+      await expect(assertDestroyAfterGenerate(commandArgs, files)).to.be.rejectedWith(
+        'The http-mock blueprint is not supported in Vite projects'
+      );
+    }
+  });
+
   it('http-proxy foo', function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     let commandArgs = ['http-proxy', 'foo', 'bar'];
     let files = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
+  });
+
+  it('http-proxy throws', async function () {
+    if (isExperimentEnabled('VITE')) {
+      let commandArgs = ['http-proxy', 'foo', 'bar'];
+      let files = ['server/proxies/foo.js'];
+
+      await expect(assertDestroyAfterGenerate(commandArgs, files)).to.be.rejectedWith(
+        'The http-proxy blueprint is not supported in Vite projects'
+      );
+    }
   });
 
   it('deletes files generated using blueprint paths', async function () {
@@ -146,6 +177,10 @@ describe('Acceptance: ember destroy', function () {
   });
 
   it('http-mock <name> does not remove server/', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await initApp();
     await generate(['http-mock', 'foo']);
     await generate(['http-mock', 'bar']);

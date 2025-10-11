@@ -1,11 +1,18 @@
 'use strict';
 
 const isPackageMissing = require('ember-cli-is-package-missing');
+const SilentError = require('silent-error');
 
 module.exports = {
-  description: 'Generates a server directory for mocks and proxies.',
+  description: '[Classic Only] Generates a server directory for mocks and proxies.',
 
   normalizeEntityName() {},
+
+  beforeInstall() {
+    if (this.project.isViteProject()) {
+      throw new SilentError('The server blueprint is not supported in Vite projects.');
+    }
+  },
 
   afterInstall(options) {
     let isMorganMissing = isPackageMissing(this, 'morgan');

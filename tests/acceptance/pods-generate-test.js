@@ -12,6 +12,7 @@ const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/di
 
 const { expect } = require('chai');
 const { file } = require('chai-files');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 describe('Acceptance: ember generate pod', function () {
   this.timeout(60000);
@@ -70,6 +71,10 @@ describe('Acceptance: ember generate pod', function () {
   });
 
   it('http-mock foo --pod', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await generate(['http-mock', 'foo', '--pod']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -78,6 +83,10 @@ describe('Acceptance: ember generate pod', function () {
   });
 
   it('http-mock foo-bar --pod', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await generate(['http-mock', 'foo-bar', '--pod']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -86,6 +95,10 @@ describe('Acceptance: ember generate pod', function () {
   });
 
   it('http-proxy foo --pod', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await generate(['http-proxy', 'foo', 'http://localhost:5000', '--pod']);
 
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
