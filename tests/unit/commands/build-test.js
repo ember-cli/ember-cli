@@ -59,6 +59,20 @@ describe('build command', function () {
     });
   });
 
+  it('`--watch` throws in Vite-based projects', async function () {
+    command.isViteProject = true;
+    await expect(command.validateAndRun(['--watch'])).to.be.rejectedWith(
+      'The `--watch` option to `ember build` is not supported in Vite-based projects. Please use `vite dev` instead.'
+    );
+  });
+
+  it('`--watcher` throws in Vite-based projects', async function () {
+    command.isViteProject = true;
+    await expect(command.validateAndRun(['--watcher'])).to.be.rejectedWith(
+      'The `--watcher` option to `ember build` is not supported in Vite-based projects. Please use `vite dev` instead.'
+    );
+  });
+
   it('BuildWatch task is provided with a watcher option', function () {
     return command.validateAndRun(['--watch', '--watcher poller']).then(function () {
       let buildWatchRun = tasks.BuildWatch.prototype.run;
