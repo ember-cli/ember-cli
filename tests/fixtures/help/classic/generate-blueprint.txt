@@ -11,14 +11,14 @@ ember generate [33m<blueprint>[39m [36m<options...>[39m
     [90maliases: -p, -pods[39m
   [36m--classic[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -c[39m
-  [36m--dummy[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -dum, -id[39m
   [36m--in-repo-addon[39m [36m(String)[39m [36m(Default: null)[39m
     [90maliases: --in-repo <value>, -ir <value>[39m
   [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m
   [36m--in[39m [36m(String)[39m [36m(Default: null)[39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
   [36m--typescript[39m [36m(Boolean)[39m Generates a version of the blueprint written in TypeScript (if available).
     [90maliases: -ts[39m
+  [36m--dummy[39m [36m(Boolean)[39m [36m(Default: false)[39m
+    [90maliases: -dum, -id[39m
 
       blueprint [33m<name>[39m
         [90mGenerates a blueprint and definition.[39m

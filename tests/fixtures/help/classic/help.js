@@ -273,13 +273,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'dummy',
-          default: false,
-          aliases: ['dum', 'id'],
-          key: 'dummy',
-          required: false
-        },
-        {
           name: 'in-repo-addon',
           default: null,
           aliases: ['in-repo', 'ir'],
@@ -304,6 +297,13 @@ module.exports = {
           aliases: ['ts'],
           description: 'Generates a version of the blueprint written in TypeScript (if available).',
           key: 'typescript',
+          required: false
+        },
+        {
+          name: 'dummy',
+          default: false,
+          aliases: ['dum', 'id'],
+          key: 'dummy',
           required: false
         }
       ],

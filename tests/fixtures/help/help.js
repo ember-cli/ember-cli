@@ -223,13 +223,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'dummy',
-          default: false,
-          aliases: ['dum', 'id'],
-          key: 'dummy',
-          required: false
-        },
-        {
           name: 'in-repo-addon',
           default: null,
           aliases: ['in-repo', 'ir'],
