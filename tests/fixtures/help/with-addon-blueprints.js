@@ -126,7 +126,15 @@ module.exports = {
           default: false,
           key: 'suppressSizes',
           required: false
-        }
+        },
+        {
+          name: 'output-path',
+          aliases: ['o'],
+          default: 'dist/',
+          key: 'outputPath',
+          required: false,
+          type: 'Path'
+        },
       ],
       anonymousOptions: []
     },
