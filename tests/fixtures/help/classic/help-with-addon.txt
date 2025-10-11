@@ -54,13 +54,13 @@ ember destroy [33m<blueprint>[39m [36m<options...>[39m
     [90maliases: -p, -pods[39m
   [36m--classic[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -c[39m
-  [36m--dummy[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -dum, -id[39m
   [36m--in-repo-addon[39m [36m(String)[39m [36m(Default: null)[39m
     [90maliases: --in-repo <value>, -ir <value>[39m
   [36m--in[39m [36m(String)[39m [36m(Default: null)[39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
   [36m--typescript[39m [36m(Boolean)[39m Specifically destroys the TypeScript output of the `generate` command. Run `--no-typescript` to instead target the JavaScript output.
     [90maliases: -ts[39m
+  [36m--dummy[39m [36m(Boolean)[39m [36m(Default: false)[39m
+    [90maliases: -dum, -id[39m
 
 ember generate [33m<blueprint>[39m [36m<options...>[39m
   Generates new code from blueprints.

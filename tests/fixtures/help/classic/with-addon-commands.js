@@ -208,13 +208,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'dummy',
-          default: false,
-          aliases: ['dum', 'id'],
-          key: 'dummy',
-          required: false
-        },
-        {
           name: 'in-repo-addon',
           default: null,
           aliases: ['in-repo', 'ir'],
@@ -233,6 +226,13 @@ module.exports = {
           aliases: ['ts'],
           description: 'Specifically destroys the TypeScript output of the `generate` command. Run `--no-typescript` to instead target the JavaScript output.',
           key: 'typescript',
+          required: false
+        },
+        {
+          name: 'dummy',
+          default: false,
+          aliases: ['dum', 'id'],
+          key: 'dummy',
           required: false
         }
       ],
