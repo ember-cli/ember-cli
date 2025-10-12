@@ -11,8 +11,6 @@ ember generate [33m<blueprint>[39m [36m<options...>[39m
     [90maliases: -p, -pods[39m
   [36m--classic[39m [36m(Boolean)[39m [36m(Default: false)[39m
     [90maliases: -c[39m
-  [36m--dummy[39m [36m(Boolean)[39m [36m(Default: false)[39m
-    [90maliases: -dum, -id[39m
   [36m--in-repo-addon[39m [36m(String)[39m [36m(Default: null)[39m
     [90maliases: --in-repo <value>, -ir <value>[39m
   [36m--lint-fix[39m [36m(Boolean)[39m [36m(Default: true)[39m

@@ -145,6 +145,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'suppress-sizes',
+          default: false,
+          key: 'suppressSizes',
+          required: false
+        },
+        {
           name: 'output-path',
           default: 'dist/',
           aliases: ['o'],
@@ -162,12 +168,6 @@ module.exports = {
         {
           name: 'watcher',
           key: 'watcher',
-          required: false
-        },
-        {
-          name: 'suppress-sizes',
-          default: false,
-          key: 'suppressSizes',
           required: false
         }
       ],
@@ -208,13 +208,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'dummy',
-          default: false,
-          aliases: ['dum', 'id'],
-          key: 'dummy',
-          required: false
-        },
-        {
           name: 'in-repo-addon',
           default: null,
           aliases: ['in-repo', 'ir'],
@@ -233,6 +226,13 @@ module.exports = {
           aliases: ['ts'],
           description: 'Specifically destroys the TypeScript output of the `generate` command. Run `--no-typescript` to instead target the JavaScript output.',
           key: 'typescript',
+          required: false
+        },
+        {
+          name: 'dummy',
+          default: false,
+          aliases: ['dum', 'id'],
+          key: 'dummy',
           required: false
         }
       ],
@@ -273,13 +273,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'dummy',
-          default: false,
-          aliases: ['dum', 'id'],
-          key: 'dummy',
-          required: false
-        },
-        {
           name: 'in-repo-addon',
           default: null,
           aliases: ['in-repo', 'ir'],
@@ -306,6 +299,13 @@ module.exports = {
           key: 'typescript',
           required: false
         },
+        {
+          name: 'dummy',
+          default: false,
+          aliases: ['dum', 'id'],
+          key: 'dummy',
+          required: false
+        }
       ],
       anonymousOptions: ['<blueprint>'],
       availableBlueprints: [
@@ -871,13 +871,6 @@ module.exports = {
           required: false
         },
         {
-          name: 'server',
-          default: false,
-          aliases: ['s'],
-          key: 'server',
-          required: false
-        },
-        {
           name: 'host',
           aliases: ['H'],
           key: 'host',
@@ -977,6 +970,13 @@ module.exports = {
           name: 'query',
           description: 'A query string to append to the test page URL.',
           key: 'query',
+          required: false
+        },
+        {
+          name: 'server',
+          default: false,
+          aliases: ['s'],
+          key: 'server',
           required: false
         },
         {
