@@ -42,6 +42,10 @@ function addFiles(mocha, files) {
 function runMocha() {
   let ROOT = process.cwd();
 
+  /* SilentErrors are used to avoid unhelpful stack traces to users but they can hide the source of test failures in 
+  reporter output */
+  process.env.SILENT_ERROR = 'verbose';
+
   // ensure that at the end of every test, we are in the correct current
   // working directory
   mocha.suite.afterEach(function () {

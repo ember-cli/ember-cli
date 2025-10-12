@@ -32,13 +32,13 @@ ember generate [33m<blueprint>[39m [36m<options...>[39m
       blueprint [33m<name>[39m
         [90mGenerates a blueprint and definition.[39m
       http-mock [33m<endpoint-path>[39m
-        [90mGenerates a mock api endpoint in /api prefix.[39m
+        [90m[Classic Only] Generates a mock api endpoint in /api prefix.[39m
       http-proxy [33m<local-path> <remote-url>[39m
-        [90mGenerates a relative proxy to another server.[39m
+        [90m[Classic Only] Generates a relative proxy to another server.[39m
       in-repo-addon [33m<name>[39m
         [90mThe blueprint for addon in repo ember-cli addons.[39m
       lib [33m<name>[39m
         [90mGenerates a lib directory for in-repo addons.[39m
       server [33m<name>[39m
-        [90mGenerates a server directory for mocks and proxies.[39m
+        [90m[Classic Only] Generates a server directory for mocks and proxies.[39m
 

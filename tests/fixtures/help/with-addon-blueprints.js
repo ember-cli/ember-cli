@@ -350,14 +350,14 @@ module.exports = {
             },
             {
               name: 'http-mock',
-              description: 'Generates a mock api endpoint in /api prefix.',
+              description: '[Classic Only] Generates a mock api endpoint in /api prefix.',
               availableOptions: [],
               anonymousOptions: ['endpoint-path'],
               overridden: false
             },
             {
               name: 'http-proxy',
-              description: 'Generates a relative proxy to another server.',
+              description: '[Classic Only] Generates a relative proxy to another server.',
               availableOptions: [],
               anonymousOptions: ['local-path', 'remote-url'],
               overridden: false
@@ -378,7 +378,7 @@ module.exports = {
             },
             {
               name: 'server',
-              description: 'Generates a server directory for mocks and proxies.',
+              description: '[Classic Only] Generates a server directory for mocks and proxies.',
               availableOptions: [],
               anonymousOptions: ['name'],
               overridden: false
