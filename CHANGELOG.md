@@ -2,6 +2,17 @@
 
 ## Release (2025-10-13)
 
+* ember-cli 6.8.0-beta.5 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10846](https://github.com/ember-cli/ember-cli/pull/10846) [beta bugfix] allow build --watch only in EMBROIDER_PREBUILD ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2025-10-13)
+
 * ember-cli 6.8.0-beta.4 (minor)
 * @ember-tooling/classic-build-addon-blueprint 6.8.0-beta.2 (minor)
 * @ember-tooling/classic-build-app-blueprint 6.8.0-beta.2 (minor)
