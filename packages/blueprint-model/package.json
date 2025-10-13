@@ -6,6 +6,7 @@
     "url": "https://github.com/ember-cli/ember-cli.git",
     "directory": "packages/blueprint-model"
   },
+  "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
     "diff": "^7.0.0",
