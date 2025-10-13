@@ -1,59 +1,23 @@
 {
   "solution": {
     "ember-cli": {
-      "impact": "minor",
-      "oldVersion": "6.8.0-beta.3",
-      "newVersion": "6.8.0-beta.4",
+      "impact": "patch",
+      "oldVersion": "6.8.0-beta.4",
+      "newVersion": "6.8.0-beta.5",
       "tagName": "beta",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.8.0-beta.1",
-      "newVersion": "6.8.0-beta.2",
-      "tagName": "beta",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        }
-      ],
-      "pkgJSONPath": "./packages/addon-blueprint/package.json"
+      "oldVersion": "6.8.0-beta.2"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.8.0-beta.1",
-      "newVersion": "6.8.0-beta.2",
-      "tagName": "beta",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        }
-      ],
-      "pkgJSONPath": "./packages/app-blueprint/package.json"
+      "oldVersion": "6.8.0-beta.2"
     },
     "@ember-tooling/blueprint-blueprint": {
       "oldVersion": "0.1.0"
@@ -62,5 +26,5 @@
       "oldVersion": "0.3.0"
     }
   },
-  "description": "## Release (2025-10-13)\n\n* ember-cli 6.8.0-beta.4 (minor)\n* @ember-tooling/classic-build-addon-blueprint 6.8.0-beta.2 (minor)\n* @ember-tooling/classic-build-app-blueprint 6.8.0-beta.2 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`\n  * [#10844](https://github.com/ember-cli/ember-cli/pull/10844) [beta] Error when `ember (generate|destroy) (http-proxy|http-mock|server)` is used in a Vite-based project ([@kategengler](https://github.com/kategengler))\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10831](https://github.com/ember-cli/ember-cli/pull/10831) [bugfix beta] enable `--strict` by default to match new app blueprint ([@mansona](https://github.com/mansona))\n\n#### :memo: Documentation\n* `ember-cli`\n  * [#10843](https://github.com/ember-cli/ember-cli/pull/10843) Further contextualize help output and error when options and commands that are no longer supported in Vite-based projects are used ([@kategengler](https://github.com/kategengler))\n  * [#10840](https://github.com/ember-cli/ember-cli/pull/10840) [beta] fix help for vite-based projects ([@kategengler](https://github.com/kategengler))\n  * [#10835](https://github.com/ember-cli/ember-cli/pull/10835) Update deprecation message for --embroider option ([@kategengler](https://github.com/kategengler))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10845](https://github.com/ember-cli/ember-cli/pull/10845) [beta] update @ember/app-blueprint to latest beta ([@mansona](https://github.com/mansona))\n  * [#10833](https://github.com/ember-cli/ember-cli/pull/10833) [bugfix beta] bump the @ember/app-blueprint version ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Katie Gengler ([@kategengler](https://github.com/kategengler))\n"
+  "description": "## Release (2025-10-13)\n\n* ember-cli 6.8.0-beta.5 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10846](https://github.com/ember-cli/ember-cli/pull/10846) [beta bugfix] allow build --watch only in EMBROIDER_PREBUILD ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
