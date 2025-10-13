@@ -66,6 +66,21 @@ describe('build command', function () {
     );
   });
 
+  it('`--watch` does not throw when EMBROIDER_PREBUILD is true', function () {
+    // setup the scenario
+    command.isViteProject = true;
+    process.env.EMBROIDER_PREBUILD = 'true';
+
+    return command
+      .validateAndRun(['--watch'])
+      .then(function () {
+        expect(buildWatchTaskInstance.project).to.equal(options.project, 'has correct project instance');
+      })
+      .finally(() => {
+        delete process.env.EMBROIDER_PREBUILD;
+      });
+  });
+
   it('`--watcher` throws in Vite-based projects', async function () {
     command.isViteProject = true;
     await expect(command.validateAndRun(['--watcher'])).to.be.rejectedWith(
