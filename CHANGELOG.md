@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+## Release (2025-10-14)
+
+* ember-cli 6.8.0-beta.6 (patch)
+* @ember-tooling/classic-build-addon-blueprint 6.8.0-beta.3 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.8.0-beta.3 (patch)
+* @ember-tooling/blueprint-blueprint 0.1.1 (patch)
+* @ember-tooling/blueprint-model 0.3.1 (patch)
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10838](https://github.com/ember-cli/ember-cli/pull/10838) Add package license metadata to match repository ([@davidtaylorhq](https://github.com/davidtaylorhq))
+* `ember-cli`
+  * [#10834](https://github.com/ember-cli/ember-cli/pull/10834) [bugfix release] Fix tests using wrong versions ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10848](https://github.com/ember-cli/ember-cli/pull/10848) merge origin/release into beta ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))
+
 ## Release (2025-10-13)
 
 * ember-cli 6.8.0-beta.5 (patch)
