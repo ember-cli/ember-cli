@@ -38,6 +38,13 @@ describe('destroy command', function () {
     command = new DestroyCommand(options);
   });
 
+  it('throws when the `--dummy` option is passed in a Vite project', async function () {
+    command.isViteProject = true;
+    await expect(command.validateAndRun(['controller', 'foo', '--dummy'])).to.be.rejectedWith(
+      'The `--dummy` option to `ember destroy` is not supported in Vite-based projects.'
+    );
+  });
+
   it('runs DestroyFromBlueprint with expected options', function () {
     return command.validateAndRun(['controller', 'foo']).then(function (options) {
       expect(options.dryRun).to.be.false;

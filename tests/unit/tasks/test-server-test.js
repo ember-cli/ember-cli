@@ -114,7 +114,7 @@ describe('test server', function () {
         };
 
         let runResult = expect(subject.run(runOptions)).to.be.rejected.then((reason) => {
-          expect(reason).to.eql(error);
+          expect(reason.message).to.eql(error.message);
         });
 
         watcher.emit('change');

@@ -8,6 +8,8 @@ on:
     types:
       - labeled
       - unlabeled
+    branches:
+      - release
 
 concurrency:
   group: plan-release-stable # only the latest one of these should ever be running

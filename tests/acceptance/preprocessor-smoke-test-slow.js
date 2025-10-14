@@ -11,6 +11,7 @@ let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
 let cleanupRun = acceptance.cleanupRun;
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 const { expect } = require('chai');
 const { dir } = require('chai-files');
@@ -55,6 +56,10 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   });
 
   it('addon registry entries are added in the proper order', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await copyFixtureFiles(`preprocessor-tests/app-registry-ordering`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -82,6 +87,10 @@ describe('Acceptance: preprocessor-smoke-test', function () {
       |-- preprocessor should not apply to this
   */
   it('addons depending on preprocessor addon preprocesses addon but not app', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-2`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -122,6 +131,10 @@ describe('Acceptance: preprocessor-smoke-test', function () {
       |-- preprocessor should not apply to this
   */
   it('addon N levels deep depending on preprocessor preprocesses that parent addon only', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-3`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');

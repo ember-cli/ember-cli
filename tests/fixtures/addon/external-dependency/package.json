@@ -6,7 +6,7 @@
   ],
   "dependencies": {
     "ember-cli-string-utils": "latest",
-    "@octokit/rest": "latest",
+    "@pnpm/find-workspace-dir": "latest",
     "ember-cli-blueprint-test-helpers": "latest"
   }
 }

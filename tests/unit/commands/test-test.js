@@ -28,6 +28,10 @@ describe('test command', function () {
       return true;
     };
 
+    project.isViteProject = function () {
+      return true;
+    };
+
     options = commandOptions({
       tasks,
       testing: true,
@@ -148,13 +152,10 @@ describe('test command', function () {
       });
     });
 
-    it('passes through output path option', function () {
-      return command.validateAndRun(['--output-path=some/path']).then(function () {
-        let captor = td.matchers.captor();
-
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.outputPath).to.equal(path.resolve('some/path'));
-      });
+    it('old option `--output-path` option throws', async function () {
+      await expect(command.validateAndRun(['--output-path=some/path'])).to.be.rejectedWith(
+        'The `--output-path` option to `ember test` is not supported in Vite-based projects.'
+      );
     });
 
     it('passes through custom reporter option', function () {
@@ -190,56 +191,11 @@ describe('test command', function () {
         );
       });
     });
-  });
 
-  describe('--server option', function () {
-    let buildCleanupWasCalled;
-    beforeEach(function () {
-      buildCleanupWasCalled = false;
-      options.Builder = class Builder extends CoreObject {
-        cleanup() {
-          buildCleanupWasCalled = true;
-        }
-      };
-      options.Watcher = class Watcher extends CoreObject {
-        static build() {
-          return { watcher: new this(...arguments) };
-        }
-      };
-
-      buildCommand();
-    });
-
-    it('builds a watcher with verbose set to false', function () {
-      return command
-        .validateAndRun(['--server'])
-        .then(function () {
-          let captor = td.matchers.captor();
-
-          td.verify(tasks.TestServer.prototype.run(captor.capture()));
-          expect(captor.value.watcher.verbose).to.be.false;
-        })
-        .finally(function () {
-          expect(buildCleanupWasCalled).to.be.true;
-        });
-    });
-
-    it('builds a watcher with options.watcher set to value provided', function () {
-      return command
-        .validateAndRun(['--server', '--watcher=polling'])
-        .then(function () {
-          let captor = td.matchers.captor();
-
-          td.verify(tasks.TestServer.prototype.run(captor.capture()));
-          expect(captor.value.watcher.options.watcher).to.equal('polling');
-        })
-        .finally(function () {
-          expect(buildCleanupWasCalled).to.be.true;
-        });
-    });
-
-    it('DOES NOT throw an error if using a build path', function () {
-      expect(command.validateAndRun(['--server', '--path=tests'])).to.be.ok;
+    it('--server option throws', async function () {
+      await expect(command.validateAndRun(['--server'])).to.be.rejectedWith(
+        'The `--server` option to `ember test` is not supported in Vite-based projects. Please use the `start` script from package.json and visit `/tests` in the browser.'
+      );
     });
   });
 
@@ -381,6 +337,121 @@ describe('test command', function () {
       let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?someQuery=test&something&else=false');
+    });
+  });
+});
+
+describe('test command in classic', function () {
+  this.timeout(30000);
+
+  let tasks, options, command;
+
+  beforeEach(function () {
+    tasks = {
+      Build: class extends Task {},
+      Test: class extends Task {},
+      TestServer: class extends Task {},
+    };
+
+    let project = new MockProject();
+
+    project.isEmberCLIProject = function () {
+      return true;
+    };
+
+    project.isViteProject = function () {
+      return false;
+    };
+
+    options = commandOptions({
+      tasks,
+      testing: true,
+      project,
+    });
+
+    td.replace(tasks.Test.prototype, 'run', td.function());
+    td.replace(tasks.Build.prototype, 'run', td.function());
+    td.replace(tasks.TestServer.prototype, 'run', td.function());
+    td.when(tasks.Test.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.Build.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.TestServer.prototype.run(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve());
+  });
+
+  afterEach(function () {
+    td.reset();
+  });
+
+  function buildCommand() {
+    command = new TestCommand(options);
+  }
+
+  describe('default', function () {
+    beforeEach(function () {
+      buildCommand();
+    });
+
+    it('builds and runs test', function () {
+      return command.validateAndRun([]);
+    });
+
+    it('passes through output path option', function () {
+      return command.validateAndRun(['--output-path=some/path']).then(function () {
+        let captor = td.matchers.captor();
+
+        td.verify(tasks.Test.prototype.run(captor.capture()));
+        expect(captor.value.outputPath).to.equal(path.resolve('some/path'));
+      });
+    });
+  });
+
+  describe('--server option', function () {
+    let buildCleanupWasCalled;
+    beforeEach(function () {
+      buildCleanupWasCalled = false;
+      options.Builder = class Builder extends CoreObject {
+        cleanup() {
+          buildCleanupWasCalled = true;
+        }
+      };
+      options.Watcher = class Watcher extends CoreObject {
+        static build() {
+          return { watcher: new this(...arguments) };
+        }
+      };
+
+      buildCommand();
+    });
+
+    it('builds a watcher with verbose set to false', function () {
+      return command
+        .validateAndRun(['--server'])
+        .then(function () {
+          let captor = td.matchers.captor();
+
+          td.verify(tasks.TestServer.prototype.run(captor.capture()));
+          expect(captor.value.watcher.verbose).to.be.false;
+        })
+        .finally(function () {
+          expect(buildCleanupWasCalled).to.be.true;
+        });
+    });
+
+    it('builds a watcher with options.watcher set to value provided', function () {
+      return command
+        .validateAndRun(['--server', '--watcher=polling'])
+        .then(function () {
+          let captor = td.matchers.captor();
+
+          td.verify(tasks.TestServer.prototype.run(captor.capture()));
+          expect(captor.value.watcher.options.watcher).to.equal('polling');
+        })
+        .finally(function () {
+          expect(buildCleanupWasCalled).to.be.true;
+        });
+    });
+
+    it('DOES NOT throw an error if using a build path', function () {
+      expect(command.validateAndRun(['--server', '--path=tests'])).to.be.ok;
     });
   });
 });
