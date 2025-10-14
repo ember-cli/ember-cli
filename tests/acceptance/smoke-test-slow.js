@@ -45,6 +45,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, clean from scratch', function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
@@ -122,6 +126,10 @@ describe('Acceptance: smoke-test', function () {
   }
 
   it('ember test --environment=production', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await copyFixtureFiles('smoke-tests/passing-test');
 
     let result = await runCommand(
@@ -139,6 +147,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember test --path with previous build', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     let originalWrite = process.stdout.write;
     let output = [];
 
@@ -170,6 +182,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember test wasm', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     let originalWrite = process.stdout.write;
     let output = [];
 
@@ -253,6 +269,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after change', async function () {
+    if (isExperimentEnabled('VITE')) {
+      // we should never be running build --watch when Vite is enabled
+      this.skip();
+    }
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
     let text = 'anotuhaonteuhanothunaothanoteh';
@@ -281,6 +301,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', async function () {
+    if (isExperimentEnabled('VITE')) {
+      // we should never be running build --watch when Vite is enabled
+      this.skip();
+    }
     let buildCount = 0;
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
@@ -322,6 +346,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('build failures should be logged correctly', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     fs.writeFileSync(
       `${process.cwd()}/ember-cli-build.js`,
       `
@@ -361,6 +389,10 @@ module.exports = function() {
   });
 
   it('ember new foo, server, SIGINT clears tmp/', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     let result = await runCommand(
       path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
       'server',
@@ -389,6 +421,10 @@ module.exports = function() {
   });
 
   it('ember new foo, test, SIGINT exits with error and clears tmp/', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     let result = await expect(
       runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--test-port=25522', {
         onOutput(string, child) {
@@ -458,6 +494,10 @@ module.exports = function() {
   });
 
   it('template linting works properly for pods and classic structured templates', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await copyFixtureFiles('smoke-tests/with-template-failing-linting');
 
     let packageJsonPath = 'package.json';
@@ -494,6 +534,10 @@ module.exports = function() {
     });
 
     it('does fix lint errors with --lint-fix', async function () {
+      if (isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+
       await ember(['generate', 'component', componentName, '--component-class=@ember/component', '--lint-fix']);
 
       await expect(execa('eslint', ['.'], { cwd: appRoot, preferLocal: true })).to.eventually.be.ok;

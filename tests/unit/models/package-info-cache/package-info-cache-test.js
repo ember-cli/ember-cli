@@ -477,7 +477,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
     it('shows projectPackageInfo finds an external dependency involving a scope', function () {
       expect(projectPackageInfo.dependencyPackages).to.exist;
 
-      let restPkgInfo = projectPackageInfo.dependencyPackages['@octokit/rest'];
+      let restPkgInfo = projectPackageInfo.dependencyPackages['@pnpm/find-workspace-dir'];
       expect(restPkgInfo).to.exist;
 
       let emberCliRealPath = path.resolve(`${projectPackageInfo.realPath}/../../../../`);
@@ -485,7 +485,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
         // TODO: Make this package-manager agnostic?
         path.join(
           emberCliRealPath,
-          'node_modules/.pnpm/@octokit+rest@19.0.13_encoding@0.1.13/node_modules/@octokit/rest'
+          'node_modules/.pnpm/@pnpm+find-workspace-dir@1000.1.0/node_modules/@pnpm/find-workspace-dir'
         )
       );
     });

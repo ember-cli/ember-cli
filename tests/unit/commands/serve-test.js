@@ -227,6 +227,14 @@ describe('serve command', function () {
     });
   });
 
+  it('throws when run in a Vite-based project', async function () {
+    command.isViteProject = true;
+
+    await expect(command.validateAndRun([])).to.be.rejectedWith(
+      'The `serve` command is not supported in Vite-based projects. Please use the `start` script from package.json.'
+    );
+  });
+
   it('waits on the serve tasks promise', async function () {
     let serveTaskResolved = false;
 

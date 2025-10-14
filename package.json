@@ -38,10 +38,11 @@
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
   "dependencies": {
-    "@ember-tooling/blueprint-blueprint": "^0.0.2",
-    "@ember-tooling/blueprint-model": "^0.0.2",
+    "@ember-tooling/blueprint-blueprint": "^0.2.1",
+    "@ember-tooling/blueprint-model": "^0.4.1",
     "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
     "@ember-tooling/classic-build-app-blueprint": "workspace:*",
+    "@ember/app-blueprint": "~6.8.0",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
     "broccoli": "^3.5.2",
@@ -126,7 +127,6 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
-    "@octokit/rest": "^19.0.7",
     "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.3.7",

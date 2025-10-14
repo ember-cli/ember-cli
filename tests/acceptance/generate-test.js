@@ -13,6 +13,7 @@ const lintFix = require('../../lib/utilities/lint-fix');
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 describe('Acceptance: ember generate', function () {
   this.timeout(20000);
@@ -78,6 +79,10 @@ describe('Acceptance: ember generate', function () {
   });
 
   it('http-mock foo', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await generate(['http-mock', 'foo']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -85,7 +90,19 @@ describe('Acceptance: ember generate', function () {
     expect(file('server/mocks/foo.js').content).to.matchSnapshot();
   });
 
+  it('http-mock throws', async function () {
+    if (isExperimentEnabled('VITE')) {
+      await expect(generate(['http-mock', 'foo'])).to.be.rejectedWith(
+        'The http-mock blueprint is not supported in Vite projects'
+      );
+    }
+  });
+
   it('http-mock foo-bar', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await generate(['http-mock', 'foo-bar']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -94,11 +111,23 @@ describe('Acceptance: ember generate', function () {
   });
 
   it('http-proxy foo', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await generate(['http-proxy', 'foo', 'http://localhost:5000']);
 
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
 
     expect(file('server/proxies/foo.js').content).to.matchSnapshot();
+  });
+
+  it('http-proxy throws', async function () {
+    if (isExperimentEnabled('VITE')) {
+      await expect(generate(['http-proxy', 'foo', 'http://localhost:5000'])).to.be.rejectedWith(
+        'The http-proxy blueprint is not supported in Vite projects'
+      );
+    }
   });
 
   it('uses blueprints from the project directory', async function () {
@@ -173,8 +202,18 @@ describe('Acceptance: ember generate', function () {
   });
 
   it('server', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     await generate(['server']);
     expect(file('server/index.js')).to.exist;
+  });
+
+  it('server throws', async function () {
+    if (isExperimentEnabled('VITE')) {
+      await expect(generate(['server'])).to.be.rejectedWith('The server blueprint is not supported in Vite projects.');
+    }
   });
 
   it('lib', async function () {
