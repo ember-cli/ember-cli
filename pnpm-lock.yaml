@@ -21,7 +21,7 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: 6.9.0-alpha.1
+        specifier: ~6.9.0-alpha.1
         version: 6.9.0-alpha.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0

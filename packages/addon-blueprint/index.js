@@ -134,7 +134,7 @@ module.exports = {
    *     _ts_eslint.config.mjs is renamed to eslint.config.mjs
    */
   buildFileInfo(intoDir, templateVariables, file, commandOptions) {
-    if (file.startsWith('_js_') || file.startsWith('_ts_')) {
+    if (file.includes('_js_') || file.includes('_ts_')) {
       let fileInfo = this._super.buildFileInfo.apply(this, arguments);
 
       if (file.includes('_js_')) {
