@@ -6,6 +6,7 @@
     "url": "https://github.com/ember-cli/ember-cli.git",
     "directory": "packages/blueprint-blueprint"
   },
+  "license": "MIT",
   "keywords": [
     "ember-blueprint"
   ]

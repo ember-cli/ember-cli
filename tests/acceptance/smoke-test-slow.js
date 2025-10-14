@@ -346,6 +346,10 @@ describe('Acceptance: smoke-test', function () {
   });
 
   it('build failures should be logged correctly', async function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
+
     fs.writeFileSync(
       `${process.cwd()}/ember-cli-build.js`,
       `

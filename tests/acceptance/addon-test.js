@@ -99,7 +99,7 @@ describe('Acceptance: ember addon', function () {
 
     [
       'tests/dummy/config/ember-try.js',
-      'tests/dummy/app/templates/application.hbs',
+      'tests/dummy/app/templates/application.gjs',
       '.github/workflows/ci.yml',
       'README.md',
       'CONTRIBUTING.md',
@@ -113,7 +113,7 @@ describe('Acceptance: ember addon', function () {
       fixturePath,
       'tests/dummy/config/ember-cli-update.json',
       'packages[0].version',
-      currentVersion
+      currentAddonBlueprintVersion
     );
 
     // option independent, but piggy-backing on an existing generate for speed
@@ -140,7 +140,7 @@ describe('Acceptance: ember addon', function () {
 
     [
       'tests/dummy/config/ember-try.js',
-      'tests/dummy/app/templates/application.hbs',
+      'tests/dummy/app/templates/application.gjs',
       '.github/workflows/ci.yml',
       'README.md',
       'CONTRIBUTING.md',
@@ -153,7 +153,7 @@ describe('Acceptance: ember addon', function () {
       fixturePath,
       'tests/dummy/config/ember-cli-update.json',
       'packages[0].version',
-      currentVersion
+      currentAddonBlueprintVersion
     );
   });
 
@@ -164,7 +164,7 @@ describe('Acceptance: ember addon', function () {
 
     [
       'tests/dummy/config/ember-try.js',
-      'tests/dummy/app/templates/application.hbs',
+      'tests/dummy/app/templates/application.gjs',
       '.github/workflows/ci.yml',
       'README.md',
       'CONTRIBUTING.md',

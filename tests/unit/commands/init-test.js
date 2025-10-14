@@ -162,32 +162,9 @@ describe('init command', function () {
   });
 
   it('Uses the "app" blueprint by default', function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
     tasks.InstallBlueprint = class extends Task {
       run(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('app');
-        return Promise.reject('Called run');
-      }
-    };
-
-    buildCommand();
-
-    return command.validateAndRun(['--name=provided-name']).catch(function (reason) {
-      expect(reason).to.equal('Called run');
-    });
-  });
-
-  it('Experiment(VITE): Uses @ember/app-blueprint by default', function () {
-    if (!isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
-    tasks.InstallBlueprint = class extends Task {
-      run(blueprintOpts) {
-        expect(blueprintOpts.blueprint).to.equal('@ember/app-blueprint');
         return Promise.reject('Called run');
       }
     };

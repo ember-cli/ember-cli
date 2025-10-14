@@ -1,5 +1,5 @@
-const processHelpString = require('../../helpers/process-help-string');
-const versionUtils      = require('../../../lib/utilities/version-utils');
+const processHelpString = require('../../../helpers/process-help-string');
+const versionUtils      = require('../../../../lib/utilities/version-utils');
 var emberCLIVersion   = versionUtils.emberCLIVersion;
 
 module.exports = {
@@ -104,8 +104,31 @@ module.exports = {
       anonymousOptions: ['<addon-name>']
     },
     {
+      name: 'asset-sizes',
+      description: 'Shows the sizes of your asset files.',
+      works: 'insideProject',
+      aliases: [],
+      anonymousOptions: [],
+      availableOptions: [
+        {
+          name: 'output-path',
+          default: 'dist/',
+          key: 'outputPath',
+          required: false,
+          aliases: ['o'],
+          type: 'Path'
+        },
+        {
+          default: false,
+          key: 'json',
+          name: 'json',
+          required: false
+        }
+      ]
+    },
+    {
       name: 'build',
-      description: 'Vestigial command in Vite-based projects. Use the `build` script from package.json instead.',
+      description: 'Builds your app and places it into the output path (dist/ by default).',
       aliases: ['b'],
       works: 'insideProject',
       availableOptions: [
@@ -129,12 +152,24 @@ module.exports = {
         },
         {
           name: 'output-path',
-          aliases: ['o'],
           default: 'dist/',
+          aliases: ['o'],
           key: 'outputPath',
           required: false,
-          type: 'Path'
+          type: 'Path',
         },
+        {
+          name: 'watch',
+          default: false,
+          aliases: ['w'],
+          key: 'watch',
+          required: false
+        },
+        {
+          name: 'watcher',
+          key: 'watcher',
+          required: false
+        }
       ],
       anonymousOptions: []
     },
@@ -191,6 +226,13 @@ module.exports = {
           aliases: ['ts'],
           description: 'Specifically destroys the TypeScript output of the `generate` command. Run `--no-typescript` to instead target the JavaScript output.',
           key: 'typescript',
+          required: false
+        },
+        {
+          name: 'dummy',
+          default: false,
+          aliases: ['dum', 'id'],
+          key: 'dummy',
           required: false
         }
       ],
@@ -256,10 +298,49 @@ module.exports = {
           description: 'Generates a version of the blueprint written in TypeScript (if available).',
           key: 'typescript',
           required: false
+        },
+        {
+          name: 'dummy',
+          default: false,
+          aliases: ['dum', 'id'],
+          key: 'dummy',
+          required: false
         }
       ],
       anonymousOptions: ['<blueprint>'],
       availableBlueprints: [
+        {
+          fixtures: [
+            {
+              name: 'basic',
+              description: 'A basic blueprint',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+            },
+            {
+              name: 'basic_2',
+              description: 'Another basic blueprint',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+            },
+            {
+              name: 'exporting-object',
+              description: 'A blueprint that exports an object',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+            },
+            {
+              name: 'with-templating',
+              description: 'A blueprint with templating',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+            }
+          ]
+        },
         {
           'ember-cli': [
             {
@@ -617,6 +698,159 @@ module.exports = {
       anonymousOptions: ['<app-name>']
     },
     {
+      name: 'serve',
+      description: 'Builds and serves your app, rebuilding on file changes.',
+      aliases: ['server', 's'],
+      works: 'insideProject',
+      availableOptions: [
+        {
+          name: 'port',
+          default: 4200,
+          description: 'Overrides $PORT (currently blank). If the port 0 or the default port 4200 is passed, ember will use any available port starting from 4200.',
+          aliases: ['p'],
+          key: 'port',
+          required: false
+        },
+        {
+          name: 'host',
+          description: 'Listens on all interfaces by default',
+          aliases: ['H'],
+          key: 'host',
+          required: false
+        },
+        {
+          name: 'proxy',
+          aliases: ['pr', 'pxy'],
+          key: 'proxy',
+          required: false
+        },
+        {
+          name: 'proxy-in-timeout',
+          default: 120000,
+          description: 'When using --proxy: timeout (in ms) for incoming requests',
+          aliases: ['pit'],
+          key: 'proxyInTimeout',
+          required: false
+        },
+        {
+          name: 'proxy-out-timeout',
+          default: 0,
+          description: 'When using --proxy: timeout (in ms) for outgoing requests',
+          aliases: ['pot'],
+          key: 'proxyOutTimeout',
+          required: false
+        },
+        {
+          name: 'secure-proxy',
+          default: true,
+          description: 'Set to false to proxy self-signed SSL certificates',
+          aliases: ['spr'],
+          key: 'secureProxy',
+          required: false
+        },
+        {
+          name: 'transparent-proxy',
+          default: true,
+          description: 'Set to false to omit x-forwarded-* headers when proxying',
+          aliases: ['transp'],
+          key: 'transparentProxy',
+          required: false
+        },
+        {
+          name: 'watcher',
+          default: 'events',
+          aliases: ['w'],
+          key: 'watcher',
+          required: false
+        },
+        {
+          name: 'live-reload',
+          default: true,
+          aliases: ['lr'],
+          key: 'liveReload',
+          required: false
+        },
+        {
+          name: 'live-reload-host',
+          description: 'Defaults to host',
+          aliases: ['lrh'],
+          key: 'liveReloadHost',
+          required: false
+        },
+        {
+          aliases: ['lrbu'],
+          description: 'Defaults to rootURL',
+          key: 'liveReloadBaseUrl',
+          name: 'live-reload-base-url',
+          required: false
+        },
+        {
+          name: 'live-reload-port',
+          description: 'Defaults to same port as ember app',
+          aliases: ['lrp'],
+          key: 'liveReloadPort',
+          required: false
+        },
+        {
+          name: 'live-reload-prefix',
+          default: '_lr',
+          description: 'Default to _lr',
+          aliases: ['lrprefix'],
+          key: 'liveReloadPrefix',
+          required: false
+        },
+        {
+          name: 'environment',
+          description: 'Possible values are "development", "production", and "test".',
+          default: 'development',
+          aliases: [
+            'e',
+            { dev: 'development' },
+            { prod: 'production' }
+          ],
+          key: 'environment',
+          required: false
+        },
+        {
+          name: 'output-path',
+          default: 'dist/',
+          aliases: ['op', 'out'],
+          key: 'outputPath',
+          required: false,
+          type: 'Path',
+        },
+        {
+          name: 'ssl',
+          default: false,
+          description: 'Set to true to configure Ember CLI to serve using SSL.',
+          key: 'ssl',
+          required: false
+        },
+        {
+          name: 'ssl-key',
+          default: 'ssl/server.key',
+          description: 'Specify the private key to use for SSL.',
+          key: 'sslKey',
+          required: false
+        },
+        {
+          name: 'ssl-cert',
+          default: 'ssl/server.crt',
+          description: 'Specify the certificate to use for SSL.',
+          key: 'sslCert',
+          required: false
+        },
+        {
+          name: 'path',
+          description: 'Reuse an existing build at given path.',
+          key: 'path',
+          required: false,
+          type: 'Path'
+        }
+      ],
+      anonymousOptions: []
+    },
+    {
       name: 'test',
       description: 'Runs your app\'s test suite.',
       aliases: ['t'],
@@ -737,6 +971,20 @@ module.exports = {
           description: 'A query string to append to the test page URL.',
           key: 'query',
           required: false
+        },
+        {
+          name: 'server',
+          default: false,
+          aliases: ['s'],
+          key: 'server',
+          required: false
+        },
+        {
+          name: 'output-path',
+          aliases: ['o'],
+          key: 'outputPath',
+          required: false,
+          type: 'Path'
         }
       ],
       anonymousOptions: []
@@ -757,31 +1005,5 @@ module.exports = {
       anonymousOptions: []
     }
   ],
-  addons: [
-    {
-      name: 'dummy-addon',
-      commands: [
-        {
-          name: 'foo',
-          description: 'Initializes the warp drive.',
-          aliases: [],
-          works: 'insideProject',
-          availableOptions: [
-            {
-              aliases: [
-                'd'
-              ],
-              default: false,
-              key: 'dryRun',
-              name: 'dry-run',
-              required: false
-            }
-          ],
-          anonymousOptions: [
-            '<speed>'
-          ]
-        }
-      ]
-    }
-  ]
+  addons: []
 };

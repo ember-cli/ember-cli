@@ -11,6 +11,7 @@ const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/di
 
 const { expect } = require('chai');
 const { file } = require('chai-files');
+const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 
 describe('Acceptance: ember destroy pod', function () {
   this.timeout(20000);
@@ -97,6 +98,9 @@ describe('Acceptance: ember destroy pod', function () {
   });
 
   it('http-mock foo --pod', function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
     let commandArgs = ['http-mock', 'foo', '--pod'];
     let files = ['server/mocks/foo.js'];
 
@@ -104,6 +108,9 @@ describe('Acceptance: ember destroy pod', function () {
   });
 
   it('http-proxy foo --pod', function () {
+    if (isExperimentEnabled('VITE')) {
+      this.skip();
+    }
     let commandArgs = ['http-proxy', 'foo', 'bar', '--pod'];
     let files = ['server/proxies/foo.js'];
 
