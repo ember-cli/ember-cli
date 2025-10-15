@@ -1,5 +1,25 @@
 # ember-cli Changelog
 
+## Release (2025-10-15)
+
+* ember-cli 6.9.0-beta.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 6.9.0-beta.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.9.0-beta.1 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10856](https://github.com/ember-cli/ember-cli/pull/10856) Prepare 6.9 Beta ([@mansona](https://github.com/mansona))
+  * [#10853](https://github.com/ember-cli/ember-cli/pull/10853) Promote Beta and update all dependencies for 6.8 release ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10809](https://github.com/ember-cli/ember-cli/pull/10809) Update RELEASE ([@mansona](https://github.com/mansona))
+  * [#10813](https://github.com/ember-cli/ember-cli/pull/10813) Document need for future vite experiment test cleanup ([@ef4](https://github.com/ef4))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Edward Faulkner ([@ef4](https://github.com/ef4))
+
 ## Release (2025-10-14)
 
 * ember-cli 6.8.0 (minor)

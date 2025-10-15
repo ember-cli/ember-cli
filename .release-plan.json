@@ -1,11 +1,15 @@
 {
   "solution": {
     "ember-cli": {
-      "impact": "patch",
-      "oldVersion": "6.8.0-beta.5",
-      "newVersion": "6.8.0-beta.6",
+      "impact": "minor",
+      "oldVersion": "6.9.0-beta.0",
+      "newVersion": "6.9.0-beta.1",
       "tagName": "beta",
       "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
@@ -16,91 +20,37 @@
         },
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
           "reason": "Appears in changelog section :house: Internal"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-blueprint"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
         }
       ],
       "pkgJSONPath": "./package.json"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
-      "impact": "patch",
-      "oldVersion": "6.8.0-beta.2",
-      "newVersion": "6.8.0-beta.3",
+      "impact": "minor",
+      "oldVersion": "6.9.0-beta.0",
+      "newVersion": "6.9.0-beta.1",
       "tagName": "beta",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./packages/addon-blueprint/package.json"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "impact": "patch",
-      "oldVersion": "6.8.0-beta.2",
-      "newVersion": "6.8.0-beta.3",
+      "impact": "minor",
+      "oldVersion": "6.9.0-beta.0",
+      "newVersion": "6.9.0-beta.1",
       "tagName": "beta",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./packages/app-blueprint/package.json"
-    },
-    "@ember-tooling/blueprint-blueprint": {
-      "impact": "patch",
-      "oldVersion": "0.1.0",
-      "newVersion": "0.1.1",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./packages/blueprint-blueprint/package.json"
-    },
-    "@ember-tooling/blueprint-model": {
-      "impact": "patch",
-      "oldVersion": "0.3.0",
-      "newVersion": "0.3.1",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./packages/blueprint-model/package.json"
     }
   },
-  "description": "## Release (2025-10-14)\n\n* ember-cli 6.8.0-beta.6 (patch)\n* @ember-tooling/classic-build-addon-blueprint 6.8.0-beta.3 (patch)\n* @ember-tooling/classic-build-app-blueprint 6.8.0-beta.3 (patch)\n* @ember-tooling/blueprint-blueprint 0.1.1 (patch)\n* @ember-tooling/blueprint-model 0.3.1 (patch)\n\n#### :bug: Bug Fix\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10838](https://github.com/ember-cli/ember-cli/pull/10838) Add package license metadata to match repository ([@davidtaylorhq](https://github.com/davidtaylorhq))\n* `ember-cli`\n  * [#10834](https://github.com/ember-cli/ember-cli/pull/10834) [bugfix release] Fix tests using wrong versions ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`\n  * [#10848](https://github.com/ember-cli/ember-cli/pull/10848) merge origin/release into beta ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))\n"
+  "description": "## Release (2025-10-15)\n\n* ember-cli 6.9.0-beta.1 (minor)\n* @ember-tooling/classic-build-addon-blueprint 6.9.0-beta.1 (minor)\n* @ember-tooling/classic-build-app-blueprint 6.9.0-beta.1 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10856](https://github.com/ember-cli/ember-cli/pull/10856) Prepare 6.9 Beta ([@mansona](https://github.com/mansona))\n  * [#10853](https://github.com/ember-cli/ember-cli/pull/10853) Promote Beta and update all dependencies for 6.8 release ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10809](https://github.com/ember-cli/ember-cli/pull/10809) Update RELEASE ([@mansona](https://github.com/mansona))\n  * [#10813](https://github.com/ember-cli/ember-cli/pull/10813) Document need for future vite experiment test cleanup ([@ef4](https://github.com/ef4))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Edward Faulkner ([@ef4](https://github.com/ef4))\n"
 }
