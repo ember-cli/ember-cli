@@ -21,8 +21,8 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: ~6.9.0-alpha.1
-        version: 6.9.0-alpha.1
+        specifier: ~6.9.0-beta.1
+        version: 6.9.0-beta.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0
         version: 1000.1.0
@@ -540,8 +540,8 @@ packages:
   '@ember-tooling/blueprint-model@0.4.1':
     resolution: {integrity: sha512-3jBNTGecTuRPOLjOY3AH/SpnLvJULyhwnR39I77uWj7ZFGwHuoV38uLYZMDjUN6So2uokkS333YavHdVqyn1kQ==}
 
-  '@ember/app-blueprint@6.9.0-alpha.1':
-    resolution: {integrity: sha512-dXHTkAN9Tunouqe89bpHW5RyTV/xDhUhMsR5Tk9xgYg6i6HsAGNxeMsqj94eKtOdnV/MEcPfjkFO86Cxzj4UAQ==}
+  '@ember/app-blueprint@6.9.0-beta.1':
+    resolution: {integrity: sha512-A84HfuXmpub0VzvcYWRK7+lXTr9Ao94OUvJnexH4AbArD3uBKOUicmVEvElbJNU0xrc5XLm3W4ue50dq8DkCRA==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -5484,7 +5484,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ember/app-blueprint@6.9.0-alpha.1':
+  '@ember/app-blueprint@6.9.0-beta.1':
     dependencies:
       chalk: 4.1.2
       ember-cli-string-utils: 1.1.0
