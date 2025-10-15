@@ -2,48 +2,36 @@
 
 ## Release (2025-10-14)
 
-* ember-cli 6.8.0-beta.6 (patch)
-* @ember-tooling/classic-build-addon-blueprint 6.8.0-beta.3 (patch)
-* @ember-tooling/classic-build-app-blueprint 6.8.0-beta.3 (patch)
-* @ember-tooling/blueprint-blueprint 0.1.1 (patch)
-* @ember-tooling/blueprint-model 0.3.1 (patch)
+* ember-cli 6.8.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 6.8.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.8.0 (minor)
 
-#### :bug: Bug Fix
-* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#10838](https://github.com/ember-cli/ember-cli/pull/10838) Add package license metadata to match repository ([@davidtaylorhq](https://github.com/davidtaylorhq))
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10853](https://github.com/ember-cli/ember-cli/pull/10853) Promote Beta and update all dependencies for 6.8 release ([@mansona](https://github.com/mansona))
+  * [#10831](https://github.com/ember-cli/ember-cli/pull/10831) [bugfix beta] enable `--strict` by default to match new app blueprint ([@mansona](https://github.com/mansona))
+  * [#10808](https://github.com/ember-cli/ember-cli/pull/10808) Prepare 6.8 Beta ([@mansona](https://github.com/mansona))
 * `ember-cli`
-  * [#10834](https://github.com/ember-cli/ember-cli/pull/10834) [bugfix release] Fix tests using wrong versions ([@mansona](https://github.com/mansona))
-
-#### :house: Internal
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
-  * [#10848](https://github.com/ember-cli/ember-cli/pull/10848) merge origin/release into beta ([@mansona](https://github.com/mansona))
-
-#### Committers: 2
-- Chris Manson ([@mansona](https://github.com/mansona))
-- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))
-
-## Release (2025-10-13)
-
-* ember-cli 6.8.0-beta.5 (patch)
+  * [#10844](https://github.com/ember-cli/ember-cli/pull/10844) [beta] Error when `ember (generate|destroy) (http-proxy|http-mock|server)` is used in a Vite-based project ([@kategengler](https://github.com/kategengler))
+  * [#10802](https://github.com/ember-cli/ember-cli/pull/10802) enable Vite by default ([@mansona](https://github.com/mansona))
+  * [#10804](https://github.com/ember-cli/ember-cli/pull/10804) Support a `--ts` alias for the `addon`, `init` and `new` commands ([@bertdeblock](https://github.com/bertdeblock))
+  * [#10781](https://github.com/ember-cli/ember-cli/pull/10781) Add new `VITE` experiment to generate app with new Vite blueprint ([@pichfl](https://github.com/pichfl))
+  * [#10785](https://github.com/ember-cli/ember-cli/pull/10785) Depracate passing filenames and globs to `init` ([@pichfl](https://github.com/pichfl))
+  * [#10776](https://github.com/ember-cli/ember-cli/pull/10776) Add deprecation warning for the `--embroider` argument ([@pichfl](https://github.com/pichfl))
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#10791](https://github.com/ember-cli/ember-cli/pull/10791) update the format of the ember-cli-update.json ([@mansona](https://github.com/mansona))
 
 #### :bug: Bug Fix
 * `ember-cli`
   * [#10846](https://github.com/ember-cli/ember-cli/pull/10846) [beta bugfix] allow build --watch only in EMBROIDER_PREBUILD ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## Release (2025-10-13)
-
-* ember-cli 6.8.0-beta.4 (minor)
-* @ember-tooling/classic-build-addon-blueprint 6.8.0-beta.2 (minor)
-* @ember-tooling/classic-build-app-blueprint 6.8.0-beta.2 (minor)
-
-#### :rocket: Enhancement
-* `ember-cli`
-  * [#10844](https://github.com/ember-cli/ember-cli/pull/10844) [beta] Error when `ember (generate|destroy) (http-proxy|http-mock|server)` is used in a Vite-based project ([@kategengler](https://github.com/kategengler))
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#10831](https://github.com/ember-cli/ember-cli/pull/10831) [bugfix beta] enable `--strict` by default to match new app blueprint ([@mansona](https://github.com/mansona))
+  * [#10826](https://github.com/ember-cli/ember-cli/pull/10826) move resolution of @ember/app-blueprint to prevent loading latest ([@mansona](https://github.com/mansona))
+  * [#10782](https://github.com/ember-cli/ember-cli/pull/10782) update heimdall-fs-monitor ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#10803](https://github.com/ember-cli/ember-cli/pull/10803) Add "ember-blueprint" to keywords in `package.json` for the classic blueprints ([@pichfl](https://github.com/pichfl))
+* `@ember-tooling/classic-build-app-blueprint`
+  * [#10798](https://github.com/ember-cli/ember-cli/pull/10798) Add import from ember-data breakage/deprecation ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#10707](https://github.com/ember-cli/ember-cli/pull/10707) Enabled recommended configs from eslint-plugin-n and eslint-plugin-qunit ([@ijlee2](https://github.com/ijlee2))
 
 #### :memo: Documentation
 * `ember-cli`
@@ -52,99 +40,60 @@
   * [#10835](https://github.com/ember-cli/ember-cli/pull/10835) Update deprecation message for --embroider option ([@kategengler](https://github.com/kategengler))
 
 #### :house: Internal
+* `ember-cli`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10847](https://github.com/ember-cli/ember-cli/pull/10847) Prepare Beta Release ([@mansona](https://github.com/mansona))
+  * [#10825](https://github.com/ember-cli/ember-cli/pull/10825) Prepare Beta Release ([@mansona](https://github.com/mansona))
+  * [#10820](https://github.com/ember-cli/ember-cli/pull/10820) Prepare Beta Release ([@mansona](https://github.com/mansona))
 * `ember-cli`
   * [#10845](https://github.com/ember-cli/ember-cli/pull/10845) [beta] update @ember/app-blueprint to latest beta ([@mansona](https://github.com/mansona))
   * [#10833](https://github.com/ember-cli/ember-cli/pull/10833) [bugfix beta] bump the @ember/app-blueprint version ([@mansona](https://github.com/mansona))
-
-#### Committers: 2
-- Chris Manson ([@mansona](https://github.com/mansona))
-- Katie Gengler ([@kategengler](https://github.com/kategengler))
-
-## Release (2025-10-03)
-
-* ember-cli 6.8.0-beta.3 (patch)
-
-#### :bug: Bug Fix
-* `ember-cli`
-  * [#10826](https://github.com/ember-cli/ember-cli/pull/10826) move resolution of @ember/app-blueprint to prevent loading latest ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## Release (2025-10-02)
-
-* ember-cli 6.8.0-beta.2 (patch)
-
-#### :house: Internal
-* `ember-cli`
   * [#10823](https://github.com/ember-cli/ember-cli/pull/10823) fix incorrect ember-cli-update version in tests ([@mansona](https://github.com/mansona))
   * [#10819](https://github.com/ember-cli/ember-cli/pull/10819) update @ember/app-blueprint beta version ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## Release (2025-09-10)
-
-* ember-cli 6.8.0-beta.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 6.8.0-beta.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 6.8.0-beta.1 (minor)
-* @ember-tooling/blueprint-blueprint 0.1.0 (minor)
-* @ember-tooling/blueprint-model 0.3.0 (minor)
-
-#### :rocket: Enhancement
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
-  * [#10808](https://github.com/ember-cli/ember-cli/pull/10808) Prepare 6.8 Beta ([@mansona](https://github.com/mansona))
-* `@ember-tooling/blueprint-model`
-  * [#10802](https://github.com/ember-cli/ember-cli/pull/10802) enable Vite by default ([@mansona](https://github.com/mansona))
-* `ember-cli`
-  * [#10804](https://github.com/ember-cli/ember-cli/pull/10804) Support a `--ts` alias for the `addon`, `init` and `new` commands ([@bertdeblock](https://github.com/bertdeblock))
-  * [#10785](https://github.com/ember-cli/ember-cli/pull/10785) Depracate passing filenames and globs to `init` ([@pichfl](https://github.com/pichfl))
-  * [#10776](https://github.com/ember-cli/ember-cli/pull/10776) Add deprecation warning for the `--embroider` argument ([@pichfl](https://github.com/pichfl))
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#10796](https://github.com/ember-cli/ember-cli/pull/10796) Promote Beta and update all dependencies for 6.7 release ([@mansona](https://github.com/mansona))
-* `ember-cli`, `@ember-tooling/blueprint-model`
-  * [#10781](https://github.com/ember-cli/ember-cli/pull/10781) Add new `VITE` experiment to generate app with new Vite blueprint ([@pichfl](https://github.com/pichfl))
-* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
-  * [#10791](https://github.com/ember-cli/ember-cli/pull/10791) update the format of the ember-cli-update.json ([@mansona](https://github.com/mansona))
-
-#### :bug: Bug Fix
-* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`
-  * [#10803](https://github.com/ember-cli/ember-cli/pull/10803) Add "ember-blueprint" to keywords in `package.json` for the classic blueprints ([@pichfl](https://github.com/pichfl))
-* `@ember-tooling/classic-build-app-blueprint`
-  * [#10798](https://github.com/ember-cli/ember-cli/pull/10798) Add import from ember-data breakage/deprecation ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
-* `ember-cli`
-  * [#10794](https://github.com/ember-cli/ember-cli/pull/10794) Fix potential NPE ([@boris-petrov](https://github.com/boris-petrov))
-  * [#10782](https://github.com/ember-cli/ember-cli/pull/10782) update heimdall-fs-monitor ([@mansona](https://github.com/mansona))
-* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
-  * [#10707](https://github.com/ember-cli/ember-cli/pull/10707) Enabled recommended configs from eslint-plugin-n and eslint-plugin-qunit ([@ijlee2](https://github.com/ijlee2))
-
-#### :house: Internal
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-model`
-  * [#10807](https://github.com/ember-cli/ember-cli/pull/10807) Prepare Alpha Release ([@mansona](https://github.com/mansona))
-  * [#10795](https://github.com/ember-cli/ember-cli/pull/10795) Prepare Alpha Release ([@mansona](https://github.com/mansona))
-* `ember-cli`
   * [#10806](https://github.com/ember-cli/ember-cli/pull/10806) skip build watch tests when vite is enabled ([@mansona](https://github.com/mansona))
-  * [#10801](https://github.com/ember-cli/ember-cli/pull/10801) update github-changelog ([@mansona](https://github.com/mansona))
   * [#10790](https://github.com/ember-cli/ember-cli/pull/10790) Reorganize tests for `new` and `addon` commands ([@pichfl](https://github.com/pichfl))
   * [#10783](https://github.com/ember-cli/ember-cli/pull/10783) remove unused changelog script ([@mansona](https://github.com/mansona))
   * [#10764](https://github.com/ember-cli/ember-cli/pull/10764) fix double CI run on release-plan PR ([@mansona](https://github.com/mansona))
   * [#10750](https://github.com/ember-cli/ember-cli/pull/10750) Add more notes to the Release.md ([@mansona](https://github.com/mansona))
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`
-  * [#10799](https://github.com/ember-cli/ember-cli/pull/10799) Prepare Alpha Release ([@mansona](https://github.com/mansona))
 * `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#10797](https://github.com/ember-cli/ember-cli/pull/10797) Prepare Stable Release ([@mansona](https://github.com/mansona))
-  * [#10800](https://github.com/ember-cli/ember-cli/pull/10800) fix release-plan for stable release ([@mansona](https://github.com/mansona))
+  * [#10799](https://github.com/ember-cli/ember-cli/pull/10799) Prepare Alpha Release ([@mansona](https://github.com/mansona))
   * [#10778](https://github.com/ember-cli/ember-cli/pull/10778) Prepare Alpha Release ([@mansona](https://github.com/mansona))
   * [#10756](https://github.com/ember-cli/ember-cli/pull/10756) Prepare Alpha Release ([@mansona](https://github.com/mansona))
   * [#10763](https://github.com/ember-cli/ember-cli/pull/10763) Prepare 6.8-alpha ([@mansona](https://github.com/mansona))
 
 #### Committers: 6
 - Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
-- Boris Petrov ([@boris-petrov](https://github.com/boris-petrov))
 - Chris Manson ([@mansona](https://github.com/mansona))
 - Florian Pichler ([@pichfl](https://github.com/pichfl))
 - Isaac Lee ([@ijlee2](https://github.com/ijlee2))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
 - [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+## Release (2025-10-08)
+
+* ember-cli 6.7.2 (patch)
+* @ember-tooling/classic-build-addon-blueprint 6.7.1 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.7.2 (patch)
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10838](https://github.com/ember-cli/ember-cli/pull/10838) Add package license metadata to match repository ([@davidtaylorhq](https://github.com/davidtaylorhq))
+
+#### Committers: 1
+- David Taylor ([@davidtaylorhq](https://github.com/davidtaylorhq))
+
+## Release (2025-10-06)
+
+* ember-cli 6.7.1 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.7.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10834](https://github.com/ember-cli/ember-cli/pull/10834) [bugfix release] Fix tests using wrong versions ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-app-blueprint`
+  * [#10824](https://github.com/ember-cli/ember-cli/pull/10824) [bugfix release] fix app-blueprint being considered a blueprint ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 
 ## Release (2025-09-06)
 
