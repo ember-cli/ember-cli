@@ -84,7 +84,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Update blueprint dependencies to beta
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
+  node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=<whatever version was in the alpha>
   ```
 
 - update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@beta`
