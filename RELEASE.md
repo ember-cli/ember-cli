@@ -16,6 +16,7 @@ During the release week each of the versions are effectively "promoted" i.e. the
 
 The release process during release week should look like this:
 
+- Make sure that `@ember/app-blueprint` is released before starting any of these steps
 - Merge any outstanding `Prepare Alpha Release` branches
 - Do an intial stable release from the `release` branch
 - Merge `release` into `beta`
@@ -23,7 +24,7 @@ The release process during release week should look like this:
 - Merge `beta` into `master`
 - Do an `alpha` release
 
-### Merge any outstanding `Prepare Alpha Release` branches
+### Merge any outstanding `Prepare Alpha Release` branches
 
 This makes sure that you are starting from a "clean slate" before doing any other releases. This will make each of the following steps easier to follow.
 
@@ -38,19 +39,20 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Merge `origin/beta` into the release branch
   - `git merge origin/beta --no-ff`
   - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
-  - **make sure to not update the .github/workflows/plan-release.yml file** this should still plan a stable release
-  - **make sure to not update the .github/workflows/publish.yml file** this should still publish a stable release
+  - **make sure to not update the .github/workflows/plan-stable-release.yml file** this should still plan a stable release
+  - **make sure to not update the .github/workflows/publish-stable.yml file** this should still publish a stable release
   - **make sure to not update the CHANGELOG.md file** so as not to include the beta or alpha changelogs in the next release
   - make sure to not update the version in the package.json during this step, this will be release-plan's job
+  - make sure to not update the version in the `packages/app-blueprint/package.json`, or `packages/addon-blueprint/package.json` files during this step, this will be release-plan's job
   - make sure to not add the `release-plan` config section to the package.json during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
-- Update blueprint dependencies to latest
+- Update blueprint dependencies to latest. Note: ember-data needs to be updated only in the alpha version from now on, make sure to only update to the release version of what was in the beta. 
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=latest
+  node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=<whatever version was in the beta>
   ```
 
 - commit this update `git commit -am "update blueprint dependencies to latest"`
-- push and open a PR targeting `release` with a PR title like `Update all dependencies for 6.4 release`
+- push and open a PR targeting `release` with a PR title like `Promote Beta and update all dependencies for 6.4 release`
 - mark this PR as an `enhancement` if it is a minor release
 - check that everything is ok (i.e. that CI has run correctly and that you have the changes you expect)
 - merge branch
@@ -64,26 +66,30 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - create a new branch to merge `release` into `beta` e.g. `git checkout --no-track -b merge-release origin/beta`
 - merge release into this new branch e.g. `git merge origin/release --no-ff`
   - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
-  - **make sure to not update any .github/workflows/plan-release.yml file** this should still plan a beta release
-  - **make sure to not update any .github/workflows/publish.yml file** this should still publish a beta release
+  - **make sure to not update any .github/workflows/plan-beta-release.yml file** this should still plan a beta release
+  - **make sure to not update any .github/workflows/publish-beta.yml file** this should still publish a beta release
   - make sure to not update the version in the package.json during this step, that step comes later
   - make sure to not remove the `release-plan` config section to the `package.json`, `packages/addon-blueprint/package.json`, or `packages/app-blueprint/package.json`, during this step.
 - merge master into this new branch too e.g. `git merge origin/master --no-ff`
   - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
   - **make sure to not update the CHANGELOG.md file** in this step. It should match the changelog on `origin/release` at this stage.
+  - make sure not to update the `release-plan` config in `package.json`, `packages/addon-blueprint/package.json`, or `packages/app-blueprint/package.json`
+  - commit the merge `git commit -am "merge master into beta"`
+- update the versions in package.jsons
   - update the alpha version in package.json to be a beta i.e. if the incoming merge is `"version": "6.6.0-alpha.3",` update it to `"version": "6.6.0-beta.0",`
   - update the alpha version in `packages/addon-blueprint/package.json` to be a beta
   - update the alpha version in `packages/app-blueprint/package.json` to be a beta
-  - make sure not to update the `release-plan` config in `package.json`, `packages/addon-blueprint/package.json`, or `packages/app-blueprint/package.json`
   - update the `ember-cli` reference in `packages/app-blueprint/files/package.json` to be the same as the version you just put in the top level package.json
+  - commit the version changes `git commit -am "update versions"`
 - Update blueprint dependencies to beta
 
   ```
   node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
   ```
 
+- update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@beta`
+- manually add a `~` back into the `@ember/app-blueprint` dependency in the root package.json
 - commit this update `git commit -am "update blueprint dependencies to beta"`
-- **TODO**: document how to update @ember/app-blueprint dependency
 - push and open a PR targeting `beta` with a PR title like `Prepare 6.5-beta`
 - mark this PR as an `enchancement` if the next beta is a minor release
 - check that everything is ok i.e. CI passes
@@ -104,7 +110,8 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - **make sure to not update any .github/workflows/plan-release.yml file** this should still plan a beta release
   - **make sure to not update any .github/workflows/publish.yml file** this should still publish a beta release
   - **make sure to not update the CHANGELOG.md file** in this step.
-- manually update the version in package.json to be the next alpha.
+  - commit this merge
+- manually update the version in `package.json` to be the next alpha.
   - e.g. if the current alpha is `"version": "6.6.0-alpha.3",` update it to be `"version": "6.7.0-alpha.0",`
 - manually update the alpha version in `packages/addon-blueprint/package.json` to be the same alpha
 - manually update the alpha version in `packages/app-blueprint/package.json` to be the same alpha
@@ -112,11 +119,11 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Update blueprint dependencies to alpha
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=canary
+  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=latest
   ```
 
+- update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@alpha`
 - commit this update `git commit -am "update blueprint dependencies to alpha"`
-- **TODO**: document how to update @ember/app-blueprint dependency
 - push and open a PR targeting `master` with a PR title like `Prepare 6.6-alpha`
 - mark this PR as an `enchancement` if the next alpha is a minor release
 - check that everything is ok i.e. CI passes

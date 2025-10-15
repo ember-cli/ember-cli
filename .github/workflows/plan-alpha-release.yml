@@ -1,18 +1,19 @@
-name: Plan Beta Release
+name: Plan Alpha Release
 on:
   workflow_dispatch:
   push:
     branches:
-      - beta
+      - main
+      - master
   pull_request_target: # This workflow has permissions on the repo, do NOT run code from PRs in this workflow. See https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
     types:
       - labeled
       - unlabeled
     branches:
-      - beta
+      - master
 
 concurrency:
-  group: plan-release-beta # only the latest one of these should ever be running
+  group: plan-release # only the latest one of these should ever be running
   cancel-in-progress: true
 
 jobs:
@@ -26,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
-          ref: 'beta'
+          ref: 'master'
       # This will only cause the `is-this-a-release` job to have a "command" of `release`
       # when the .release-plan.json file was changed on the last commit.
       - id: check-release
@@ -51,7 +52,7 @@ jobs:
         # github-changelog can discover what's changed since the last release
         with:
           fetch-depth: 0
-          ref: 'beta'
+          ref: 'master'
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -91,10 +92,10 @@ jobs:
 
       - uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: "Prepare Beta Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
+          commit-message: "Prepare Alpha Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
           labels: "internal"
-          branch: release-preview-beta
-          title: Prepare Beta Release ${{ steps.explanation.outputs.new_version }}
+          branch: releaseplan-preview
+          title: Prepare Alpha Release ${{ steps.explanation.outputs.new_version }}
           # this doesn't use secrets.GITHUB_TOKEN because we want CI to run on the PR that it opens.
           # See: https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
           token: ${{ secrets.RELEASE_PLAN_GH_PAT }}

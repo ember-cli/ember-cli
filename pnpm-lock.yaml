@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@ember-tooling/blueprint-blueprint':
-        specifier: workspace:*
-        version: link:packages/blueprint-blueprint
+        specifier: ^0.2.1
+        version: 0.2.1
       '@ember-tooling/blueprint-model':
-        specifier: workspace:*
-        version: link:packages/blueprint-model
+        specifier: ^0.4.1
+        version: 0.4.1
       '@ember-tooling/classic-build-addon-blueprint':
         specifier: workspace:*
         version: link:packages/addon-blueprint
@@ -21,8 +21,8 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: ~6.8.0-beta.7
-        version: 6.8.0-beta.7
+        specifier: ~6.9.0-beta.1
+        version: 6.9.0-beta.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0
         version: 1000.1.0
@@ -367,8 +367,8 @@ importers:
   packages/addon-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: workspace:*
-        version: link:../blueprint-model
+        specifier: ^0.4.1
+        version: 0.4.1
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -397,40 +397,14 @@ importers:
   packages/app-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: workspace:*
-        version: link:../blueprint-model
+        specifier: ^0.4.1
+        version: 0.4.1
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
       ember-cli-string-utils:
         specifier: ^1.1.0
         version: 1.1.0
-
-  packages/blueprint-blueprint: {}
-
-  packages/blueprint-model:
-    dependencies:
-      chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
-      diff:
-        specifier: ^7.0.0
-        version: 7.0.0
-      isbinaryfile:
-        specifier: ^5.0.4
-        version: 5.0.4
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      promise.hash.helper:
-        specifier: ^1.0.8
-        version: 1.0.8
-      quick-temp:
-        specifier: ^0.1.8
-        version: 0.1.8
-      silent-error:
-        specifier: ^1.1.1
-        version: 1.1.1
 
 packages:
 
@@ -560,8 +534,14 @@ packages:
     engines: {node: '>=0.1.95'}
     hasBin: true
 
-  '@ember/app-blueprint@6.8.0-beta.7':
-    resolution: {integrity: sha512-AS9LybyU78Vva0dJysDZOpnylj/26G+6HY2z8p02O0hBL+gdV0HUu9X1V7ZCPev2GfUeoL4qCmoArmXLCTWSdA==}
+  '@ember-tooling/blueprint-blueprint@0.2.1':
+    resolution: {integrity: sha512-eZ5qicL3gfFFbmzLaSiEWPSmoRUJGnqg+dQmU0R81vv+0Ni7W/cS7MXx1l4HpN9B7Yg4M9GgdQTkeJnb6abQug==}
+
+  '@ember-tooling/blueprint-model@0.4.1':
+    resolution: {integrity: sha512-3jBNTGecTuRPOLjOY3AH/SpnLvJULyhwnR39I77uWj7ZFGwHuoV38uLYZMDjUN6So2uokkS333YavHdVqyn1kQ==}
+
+  '@ember/app-blueprint@6.9.0-beta.1':
+    resolution: {integrity: sha512-A84HfuXmpub0VzvcYWRK7+lXTr9Ao94OUvJnexH4AbArD3uBKOUicmVEvElbJNU0xrc5XLm3W4ue50dq8DkCRA==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -5490,7 +5470,21 @@ snapshots:
       exec-sh: 0.3.6
       minimist: 1.2.8
 
-  '@ember/app-blueprint@6.8.0-beta.7':
+  '@ember-tooling/blueprint-blueprint@0.2.1': {}
+
+  '@ember-tooling/blueprint-model@0.4.1':
+    dependencies:
+      chalk: 4.1.2
+      diff: 7.0.0
+      isbinaryfile: 5.0.4
+      lodash: 4.17.21
+      promise.hash.helper: 1.0.8
+      quick-temp: 0.1.8
+      silent-error: 1.1.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@ember/app-blueprint@6.9.0-beta.1':
     dependencies:
       chalk: 4.1.2
       ember-cli-string-utils: 1.1.0
