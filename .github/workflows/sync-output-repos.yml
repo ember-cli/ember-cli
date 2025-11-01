@@ -42,19 +42,15 @@ jobs:
     name: "Verify Inputs"
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.determine.outputs.version }}
       tag: ${{ steps.determine.outputs.tag }}
 
     steps:
       - id: determine
         run: |
           if [[ "${{ github.event.inputs.version }}" != "" ]]; then
-            TAG="v${{ github.event.inputs.version }}"
-            VERSION="${{ github.event.inputs.version }}"
+            TAG="v${{ github.event.inputs.version }}-ember-cli"
           elif [[ "${{ github.ref_name }}" != "" ]]; then
-            TAG="${{github.ref_name}}"
-            _version="${{github.ref_name}}"
-            VERSION="${_version/v/''}"
+            TAG="${{github.ref_name}}-ember-cli"
           else
             echo "Could not determine tag / version"
             echo ""
@@ -63,14 +59,7 @@ jobs:
             exit 1;
           fi
 
-          if [[ "$VERSION" == v* ]]; then
-            echo "version, $VERSION, may not start with a 'v' character"
-            exit 1;
-          fi
-
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-
 
 
   push-addon-app:
@@ -112,7 +101,7 @@ jobs:
           git config --global user.name "${{ env.GIT_NAME }}"
           git config --global user.email "${{ env.GIT_EMAIL }}"
       - name: Publish ${{ matrix.variant }} branches
-        run: node ./dev/update-editor-output-repos.js ${{ needs.verify-inputs.outputs.version }}
+        run: node ./dev/update-editor-output-repos.js ${{ needs.verify-inputs.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           VARIANT: ${{ matrix.variant }}
