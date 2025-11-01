@@ -1,0 +1,9 @@
+# Unlabeled Changes
+
+* `ember-cli`
+  * [#10863](https://github.com/ember-cli/ember-cli/pull/10863) Missed a script -- fix updating output repos ([@kategengler](https://github.com/kategengler))
+  * [#10862](https://github.com/ember-cli/ember-cli/pull/10862) Fix typo in output repo workflow ([@kategengler](https://github.com/kategengler))
+  * [#10861](https://github.com/ember-cli/ember-cli/pull/10861) Fix output repo generation with new tag format ([@kategengler](https://github.com/kategengler))
+
+
+*Cannot plan release until the above changes are labeled*.
