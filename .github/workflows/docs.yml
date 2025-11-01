@@ -41,7 +41,7 @@ jobs:
           ssh-key: ${{ secrets.DOCS_DEPLOY_KEY }}
           branch: master
       - name: Download docs artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v6
         with:
           name: docs (${{ github.event.inputs.version || github.ref }})
           path: api
