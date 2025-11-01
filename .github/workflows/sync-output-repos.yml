@@ -78,7 +78,7 @@ jobs:
         run: |
           git config --global user.name "${{ env.GIT_NAME }}"
           git config --global user.email "${{ env.GIT_EMAIL }}"
-      - run: node ./dev/update-output-repos.js ${{ needs.verify-inputs.outputs.version }}
+      - run: node ./dev/update-output-repos.js ${{ needs.verify-inputs.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           BLUEPRINT: ${{ matrix.blueprint }}
