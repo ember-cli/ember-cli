@@ -33,7 +33,7 @@ let cliOutputCache = {};
 /**
  * We can re-use generated projects
  */
-async function generateOutputFiles({ name, variant, isTypeScript, tag, command }) {
+async function generateOutputFiles({ name, variant, isTypeScript, version, command }) {
   console.log(Object.keys(cliOutputCache));
   let cacheKey = `${command}-${variant}`;
 
@@ -42,11 +42,11 @@ async function generateOutputFiles({ name, variant, isTypeScript, tag, command }
   }
 
   let updatedOutputTmpDir = tmp.dirSync();
-  console.log(`Running npx ember-cli@${tag} ${command} ${name}`);
+  console.log(`Running npx ember-cli@${version} ${command} ${name}`);
 
   await execa(
     'npx',
-    [`ember-cli@${tag}`, command, name, `--skip-npm`, `--skip-git`, ...(isTypeScript ? ['--typescript'] : [])],
+    [`ember-cli@${version}`, command, name, `--skip-npm`, `--skip-git`, ...(isTypeScript ? ['--typescript'] : [])],
     {
       cwd: updatedOutputTmpDir.name,
       env: {
