@@ -44,13 +44,14 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - **make sure to not update the CHANGELOG.md file** so as not to include the beta or alpha changelogs in the next release
   - make sure to not update the version in the package.json during this step, this will be release-plan's job
   - make sure to not update the version in the `packages/app-blueprint/package.json`, or `packages/addon-blueprint/package.json` files during this step, this will be release-plan's job
-  - make sure to not add the `release-plan` config section to the package.json during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
+  - make sure to not add the `release-plan` config section to `package.json`, `packages/app-blueprint/package.json`, or `packages/addon-blueprint/package.json` during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
 - Update blueprint dependencies to latest. Note: ember-data needs to be updated only in the alpha version from now on, make sure to only update to the release version of what was in the beta. 
 
   ```
   node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=<whatever version was in the beta>
   ```
 
+- update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@latest`
 - commit this update `git commit -am "update blueprint dependencies to latest"`
 - push and open a PR targeting `release` with a PR title like `Promote Beta and update all dependencies for 6.4 release`
 - mark this PR as an `enhancement` if it is a minor release
