@@ -1,0 +1,7 @@
+# Unlabeled Changes
+
+* `ember-cli`
+  * [#10860](https://github.com/ember-cli/ember-cli/pull/10860) [BUGFIX release]: Enter the WatchDetector branch of the build command when EMBROIDER_PREBUILD is present ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+
+*Cannot plan release until the above changes are labeled*.
