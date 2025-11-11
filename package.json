@@ -45,7 +45,7 @@
     "@ember/app-blueprint": "~6.9.0",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
-    "broccoli": "^3.5.2",
+    "broccoli": "^4.0.0",
     "broccoli-concat": "^4.2.5",
     "broccoli-config-loader": "^1.0.1",
     "broccoli-config-replace": "^1.1.2",
