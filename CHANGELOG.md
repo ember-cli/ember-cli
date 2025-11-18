@@ -1,5 +1,22 @@
 # ember-cli Changelog
 
+## Release (2025-11-18)
+
+* ember-cli 6.9.0-alpha.3 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`
+  * [#10870](https://github.com/ember-cli/ember-cli/pull/10870) Upgrade broccoli ([@kategengler](https://github.com/kategengler))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10863](https://github.com/ember-cli/ember-cli/pull/10863) Missed a script -- fix updating output repos ([@kategengler](https://github.com/kategengler))
+  * [#10862](https://github.com/ember-cli/ember-cli/pull/10862) Fix typo in output repo workflow ([@kategengler](https://github.com/kategengler))
+  * [#10861](https://github.com/ember-cli/ember-cli/pull/10861) Fix output repo generation with new tag format ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 1
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
 ## Release (2025-10-14)
 
 * ember-cli 6.9.0-alpha.2 (minor)
