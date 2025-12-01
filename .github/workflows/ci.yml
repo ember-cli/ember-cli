@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-environment
       - run: pnpm lint
 
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-environment
       - run: pnpm test
 
@@ -58,7 +58,7 @@ jobs:
           - windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
@@ -91,7 +91,7 @@ jobs:
           - smoke
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
@@ -113,7 +113,7 @@ jobs:
           - VITE
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-environment
       - run: pnpm test:all
         env:
@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [basic-tests, linting]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-environment
       - name: Run Tests with Deprecations as Errors
         env:
