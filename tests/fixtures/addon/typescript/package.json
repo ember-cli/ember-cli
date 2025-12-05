@@ -109,7 +109,7 @@
     "ember-source": ">= 4.0.0"
   },
   "engines": {
-    "node": ">= 20.11"
+    "node": ">= 20.19"
   },
   "ember": {
     "edition": "octane"
