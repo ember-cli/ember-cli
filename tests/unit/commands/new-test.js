@@ -84,6 +84,18 @@ describe('new command', function () {
     expect(command.availableOptions.map(({ name }) => name)).to.contain('custom-blueprint-option');
   });
 
+  it('rejects when --lang is provided without a value', async function() {
+      let error;
+      try {
+        await command.run({ lang: '' }, ['my-test-app']);
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).to.exist;
+      expect(error.message).to.equal('The "--lang" option requires a value.');
+  });
+
   it('passes command options through to init command', async function () {
     command.tasks.CreateAndStepIntoDirectory = class extends Task {
       run() {
