@@ -22,7 +22,7 @@ jobs:
       command: ${{ steps.check-release.outputs.command }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
           ref: 'master'
@@ -45,7 +45,7 @@ jobs:
     if: ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && needs.is-this-a-release.outputs.command != 'release') || (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         # We need to download lots of history so that
         # github-changelog can discover what's changed since the last release
         with:
