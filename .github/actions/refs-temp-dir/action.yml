@@ -1,0 +1,23 @@
+name: Use ReFS for TEMPDIR
+description: This sets up ReFS as tempdir to hopefully speed up blueprint tests on windows
+
+
+runs:
+  using: composite
+
+  steps:
+    - name: Create Dev Drive using ReFS
+      shell: powershell
+      run: |
+        $Volume = New-VHD -Path C:/uv_dev_drive.vhdx -SizeBytes 10GB |
+                  Mount-VHD -Passthru |
+                  Initialize-Disk -Passthru |
+                  New-Partition -AssignDriveLetter -UseMaximumSize |
+                  Format-Volume -FileSystem ReFS -Confirm:$false -Force
+        Write-Output $Volume
+        Write-Output "DEV_DRIVE=$($Volume.DriveLetter):" >> $env:GITHUB_ENV
+    - name: Set TEMP to new DEV_DRIVE
+      shell: bash
+      run: |
+        mkdir "$DEV_DRIVE\\Temp"
+        echo "TEMP=$DEV_DRIVE\\Temp" >> $env:GITHUB_ENV
