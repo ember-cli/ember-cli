@@ -3,6 +3,10 @@
 const symlinkOrCopySync = require('symlink-or-copy').sync;
 const path = require('path');
 const fs = require('fs-extra');
+// eslint-disable-next-line n/no-unpublished-require
+const tmp = require('tmp-promise');
+const execa = require('execa');
+
 const runCommand = require('./run-command');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 
@@ -59,6 +63,13 @@ function applyCommand(command, name /*, ...flags*/) {
  * @return {Promise}  The result of the running the command
  */
 function createTestTargets(projectName, options) {
+  console.warn(`**********************************************
+**  DO NOT USE createTestTargets ANY MORE!  **
+**********************************************
+
+Use createAndInstallTestTargets() which doesn't use a complicated packageCache system
+and relies on the pnpm store for caching instead.`);
+
   let outputDir = quickTemp.makeOrReuse(dirs, projectName);
 
   options = options || {};
@@ -115,7 +126,46 @@ function cleanupRun(projectName) {
   quickTemp.remove(dirs, `${projectName}-clone`);
 }
 
+/**
+ *
+ * @param {string} projectName
+ * @param {string} options.command defaults to new
+ * @returns {Promise<{ result: string, path: string, cleanup: () => void }>} an object containing command result, path, and a cleanup function;
+ */
+async function createAndInstallTestTargets(projectName, options) {
+  let outputDir = await tmp.dir({ unsafeCleanup: true });
+
+  let command = options?.command ?? 'new';
+
+  let result = await applyCommand(command, projectName, '--skip-npm', `--directory=${outputDir.path}`);
+
+  await execa('pnpm', ['install', '--prefer-offline'], {
+    preferLocal: true,
+    cwd: outputDir.path,
+  });
+
+  for (let pkg of [
+    '.',
+    'packages/blueprint-model',
+    'packages/blueprint-blueprint',
+    'packages/app-blueprint',
+    'packages/addon-blueprint',
+  ]) {
+    await execa('pnpm', ['link', path.join(__dirname, `../../${pkg}`)], {
+      preferLocal: true,
+      cwd: outputDir.path,
+    });
+  }
+
+  return {
+    result,
+    cleanup: outputDir.cleanup,
+    path: outputDir.path,
+  };
+}
+
 module.exports = {
+  createAndInstallTestTargets,
   createTestTargets,
   linkDependencies,
   teardownTestTargets,
