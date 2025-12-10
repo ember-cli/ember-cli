@@ -169,10 +169,10 @@
   },
   "packageManager": "pnpm@10.12.1",
   "engines": {
-    "node": ">= 20.11"
+    "node": ">= 20.19.0"
   },
   "volta": {
-    "node": "20.11.0",
+    "node": "20.19.6",
     "pnpm": "10.12.1"
   },
   "publishConfig": {
