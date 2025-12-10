@@ -21,8 +21,8 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: ~6.8.0
-        version: 6.8.3
+        specifier: ~6.9.0
+        version: 6.9.0
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.0
         version: 1000.1.0
@@ -540,8 +540,8 @@ packages:
   '@ember-tooling/blueprint-model@0.4.1':
     resolution: {integrity: sha512-3jBNTGecTuRPOLjOY3AH/SpnLvJULyhwnR39I77uWj7ZFGwHuoV38uLYZMDjUN6So2uokkS333YavHdVqyn1kQ==}
 
-  '@ember/app-blueprint@6.8.3':
-    resolution: {integrity: sha512-cVa748q+3m2dErP++sKmqQVoNfS/zh2qb8tkBGhqkg4Jx6QgLm3APWDq679VhuI5+7K70uoqqzmbtZ8a0aU88Q==}
+  '@ember/app-blueprint@6.9.0':
+    resolution: {integrity: sha512-FgAVJfKCedbbcu/Ek4cXeyRqDHQWdLo9uCTFXIQDR9tIsHV6Ne2+B1azPsHzNsESo11jrhxQ83QnLw4bCZZbmA==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -4162,6 +4162,7 @@ packages:
   raw-body@1.1.7:
     resolution: {integrity: sha512-WmJJU2e9Y6M5UzTOkHaM7xJGAPQD8PNzx3bAd2+uhZAim6wDk6dAZxPVYLF67XhbR4hmKGh33Lpmh4XWrCH5Mg==}
     engines: {node: '>= 0.8.0'}
+    deprecated: No longer maintained. Please upgrade to a stable version.
 
   raw-body@2.5.2:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
@@ -5484,7 +5485,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ember/app-blueprint@6.8.3':
+  '@ember/app-blueprint@6.9.0':
     dependencies:
       chalk: 4.1.2
       ember-cli-string-utils: 1.1.0
