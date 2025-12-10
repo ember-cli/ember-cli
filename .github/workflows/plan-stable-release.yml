@@ -1,19 +1,18 @@
-name: Plan Alpha Release
+name: Plan Stable Release
 on:
   workflow_dispatch:
   push:
     branches:
-      - main
-      - master
+      - release
   pull_request_target: # This workflow has permissions on the repo, do NOT run code from PRs in this workflow. See https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
     types:
       - labeled
       - unlabeled
     branches:
-      - master
+      - release
 
 concurrency:
-  group: plan-release # only the latest one of these should ever be running
+  group: plan-release-stable # only the latest one of these should ever be running
   cancel-in-progress: true
 
 jobs:
@@ -24,10 +23,10 @@ jobs:
       command: ${{ steps.check-release.outputs.command }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 2
-          ref: 'master'
+          ref: 'release'
       # This will only cause the `is-this-a-release` job to have a "command" of `release`
       # when the .release-plan.json file was changed on the last commit.
       - id: check-release
@@ -47,12 +46,12 @@ jobs:
     if: ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && needs.is-this-a-release.outputs.command != 'release') || (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         # We need to download lots of history so that
         # github-changelog can discover what's changed since the last release
         with:
           fetch-depth: 0
-          ref: 'master'
+          ref: 'release'
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -92,10 +91,10 @@ jobs:
 
       - uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: "Prepare Alpha Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
+          commit-message: "Prepare Stable Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
           labels: "internal"
-          branch: releaseplan-preview
-          title: Prepare Alpha Release ${{ steps.explanation.outputs.new_version }}
+          branch: release-preview-stable
+          title: Prepare Stable Release ${{ steps.explanation.outputs.new_version }}
           # this doesn't use secrets.GITHUB_TOKEN because we want CI to run on the PR that it opens.
           # See: https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
           token: ${{ secrets.RELEASE_PLAN_GH_PAT }}
