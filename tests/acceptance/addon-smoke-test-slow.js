@@ -8,44 +8,33 @@ const chalk = require('chalk');
 
 const runCommand = require('../helpers/run-command');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-const acceptance = require('../helpers/acceptance');
-let createTestTargets = acceptance.createTestTargets;
-let teardownTestTargets = acceptance.teardownTestTargets;
-let linkDependencies = acceptance.linkDependencies;
-let cleanupRun = acceptance.cleanupRun;
+const { createAndInstallTestTargets } = require('../helpers/acceptance');
+
+let root = path.resolve(__dirname, '..', '..');
 
 const { expect } = require('chai');
 const { dir } = require('chai-files');
 
 let addonName = 'some-cool-addon';
 let addonRoot;
+let testSetup;
 
 describe('Acceptance: addon-smoke-test', function () {
   this.timeout(450000);
 
-  before(function () {
-    return createTestTargets(addonName, {
-      command: 'addon',
-    });
-  });
-
-  after(teardownTestTargets);
-
-  beforeEach(function () {
-    addonRoot = linkDependencies(addonName);
-
+  beforeEach(async function () {
+    testSetup = await createAndInstallTestTargets(addonName, { command: 'addon' });
+    addonRoot = testSetup.path;
+    process.chdir(addonRoot);
     process.env.JOBS = '1';
   });
 
-  afterEach(function () {
-    runCommand.killAll();
-    // Cleans up a folder set up on the other side of a symlink.
-    fs.removeSync(path.join(addonRoot, 'node_modules', 'developing-addon'));
-
-    cleanupRun(addonName);
-    expect(dir(addonRoot)).to.not.exist;
-
+  afterEach(async function () {
     delete process.env.JOBS;
+    runCommand.killAll();
+    process.chdir(root);
+    await testSetup.cleanup();
+    expect(dir(addonRoot)).to.not.exist;
   });
 
   it('generates package.json with proper metadata', function () {
