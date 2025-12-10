@@ -106,10 +106,13 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - create a new branch to merge `beta` into `master` e.g. `git checkout --no-track -b merge-beta origin/master`
 - merge beta into this new branch e.g. `git merge origin/beta --no-ff`
   - **make sure to not update the .release-plan file** this should only ever be changed by the release-plan github scripts
+  - make sure to not update the version in the package.json during this step, that step comes later
   - make sure to not update the `release-plan` config section to the `package.json`, `packages/addon-blueprint/package.json`, or `packages/app-blueprint/package.json`, during this step.
+  - make sure not to update the `@ember-tooling/blueprint-blueprint` or `@ember-tooling/blueprint-model` away from being `workspace: *` dependencies. On master they always use the latest and don't use semver.
   - **make sure to not update any .github/workflows/plan-release.yml file** this should still plan a beta release
   - **make sure to not update any .github/workflows/publish.yml file** this should still publish a beta release
   - **make sure to not update the CHANGELOG.md file** in this step.
+  - **make sure not to delete any package files** they exist on master but not on either the release or beta branches
   - commit this merge
 - manually update the version in `package.json` to be the next alpha.
   - e.g. if the current alpha is `"version": "6.6.0-alpha.3",` update it to be `"version": "6.7.0-alpha.0",`
@@ -119,10 +122,11 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Update blueprint dependencies to alpha
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=latest
+  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=<whatever version is in the package.json>
   ```
-
+- note: ember-data (aka warp-drive)  should only ever be updated on master as a separate PR. It is no longer part of the release process
 - update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@alpha`
+- make sure the app-blueprint still has a `~` after the above step
 - commit this update `git commit -am "update blueprint dependencies to alpha"`
 - push and open a PR targeting `master` with a PR title like `Prepare 6.6-alpha`
 - mark this PR as an `enchancement` if the next alpha is a minor release
