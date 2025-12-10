@@ -42,7 +42,7 @@
     "@ember-tooling/blueprint-model": "^0.4.1",
     "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
     "@ember-tooling/classic-build-app-blueprint": "workspace:*",
-    "@ember/app-blueprint": "~6.8.0",
+    "@ember/app-blueprint": "~6.9.0",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "babel-remove-types": "^1.0.1",
     "broccoli": "^3.5.2",
