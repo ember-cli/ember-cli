@@ -1,5 +1,43 @@
 # ember-cli Changelog
 
+## Release (2025-12-10)
+
+* ember-cli 6.10.0-alpha.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 6.10.0-alpha.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.10.0-alpha.1 (minor)
+* @ember-tooling/blueprint-blueprint 0.3.0 (minor)
+* @ember-tooling/blueprint-model 0.5.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10873](https://github.com/ember-cli/ember-cli/pull/10873) Prepare 6.10 Alpha ([@mansona](https://github.com/mansona))
+  * [#10853](https://github.com/ember-cli/ember-cli/pull/10853) Promote Beta and update all dependencies for 6.8 release ([@mansona](https://github.com/mansona))
+* `ember-cli`
+  * [#10870](https://github.com/ember-cli/ember-cli/pull/10870) Upgrade broccoli ([@kategengler](https://github.com/kategengler))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10856](https://github.com/ember-cli/ember-cli/pull/10856) Prepare 6.9 Beta ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#10876](https://github.com/ember-cli/ember-cli/pull/10876) bump minimum node version to 20.19 ([@mansona](https://github.com/mansona))
+
+#### :memo: Documentation
+* `ember-cli`
+  * [#10857](https://github.com/ember-cli/ember-cli/pull/10857) Update RELEASE.md with more notes ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10878](https://github.com/ember-cli/ember-cli/pull/10878) stop using internal package cache for smoke-test-slow ([@mansona](https://github.com/mansona))
+  * [#10863](https://github.com/ember-cli/ember-cli/pull/10863) Missed a script -- fix updating output repos ([@kategengler](https://github.com/kategengler))
+  * [#10862](https://github.com/ember-cli/ember-cli/pull/10862) Fix typo in output repo workflow ([@kategengler](https://github.com/kategengler))
+  * [#10861](https://github.com/ember-cli/ember-cli/pull/10861) Fix output repo generation with new tag format ([@kategengler](https://github.com/kategengler))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10854](https://github.com/ember-cli/ember-cli/pull/10854) Prepare Beta Release ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
 ## Release (2025-10-14)
 
 * ember-cli 6.9.0-alpha.2 (minor)
