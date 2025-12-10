@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const util = require('util');
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const EditFileDiff = require('./edit-file-diff');
 const EOL = require('os').EOL;
 const rxEOL = new RegExp(EOL, 'g');

@@ -1,7 +1,7 @@
 'use strict';
 const progress = require('../../../lib/utilities/heimdall-progress');
 const { expect } = require('chai');
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 
 describe('heimdall-progress', function () {
   it('supports the root node', function () {
