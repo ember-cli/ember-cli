@@ -5,36 +5,42 @@ const fs = require('fs-extra');
 
 const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 const runCommand = require('../helpers/run-command');
-const acceptance = require('../helpers/acceptance');
+const { createAndInstallTestTargets } = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
 const DistChecker = require('../helpers/dist-checker');
-let createTestTargets = acceptance.createTestTargets;
-let teardownTestTargets = acceptance.teardownTestTargets;
-let linkDependencies = acceptance.linkDependencies;
-let cleanupRun = acceptance.cleanupRun;
 
 const { expect } = require('chai');
 const { dir, file } = require('chai-files');
 
+let root = path.resolve(__dirname, '..', '..');
+
 let appName = 'some-cool-app';
 let appRoot;
+let testSetup;
+
+// this mimics the vitest it.skipIf API so we can easily swap to it when we swap to vitest
+function skipIf(condition) {
+  if (condition) {
+    return it.skip;
+  } else {
+    return it;
+  }
+}
 
 describe('Acceptance: brocfile-smoke-test', function () {
   this.timeout(500000);
 
-  before(function () {
-    return createTestTargets(appName);
+  beforeEach(async function () {
+    testSetup = await createAndInstallTestTargets(appName);
+    appRoot = testSetup.path;
+    process.chdir(appRoot);
   });
 
-  after(teardownTestTargets);
-
-  beforeEach(function () {
-    appRoot = linkDependencies(appName);
-  });
-
-  afterEach(function () {
+  afterEach(async function () {
+    delete process.env._TESTEM_CONFIG_JS_RAN;
     runCommand.killAll();
-    cleanupRun(appName);
+    process.chdir(root);
+    await testSetup.cleanup();
     expect(dir(appRoot)).to.not.exist;
   });
 
@@ -54,20 +60,12 @@ describe('Acceptance: brocfile-smoke-test', function () {
     expect(window.EmberENV._TEMPLATE_ONLY_GLIMMER_COMPONENTS).to.be.true;
   });
 
-  it('a custom environment config can be used in Brocfile.js', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('a custom environment config can be used in Brocfile.js', async function () {
     await copyFixtureFiles('brocfile-tests/custom-environment-config');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
-  it('builds with an ES modules ember-cli-build.js', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('builds with an ES modules ember-cli-build.js', async function () {
     await fs.writeFile(
       'ember-cli-build.js',
       `
@@ -95,11 +93,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
   });
 
-  it('without app/templates', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('without app/templates', async function () {
     await copyFixtureFiles('brocfile-tests/pods-templates');
     await fs.remove(path.join(process.cwd(), 'app/templates'));
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -124,11 +118,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     }
   });
 
-  it('using autoRun: true', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('using autoRun: true', async function () {
     await copyFixtureFiles('brocfile-tests/auto-run-true');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
@@ -140,11 +130,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     expect(window.APP_HAS_LOADED).to.be.true;
   });
 
-  it('using autoRun: false', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('using autoRun: false', async function () {
     await copyFixtureFiles('brocfile-tests/auto-run-false');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
@@ -215,29 +201,17 @@ describe('Acceptance: brocfile-smoke-test', function () {
     expect(subjectFileContents).to.equal('ROOT FILE\n');
   });
 
-  it('using pods based templates', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('using pods based templates', async function () {
     await copyFixtureFiles('brocfile-tests/pods-templates');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
-  it('using pods based templates with a podModulePrefix', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('using pods based templates with a podModulePrefix', async function () {
     await copyFixtureFiles('brocfile-tests/pods-with-prefix-templates');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
-  it('addon trees are not jshinted', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('addon trees are not jshinted', async function () {
     await copyFixtureFiles('brocfile-tests/jshint-addon');
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -254,22 +228,21 @@ describe('Acceptance: brocfile-smoke-test', function () {
     expect(error.output.join('')).to.include('Error: No tests matched the filter "jshint"');
   });
 
-  it('multiple css files in styles/ are output when a preprocessor is not used', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
+  skipIf(isExperimentEnabled('VITE'))(
+    'multiple css files in styles/ are output when a preprocessor is not used',
+    async function () {
+      await copyFixtureFiles('brocfile-tests/multiple-css-files');
+
+      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+      let files = ['/assets/some-cool-app.css', '/assets/other.css'];
+
+      let basePath = path.join(appRoot, 'dist');
+      files.forEach(function (f) {
+        expect(file(path.join(basePath, f))).to.exist;
+      });
     }
-
-    await copyFixtureFiles('brocfile-tests/multiple-css-files');
-
-    await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-    let files = ['/assets/some-cool-app.css', '/assets/other.css'];
-
-    let basePath = path.join(appRoot, 'dist');
-    files.forEach(function (f) {
-      expect(file(path.join(basePath, f))).to.exist;
-    });
-  });
+  );
 
   // skipping this as it seems this functionality doesn't work with ember-auto-import@2.2.3
   it.skip('specifying outputFile results in an explicitly generated assets', async function () {
@@ -284,11 +257,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     });
   });
 
-  it('can use transformation to turn anonymous AMD into named AMD', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('can use transformation to turn anonymous AMD into named AMD', async function () {
     await copyFixtureFiles('brocfile-tests/app-import-anonymous-amd');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
@@ -312,11 +281,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     })();
   });
 
-  it('can use transformation to turn named UMD into named AMD', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('can use transformation to turn named UMD into named AMD', async function () {
     await copyFixtureFiles('brocfile-tests/app-import-named-umd');
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
@@ -340,11 +305,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
     })();
   });
 
-  it('can do amd transform from addon', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('can do amd transform from addon', async function () {
     await copyFixtureFiles('brocfile-tests/app-import-custom-transform');
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -374,29 +335,28 @@ describe('Acceptance: brocfile-smoke-test', function () {
     })();
   });
 
-  it('can use transformation to turn library into custom transformation', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
+  skipIf(isExperimentEnabled('VITE'))(
+    'can use transformation to turn library into custom transformation',
+    async function () {
+      await copyFixtureFiles('brocfile-tests/app-import-custom-transform');
+
+      let packageJsonPath = path.join(appRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+      packageJson.devDependencies['ember-transform-addon'] = 'latest';
+      fs.writeJsonSync(packageJsonPath, packageJson);
+
+      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+      let checker = new DistChecker(path.join(appRoot, 'dist'));
+
+      expect(
+        checker.contains(
+          'js',
+          'if (typeof FastBoot === \'undefined\') { window.hello = "hello world"; }//# sourceMappingURL=output.map\n'
+        )
+      ).to.be;
     }
-
-    await copyFixtureFiles('brocfile-tests/app-import-custom-transform');
-
-    let packageJsonPath = path.join(appRoot, 'package.json');
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.devDependencies['ember-transform-addon'] = 'latest';
-    fs.writeJsonSync(packageJsonPath, packageJson);
-
-    await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-    let checker = new DistChecker(path.join(appRoot, 'dist'));
-
-    expect(
-      checker.contains(
-        'js',
-        'if (typeof FastBoot === \'undefined\') { window.hello = "hello world"; }//# sourceMappingURL=output.map\n'
-      )
-    ).to.be;
-  });
+  );
 
   it('app.css is output to <app name>.css by default', async function () {
     if (isExperimentEnabled('VITE')) {
@@ -408,11 +368,7 @@ describe('Acceptance: brocfile-smoke-test', function () {
   });
 
   // for backwards compat.
-  it('app.scss is output to <app name>.css by default', async function () {
-    if (isExperimentEnabled('VITE')) {
-      this.skip();
-    }
-
+  skipIf(isExperimentEnabled('VITE'))('app.scss is output to <app name>.css by default', async function () {
     await copyFixtureFiles('brocfile-tests/multiple-sass-files');
 
     let brocfilePath = path.join(appRoot, 'ember-cli-build.js');
