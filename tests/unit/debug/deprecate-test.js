@@ -3,6 +3,7 @@
 const { expect } = require('chai');
 const stripAnsi = require('strip-ansi');
 const { deprecate } = require('../../../lib/debug');
+const { makeDeprecate } = require('semver-deprecate');
 
 describe('deprecate', function () {
   let consoleWarn;
@@ -218,13 +219,13 @@ URL    https://example.com`,
         url: 'https://example.com',
       });
     }).to.throw(
-      'The API deprecated by ember-cli.foo-method was removed in ember-cli 3.0.0. The message was: The `foo` method is deprecated. Please see https://example.com for more details.'
+      'The API deprecated by ember-cli.foo-method was removed in ember-cli@3.0.0. The message was: The `foo` method is deprecated. Please see https://example.com for more details.'
     );
   });
 
   it('throws an deprecation if the pre-release ember-cli version is greater than the until version of deprecation', function () {
-    const OVERRIDE_VERSION = process.env.OVERRIDE_DEPRECATION_VERSION;
-    process.env.OVERRIDE_DEPRECATION_VERSION = '9.0.0-beta.1';
+    // this shadows the imported deprecate function on purpose because we need to be able to override the version
+    let deprecate = makeDeprecate('ember-cli', '9.0.0-beta.1');
     expect(() => {
       deprecate('The `bar` method is deprecated', false, {
         for: 'ember-cli',
@@ -237,9 +238,8 @@ URL    https://example.com`,
         url: 'https://example.com',
       });
     }).to.throw(
-      'The API deprecated by ember-cli.bar-method was removed in ember-cli 9.0.0. The message was: The `bar` method is deprecated. Please see https://example.com for more details.'
+      'The API deprecated by ember-cli.bar-method was removed in ember-cli@9.0.0. The message was: The `bar` method is deprecated. Please see https://example.com for more details.'
     );
-    process.env.OVERRIDE_DEPRECATION_VERSION = OVERRIDE_VERSION;
   });
 
   it('does not throw a deprecation if "for" is not "ember-cli"', function () {
