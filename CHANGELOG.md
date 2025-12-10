@@ -1,5 +1,10 @@
 # ember-cli Changelog
 
+
+
+
+
+
 ## Release (2025-10-15)
 
 * ember-cli 6.9.0-beta.1 (minor)
