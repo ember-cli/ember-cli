@@ -7,6 +7,7 @@ it will make it easier for us to track down the issue you're having.
 ---
 
 Output from `ember version --verbose && npm --version && yarn --version && pnpm --version`:
+
 ```
 [Replace this line with the output.]
 ```

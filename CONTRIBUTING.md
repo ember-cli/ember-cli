@@ -4,7 +4,6 @@ There are many ways to contribute to the project, you can fix issues,
 improve documentation or work on any of the features on the
 [wish list](https://github.com/ember-cli/ember-cli/wiki/Wish-List).
 
-
 # Development
 
 Start by cloning the Git project to your local hard drive:
@@ -33,7 +32,6 @@ npm link ember-cli
 Read the official [npm-link documentation](https://docs.npmjs.com/cli/link.html)
 for more information.
 
-
 ## Run the test suite
 
 ```
@@ -44,12 +42,14 @@ will run ESLint and the "fast" subset of the test suite. Run
 `pnpm run test:all` for the full test suite which will currently take quite a
 few minutes due to heavy IO and network usage.
 
-To run a single test 
+To run a single test
+
 ```
 pnpm mocha --fgrep "ember new adds ember-welcome-page by default"
 ```
 
 To get help with mocha, run
+
 ```
 pnpm mocha --help
 ```
@@ -57,8 +57,6 @@ pnpm mocha --help
 ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
 you want to run a specific subset of tests have a look at their
 [documentation](https://mochajs.org/#exclusive-tests).
-
-
 
 ## Update fixtures
 
@@ -115,21 +113,21 @@ there is a bug and the faster we'll be able to take action.
 
 Be sure to include (At the very least):
 
-* OS
-* npm version
-* ember version
-* clear steps to reproduction
+- OS
+- npm version
+- ember version
+- clear steps to reproduction
 
 And ideally
 
-* an isolated demonstration of this issue as a github repo
+- an isolated demonstration of this issue as a github repo
 
 ## Requesting a Feature
 
 Feature requests are handled via https://github.com/ember-cli/rfcs
 
-* issues are eargley stage requests/proposals
-* rfcs as pull requests are for fleshing out details
+- issues are eargley stage requests/proposals
+- rfcs as pull requests are for fleshing out details
 
 1. Search Issues for similar feature requests. It's possible somebody has
    already asked for this feature or provided a pull request that we're still
@@ -156,10 +154,9 @@ We love pull requests. Here's a quick guide:
 1. Fork the repo.
 
 2. Ensure you have the development requirements:
-
-   * node (latest LTS recommended) -- *do not install node using sudo*
-   * npm (3.x)
-   * google chrome
+   - node (latest LTS recommended) -- _do not install node using sudo_
+   - npm (3.x)
+   - google chrome
 
 3. Run the tests. We only take pull requests with passing tests, and it's great
    to know that you have a clean slate: `npm install && npm run test:all`.
@@ -172,19 +169,18 @@ We love pull requests. Here's a quick guide:
 
 6. Commit your changes. If your pull request fixes an issue specify it in the
    commit message. Here's an example: `git commit - m "Close #52  Fix
-   generators"`
+generators"`
 
 7. Push to your fork and submit a pull request. In the pull-request title,
    please prefix it with one of our tags: BUGFIX, FEATURE, ENHANCEMENT or
    INTERNAL
-
-   * FEATURE and ENHANCEMENT tags are for things that users are interested in.
+   - FEATURE and ENHANCEMENT tags are for things that users are interested in.
      Avoid super technical talk. Craft a concise description of the change.
      - FEATURE tag is a standalone new addition, an example of this would be
        adding a new command
      - ENHANCEMENT tag is an improvement on an existing feature
-   * BUGFIX tag is a link to a bug + a link to a patch.
-   * INTERNAL tag is an internal log of changes.
+   - BUGFIX tag is a link to a bug + a link to a patch.
+   - INTERNAL tag is an internal log of changes.
 
    In the description, please provide us with some explanation of why you made
    the changes you made. For new features make sure to explain a standard use
@@ -201,16 +197,16 @@ give the ticket a review.
 Some things that will increase the chance that your pull request is accepted,
 taken straight from the Ruby on Rails guide:
 
-* Use Node idioms and helpers.
-* Include tests that fail without your code, and pass with it.
-* Update the documentation, the surrounding one, examples elsewhere, guides,
+- Use Node idioms and helpers.
+- Include tests that fail without your code, and pass with it.
+- Update the documentation, the surrounding one, examples elsewhere, guides,
   whatever is affected by your contribution.
 
 #### Syntax
 
-* Two spaces, no tabs.
-* No trailing whitespace. Blank lines should not have any space.
-* Follow the conventions you see used in the source already.
+- Two spaces, no tabs.
+- No trailing whitespace. Blank lines should not have any space.
+- Follow the conventions you see used in the source already.
 
 #### Inline Documentation Guidelines
 
@@ -234,11 +230,11 @@ at: https://github.com/ember-learn/cli-guides
 
 #### Code Words
 
-* `thisPropertyName`
-* `Global.Class.attribute`
-* `thisFunction()`
-* `Global.CONSTANT_NAME`
-* `true`, `false`, `null`, `undefined` (when referring to programming values)
+- `thisPropertyName`
+- `Global.Class.attribute`
+- `thisFunction()`
+- `Global.CONSTANT_NAME`
+- `true`, `false`, `null`, `undefined` (when referring to programming values)
 
 And in case we didn't emphasize it enough: **we love tests!**
 
@@ -248,8 +244,8 @@ Testing is done with mocha. You can invoke the tests by running `npm test` or `n
 with a test, write your test and add `.only` to it's `describe` or `it` block. E.g.
 
 ```javascript
-describe.only("My new feature", function() {
-  it("is neat", function() {
+describe.only("My new feature", function () {
+  it("is neat", function () {
     //...
   });
 });

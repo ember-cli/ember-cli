@@ -24,7 +24,7 @@ on:
   push:
     # for addon and new output
     tags:
-      - 'v*'
+      - "v*"
 
 # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
 # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
@@ -34,8 +34,8 @@ on:
 #  GITHUB_REF_TYPE - github.ref_type - branch or tag
 
 env:
-  GIT_NAME: 'github-actions[bot]'
-  GIT_EMAIL: 'github-actions+bot@users.noreply.github.com'
+  GIT_NAME: "github-actions[bot]"
+  GIT_EMAIL: "github-actions+bot@users.noreply.github.com"
 
 jobs:
   verify-inputs:
@@ -60,7 +60,6 @@ jobs:
           fi
 
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-
 
   push-addon-app:
     name: "Push to ${{ matrix.blueprint }} output repo"
@@ -91,7 +90,6 @@ jobs:
       fail-fast: false
       matrix:
         variant: ["javascript", "typescript"]
-
 
     steps:
       - uses: actions/checkout@v6

@@ -7,20 +7,20 @@ on:
       - beta
       - release
       - next
-      - 'v*'
-      - 'lts-*'
+      - "v*"
+      - "lts-*"
   pull_request:
   workflow_dispatch:
   merge_group:
   schedule:
-    - cron: '0 3 * * *' # daily, at 3am
+    - cron: "0 3 * * *" # daily, at 3am
 
 concurrency:
   group: ci-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 env:
-  SKIP_YARN_COREPACK_CHECK: '0'
+  SKIP_YARN_COREPACK_CHECK: "0"
 
 jobs:
   linting:
@@ -120,7 +120,7 @@ jobs:
       - uses: ./.github/actions/setup-environment
       - run: pnpm test:all
         env:
-          'EMBER_CLI_${{ matrix.feature-flag }}': true
+          "EMBER_CLI_${{ matrix.feature-flag }}": true
 
   deprecations-broken-test:
     name: Deprecations "broken"
@@ -131,5 +131,5 @@ jobs:
       - uses: ./.github/actions/setup-environment
       - name: Run Tests with Deprecations as Errors
         env:
-          OVERRIDE_DEPRECATION_VERSION: '22.0.0'
+          OVERRIDE_DEPRECATION_VERSION: "22.0.0"
         run: pnpm test:all

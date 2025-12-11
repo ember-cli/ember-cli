@@ -3,35 +3,35 @@
 When we talk about build performance, it is important to understand that there
 are several build phases:
 
-+ cold build (booting your app up for the first time)
-+ warm build (booting your app up when cache was populated)
-+ rebuild (subsequent rebuilds that happen on file change)
+- cold build (booting your app up for the first time)
+- warm build (booting your app up when cache was populated)
+- rebuild (subsequent rebuilds that happen on file change)
 
-*Cold build* is the slowest because the cache is not yet populated and the
+_Cold build_ is the slowest because the cache is not yet populated and the
 application is booting for the first time. Build time varies and depends on
 the number of dependencies that application has but ballpark should be around 5
 seconds for small to middle size applications and around 15 seconds for large
 size applications.
 
-*Warm build* is faster then cold one because the cache was populated already
+_Warm build_ is faster then cold one because the cache was populated already
 and it takes less time re-compute dependencies. Build time varies but ballpark
 should be around 2 seconds for small to middle size applications and around 10
 seconds for large size applications.
 
-*Rebuild* aims to be the fastest because it happens the most often. App/
+_Rebuild_ aims to be the fastest because it happens the most often. App/
 JavaScript Rebuild time varies but ballpark should be around 200-300ms for
 small to middle size applications and up to 1 second for large size
 applications (200kloc js + 3000 modules).
 
-  * rebuild of JS in app/ <--- Largely our focus, as this is likely the most common.
-  * rebuild of CSS/Sass/Less in app/: largely depends on 3 factors
-    * which preprocessor is being used (libsass vs ruby-sass vs less vs ...)
-    * the amount of css
-  * rebuild of vendor/ <--- somewhat costly still, due to
-    how slow available sourceMap Libraries are. We have WIP with a more v8/JIT
-    friendly sourceMap lib, already showing some very nice improvements.
+- rebuild of JS in app/ <--- Largely our focus, as this is likely the most common.
+- rebuild of CSS/Sass/Less in app/: largely depends on 3 factors
+  - which preprocessor is being used (libsass vs ruby-sass vs less vs ...)
+  - the amount of css
+- rebuild of vendor/ <--- somewhat costly still, due to
+  how slow available sourceMap Libraries are. We have WIP with a more v8/JIT
+  friendly sourceMap lib, already showing some very nice improvements.
 
-*note* these times are based on a posix box with and SSD, win32 unfortunately
+_note_ these times are based on a posix box with and SSD, win32 unfortunately
 tends to be slower. As we continue to improve performance, both posix and win32
 improve, hopefully future work will bring these platforms build times closer
 together.
@@ -40,10 +40,10 @@ If you see that application timings escape, there might be a problem.
 
 Addons known to cause a slow down (but have not yet been addressed):
 
-* any old non-patch based broccoli plugin
-* ember-cli-component-css
-* ember-browserify
-* ... ?
+- any old non-patch based broccoli plugin
+- ember-cli-component-css
+- ember-browserify
+- ... ?
 
 Make sure to mention which type of the build seems to be the problem so we can
 help identify and fix issues faster.
@@ -62,9 +62,9 @@ slow down IO.
 
 Common issues:
 
-* anti-virus scanning of <project-root>/tmp/, oftentimes this can be avoided
+- anti-virus scanning of <project-root>/tmp/, oftentimes this can be avoided
   altogether.
-* anti-virus on-file-access re-scanning files, oftentimes this can be disabled
+- anti-virus on-file-access re-scanning files, oftentimes this can be disabled
   for the app directory. or ember can be whitelisted.
 
 ##### Q
@@ -93,23 +93,23 @@ npm ls broccoli-funnel broccoli-merge-trees broccoli-filter broccoli-persistent-
 
 and ideally the following should be true (otherwise some upgrades may be required)
 
-* `broccoli-funnel` should be at `^1.0.1`
-* `broccoli-merge-trees` should be at `^1.1.0`
-* `broccoli-persistent-filter` should be at `^1.1.6`
-* `broccoli-filter` often needs to be replaced with
+- `broccoli-funnel` should be at `^1.0.1`
+- `broccoli-merge-trees` should be at `^1.1.0`
+- `broccoli-persistent-filter` should be at `^1.1.6`
+- `broccoli-filter` often needs to be replaced with
   `broccoli-persistent-filter` (we hope to re-merge the two eventually)
-* `broccoli-sourcemap-concat` should be at `^2.0.2` but will soon be replace by
+- `broccoli-sourcemap-concat` should be at `^2.0.2` but will soon be replace by
   `broccoli-concat` (we have just re-merged the two)
-* `broccoli-caching-writer` should be at `^2.2.1`
-* `broccoli-concat` should be at `^2.0.3`
-* `broccoli-stew` should be at `^1.2.0`
-* likely more...
+- `broccoli-caching-writer` should be at `^2.2.1`
+- `broccoli-concat` should be at `^2.0.3`
+- `broccoli-stew` should be at `^1.2.0`
+- likely more...
 
 Up next we should check for old and deprecate plugins
 
-* `npm ls broccoli-static-compiler` this should no longer be used, rather
+- `npm ls broccoli-static-compiler` this should no longer be used, rather
   `broccoli-funnel` at `v1.0.1` should be used
-* ..
+- ..
 
 ##### Q
 
@@ -141,13 +141,12 @@ If the issue persists, please report an issue.
 
 Be sure to include:
 
-* `npm version`
-* `npm ls` (as a gist)
-* ideally a reproduction
-  * we are aware some are unable to share apps (even privately), this may prove
+- `npm version`
+- `npm ls` (as a gist)
+- ideally a reproduction
+  - we are aware some are unable to share apps (even privately), this may prove
     more difficult to debug. Although in some cases, consulting and proper IP
     related paperwork to allow sharing could enable improved debugging
-
 
 ##### Q
 
@@ -165,37 +164,37 @@ We would love a PR improving this guide.
 
 We use [heimdalljs-logger](https://github.com/heimdalljs/heimdalljs-logger) for
 logging, which supports the same usage as the de facto standard
-[debug](https://github.com/visionmedia/debug).  Quite often this can be used to
+[debug](https://github.com/visionmedia/debug). Quite often this can be used to
 quickly discover obviously wrong things.
 
 Usage:
 
-* `DEBUG=<pattern> ember s`
-* `DEBUG=*  ember s` for all logging (this will be very verbose)
-* `DEBUG=ember-cli* ember s` for all ember-cli logging
-* `DEBUG=broccoli* ember s` for all broccoli logging
-* `DEBUG=broccoli*,ember-cli* ember s` for both broccoli and ember-cli logging
+- `DEBUG=<pattern> ember s`
+- `DEBUG=*  ember s` for all logging (this will be very verbose)
+- `DEBUG=ember-cli* ember s` for all ember-cli logging
+- `DEBUG=broccoli* ember s` for all broccoli logging
+- `DEBUG=broccoli*,ember-cli* ember s` for both broccoli and ember-cli logging
 
-The above patterns will be very verbose.  But to make them even more verbose you
+The above patterns will be very verbose. But to make them even more verbose you
 can set the log level via `DEBUG_LEVEL`
 
-* `DEBUG=* DEBUG_LEVEL=debug ember s`
+- `DEBUG=* DEBUG_LEVEL=debug ember s`
 
 To make them a bit less verbose, a curated set of performance related logging
 flags are:
 
-+ `DEBUG=broccoli-caching-writer:* ember s`
-+ `DEBUG=broccoli-funnel:* ember s`
-+ `DEBUG=broccoli-funnel:Funnel*Addon* ember s`
-+ `DEBUG=broccoli-merge-trees ember s`
-+ `DEBUG=broccoli-merge-trees:TreeMerger* ember s`
-+ `DEBUG=broccoli-merge-trees:Addon* ember s`
-+ `DEBUG=broccoli-merge-trees:styles ember s`
-+ `DEBUG=broccoli-merge-trees:compileTemplates* ember s`
-+ `DEBUG=broccoli-merge-trees:compileTemplates* ember s`
+- `DEBUG=broccoli-caching-writer:* ember s`
+- `DEBUG=broccoli-funnel:* ember s`
+- `DEBUG=broccoli-funnel:Funnel*Addon* ember s`
+- `DEBUG=broccoli-merge-trees ember s`
+- `DEBUG=broccoli-merge-trees:TreeMerger* ember s`
+- `DEBUG=broccoli-merge-trees:Addon* ember s`
+- `DEBUG=broccoli-merge-trees:styles ember s`
+- `DEBUG=broccoli-merge-trees:compileTemplates* ember s`
+- `DEBUG=broccoli-merge-trees:compileTemplates* ember s`
 
 Because many plugins are used repeatedly it may be difficult to see the context
-for log entries.  By default, 3 nodes of context are shown.
+for log entries. By default, 3 nodes of context are shown.
 
 ```
 DEBUG_LEVEL=debug DEBUG=broccoli-merge-trees: ember build
@@ -212,7 +211,7 @@ DEBUG_DEPTH=5 DEBUG_LEVEL=debug DEBUG=broccoli-merge-trees: ember build
 
 `[... ConcatWithMaps#782 -> BroccoliMergeTrees#783]` means that the log entry
 occurred in broccoli merge-trees node with id 783, whose parent was a concat
-with maps node with id 782.  These ids are shown in the visualization graph.
+with maps node with id 782. These ids are shown in the visualization graph.
 See [Visualization](#visualization) for details.
 
 ... more on what to look for ...
@@ -227,14 +226,13 @@ install it run `brew install graphviz` or download it directly from
 
 You will also need to install
 [broccoli-viz](https://github.com/stefanpenner/broccoli-viz) version `4.0.0` or
-higher.  `npm install -g broccoli-viz@^4.0.0`.
+higher. `npm install -g broccoli-viz@^4.0.0`.
 
 To generate visualization:
 
-+ `BROCCOLI_VIZ=1 ember build`
-+ `broccoli-viz instrumentation.build.0.json > instrumentation.build.0.dot`
-+ `dot -Tpng instrumentation.build.0.dot > instrumentation.build.0.png`
-
+- `BROCCOLI_VIZ=1 ember build`
+- `broccoli-viz instrumentation.build.0.json > instrumentation.build.0.dot`
+- `dot -Tpng instrumentation.build.0.dot > instrumentation.build.0.png`
 
 Each build will generate an additional graph, `instrumentation.build.<build-number>.json`
 
@@ -244,6 +242,5 @@ Alternatively, you can upload the JSON file to https://heimdalljs.github.io/heim
 
 in-depth tooling, aimed to provide much deeper insight into the given build
 
-+ `dot`: is the input to graphviz, allowing tree visualization
-+ `json`: more detailed counts and timings related to the corresponding build
-
+- `dot`: is the input to graphviz, allowing tree visualization
+- `json`: more detailed counts and timings related to the corresponding build

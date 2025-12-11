@@ -2,9 +2,9 @@
 
 `ember-cli` follows the same channel based release process that Ember does:
 
-* `release` - This branch represents the `latest` dist-tag on NPM
-* `beta` - This branch represents the `beta` dist-tag on NPM
-* `master` - The branch represents the `alpha` dist-tag on NPM
+- `release` - This branch represents the `latest` dist-tag on NPM
+- `beta` - This branch represents the `beta` dist-tag on NPM
+- `master` - The branch represents the `alpha` dist-tag on NPM
 
 Most changes should be made as a PR that targets the `master` branch and then makes their way through `beta` and `release` over the course of 12 weeks as part of the Ember release train. Generally speaking we do not backport functional changes to `beta` or `release` but we can if needs be.
 
@@ -30,7 +30,6 @@ This makes sure that you are starting from a "clean slate" before doing any othe
 
 You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=is%3Apr+is%3Aopen+Prepare) to find any outstanding `Prepare Release` branches.
 
-
 ### Initial Stable Release from the `release` branch
 
 - fetch latest from origin `git fetch`
@@ -45,7 +44,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - make sure to not update the version in the package.json during this step, this will be release-plan's job
   - make sure to not update the version in the `packages/app-blueprint/package.json`, or `packages/addon-blueprint/package.json` files during this step, this will be release-plan's job
   - make sure to not add the `release-plan` config section to the package.json during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
-- Update blueprint dependencies to latest. Note: ember-data needs to be updated only in the alpha version from now on, make sure to only update to the release version of what was in the beta. 
+- Update blueprint dependencies to latest. Note: ember-data needs to be updated only in the alpha version from now on, make sure to only update to the release version of what was in the beta.
 
   ```
   node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=<whatever version was in the beta>
@@ -99,7 +98,6 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Merge the `Prepare Beta Release` when you are ready to release the next beta version
 - Check the `Release Beta` GitHub action to make sure the release succeeded
 
-
 ### Alpha release from the `master` branch
 
 - fetch latest from origin `git fetch`
@@ -124,7 +122,8 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   ```
   node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=<whatever version is in the package.json>
   ```
-- note: ember-data (aka warp-drive)  should only ever be updated on master as a separate PR. It is no longer part of the release process
+
+- note: ember-data (aka warp-drive) should only ever be updated on master as a separate PR. It is no longer part of the release process
 - update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@alpha`
 - make sure the app-blueprint still has a `~` after the above step
 - commit this update `git commit -am "update blueprint dependencies to alpha"`
@@ -136,7 +135,6 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Merge the `Prepare Alpha Release` when you are ready to release the next alpha version
 - Check the `Release Alpha` GitHub action to make sure the release succeeded
 
-
 ## Changelog updates
 
 `release-plan` is designed to automatically generate a Changelog that includes the titles of every PR that was merged since the last release. As we would like to make use of this auto-generated Changelog we need to make sure that PRs are named correctly and the Changelog included in the "Prepare Release" PRs are what we were expecting.
@@ -146,7 +144,6 @@ If you want to change the content of the Changelog then you should update the PR
 ## Patch Releases
 
 Now that we're using release-plan for all releases, patch releases have become super easy! Every time you merge a PR to any branch that is being released with `release-plan` a new `Prepare Release` PR will be created. When you merge this `Prepare Release` branch it will automatically release the new Patch version.
-
 
 ## Post-release Automation
 
@@ -165,6 +162,7 @@ Both of these have a git-tag per release version
 Multiple editors could be supported, but right now, we only "customize" for stackblitz.
 
 https://github.com/ember-cli/editor-output/
+
 - [a branch for each scenario + release version](https://github.com/ember-cli/editor-output/branches/active)
   - `${editorName}-{addon,app}-output{-'typescript'?}{-version}`
   - and the "latest release" (non beta) will not have a version at the end
