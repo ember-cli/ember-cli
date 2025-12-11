@@ -264,8 +264,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       workerpool:
-        specifier: ^9.2.0
-        version: 9.2.0
+        specifier: ^10.0.1
+        version: 10.0.1
       yam:
         specifier: ^1.0.0
         version: 1.0.0
@@ -5275,11 +5275,11 @@ packages:
   wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
 
+  workerpool@10.0.1:
+    resolution: {integrity: sha512-NAnKwZJxWlj/U1cp6ZkEtPE+GQY1S6KtOS3AlCiPfPFLxV3m64giSp7g2LsNJxzYCocDT7TSl+7T0sgrDp3KoQ==}
+
   workerpool@6.5.1:
     resolution: {integrity: sha512-Fs4dNYcsdpYSAfVxhnl1L5zTksjvOJxtC5hzMNl+1t9B8hTJTdKDyZ5ju7ztgPy+ft9tBFXoOlDNiOT9WUXZlA==}
-
-  workerpool@9.2.0:
-    resolution: {integrity: sha512-PKZqBOCo6CYkVOwAxWxQaSF2Fvb5Iv2fCeTP7buyWI2GiynWr46NcXSgK/idoV6e60dgCBfgYc+Un3HMvmqP8w==}
 
   wrap-ansi@6.2.0:
     resolution: {integrity: sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==}
@@ -11042,9 +11042,9 @@ snapshots:
 
   wordwrap@1.0.0: {}
 
-  workerpool@6.5.1: {}
+  workerpool@10.0.1: {}
 
-  workerpool@9.2.0: {}
+  workerpool@6.5.1: {}
 
   wrap-ansi@6.2.0:
     dependencies:

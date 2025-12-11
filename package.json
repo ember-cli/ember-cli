@@ -131,7 +131,7 @@
     "tree-sync": "^2.1.0",
     "walk-sync": "^4.0.1",
     "watch-detector": "^1.0.2",
-    "workerpool": "^9.2.0",
+    "workerpool": "^10.0.1",
     "yam": "^1.0.0"
   },
   "devDependencies": {
