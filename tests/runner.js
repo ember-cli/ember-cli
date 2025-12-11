@@ -8,7 +8,9 @@ const glob = require('glob');
 const Mocha = require('mocha');
 const mochaConfig = require(path.join(__dirname, '../.mocharc'));
 
-const { chai } = require('./bootstrap');
+require('./bootstrap');
+
+const { expect } = require('chai');
 
 const mocha = new Mocha(mochaConfig);
 
@@ -42,14 +44,14 @@ function addFiles(mocha, files) {
 function runMocha() {
   let ROOT = process.cwd();
 
-  /* SilentErrors are used to avoid unhelpful stack traces to users but they can hide the source of test failures in 
+  /* SilentErrors are used to avoid unhelpful stack traces to users but they can hide the source of test failures in
   reporter output */
   process.env.SILENT_ERROR = 'verbose';
 
   // ensure that at the end of every test, we are in the correct current
   // working directory
   mocha.suite.afterEach(function () {
-    chai.expect(process.cwd()).to.equal(ROOT);
+    expect(process.cwd()).to.equal(ROOT);
   });
 
   console.time('Mocha Tests Running Time');
