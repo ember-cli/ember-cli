@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+## Release (2025-12-11)
+
+* ember-cli 6.9.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10888](https://github.com/ember-cli/ember-cli/pull/10888) Upgrade broccoli ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 1
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
 ## Release (2025-12-10)
 
 * ember-cli 6.9.0 (minor)
