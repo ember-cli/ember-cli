@@ -76,7 +76,7 @@
     "content-tag": "^4.0.0",
     "core-object": "^3.1.5",
     "dag-map": "^2.0.2",
-    "diff": "^7.0.0",
+    "diff": "^8.0.2",
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^5.0.1",
