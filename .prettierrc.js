@@ -3,7 +3,7 @@
 module.exports = {
   overrides: [
     {
-      files: '*.js',
+      files: ['*.js', 'bin/ember'],
       options: {
         singleQuote: true,
       },
