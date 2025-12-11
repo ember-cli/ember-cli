@@ -153,7 +153,7 @@
     "jsdom": "^21.1.1",
     "latest-version": "^9.0.0",
     "mocha": "^11.1.0",
-    "nock": "^13.5.5",
+    "nock": "^14.0.10",
     "nyc": "^15.1.0",
     "prettier": "2.8.7",
     "release-plan": "^0.17.2",
