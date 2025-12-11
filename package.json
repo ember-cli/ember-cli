@@ -157,7 +157,7 @@
     "nyc": "^15.1.0",
     "prettier": "2.8.7",
     "release-plan": "^0.17.2",
-    "strip-ansi": "^6.0.0",
+    "strip-ansi": "^7.1.2",
     "supertest": "^7.1.0",
     "testdouble": "^3.18.0",
     "tmp": "^0.2.1",
