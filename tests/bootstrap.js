@@ -2,7 +2,7 @@
 
 const chai = require('chai');
 
-const chaiAsPromised = require('chai-as-promised');
+const { default: chaiAsPromised } = require('chai-as-promised');
 const chaiFiles = require('chai-files');
 const chaiJestSnapshot = require('chai-jest-snapshot');
 
