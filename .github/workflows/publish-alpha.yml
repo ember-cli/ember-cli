@@ -10,7 +10,7 @@ on:
       - main
       - master
     paths:
-      - '.release-plan.json'
+      - ".release-plan.json"
 
 concurrency:
   group: publish-${{ github.head_ref || github.ref }}
@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: 20
           # This creates an .npmrc that reads the NODE_AUTH_TOKEN environment variable
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Publish to NPM

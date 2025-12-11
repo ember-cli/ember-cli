@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 
 // This file is intentionally left compatible with older versions of
 // node for the following scenario:
@@ -8,41 +8,44 @@
 // * user unintentionally installs ember-cli latest globally
 
 // Provide a title to the process in `ps`
-process.title = 'ember';
+process.title = "ember";
 
-var resolve = require('resolve');
-var logger = require('heimdalljs-logger')('ember-cli:bin');
+var resolve = require("resolve");
+var logger = require("heimdalljs-logger")("ember-cli:bin");
 
 var basedir = process.cwd();
 logger.info('Resolving "ember-cli" from %j...', basedir);
 
 var projectLocalCli;
 try {
-  projectLocalCli = resolve.sync('ember-cli', {
-    basedir: basedir
+  projectLocalCli = resolve.sync("ember-cli", {
+    basedir: basedir,
   });
-} catch(ignored) {}
+} catch (ignored) {}
 
 logger.info('Resolved "ember-cli" to %j', projectLocalCli);
 
 // Load `ember-cli` either from the project-local path, or if it could not
 // be resolved use the global version
 logger.info('Loading "ember-cli"...');
-var cli = require(projectLocalCli || '../lib/cli');
+var cli = require(projectLocalCli || "../lib/cli");
 
 logger.info('Starting "ember-cli"...');
 cli({
   cliArgs: process.argv.slice(2),
   inputStream: process.stdin,
   outputStream: process.stdout,
-  errorStream: process.stderr
-}).then(function(result) {
-  var exit = require('exit');
-  var exitCode = typeof result === 'object' ? result.exitCode : result;
+  errorStream: process.stderr,
+}).then(
+  function (result) {
+    var exit = require("exit");
+    var exitCode = typeof result === "object" ? result.exitCode : result;
 
-  logger.info('Quitting "ember-cli" with exit code: %j', exitCode);
-  exit(exitCode);
-}, function(err) {
-  console.log(err);
-  process.exit(-1);
-});
+    logger.info('Quitting "ember-cli" with exit code: %j', exitCode);
+    exit(exitCode);
+  },
+  function (err) {
+    console.log(err);
+    process.exit(-1);
+  }
+);

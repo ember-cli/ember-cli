@@ -341,7 +341,7 @@ describe('express-server', function () {
         project.require = function () {
           let app = express();
           app.use('/foo', function (req, res) {
-            res.set('x-no-compression', 'true'), res.send(longText);
+            (res.set('x-no-compression', 'true'), res.send(longText));
           });
           return app;
         };
