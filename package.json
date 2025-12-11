@@ -73,7 +73,7 @@
     "compression": "^1.8.0",
     "configstore": "^7.1.0",
     "console-ui": "^3.1.2",
-    "content-tag": "^3.1.2",
+    "content-tag": "^4.0.0",
     "core-object": "^3.1.5",
     "dag-map": "^2.0.2",
     "diff": "^7.0.0",
