@@ -163,7 +163,7 @@
     "tmp": "^0.2.1",
     "tmp-promise": "^3.0.3",
     "websocket": "^1.0.32",
-    "which": "3.0.1",
+    "which": "6.0.0",
     "yuidoc-ember-cli-theme": "^1.0.4",
     "yuidocjs": "0.10.2"
   },
