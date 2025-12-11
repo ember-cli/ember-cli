@@ -112,7 +112,7 @@
     "nopt": "^3.0.6",
     "npm-package-arg": "^13.0.2",
     "os-locale": "^6.0.2",
-    "p-defer": "^3.0.0",
+    "p-defer": "^4.0.1",
     "portfinder": "^1.0.32",
     "promise-map-series": "^0.3.0",
     "promise.hash.helper": "^1.0.8",
