@@ -154,7 +154,7 @@
     "latest-version": "^9.0.0",
     "mocha": "^11.1.0",
     "nock": "^14.0.10",
-    "nyc": "^15.1.0",
+    "nyc": "^17.1.0",
     "prettier": "2.8.7",
     "release-plan": "^0.17.2",
     "strip-ansi": "^7.1.2",
