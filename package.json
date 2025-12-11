@@ -129,7 +129,7 @@
     "testem": "^3.15.2",
     "tiny-lr": "^2.0.0",
     "tree-sync": "^2.1.0",
-    "walk-sync": "^3.0.0",
+    "walk-sync": "^4.0.1",
     "watch-detector": "^1.0.2",
     "workerpool": "^9.2.0",
     "yam": "^1.0.0"
