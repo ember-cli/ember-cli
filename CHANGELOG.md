@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+## Release (2025-12-11)
+
+* ember-cli 6.10.0-alpha.2 (minor)
+* @ember-tooling/classic-build-addon-blueprint 6.10.0-alpha.2 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.10.0-alpha.2 (minor)
+* @ember-tooling/blueprint-model 0.6.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/blueprint-model`
+  * [#10890](https://github.com/ember-cli/ember-cli/pull/10890) Update various dependencies ([@bertdeblock](https://github.com/bertdeblock))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10887](https://github.com/ember-cli/ember-cli/pull/10887) Update `chalk` dependency to latest ([@bertdeblock](https://github.com/bertdeblock))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10886](https://github.com/ember-cli/ember-cli/pull/10886) Update required Node version to v20.19.0 ([@bertdeblock](https://github.com/bertdeblock))
+
+#### :memo: Documentation
+* `ember-cli`
+  * [#10874](https://github.com/ember-cli/ember-cli/pull/10874) Update RELEASE.md ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-12-10)
 
 * ember-cli 6.10.0-alpha.1 (minor)
