@@ -26,7 +26,7 @@ jobs:
       - uses: ./.github/actions/setup-environment
       - run: pnpm docs
       - name: Upload docs artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: docs (${{ github.event.inputs.version || github.ref }})
           path: docs/build
