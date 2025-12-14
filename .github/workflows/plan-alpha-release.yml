@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 2
-          ref: 'master'
+          ref: "master"
       # This will only cause the `is-this-a-release` job to have a "command" of `release`
       # when the .release-plan.json file was changed on the last commit.
       - id: check-release
@@ -52,7 +52,7 @@ jobs:
         # github-changelog can discover what's changed since the last release
         with:
           fetch-depth: 0
-          ref: 'master'
+          ref: "master"
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:

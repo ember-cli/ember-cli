@@ -1,11 +1,5 @@
 {
-  "include": [
-    "bin/**/*.js",
-    "lib/**/*.js",
-    "blueprints/**/*.js"
-  ],
+  "include": ["bin/**/*.js", "lib/**/*.js", "blueprints/**/*.js"],
 
-  "exclude": [
-    "blueprints/*/files/**"
-  ]
+  "exclude": ["blueprints/*/files/**"]
 }
