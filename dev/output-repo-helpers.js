@@ -2,7 +2,7 @@
 
 const tmp = require('tmp');
 const path = require('path');
-const execa = require('execa');
+const { execa, execaCommand } = require('execa');
 
 async function clearRepo(repoPath) {
   console.log(`clearing repo content in ${repoPath}`);
@@ -18,12 +18,12 @@ async function cloneBranch(containingPath, { repo, branch }) {
   console.log(`cloning ${repo} in to ${containingPath}`);
 
   try {
-    await execa.command(`git clone ${repo} --branch=${branch} ${outputName}`, { cwd: containingPath });
+    await execaCommand(`git clone ${repo} --branch=${branch} ${outputName}`, { cwd: containingPath });
   } catch (e) {
     console.log(`Branch does not exist -- creating fresh (local) repo.`);
 
-    await execa.command(`git clone ${repo} ${outputName}`, { cwd: containingPath });
-    await execa.command(`git switch -C ${branch}`, { cwd: outputRepoPath });
+    await execaCommand(`git clone ${repo} ${outputName}`, { cwd: containingPath });
+    await execaCommand(`git switch -C ${branch}`, { cwd: outputRepoPath });
   }
 
   return outputRepoPath;

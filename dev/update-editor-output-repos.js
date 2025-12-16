@@ -3,7 +3,7 @@
 const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
-const execa = require('execa');
+const { execa } = require('execa');
 const tmp = require('tmp');
 const { default: latestVersion } = require('latest-version');
 const { cloneBranch, clearRepo, generateOutputFiles } = require('./output-repo-helpers');
