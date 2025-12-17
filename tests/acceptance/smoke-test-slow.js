@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const crypto = require('crypto');
 const walkSync = require('walk-sync');
 const EOL = require('os').EOL;
-const execa = require('execa');
+const { execa } = require('execa');
 
 const { createAndInstallTestTargets } = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');

@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs-extra');
 // eslint-disable-next-line n/no-unpublished-require
 const tmp = require('tmp-promise');
-const execa = require('execa');
+const { execa } = require('execa');
 
 const runCommand = require('./run-command');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
