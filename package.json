@@ -89,7 +89,7 @@
     "ensure-posix-path": "^1.1.1",
     "execa": "^9.6.1",
     "exit": "^0.1.2",
-    "express": "^4.21.1",
+    "express": "^5.2.1",
     "filesize": "^11.0.13",
     "find-up": "^8.0.0",
     "find-yarn-workspace-root": "^2.0.0",
