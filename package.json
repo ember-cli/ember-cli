@@ -114,7 +114,7 @@
     "markdown-it-terminal": "^0.4.0",
     "minimatch": "^10.1.1",
     "morgan": "^1.10.1",
-    "nopt": "^3.0.6",
+    "nopt": "^9.0.0",
     "npm-package-arg": "^13.0.2",
     "os-locale": "^6.0.2",
     "p-defer": "^4.0.1",
