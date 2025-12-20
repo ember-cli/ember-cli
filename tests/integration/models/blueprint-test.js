@@ -6,7 +6,7 @@ const MockProject = require('../../helpers/mock-project');
 const MockUI = require('console-ui/mock');
 const { expect } = require('chai');
 const path = require('path');
-const glob = require('glob');
+const { globSync } = require('glob');
 const walkSync = require('walk-sync');
 
 const EOL = require('os').EOL;
@@ -368,14 +368,11 @@ describe('Blueprint', function () {
       options.targetFiles = ['foo.txt'];
       await blueprint.install(options);
       let actualFiles = walkSync(tmpdir).sort();
-      let globFiles = glob
-        .sync('**/foo.txt', {
-          cwd: tmpdir,
-          dot: true,
-          mark: true,
-          strict: true,
-        })
-        .sort();
+      let globFiles = globSync('**/foo.txt', {
+        cwd: tmpdir,
+        dot: true,
+        mark: true,
+      }).sort();
       let output = ui.output.trim().split(EOL);
 
       expect(output.shift()).to.match(/^installing/);
@@ -389,14 +386,11 @@ describe('Blueprint', function () {
       options.targetFiles = ['foo.txt', 'test.txt'];
       await blueprint.install(options);
       let actualFiles = walkSync(tmpdir).sort();
-      let globFiles = glob
-        .sync('**/*.txt', {
-          cwd: tmpdir,
-          dot: true,
-          mark: true,
-          strict: true,
-        })
-        .sort();
+      let globFiles = globSync('**/*.txt', {
+        cwd: tmpdir,
+        dot: true,
+        mark: true,
+      }).sort();
       let output = ui.output.trim().split(EOL);
 
       expect(output.shift()).to.match(/^installing/);

@@ -4,7 +4,7 @@ const path = require('path');
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
-const glob = require('glob');
+const { globSync } = require('glob');
 const Mocha = require('mocha');
 const mochaConfig = require(path.join(__dirname, '../.mocharc'));
 
@@ -17,7 +17,7 @@ const mocha = new Mocha(mochaConfig);
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`
-let testFiles = glob.sync(`${root}/**/*-test.js`);
+let testFiles = globSync(`${root}/**/*-test.js`).sort();
 let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
 let docsLint = testFiles.splice(docsLintPosition, 1);
 
@@ -37,7 +37,7 @@ if (optionOrFile === 'all') {
 }
 
 function addFiles(mocha, files) {
-  files = typeof files === 'string' ? glob.sync(root + files) : files;
+  files = typeof files === 'string' ? globSync(root + files) : files;
   files.forEach(mocha.addFile.bind(mocha));
 }
 
