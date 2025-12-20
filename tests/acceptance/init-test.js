@@ -2,7 +2,7 @@
 
 const ember = require('../helpers/ember');
 const walkSync = require('walk-sync');
-const glob = require('glob');
+const { globSync } = require('glob');
 const Blueprint = require('../../lib/models/blueprint');
 const path = require('path');
 const fs = require('fs');
@@ -112,14 +112,11 @@ describe('Acceptance: ember init', function () {
   }
 
   function pickSync(filePath, pattern) {
-    return glob
-      .sync(`**/${pattern}`, {
-        cwd: filePath,
-        dot: true,
-        mark: true,
-        strict: true,
-      })
-      .sort();
+    return globSync(`**/${pattern}`, {
+      cwd: filePath,
+      dot: true,
+      mark: true,
+    }).sort();
   }
 
   function removeTmp(array) {
