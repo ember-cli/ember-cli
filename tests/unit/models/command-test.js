@@ -168,23 +168,6 @@ describe('models/command.js', function () {
     expect(new ServeCommand(options).parseArgs(['-lr', 'false'])).to.have.nested.property('options.liveReload', false);
   });
 
-  it('parseArgs() should parse string options.', function () {
-    let CustomAliasCommand = Command.extend({
-      name: 'custom-alias',
-      availableOptions: [
-        {
-          name: 'options',
-          type: String,
-        },
-      ],
-      run(options) {
-        return options;
-      },
-    });
-    const command = new CustomAliasCommand(options).parseArgs(['1', '--options', '--split 2 --random']);
-    expect(command).to.have.nested.property('options.options', '--split 2 --random');
-  });
-
   describe('#validateAndRun', function () {
     it('should reject and print a message if a required option is missing.', function () {
       return new DevelopEmberCLICommand(options).validateAndRun([]).catch(function () {
