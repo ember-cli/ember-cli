@@ -102,6 +102,42 @@ describe('models/command.js', function () {
     expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.nested.property('options.port', 80);
   });
 
+  it('calls beforeRun before parsing args', async function () {
+    let beforeRunCalled = false;
+    let passedArgs;
+
+    let mockUi = { writeLine: () => {} };
+    let mockProject = {
+      isEmberCLIProject: () => true,
+      root: process.cwd(),
+      hasDependencies: () => true,
+      isEmberCLIAddon: () => false,
+    };
+
+    let command = new Command({
+      ui: mockUi,
+      project: mockProject,
+      name: 'fake-command',
+      settings: {},
+
+      availableOptions: [{ name: 'foo', type: String }],
+
+      run() {},
+
+      beforeRun(args) {
+        beforeRunCalled = true;
+        passedArgs = args;
+        this.registerOptions({
+          availableOptions: [{ name: 'bar', type: String }],
+        });
+      },
+    });
+
+    await command.validateAndRun(['--bar=baz']);
+    expect(beforeRunCalled).to.be.true;
+    expect(passedArgs).to.deep.equal(['--bar=baz']);
+  });
+
   it('parseArgs() should get command options from the config file and command line', function () {
     expect(
       new ServeCommand(
