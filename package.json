@@ -37,6 +37,7 @@
     "mocha": "pnpm exec mocha --require ./tests/bootstrap.js tests/**/*-test.js",
     "prepack": "pnpm run docs",
     "test": "node --unhandled-rejections=strict tests/runner",
+    "test:update:fixtures": "WRITE_FIXTURES=true pnpm test ./tests/acceptance/new-test.js EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true WRITE_FIXTURES=true pnpm test ./tests/acceptance/new-test.js EMBER_CLI_EMBROIDER=true WRITE_FIXTURES=true pnpm test ./tests/acceptance/new-test.js",
     "test:all": "node --unhandled-rejections=strict tests/runner all",
     "test:cover": "nyc --all --reporter=text --reporter=lcov node tests/runner all",
     "test:debug": "node --unhandled-rejections=strict debug tests/runner",
