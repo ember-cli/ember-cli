@@ -90,7 +90,7 @@ jobs:
         run: |
           sed -i 's/"ember-cli".*/"ember-cli": "~'$(jq -r .version package.json)'",/' packages/app-blueprint/files/package.json
 
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "Prepare Alpha Release ${{ steps.explanation.outputs.new_version}} using 'release-plan'"
           labels: "internal"
