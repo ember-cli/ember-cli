@@ -13,7 +13,7 @@
     "isbinaryfile": "^5.0.4",
     "lodash": "^4.17.21",
     "promise.hash.helper": "^1.0.8",
-    "quick-temp": "^0.1.8",
+    "quick-temp": "^0.1.9",
     "silent-error": "^1.1.1"
   }
 }
