@@ -3,7 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const walkSync = require('walk-sync');
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
 const merge = require('lodash/merge');
 const uniq = require('lodash/uniq');

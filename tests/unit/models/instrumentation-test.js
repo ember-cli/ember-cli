@@ -11,7 +11,7 @@ const MockUI = require('console-ui/mock');
 const Yam = require('yam');
 
 const MockProject = require('../../helpers/mock-project');
-const hwinfo = require('../../../lib/models/hardware-info');
+const { hwinfo } = require('../../../lib/models/hardware-info');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
 const any = td.matchers.anything;

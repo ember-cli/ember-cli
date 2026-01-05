@@ -1,7 +1,7 @@
 'use strict';
 
 const tmp = require('tmp-promise');
-const execa = require('execa');
+const { execa } = require('execa');
 const { join, resolve } = require('node:path');
 const ember = require('../helpers/ember');
 

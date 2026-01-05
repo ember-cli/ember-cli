@@ -60,7 +60,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^9.2.1",
     "ember-auto-import": "^2.12.0",
-    "ember-cli": "~6.9.1",
+    "ember-cli": "~6.9.0-beta.1",
     "ember-cli-app-version": "^7.0.0",
     "ember-cli-babel": "^8.2.0",
     "ember-cli-clean-css": "^3.0.0",
@@ -76,7 +76,7 @@
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.0.4",
     "ember-resolver": "^13.1.1",
-    "ember-source": "~6.9.0",
+    "ember-source": "~6.9.0-beta.1",
     "ember-template-imports": "^4.3.0",
     "ember-template-lint": "^6.1.0<% if (welcome) { %>",
     "ember-welcome-page": "^7.0.2<% } %>",
@@ -99,7 +99,7 @@
     "webpack": "^5.103.0"
   },
   "engines": {
-    "node": ">= 20.11"
+    "node": ">= 20.19"
   },
   "ember": {
     "edition": "octane"

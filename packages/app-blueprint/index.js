@@ -1,7 +1,7 @@
 'use strict';
 
 const stringUtil = require('ember-cli-string-utils');
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const { isExperimentEnabled } = require('@ember-tooling/blueprint-model/utilities/experiments');
 const directoryForPackageName = require('@ember-tooling/blueprint-model/utilities/directory-for-package-name');
 const blueprintVersion = require('./package.json').version;

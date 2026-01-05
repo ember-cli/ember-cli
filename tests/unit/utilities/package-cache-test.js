@@ -2,7 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const Configstore = require('configstore');
+const { default: Configstore } = require('configstore');
 
 const PackageCache = require('../../../tests/helpers/package-cache');
 const symlinkOrCopySync = require('symlink-or-copy').sync;

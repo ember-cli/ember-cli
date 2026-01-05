@@ -3,9 +3,9 @@
 const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
-const execa = require('execa');
+const { execa } = require('execa');
 const tmp = require('tmp');
-const latestVersion = require('latest-version');
+const { default: latestVersion } = require('latest-version');
 const { cloneBranch, clearRepo, generateOutputFiles } = require('./output-repo-helpers');
 
 tmp.setGracefulCleanup();
@@ -17,7 +17,7 @@ const VARIANT = process.env.VARIANT;
 const VALID_VARIANT = ['javascript', 'typescript'];
 const EDITORS = ['stackblitz'];
 const REPO = 'ember-cli/editor-output';
-const [, , version] = process.argv;
+const [, , tag] = process.argv;
 
 assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
 assert(
@@ -25,7 +25,7 @@ assert(
   `Invalid VARIANT env var specified: ${VARIANT}. Must be one of ${VALID_VARIANT}`
 );
 
-assert(version, 'a version must be provided as the first argument to this script.');
+assert(tag, 'a tag must be provided as the first argument to this script.');
 
 /**
  * The editor output repos differ from the output repos in that
@@ -53,8 +53,8 @@ assert(version, 'a version must be provided as the first argument to this script
  *
  * This also allows for easier debugging, reproducibility, testing (if we ever add that), etc
  */
-async function determineOutputs(version) {
-  let tag = `v${version}`;
+async function determineOutputs(tag) {
+  let version = tag.replace(/^v/, '').replace(/-ember-cli$/, '');
   let latestEC = await latestVersion('ember-cli');
   let isLatest = version === latestEC;
   let repo = `https://github-actions:${GITHUB_TOKEN}@github.com/${REPO}.git`;
@@ -73,10 +73,10 @@ async function determineOutputs(version) {
       let editorBranch = `${onlineEditor}-${projectType}-output${branchSuffix}`;
 
       if (isLatest) {
-        return [editorBranch, `${editorBranch}-${tag}`];
+        return [editorBranch, `${editorBranch}-v${version}`];
       }
 
-      return [`${editorBranch}-${tag}`];
+      return [`${editorBranch}-v${version}`];
     };
 
     let name = command === 'new' ? 'my-app' : 'my-addon';
@@ -117,8 +117,8 @@ async function push(repoPath, { branch }) {
   }
 }
 
-async function updateOnlineEditorRepos(version) {
-  let infos = await determineOutputs(version);
+async function updateOnlineEditorRepos(tag) {
+  let infos = await determineOutputs(tag);
 
   console.log(`Updating online editor repo :: ${infos.length} branches`);
 
@@ -146,4 +146,4 @@ async function updateOnlineEditorRepos(version) {
   }
 }
 
-updateOnlineEditorRepos(version);
+updateOnlineEditorRepos(tag);

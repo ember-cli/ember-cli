@@ -19,9 +19,9 @@ logger.info('Resolving "ember-cli" from %j...', basedir);
 var projectLocalCli;
 try {
   projectLocalCli = resolve.sync('ember-cli', {
-    basedir: basedir
+    basedir: basedir,
   });
-} catch(ignored) {}
+} catch (ignored) {}
 
 logger.info('Resolved "ember-cli" to %j', projectLocalCli);
 
@@ -35,14 +35,17 @@ cli({
   cliArgs: process.argv.slice(2),
   inputStream: process.stdin,
   outputStream: process.stdout,
-  errorStream: process.stderr
-}).then(function(result) {
-  var exit = require('exit');
-  var exitCode = typeof result === 'object' ? result.exitCode : result;
+  errorStream: process.stderr,
+}).then(
+  function (result) {
+    var exit = require('exit');
+    var exitCode = typeof result === 'object' ? result.exitCode : result;
 
-  logger.info('Quitting "ember-cli" with exit code: %j', exitCode);
-  exit(exitCode);
-}, function(err) {
-  console.log(err);
-  process.exit(-1);
-});
+    logger.info('Quitting "ember-cli" with exit code: %j', exitCode);
+    exit(exitCode);
+  },
+  function (err) {
+    console.log(err);
+    process.exit(-1);
+  }
+);

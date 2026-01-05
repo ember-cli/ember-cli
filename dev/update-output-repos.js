@@ -2,9 +2,9 @@
 
 const assert = require('assert');
 const fs = require('fs-extra');
-const execa = require('execa');
+const { execa } = require('execa');
 const tmp = require('tmp');
-const latestVersion = require('latest-version');
+const { default: latestVersion } = require('latest-version');
 const { cloneBranch, clearRepo, generateOutputFiles } = require('./output-repo-helpers');
 tmp.setGracefulCleanup();
 
@@ -12,13 +12,13 @@ const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const BLUEPRINT = process.env.BLUEPRINT;
 const APP_REPO = 'ember-cli/ember-new-output';
 const ADDON_REPO = 'ember-cli/ember-addon-output';
-const [, , version] = process.argv;
+const [, , tag] = process.argv;
 
 assert(GITHUB_TOKEN, 'GITHUB_TOKEN must be set');
-assert(version, 'a version must be provided as the first argument to this script.');
+assert(tag, 'a tag must be provided as the first argument to this script.');
 assert(BLUEPRINT === 'app' || BLUEPRINT === 'addon', 'BLUEPRINT must be set to either `app` or `addon`');
 
-async function updateRepo(version) {
+async function updateRepo(tag) {
   let repoName = APP_REPO;
   let command = 'new';
   let name = 'my-app';
@@ -29,7 +29,7 @@ async function updateRepo(version) {
     name = 'my-addon';
   }
 
-  let tag = `v${version}`;
+  let version = tag.replace(/^v/, '').replace(/-ember-cli$/, '');
   let latestEC = await latestVersion('ember-cli');
   let latestECBeta = await latestVersion('ember-cli', { version: 'beta' });
 
@@ -50,7 +50,7 @@ async function updateRepo(version) {
 
   await clearRepo(outputRepoPath);
 
-  let generatedOutputPath = await generateOutputFiles({ tag, name, command, variant: 'javascript' });
+  let generatedOutputPath = await generateOutputFiles({ version, name, command, variant: 'javascript' });
 
   console.log('copying generated contents to output repo');
   await fs.copy(generatedOutputPath, outputRepoPath);
@@ -62,15 +62,15 @@ async function updateRepo(version) {
   console.log('commiting updates');
   await execa('git', ['add', '--all'], { cwd: outputRepoPath });
   await execa('git', ['commit', '-m', tag], { cwd: outputRepoPath });
-  await execa('git', ['tag', `-f`, `${tag}`], { cwd: outputRepoPath });
+  await execa('git', ['tag', `-f`, `v${version}`], { cwd: outputRepoPath });
 
   console.log('pushing commit & tag');
-  await execa('git', ['push', 'origin', `${tag}`, '--force'], { cwd: outputRepoPath });
+  await execa('git', ['push', 'origin', `v${version}`, '--force'], { cwd: outputRepoPath });
 
-  // Only push thihs branch if we are using an up-to-date tag
+  // Only push this branch if we are using an up-to-date tag
   if ((isStable && isLatest) || (!isStable && isLatestBeta)) {
     await execa('git', ['push', '--force', 'origin', outputRepoBranch], { cwd: outputRepoPath });
   }
 }
 
-updateRepo(version);
+updateRepo(tag);
