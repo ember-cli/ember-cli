@@ -1,15 +1,27 @@
 # ember-cli Changelog
 
-## Release (2025-10-15)
+## Release (2025-12-11)
 
-* ember-cli 6.9.0-beta.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 6.9.0-beta.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 6.9.0-beta.1 (minor)
+* ember-cli 6.9.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10888](https://github.com/ember-cli/ember-cli/pull/10888) Upgrade broccoli ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 1
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
+## Release (2025-12-10)
+
+* ember-cli 6.9.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 6.9.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.9.0 (minor)
 
 #### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10885](https://github.com/ember-cli/ember-cli/pull/10885) Promote Beta and update all dependencies for 6.9 release ([@mansona](https://github.com/mansona))
 * `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#10856](https://github.com/ember-cli/ember-cli/pull/10856) Prepare 6.9 Beta ([@mansona](https://github.com/mansona))
-  * [#10853](https://github.com/ember-cli/ember-cli/pull/10853) Promote Beta and update all dependencies for 6.8 release ([@mansona](https://github.com/mansona))
+  * [#10854](https://github.com/ember-cli/ember-cli/pull/10854) Prepare Beta Release ([@mansona](https://github.com/mansona))
 
 #### :house: Internal
 * `ember-cli`
@@ -19,6 +31,17 @@
 #### Committers: 2
 - Chris Manson ([@mansona](https://github.com/mansona))
 - Edward Faulkner ([@ef4](https://github.com/ef4))
+
+## Release (2025-11-29)
+
+* ember-cli 6.8.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10860](https://github.com/ember-cli/ember-cli/pull/10860) [BUGFIX release]: Enter the WatchDetector branch of the build command when EMBROIDER_PREBUILD is present ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 
 ## Release (2025-10-14)
 
