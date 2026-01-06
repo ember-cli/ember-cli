@@ -1,17 +1,7 @@
 {
   "solution": {
     "ember-cli": {
-      "impact": "patch",
-      "oldVersion": "6.9.0",
-      "newVersion": "6.9.1",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        }
-      ],
-      "pkgJSONPath": "./package.json"
+      "oldVersion": "6.9.1"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
       "oldVersion": "6.9.0"
@@ -20,5 +10,5 @@
       "oldVersion": "6.9.0"
     }
   },
-  "description": "## Release (2025-12-11)\n\n* ember-cli 6.9.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10888](https://github.com/ember-cli/ember-cli/pull/10888) Upgrade broccoli ([@kategengler](https://github.com/kategengler))\n\n#### Committers: 1\n- Katie Gengler ([@kategengler](https://github.com/kategengler))\n"
+  "description": "\n\n\n\n"
 }
