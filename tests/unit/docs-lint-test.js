@@ -9,7 +9,7 @@
  */
 
 if (!process.env['IS_CHILD']) {
-  const execa = require('execa');
+  const { execa } = require('execa');
 
   describe('YUIDoc', function () {
     it('parses without warnings', async function () {

@@ -3,13 +3,13 @@
 const MarkdownColor = require('../../../lib/utilities/markdown-color');
 const { expect } = require('chai');
 const path = require('path');
-const chalk = require('chalk');
+const { default: chalk, supportsColor } = require('chalk');
 
 describe('MarkdownColor', function () {
   let mc;
 
   before(function () {
-    if (!chalk.supportsColor) {
+    if (!supportsColor) {
       this.skip();
     }
   });

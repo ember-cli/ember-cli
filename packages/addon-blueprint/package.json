@@ -1,6 +1,6 @@
 {
   "name": "@ember-tooling/classic-build-addon-blueprint",
-  "version": "6.9.0-beta.1",
+  "version": "6.10.0-beta.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/ember-cli/ember-cli.git",
@@ -11,8 +11,8 @@
     "ember-blueprint"
   ],
   "dependencies": {
-    "@ember-tooling/blueprint-model": "^0.4.1",
-    "chalk": "^4.1.2",
+    "@ember-tooling/blueprint-model": "^0.5.0",
+    "chalk": "^5.6.2",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-string-utils": "^1.1.0",
     "fs-extra": "^11.3.0",

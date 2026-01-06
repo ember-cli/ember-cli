@@ -9,3 +9,7 @@
 /tests/fixtures/
 /tmp/
 /CHANGELOG.md
+/packages/addon-blueprint/files
+/packages/app-blueprint/files
+/packages/blueprint-blueprint/files
+/pnpm-lock.yaml

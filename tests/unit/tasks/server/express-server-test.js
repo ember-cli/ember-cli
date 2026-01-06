@@ -7,7 +7,7 @@ const MockProject = require('../../../helpers/mock-project');
 const MockWatcher = require('../../../helpers/mock-watcher');
 const MockServerWatcher = require('../../../helpers/mock-server-watcher');
 const ProxyServer = require('../../../helpers/proxy-server');
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const request = require('supertest');
 const net = require('net');
 const EOL = require('os').EOL;
@@ -341,7 +341,7 @@ describe('express-server', function () {
         project.require = function () {
           let app = express();
           app.use('/foo', function (req, res) {
-            res.set('x-no-compression', 'true'), res.send(longText);
+            (res.set('x-no-compression', 'true'), res.send(longText));
           });
           return app;
         };

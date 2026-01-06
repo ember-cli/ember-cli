@@ -1,6 +1,6 @@
 'use strict';
 
-const execa = require('../../lib/utilities/execa');
+const { execaSync } = require('execa');
 
 /**
  * A simple tool to make behavior and API consistent between commands
@@ -45,6 +45,6 @@ module.exports = class CommandGenerator {
   }
 
   _invoke(args, options) {
-    return execa.sync(this.program, args, options);
+    return execaSync(this.program, args, options);
   }
 };

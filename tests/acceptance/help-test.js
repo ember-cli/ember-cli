@@ -2,8 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const chai = require('chai');
-let expect = chai.expect;
+const { expect } = require('chai');
 const EOL = require('os').EOL;
 const processHelpString = require('../helpers/process-help-string');
 const convertToJson = require('../helpers/convert-help-output-to-json');
