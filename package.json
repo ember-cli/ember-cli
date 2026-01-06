@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@ember-tooling/blueprint-blueprint": "^0.2.1",
-    "@ember-tooling/blueprint-model": "^0.4.1",
+    "@ember-tooling/blueprint-model": "^0.5.0",
     "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
     "@ember-tooling/classic-build-app-blueprint": "workspace:*",
     "@ember/app-blueprint": "~6.10.0-beta.1",

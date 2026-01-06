@@ -12,8 +12,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       '@ember-tooling/blueprint-model':
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.5.0
+        version: 0.5.0
       '@ember-tooling/classic-build-addon-blueprint':
         specifier: workspace:*
         version: link:packages/addon-blueprint
@@ -367,8 +367,8 @@ importers:
   packages/addon-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.5.0
+        version: 0.5.0
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -397,8 +397,8 @@ importers:
   packages/app-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.5.0
+        version: 0.5.0
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -533,8 +533,8 @@ packages:
   '@ember-tooling/blueprint-blueprint@0.2.1':
     resolution: {integrity: sha512-eZ5qicL3gfFFbmzLaSiEWPSmoRUJGnqg+dQmU0R81vv+0Ni7W/cS7MXx1l4HpN9B7Yg4M9GgdQTkeJnb6abQug==}
 
-  '@ember-tooling/blueprint-model@0.4.1':
-    resolution: {integrity: sha512-3jBNTGecTuRPOLjOY3AH/SpnLvJULyhwnR39I77uWj7ZFGwHuoV38uLYZMDjUN6So2uokkS333YavHdVqyn1kQ==}
+  '@ember-tooling/blueprint-model@0.5.0':
+    resolution: {integrity: sha512-2zAebSmmzpUO2wt6EyfX5TlcmvB9cTkteuZ3QhPmXLMthUpU5nUifcz3hlYcXPK7WM0HdO9qL4GdGQCoxhzaGg==}
 
   '@ember/app-blueprint@6.10.0-beta.1':
     resolution: {integrity: sha512-d0yVL2XmyAs6S8BNygQLiQ/PnyO++1jA3SIWkRL7LPwQBQK7T9Qw1QMrFEjcLKvAAahHVXcKsGFbUaPqACH1tw==}
@@ -5708,7 +5708,7 @@ snapshots:
 
   '@ember-tooling/blueprint-blueprint@0.2.1': {}
 
-  '@ember-tooling/blueprint-model@0.4.1':
+  '@ember-tooling/blueprint-model@0.5.0':
     dependencies:
       chalk: 4.1.2
       diff: 7.0.0
