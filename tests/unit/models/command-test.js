@@ -92,6 +92,7 @@ describe('models/command.js', function () {
   beforeEach(function () {
     options = commandOptions();
     ui = options.ui;
+    delete process.env.EMBROIDER_PREBUILD;
   });
 
   afterEach(function () {
@@ -215,6 +216,27 @@ describe('models/command.js', function () {
       return new InsideProjectCommand(
         Object.assign(options, {
           availableOptions: [{ type: 'string', name: 'watcher' }],
+          project: {
+            hasDependencies() {
+              return true;
+            },
+            isEmberCLIProject() {
+              return true;
+            },
+          },
+        })
+      )
+        .validateAndRun([])
+        .then(function (options) {
+          expect(options).to.have.property('watcher');
+        });
+    });
+    it('selects watcher (when EMBROIDER_PREBUILD is present)', function () {
+      process.env.EMBROIDER_PREBUILD = 'true';
+
+      return new InsideProjectCommand(
+        Object.assign(options, {
+          availableOptions: [],
           project: {
             hasDependencies() {
               return true;
