@@ -33,16 +33,16 @@
     "@babel/core": "^7.28.5",
     "ember-cli-babel": "^8.2.0",
     "ember-cli-htmlbars": "^6.3.0",
-    "ember-template-imports": "^4.3.0"
+    "ember-template-imports": "^4.4.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.5",
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@ember/optional-features": "^2.3.0",
     "@ember/test-helpers": "^5.4.1",
-    "@embroider/macros": "^1.19.5",
+    "@embroider/macros": "^1.19.6",
     "@embroider/test-setup": "^4.0.0",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
@@ -59,11 +59,11 @@
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.0.4",
     "ember-resolver": "^13.1.1",
-    "ember-source": "~6.10.0-alpha.1",
+    "ember-source": "~6.11.0-alpha.6",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^6.1.0",
     "ember-try": "^4.0.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-ember": "^12.7.5",
     "eslint-plugin-n": "^17.23.1",
@@ -72,11 +72,11 @@
     "loader.js": "^4.7.0",
     "prettier": "^3.7.4",
     "prettier-plugin-ember-template-tag": "^2.1.2",
-    "qunit": "^2.24.3",
+    "qunit": "^2.25.0",
     "qunit-dom": "^3.5.0",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^36.0.1",
-    "webpack": "^5.103.0"
+    "webpack": "^5.104.1"
   },
   "peerDependencies": {
     "ember-source": ">= 4.0.0"
