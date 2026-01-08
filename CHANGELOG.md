@@ -1,5 +1,46 @@
 # ember-cli Changelog
 
+## Release (2026-01-08)
+
+* ember-cli 6.11.0-alpha.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 6.11.0-alpha.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 6.11.0-alpha.1 (minor)
+* @ember-tooling/blueprint-model 0.6.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10919](https://github.com/ember-cli/ember-cli/pull/10919) Prepare 6.11-alpha ([@mansona](https://github.com/mansona))
+  * [#10917](https://github.com/ember-cli/ember-cli/pull/10917) Prepare 6.10-beta ([@mansona](https://github.com/mansona))
+* `ember-cli`
+  * [#10906](https://github.com/ember-cli/ember-cli/pull/10906) Even more dependency updates ([@bertdeblock](https://github.com/bertdeblock))
+  * [#10892](https://github.com/ember-cli/ember-cli/pull/10892) More dependency updates ([@bertdeblock](https://github.com/bertdeblock))
+* `ember-cli`, `@ember-tooling/blueprint-model`
+  * [#10890](https://github.com/ember-cli/ember-cli/pull/10890) Update various dependencies ([@bertdeblock](https://github.com/bertdeblock))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-model`
+  * [#10887](https://github.com/ember-cli/ember-cli/pull/10887) Update `chalk` dependency to latest ([@bertdeblock](https://github.com/bertdeblock))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#10888](https://github.com/ember-cli/ember-cli/pull/10888) Upgrade broccoli ([@kategengler](https://github.com/kategengler))
+  * [#10886](https://github.com/ember-cli/ember-cli/pull/10886) Update required Node version to v20.19.0 ([@bertdeblock](https://github.com/bertdeblock))
+  * [#10860](https://github.com/ember-cli/ember-cli/pull/10860) [BUGFIX release]: Enter the WatchDetector branch of the build command when EMBROIDER_PREBUILD is present ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :memo: Documentation
+* `ember-cli`
+  * [#10874](https://github.com/ember-cli/ember-cli/pull/10874) Update RELEASE.md ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10883](https://github.com/ember-cli/ember-cli/pull/10883) Prepare Beta Release ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`
+  * [#10891](https://github.com/ember-cli/ember-cli/pull/10891) Update `prettier` + setup ([@bertdeblock](https://github.com/bertdeblock))
+
+#### Committers: 4
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-12-10)
 
 * ember-cli 6.10.0-alpha.1 (minor)
