@@ -71,7 +71,6 @@
     "qunit-dom": "^3.5.0",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^36.0.1",
-    "tracked-built-ins": "^3.4.0",
     "webpack": "^5.104.1"
   },
   "engines": {
