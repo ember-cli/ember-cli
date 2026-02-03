@@ -80,6 +80,7 @@ module.exports = {
       embroider,
       lang: options.lang,
       emberData: options.emberData,
+      warpDrive: options.warpDrive ?? options.emberData,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       strict: options.strict,
@@ -107,6 +108,11 @@ module.exports = {
     if (!options.emberData) {
       files = files.filter((file) => !file.includes('models/'));
       files = files.filter((file) => !file.includes('ember-data/'));
+    }
+
+    const warpDrive = options.warpDrive ?? options.emberData;
+    if (!warpDrive) {
+      files = files.filter((file) => !file.includes('services/store.ts'));
     }
 
     if (options.strict) {
