@@ -110,8 +110,7 @@ module.exports = {
       files = files.filter((file) => !file.includes('ember-data/'));
     }
 
-    const warpDrive = options.warpDrive ?? options.emberData;
-    if (!warpDrive) {
+    if (!options.warpDrive && !options.emberData) {
       files = files.filter((file) => !file.includes('services/store.ts'));
     }
 
