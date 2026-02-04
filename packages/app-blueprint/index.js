@@ -80,7 +80,7 @@ module.exports = {
       embroider,
       lang: options.lang,
       emberData: options.emberData,
-      warpDrive: options.warpDrive ?? options.emberData,
+      warpDrive: options.warpDrive ?? options.emberData ?? false,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       strict: options.strict,
