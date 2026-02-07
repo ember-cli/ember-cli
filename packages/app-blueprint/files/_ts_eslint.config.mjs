@@ -20,8 +20,10 @@ import js from '@eslint/js';
 import ts from 'typescript-eslint';
 
 import ember from 'eslint-plugin-ember/recommended';
-<% if (warpDrive) { %>import WarpDrive from 'eslint-plugin-warp-drive/recommended';
-<% } %>import eslintConfigPrettier from 'eslint-config-prettier';
+<% if (warpDrive) { %>
+import WarpDrive from 'eslint-plugin-warp-drive/recommended';
+<% } %>
+import eslintConfigPrettier from 'eslint-config-prettier';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
 
