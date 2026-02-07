@@ -244,6 +244,7 @@ module.exports = {
       embroider: false,
       lang: options.lang,
       emberData: options.emberData,
+      warpDrive: options.warpDrive ?? options.emberData ?? false,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       strict: options.strict,
