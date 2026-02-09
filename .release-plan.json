@@ -1,22 +1,14 @@
 {
   "solution": {
     "ember-cli": {
-      "impact": "minor",
-      "oldVersion": "6.11.0-beta.0",
-      "newVersion": "6.11.0-beta.1",
+      "impact": "patch",
+      "oldVersion": "6.11.0-beta.1",
+      "newVersion": "6.11.0-beta.2",
       "tagName": "beta",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         },
         {
           "impact": "patch",
@@ -26,39 +18,11 @@
       "pkgJSONPath": "./package.json"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.11.0-beta.0",
-      "newVersion": "6.11.0-beta.1",
-      "tagName": "beta",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./packages/addon-blueprint/package.json"
+      "oldVersion": "6.11.0-beta.1"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.11.0-beta.0",
-      "newVersion": "6.11.0-beta.1",
-      "tagName": "beta",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./packages/app-blueprint/package.json"
+      "oldVersion": "6.11.0-beta.1"
     }
   },
-  "description": "## Release (2026-01-25)\n\n* ember-cli 6.11.0-beta.1 (minor)\n* @ember-tooling/classic-build-addon-blueprint 6.11.0-beta.1 (minor)\n* @ember-tooling/classic-build-app-blueprint 6.11.0-beta.1 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10923](https://github.com/ember-cli/ember-cli/pull/10923) Promote Beta and update all dependencies for 6.10 release ([@mansona](https://github.com/mansona))\n  * [#10919](https://github.com/ember-cli/ember-cli/pull/10919) Prepare 6.11-alpha ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10929](https://github.com/ember-cli/ember-cli/pull/10929) Prepare 6.11-beta ([@mansona](https://github.com/mansona))\n  * [#10918](https://github.com/ember-cli/ember-cli/pull/10918) Prepare Stable Release ([@mansona](https://github.com/mansona))\n  * [#10884](https://github.com/ember-cli/ember-cli/pull/10884) Prepare Alpha Release ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-02-09)\n\n* ember-cli 6.11.0-beta.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10949](https://github.com/ember-cli/ember-cli/pull/10949) [backport release] remove unused isbinaryfile from ember-cli package ([@mansona](https://github.com/mansona))\n  * [#10940](https://github.com/ember-cli/ember-cli/pull/10940) [bugfix release] remove fixturify-project from dependencies ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10954](https://github.com/ember-cli/ember-cli/pull/10954) Merge release into beta ([@mansona](https://github.com/mansona))\n  * [#10952](https://github.com/ember-cli/ember-cli/pull/10952) add correct --publish-branch to pnpm publish ([@mansona](https://github.com/mansona))\n  * [#10951](https://github.com/ember-cli/ember-cli/pull/10951) Fix PR name for stable release-plan pull request ([@mansona](https://github.com/mansona))\n  * [#10950](https://github.com/ember-cli/ember-cli/pull/10950) [backport release] update release-plan for OIDC ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
