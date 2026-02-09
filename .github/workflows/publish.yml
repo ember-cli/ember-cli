@@ -1,0 +1,51 @@
+# Every push to any of the primary branches (master, beta, release) with .release-plan.json modified,
+# runs release-plan publish.
+
+name: Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+      - release
+      - beta
+    paths:
+      - ".release-plan.json"
+
+concurrency:
+  group: publish-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: "NPM Publish"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org"
+          cache: pnpm
+      - run: npm install -g npm@latest # ensure that the globally installed npm is new enough to support OIDC
+      - run: pnpm install --frozen-lockfile
+      - name: Publish to NPM
+        # pass --github-prerelease when we are only branch other than release
+        run: |
+          if [ ${{ github.ref }} = "refs/heads/release" ]; then
+            pnpm release-plan publish --publish-branch=release
+          elif [ ${{ github.ref }} = "refs/heads/beta" ]; then
+            pnpm release-plan publish --github-prerelease --publish-branch=beta
+          else
+            pnpm release-plan publish --github-prerelease
+          fi
+        env:
+          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
