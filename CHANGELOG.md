@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+## Release (2026-02-17)
+
+* ember-cli 6.12.0-alpha.6 (patch)
+
+#### :house: Internal
+* `ember-cli`
+  * [#10931](https://github.com/ember-cli/ember-cli/pull/10931) update Release.md ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-02-09)
 
 * ember-cli 6.12.0-alpha.5 (patch)
