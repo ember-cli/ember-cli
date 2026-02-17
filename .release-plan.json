@@ -2,14 +2,10 @@
   "solution": {
     "ember-cli": {
       "impact": "patch",
-      "oldVersion": "6.12.0-alpha.4",
-      "newVersion": "6.12.0-alpha.5",
+      "oldVersion": "6.12.0-alpha.5",
+      "newVersion": "6.12.0-alpha.6",
       "tagName": "alpha",
       "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :house: Internal"
@@ -30,5 +26,5 @@
       "oldVersion": "0.6.2"
     }
   },
-  "description": "## Release (2026-02-09)\n\n* ember-cli 6.12.0-alpha.5 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10949](https://github.com/ember-cli/ember-cli/pull/10949) [backport release] remove unused isbinaryfile from ember-cli package ([@mansona](https://github.com/mansona))\n  * [#10940](https://github.com/ember-cli/ember-cli/pull/10940) [bugfix release] remove fixturify-project from dependencies ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10955](https://github.com/ember-cli/ember-cli/pull/10955) Merge beta into master ([@mansona](https://github.com/mansona))\n  * [#10952](https://github.com/ember-cli/ember-cli/pull/10952) add correct --publish-branch to pnpm publish ([@mansona](https://github.com/mansona))\n  * [#10951](https://github.com/ember-cli/ember-cli/pull/10951) Fix PR name for stable release-plan pull request ([@mansona](https://github.com/mansona))\n  * [#10950](https://github.com/ember-cli/ember-cli/pull/10950) [backport release] update release-plan for OIDC ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-02-17)\n\n* ember-cli 6.12.0-alpha.6 (patch)\n\n#### :house: Internal\n* `ember-cli`\n  * [#10931](https://github.com/ember-cli/ember-cli/pull/10931) update Release.md ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
