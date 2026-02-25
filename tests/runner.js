@@ -58,17 +58,13 @@ function runMocha() {
   mocha.run((failures) => {
     console.timeEnd('Mocha Tests Running Time');
 
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(failures);
+    console.log(`[Mocha Debug]`, { failures });
+
+    if (failures > 0) {
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(1);
+    }
   });
 }
 
-Promise.resolve()
-  .then(() => runMocha())
-  .catch((error) => {
-    console.error(error);
-    console.error(error.stack);
-
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(1);
-  });
+runMocha();
