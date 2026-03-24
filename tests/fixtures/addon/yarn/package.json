@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/core": "^7.28.6",
     "ember-cli-babel": "^8.2.0",
-    "ember-cli-htmlbars": "^6.3.0",
+    "ember-cli-htmlbars": "^7.0.0",
     "ember-template-imports": "^4.4.0"
   },
   "devDependencies": {
