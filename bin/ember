@@ -38,11 +38,10 @@ cli({
   errorStream: process.stderr,
 }).then(
   function (result) {
-    var exit = require('exit');
     var exitCode = typeof result === 'object' ? result.exitCode : result;
 
     logger.info('Quitting "ember-cli" with exit code: %j', exitCode);
-    exit(exitCode);
+    process.exit(exitCode);
   },
   function (err) {
     console.log(err);

@@ -1,6 +1,6 @@
 'use strict';
 
-const isPackageMissing = require('ember-cli-is-package-missing');
+const isPackageMissing = require('../../lib/utilities/is-package-missing');
 const SilentError = require('silent-error');
 
 module.exports = {

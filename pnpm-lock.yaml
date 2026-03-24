@@ -77,9 +77,6 @@ importers:
       ci-info:
         specifier: ^4.3.1
         version: 4.3.1
-      clean-base-url:
-        specifier: ^1.0.0
-        version: 1.0.0
       compression:
         specifier: ^1.8.1
         version: 1.8.1
@@ -101,27 +98,15 @@ importers:
       diff:
         specifier: ^8.0.2
         version: 8.0.2
-      ember-cli-is-package-missing:
-        specifier: ^1.0.0
-        version: 1.0.0
-      ember-cli-normalize-entity-name:
-        specifier: ^1.0.0
-        version: 1.0.0
       ember-cli-preprocess-registry:
         specifier: ^5.0.1
         version: 5.0.1
       ember-cli-string-utils:
         specifier: ^1.1.0
         version: 1.1.0
-      ensure-posix-path:
-        specifier: ^1.1.1
-        version: 1.1.1
       execa:
         specifier: ^9.6.1
         version: 9.6.1
-      exit:
-        specifier: ^0.1.2
-        version: 0.1.2
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -140,9 +125,6 @@ importers:
       fs-tree-diff:
         specifier: ^2.0.1
         version: 2.0.1
-      get-caller-file:
-        specifier: ^2.0.5
-        version: 2.0.5
       git-repo-info:
         specifier: ^2.1.1
         version: 2.1.1
@@ -170,9 +152,6 @@ importers:
       inquirer:
         specifier: ^13.1.0
         version: 13.1.0(@types/node@22.10.2)
-      is-git-url:
-        specifier: ^1.0.0
-        version: 1.0.0
       is-language-code:
         specifier: ^5.1.0
         version: 5.1.0
@@ -197,21 +176,9 @@ importers:
       npm-package-arg:
         specifier: ^13.0.2
         version: 13.0.2
-      os-locale:
-        specifier: ^6.0.2
-        version: 6.0.2
-      p-defer:
-        specifier: ^4.0.1
-        version: 4.0.1
       portfinder:
         specifier: ^1.0.32
         version: 1.0.32
-      promise-map-series:
-        specifier: ^0.3.0
-        version: 0.3.0
-      promise.hash.helper:
-        specifier: ^1.0.8
-        version: 1.0.8
       quick-temp:
         specifier: ^0.1.9
         version: 0.1.9
@@ -366,9 +333,6 @@ importers:
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
-      ember-cli-normalize-entity-name:
-        specifier: ^1.0.0
-        version: 1.0.0
       ember-cli-string-utils:
         specifier: ^1.1.0
         version: 1.1.0
@@ -416,9 +380,6 @@ importers:
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
-      promise.hash.helper:
-        specifier: ^1.0.8
-        version: 1.0.8
       quick-temp:
         specifier: ^0.1.9
         version: 0.1.9
@@ -1520,9 +1481,6 @@ packages:
     resolution: {integrity: sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==}
     engines: {node: '>=0.10.0'}
 
-  clean-base-url@1.0.0:
-    resolution: {integrity: sha512-9q6ZvUAhbKOSRFY7A/irCQ/rF0KIpa3uXpx6izm8+fp7b2H4hLeUJ+F1YYk9+gDQ/X8Q0MEyYs+tG3cht//HTg==}
-
   clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
     engines: {node: '>=6'}
@@ -2110,12 +2068,6 @@ packages:
   ember-cli-internal-test-helpers@0.9.1:
     resolution: {integrity: sha512-ia+p7LrAe2tENG+Vewdi93kGlsI7OkjB7tEakTtCELkIvZpmPX+uYGhIi5nVOynLiej2M81MQmNqB8jX93ejqQ==}
 
-  ember-cli-is-package-missing@1.0.0:
-    resolution: {integrity: sha512-9hEoZj6Au5onlSDdcoBqYEPT8ehlYntZPxH8pBKV0GO7LNel88otSAQsCfXvbi2eKE+MaSeLG/gNaCI5UdWm9g==}
-
-  ember-cli-normalize-entity-name@1.0.0:
-    resolution: {integrity: sha512-rF4P1rW2P1gVX1ynZYPmuIf7TnAFDiJmIUFI1Xz16VYykUAyiOCme0Y22LeZq8rTzwBMiwBwoE3RO4GYWehXZA==}
-
   ember-cli-preprocess-registry@5.0.1:
     resolution: {integrity: sha512-Jb2zbE5Kfe56Nf4IpdaQ10zZ72p/RyLdgE5j5/lKG3I94QHlq+7AkAd18nPpb5OUeRUT13yQTAYpU+MbjpKTtg==}
     engines: {node: 16.* || >= 18}
@@ -2369,10 +2321,6 @@ packages:
   exists-sync@0.0.3:
     resolution: {integrity: sha512-/qPB5E0cRuA/Cs5vHrmKYSfhIBCPJs9Vm3e9aIejMwwbe6idMeNbGu1g5stvr/bXT6HywHckLPEkmY7HK6FlwA==}
     deprecated: Please replace with usage of fs.existsSync
-
-  exit@0.1.2:
-    resolution: {integrity: sha512-Zk/eNKV2zbjpKzrsQ+n1G6poVbErQxJ0LBOJXaKZ1EViLzH+hrLu9cdXI4zw9dBQJslwBEpbQ2P1oS7nDxs6jQ==}
-    engines: {node: '>= 0.8.0'}
 
   expand-brackets@2.1.4:
     resolution: {integrity: sha512-w/ozOKR9Obk3qoWeY/WDi6MFta9AoMR+zud60mdnbniMcBxRuFJyDt2LdX/14A1UABeqk+Uk+LDfUpvoGKppZA==}
@@ -3070,10 +3018,6 @@ packages:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
     engines: {node: '>= 0.4'}
 
-  invert-kv@3.0.1:
-    resolution: {integrity: sha512-CYdFeFexxhv/Bcny+Q0BfOV+ltRlJcd4BBZBYFX/O0u4npJrgZtIcjokegtiSMAvlMTJ+Koq0GBCc//3bueQxw==}
-    engines: {node: '>=8'}
-
   ip-address@9.0.5:
     resolution: {integrity: sha512-zHtQzGojZXTwZTHQqra+ETKd4Sn3vgi7uBmlPoXVWZqYvuKmtI0l/VZTjqGmJY9x88GGOaZ9+G9ES8hC4T4X8g==}
     engines: {node: '>= 12'}
@@ -3165,10 +3109,6 @@ packages:
   is-generator-function@1.0.10:
     resolution: {integrity: sha512-jsEjy9l3yiXEQ+PsXdmBwEPcOxaXWLspKdplFUVI9vq1iZgIekeC0L167qeu86czQaxed3q/Uzuw0swL0irL8A==}
     engines: {node: '>= 0.4'}
-
-  is-git-url@1.0.0:
-    resolution: {integrity: sha512-UCFta9F9rWFSavp9H3zHEHrARUfZbdJvmHKeEpds4BK3v7W2LdXoNypMtXXi5w5YBDEBCTYmbI+vsSwI8LYJaQ==}
-    engines: {node: '>=0.8'}
 
   is-glob@3.1.0:
     resolution: {integrity: sha512-UFpDDrPgM6qpnFNI+rh/p3bUaq9hKLZN8bMUWzxmcnZVS3omf4IPK+BrewlnWjO1WmUsMYuSjKh4UJuV4+Lqmw==}
@@ -3485,10 +3425,6 @@ packages:
   latest-version@9.0.0:
     resolution: {integrity: sha512-7W0vV3rqv5tokqkBAFV1LbR7HPOWzXQDpDgEuib/aJ1jsZZx6x3c2mBI+TJhJzOhkGeaLbCKEHXEXLfirtG2JA==}
     engines: {node: '>=18'}
-
-  lcid@3.1.1:
-    resolution: {integrity: sha512-M6T051+5QCGLBQb8id3hdvIW8+zeFV2FyBGFS9IEK5H9Wt4MueD4bW1eWikpHgZp+5xR3l5c8pZUkQsIA0BFZg==}
-    engines: {node: '>=8'}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -4016,10 +3952,6 @@ packages:
     resolution: {integrity: sha512-B5JU3cabzk8c67mRRd3ECmROafjYMXbuzlwtqdM8IbS8ktlTix8aFGb2bAGKrSRIlnfKwovGUUr72JUPyOb6kQ==}
     engines: {node: '>=0.10.0'}
 
-  os-locale@6.0.2:
-    resolution: {integrity: sha512-qIb8bzRqaN/vVqEYZ7lTAg6PonskO7xOmM7OClD28F6eFa4s5XGe4bGpHUHMoCHbNNuR0pDYFeSLiW5bnjWXIA==}
-    engines: {node: '>=12.20'}
-
   os-tmpdir@1.0.2:
     resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
     engines: {node: '>=0.10.0'}
@@ -4030,10 +3962,6 @@ packages:
 
   outvariant@1.4.3:
     resolution: {integrity: sha512-+Sl2UErvtsoajRDKCE5/dBz4DIvHXQQnAxtQTF04OJxY0+DyZXSo5P5Bb7XYWOh81syohlYL24hbDwxedPUJCA==}
-
-  p-defer@4.0.1:
-    resolution: {integrity: sha512-Mr5KC5efvAK5VUptYEIopP1bakB85k2IWXaRC0rsh1uwn1L6M0LVml8OIQ4Gudg4oyZakf7FmeRLkMMtZW1i5A==}
-    engines: {node: '>=12'}
 
   p-finally@1.0.0:
     resolution: {integrity: sha512-LICb2p9CB7FS+0eR1oqWnHhp0FljGLZCWBE9aix0Uye9W8LTQPwMTYVGWQWIw9RdQiDg4+epXQODwIYJtSJaow==}
@@ -4262,10 +4190,6 @@ packages:
   promise-retry@2.0.1:
     resolution: {integrity: sha512-y+WKFlBR8BGXnsNlIHFGPZmyDf3DFMoLhaflAnyZgV6rG6xu+JwesTo2Q9R6XwYmtmwAFCkAk3e35jEdoeh/3g==}
     engines: {node: '>=10'}
-
-  promise.hash.helper@1.0.8:
-    resolution: {integrity: sha512-KYcnXctWUWyVD3W3Ye0ZDuA1N8Szrh85cVCxpG6xYrOk/0CttRtYCmU30nWsUch0NuExQQ63QXvzRE6FLimZmg==}
-    engines: {node: 10.* || >= 12.*}
 
   promise.prototype.finally@3.1.8:
     resolution: {integrity: sha512-aVDtsXOml9iuMJzUco9J1je/UrIT3oMYfWkCTiUhkt+AvZw72q4dUZnR/R/eB3h5GeAagQVXvM1ApoYniJiwoA==}
@@ -6906,8 +6830,6 @@ snapshots:
       isobject: 3.0.1
       static-extend: 0.1.2
 
-  clean-base-url@1.0.0: {}
-
   clean-stack@2.2.0: {}
 
   clean-up-path@1.0.0: {}
@@ -7326,14 +7248,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli-is-package-missing@1.0.0: {}
-
-  ember-cli-normalize-entity-name@1.0.0:
-    dependencies:
-      silent-error: 1.1.1
-    transitivePeerDependencies:
-      - supports-color
-
   ember-cli-preprocess-registry@5.0.1:
     dependencies:
       broccoli-funnel: 3.0.8
@@ -7705,8 +7619,6 @@ snapshots:
       yoctocolors: 2.1.1
 
   exists-sync@0.0.3: {}
-
-  exit@0.1.2: {}
 
   expand-brackets@2.1.4:
     dependencies:
@@ -8665,8 +8577,6 @@ snapshots:
       hasown: 2.0.2
       side-channel: 1.1.0
 
-  invert-kv@3.0.1: {}
-
   ip-address@9.0.5:
     dependencies:
       jsbn: 1.1.0
@@ -8751,8 +8661,6 @@ snapshots:
   is-generator-function@1.0.10:
     dependencies:
       has-tostringtag: 1.0.2
-
-  is-git-url@1.0.0: {}
 
   is-glob@3.1.0:
     dependencies:
@@ -9081,10 +8989,6 @@ snapshots:
   latest-version@9.0.0:
     dependencies:
       package-json: 10.0.1
-
-  lcid@3.1.1:
-    dependencies:
-      invert-kv: 3.0.1
 
   levn@0.4.1:
     dependencies:
@@ -9690,10 +9594,6 @@ snapshots:
 
   os-homedir@1.0.2: {}
 
-  os-locale@6.0.2:
-    dependencies:
-      lcid: 3.1.1
-
   os-tmpdir@1.0.2: {}
 
   osenv@0.1.5:
@@ -9702,8 +9602,6 @@ snapshots:
       os-tmpdir: 1.0.2
 
   outvariant@1.4.3: {}
-
-  p-defer@4.0.1: {}
 
   p-finally@1.0.0: {}
 
@@ -9882,8 +9780,6 @@ snapshots:
     dependencies:
       err-code: 2.0.3
       retry: 0.12.0
-
-  promise.hash.helper@1.0.8: {}
 
   promise.prototype.finally@3.1.8:
     dependencies:

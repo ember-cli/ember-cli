@@ -12,7 +12,6 @@
     "diff": "^7.0.0",
     "isbinaryfile": "^5.0.7",
     "lodash": "^4.17.23",
-    "promise.hash.helper": "^1.0.8",
     "quick-temp": "^0.1.9",
     "silent-error": "^1.1.1"
   }

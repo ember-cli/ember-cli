@@ -7,7 +7,7 @@ const EditFileDiff = require('./edit-file-diff');
 const EOL = require('os').EOL;
 const rxEOL = new RegExp(EOL, 'g');
 const isBinaryFile = require('isbinaryfile').isBinaryFileSync;
-const hash = require('promise.hash.helper');
+const hash = require('./promise-hash');
 const canEdit = require('./open-editor').canEdit;
 const processTemplate = require('./process-template');
 

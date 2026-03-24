@@ -12,7 +12,7 @@ const { sortPackageJson } = require('sort-package-json');
 
 let date = new Date();
 
-const normalizeEntityName = require('ember-cli-normalize-entity-name');
+const normalizeEntityName = require('@ember-tooling/blueprint-model/utilities/normalize-entity-name');
 
 const directoryForPackageName = require('@ember-tooling/blueprint-model/utilities/directory-for-package-name');
 const FileInfo = require('@ember-tooling/blueprint-model/utilities/file-info');

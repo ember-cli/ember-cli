@@ -1,6 +1,6 @@
 'use strict';
 
-const isGitRepo = require('is-git-url');
+const isGitRepo = require('../../../lib/utilities/is-git-url');
 const { expect } = require('chai');
 
 describe('is-git-url', function () {

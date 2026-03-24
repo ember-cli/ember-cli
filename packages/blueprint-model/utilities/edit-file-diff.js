@@ -7,7 +7,7 @@ const quickTemp = require('quick-temp');
 const path = require('path');
 const SilentError = require('silent-error');
 const openEditor = require('./open-editor');
-const hash = require('promise.hash.helper');
+const hash = require('./promise-hash');
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
