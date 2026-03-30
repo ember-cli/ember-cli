@@ -1,16 +1,16 @@
-name: Plan Stable Release
+name: Plan v6.10.x Release
 on:
   workflow_dispatch:
   push:
     branches:
-      - release
+      - v-6-10
   pull_request_target: # This workflow has permissions on the repo, do NOT run code from PRs in this workflow. See https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
     types:
       - labeled
       - unlabeled
 
 concurrency:
-  group: plan-release-stable # only the latest one of these should ever be running
+  group: plan-release-v-6-10 # only the latest one of these should ever be running
   cancel-in-progress: true
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: release-plan/actions/should-prepare-release@v1
         with:
-          ref: "release"
+          ref: "v-6-10"
         id: should-prepare
 
   create-prepare-release-pr:
@@ -39,7 +39,7 @@ jobs:
       - uses: release-plan/actions/prepare@v1
         name: Run release-plan prepare
         with:
-          ref: "release"
+          ref: "v-6-10"
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
         id: explanation
@@ -55,11 +55,11 @@ jobs:
       - uses: peter-evans/create-pull-request@v8
         name: Create Prepare Release PR
         with:
-          commit-message: "Prepare Stable Release ${{ steps.explanation.outputs.new-version}} using 'release-plan'"
+          commit-message: "Prepare v6.10.x Release ${{ steps.explanation.outputs.new-version}} using 'release-plan'"
           labels: "internal"
           sign-commits: true
-          branch: release-preview-stable
-          title: Prepare Stable Release ${{ steps.explanation.outputs.new-version }}
+          branch: release-preview-v-6-10
+          title: Prepare v6.10.x Release ${{ steps.explanation.outputs.new-version }}
           # this doesn't use secrets.GITHUB_TOKEN because we want CI to run on the PR that it opens.
           # See: https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
           token: ${{ secrets.RELEASE_PLAN_GH_PAT }}

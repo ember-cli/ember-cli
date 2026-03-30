@@ -20,6 +20,9 @@
     "type": "git",
     "url": "https://github.com/ember-cli/ember-cli.git"
   },
+  "release-plan": {
+    "publishTag": "v-6-10"
+  },
   "license": "MIT",
   "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
   "main": "lib/cli/index.js",

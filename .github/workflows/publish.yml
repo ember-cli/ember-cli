@@ -11,6 +11,7 @@ on:
       - master
       - release
       - beta
+      - v-6-*
     paths:
       - ".release-plan.json"
 
@@ -40,12 +41,13 @@ jobs:
       - name: Publish to NPM
         # pass --github-prerelease when we are only branch other than release
         run: |
-          if [ ${{ github.ref }} = "refs/heads/release" ]; then
-            pnpm release-plan publish --publish-branch=release
-          elif [ ${{ github.ref }} = "refs/heads/beta" ]; then
+          if [ ${{ github.ref }} = "refs/heads/beta" ]; then
             pnpm release-plan publish --github-prerelease --publish-branch=beta
-          else
+          elif [ ${{ github.ref }} = "refs/heads/main" ]; then
             pnpm release-plan publish --github-prerelease
+          else
+            pnpm release-plan publish --publish-branch=${{github.ref_name}}
           fi
+
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
