@@ -50,4 +50,4 @@ jobs:
           fi
 
         env:
-          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_AUTH: ${{ secrets.RELEASE_PLAN_GH_PAT }}
