@@ -107,7 +107,7 @@
     "inquirer": "^13.1.0",
     "is-git-url": "^1.0.0",
     "is-language-code": "^5.1.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "markdown-it": "^14.1.0",
     "markdown-it-terminal": "^0.4.0",
     "minimatch": "^10.1.1",
