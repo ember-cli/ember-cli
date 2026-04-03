@@ -92,8 +92,7 @@
     "qunit": "^2.25.0",
     "qunit-dom": "^3.5.0",
     "stylelint": "^16.26.1",
-    "stylelint-config-standard": "^36.0.1",
-    "tracked-built-ins": "^3.4.0<% if (typescript) { %>",
+    "stylelint-config-standard": "^36.0.1<% if (typescript) { %>",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.1<% } %>",
     "webpack": "^5.104.1"
