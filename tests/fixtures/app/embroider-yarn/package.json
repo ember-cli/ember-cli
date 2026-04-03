@@ -48,7 +48,7 @@
     "ember-cli-clean-css": "^3.0.0",
     "ember-cli-dependency-checker": "^3.3.3",
     "ember-cli-deprecation-workflow": "^3.4.0",
-    "ember-cli-htmlbars": "^6.3.0",
+    "ember-cli-htmlbars": "^7.0.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-data": "~5.7.0",
     "ember-load-initializers": "^3.0.1",
