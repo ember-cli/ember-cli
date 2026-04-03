@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+## Release (2026-04-03)
+
+* ember-cli 6.10.3 (patch)
+* @ember-tooling/classic-build-addon-blueprint 6.10.1 (patch)
+* @ember-tooling/classic-build-app-blueprint 6.10.1 (patch)
+
+#### :bug: Bug Fix
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#10986](https://github.com/ember-cli/ember-cli/pull/10986) [backport 6.10] Add use-ember-modules: true to blueprint optional-features.json ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#10985](https://github.com/ember-cli/ember-cli/pull/10985) [backport 6.10] Update ember-cli-htmlbars to ^7.0.0 in blueprints ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#10984](https://github.com/ember-cli/ember-cli/pull/10984) [backport 6.10] Remove tracked-built-ins ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10981](https://github.com/ember-cli/ember-cli/pull/10981) Update publish.yml to use RELEASE_PLAN_GH_PAT ([@kategengler](https://github.com/kategengler))
+  * [#10979](https://github.com/ember-cli/ember-cli/pull/10979) enable releasing packports to 6.10 ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
 ## Release (2026-02-09)
 
 * ember-cli 6.10.2 (patch)
