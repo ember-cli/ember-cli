@@ -2,10 +2,18 @@
   "solution": {
     "ember-cli": {
       "impact": "patch",
-      "oldVersion": "6.10.1",
-      "newVersion": "6.10.2",
-      "tagName": "latest",
+      "oldVersion": "6.10.2",
+      "newVersion": "6.10.3",
+      "tagName": "v-6-10",
       "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
+        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
@@ -18,11 +26,31 @@
       "pkgJSONPath": "./package.json"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
-      "oldVersion": "6.10.0"
+      "impact": "patch",
+      "oldVersion": "6.10.0",
+      "newVersion": "6.10.1",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./packages/addon-blueprint/package.json"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "oldVersion": "6.10.0"
+      "impact": "patch",
+      "oldVersion": "6.10.0",
+      "newVersion": "6.10.1",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./packages/app-blueprint/package.json"
     }
   },
-  "description": "## Release (2026-02-09)\n\n* ember-cli 6.10.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#10949](https://github.com/ember-cli/ember-cli/pull/10949) [backport release] remove unused isbinaryfile from ember-cli package ([@mansona](https://github.com/mansona))\n  * [#10940](https://github.com/ember-cli/ember-cli/pull/10940) [bugfix release] remove fixturify-project from dependencies ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10952](https://github.com/ember-cli/ember-cli/pull/10952) add correct --publish-branch to pnpm publish ([@mansona](https://github.com/mansona))\n  * [#10951](https://github.com/ember-cli/ember-cli/pull/10951) Fix PR name for stable release-plan pull request ([@mansona](https://github.com/mansona))\n  * [#10950](https://github.com/ember-cli/ember-cli/pull/10950) [backport release] update release-plan for OIDC ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-04-03)\n\n* ember-cli 6.10.3 (patch)\n* @ember-tooling/classic-build-addon-blueprint 6.10.1 (patch)\n* @ember-tooling/classic-build-app-blueprint 6.10.1 (patch)\n\n#### :bug: Bug Fix\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10986](https://github.com/ember-cli/ember-cli/pull/10986) [backport 6.10] Add use-ember-modules: true to blueprint optional-features.json ([@mansona](https://github.com/mansona))\n* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`\n  * [#10985](https://github.com/ember-cli/ember-cli/pull/10985) [backport 6.10] Update ember-cli-htmlbars to ^7.0.0 in blueprints ([@mansona](https://github.com/mansona))\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`\n  * [#10984](https://github.com/ember-cli/ember-cli/pull/10984) [backport 6.10] Remove tracked-built-ins ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10981](https://github.com/ember-cli/ember-cli/pull/10981) Update publish.yml to use RELEASE_PLAN_GH_PAT ([@kategengler](https://github.com/kategengler))\n  * [#10979](https://github.com/ember-cli/ember-cli/pull/10979) enable releasing packports to 6.10 ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Katie Gengler ([@kategengler](https://github.com/kategengler))\n"
 }
