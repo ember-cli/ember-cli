@@ -137,6 +137,8 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^25.6.0",
     "broccoli-plugin": "^4.0.3",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^6.2.1",
@@ -165,6 +167,8 @@
     "testdouble": "^3.18.0",
     "tmp": "^0.2.5",
     "tmp-promise": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2",
     "websocket": "^1.0.32",
     "which": "6.0.0",
     "yuidoc-ember-cli-theme": "^1.0.4",
