@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const cleanRemove = require('../../../lib/utilities/clean-remove');
+const cleanRemove = require('../../../lib/utilities/clean-remove').default;
 const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
