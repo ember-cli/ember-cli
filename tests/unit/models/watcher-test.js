@@ -6,7 +6,7 @@ const MockUI = require('console-ui/mock');
 const MockBroccoliWatcher = require('../../helpers/mock-broccoli-watcher');
 const Watcher = require('../../../lib/models/watcher');
 const EOL = require('os').EOL;
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const BuildError = require('../../helpers/build-error');
 
 describe('Watcher', function () {

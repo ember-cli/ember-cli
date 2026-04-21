@@ -300,7 +300,7 @@ describe('models/project.js', function () {
       let expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
-        'ember-resolver': '^7.0.0',
+        'ember-resolver': '^13.2.0',
         'ember-non-root-addon': 'latest',
         'ember-generated-with-export-addon': 'latest',
         'non-ember-thingy': 'latest',

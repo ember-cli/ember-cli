@@ -485,7 +485,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
         // TODO: Make this package-manager agnostic?
         path.join(
           emberCliRealPath,
-          'node_modules/.pnpm/@pnpm+find-workspace-dir@1000.1.0/node_modules/@pnpm/find-workspace-dir'
+          'node_modules/.pnpm/@pnpm+find-workspace-dir@1000.1.3/node_modules/@pnpm/find-workspace-dir'
         )
       );
     });

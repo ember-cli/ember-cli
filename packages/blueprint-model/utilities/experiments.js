@@ -1,6 +1,6 @@
 'use strict';
 
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 
 /*
   If you're here to remove the VITE experiment flag in favor of it being

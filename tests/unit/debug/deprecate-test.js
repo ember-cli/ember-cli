@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const stripAnsi = require('strip-ansi');
+const { default: stripAnsi } = require('strip-ansi');
 const { deprecate } = require('../../../lib/debug');
 
 describe('deprecate', function () {

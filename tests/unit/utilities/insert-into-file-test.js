@@ -1,9 +1,9 @@
 'use strict';
 
 const fs = require('fs-extra');
+const os = require('os');
 const path = require('path');
-const temp = require('temp');
-const EOL = require('os').EOL;
+const EOL = os.EOL;
 const insertIntoFile = require('../../../lib/utilities/insert-into-file');
 
 const { expect } = require('chai');
@@ -12,7 +12,7 @@ describe('insertIntoFile()', function () {
   let tempDir, filePath;
 
   beforeEach(function () {
-    tempDir = temp.mkdirSync('insert-into-file-test');
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'insert-into-file-test-'));
     filePath = path.join(tempDir, 'foo-bar-baz.txt');
   });
 

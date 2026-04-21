@@ -3,8 +3,8 @@
 const path = require('path');
 const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
-const execa = require('execa');
-const chalk = require('chalk');
+const { execa } = require('execa');
+const { default: chalk } = require('chalk');
 
 const runCommand = require('../helpers/run-command');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');

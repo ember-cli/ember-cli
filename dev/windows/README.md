@@ -1,4 +1,5 @@
 ##### Instructions
+
 1. Install VirtualBox
 1. Install Vagrant
 1. Run `vagrant up` in this directory
@@ -9,4 +10,5 @@
 1. When you're done, close the VM
 
 ##### Cleanup
+
 1. Run `vagrant destroy -f`

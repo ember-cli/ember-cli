@@ -2,7 +2,7 @@
 
 const stringUtil = require('ember-cli-string-utils');
 const path = require('path');
-const inflector = require('inflection');
+const { pluralize } = require('inflection');
 const SilentError = require('silent-error');
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
         if (options.pod && options.hasPathToken) {
           return path.join(options.podPath, options.dasherizedModuleName);
         }
-        return inflector.pluralize(options.locals.blueprintName);
+        return pluralize(options.locals.blueprintName);
       },
       __root__(options) {
         if (options.inRepoAddon) {
@@ -45,11 +45,11 @@ module.exports = {
     let addonName = stringUtil.dasherize(addonRawName);
     let fileName = stringUtil.dasherize(options.entity.name);
     let blueprintName = options.originBlueprintName;
-    let modulePathSegments = [addonName, inflector.pluralize(options.originBlueprintName), fileName];
+    let modulePathSegments = [addonName, pluralize(options.originBlueprintName), fileName];
 
     if (/-addon/.test(blueprintName)) {
       blueprintName = blueprintName.substr(0, blueprintName.indexOf('-addon'));
-      modulePathSegments = [addonName, inflector.pluralize(blueprintName), fileName];
+      modulePathSegments = [addonName, pluralize(blueprintName), fileName];
     }
 
     if (options.pod) {

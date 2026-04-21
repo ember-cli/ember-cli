@@ -1,12 +1,12 @@
 'use strict';
 
-const chalk = require('chalk');
+const { supportsColor } = require('chalk');
 // eslint-disable-next-line n/no-unpublished-require
-const stripAnsi = require('strip-ansi');
+const { default: stripAnsi } = require('strip-ansi');
 
 module.exports = function (helpString) {
   // currently windows
-  if (chalk.supportsColor) {
+  if (supportsColor) {
     return helpString;
   }
   return stripAnsi(helpString);

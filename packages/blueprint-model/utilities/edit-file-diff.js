@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const util = require('util');
-const jsdiff = require('diff');
+const { applyPatch, createPatch } = require('diff');
 const quickTemp = require('quick-temp');
 const path = require('path');
 const SilentError = require('silent-error');
@@ -38,7 +38,7 @@ class EditFileDiff {
       diffString: readFile(resultHash.diffPath),
       currentString: readFile(resultHash.outputPath),
     }).then((result) => {
-      let appliedDiff = jsdiff.applyPatch(result.currentString.toString(), result.diffString.toString());
+      let appliedDiff = applyPatch(result.currentString.toString(), result.diffString.toString());
 
       if (!appliedDiff) {
         let message = 'Patch was not cleanly applied.';
@@ -52,7 +52,7 @@ class EditFileDiff {
 
   invokeEditor(result) {
     let info = this.info;
-    let diff = jsdiff.createPatch(info.outputPath, result.output.toString(), result.input);
+    let diff = createPatch(info.outputPath, result.output.toString(), result.input);
     let diffPath = path.join(this.tmpDifferenceDir, 'currentDiff.diff');
 
     return writeFile(diffPath, diff)

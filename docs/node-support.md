@@ -3,7 +3,7 @@
 ## Supported Version Matrix
 
 | Node LTS Version | Supported Ember CLI Versions |
-|------------------|------------------------------|
+| ---------------- | ---------------------------- |
 | 0.10.x           | 0.0.0 - 2.8.x                |
 | 0.12.x           | 0.0.0 - 2.11.x               |
 | 4.x              | 1.13.9 - 3.1.x               |
@@ -34,12 +34,12 @@ Node.js](https://github.com/nodejs/LTS#lts_schedule).
 
 ## Current support:
 
-* v18: Released as stable version.
-  * Supported by ember-cli/ember-cli#master until: 2025-04-30.
-* v20: Released as stable version.
-  * Supported by ember-cli/ember-cli#master until: 2026-04-30.
-* v22: Released as stable version.
-  * Supported by ember-cli/ember-cli#master until: 2027-04-30.
+- v18: Released as stable version.
+  - Supported by ember-cli/ember-cli#master until: 2025-04-30.
+- v20: Released as stable version.
+  - Supported by ember-cli/ember-cli#master until: 2026-04-30.
+- v22: Released as stable version.
+  - Supported by ember-cli/ember-cli#master until: 2027-04-30.
 
 ## Release Process and Support Policy
 

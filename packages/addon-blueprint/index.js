@@ -3,7 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const walkSync = require('walk-sync');
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
 const merge = require('lodash/merge');
 const uniq = require('lodash/uniq');
@@ -89,10 +89,6 @@ module.exports = {
     // Per RFC #811, addons should not have this dependency.
     // @see https://github.com/emberjs/rfcs/blob/master/text/0811-element-modifiers.md#detailed-design
     delete contents.devDependencies['ember-modifier'];
-
-    // Per RFC #812, addons should not have this dependency.
-    // @see https://github.com/emberjs/rfcs/blob/master/text/0812-tracked-built-ins.md#detailed-design
-    delete contents.devDependencies['tracked-built-ins'];
 
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
@@ -248,6 +244,7 @@ module.exports = {
       embroider: false,
       lang: options.lang,
       emberData: options.emberData,
+      warpDrive: options.warpDrive ?? options.emberData ?? false,
       ciProvider: options.ciProvider,
       typescript: options.typescript,
       strict: options.strict,
