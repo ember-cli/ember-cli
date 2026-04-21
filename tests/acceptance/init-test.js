@@ -2,14 +2,14 @@
 
 const ember = require('../helpers/ember');
 const walkSync = require('walk-sync');
-const glob = require('glob');
+const { globSync } = require('glob');
 const Blueprint = require('../../lib/models/blueprint');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
 let root = process.cwd();
 const util = require('util');
-const minimatch = require('minimatch');
+const { minimatch } = require('minimatch');
 const intersect = require('lodash/intersection');
 const remove = require('lodash/remove');
 const EOL = require('os').EOL;
@@ -112,14 +112,11 @@ describe('Acceptance: ember init', function () {
   }
 
   function pickSync(filePath, pattern) {
-    return glob
-      .sync(`**/${pattern}`, {
-        cwd: filePath,
-        dot: true,
-        mark: true,
-        strict: true,
-      })
-      .sort();
+    return globSync(`**/${pattern}`, {
+      cwd: filePath,
+      dot: true,
+      mark: true,
+    }).sort();
   }
 
   function removeTmp(array) {

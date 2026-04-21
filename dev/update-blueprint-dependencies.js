@@ -25,7 +25,7 @@ const path = require('path');
 const util = require('util');
 const nopt = require('nopt');
 const npmPackageArg = require('npm-package-arg');
-const _latestVersion = require('latest-version');
+const { default: _latestVersion } = require('latest-version');
 
 nopt.typeDefs['regexp'] = {
   type: RegExp,

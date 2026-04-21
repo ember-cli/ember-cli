@@ -1,6 +1,6 @@
 'use strict';
 
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const spawn = require('child_process').spawn;
 const defaults = require('lodash/defaults');
 const killCliProcess = require('./kill-cli-process');

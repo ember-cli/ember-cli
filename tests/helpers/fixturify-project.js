@@ -2,6 +2,8 @@
 
 const path = require('path');
 const merge = require('lodash/merge');
+// this is a test-only dependency
+// eslint-disable-next-line n/no-unpublished-require
 const FixturifyProject = require('fixturify-project');
 const Project = require('../../lib/models/project');
 const MockCLI = require('./mock-cli');

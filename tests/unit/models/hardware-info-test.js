@@ -1,12 +1,10 @@
 'use strict';
 
 const { expect } = require('chai');
-const execa = require('execa');
+const { execa, hwinfo } = require('../../../lib/models/hardware-info');
 const fs = require('fs');
 const os = require('os');
 const td = require('testdouble');
-
-const hwinfo = require('../../../lib/models/hardware-info');
 
 const UPOWER_AC_OFF = `  native-path:          /sys/devices/LNXSYSTM:00/device:00/PNP0C0A:00/power_supply/BAT0
   vendor:               NOTEBOOK

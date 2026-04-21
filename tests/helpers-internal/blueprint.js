@@ -2,7 +2,7 @@
 
 const fs = require('fs-extra');
 
-const { sync: globSync } = require('glob');
+const { globSync } = require('glob');
 const { expect } = require('chai');
 
 function confirmViteBlueprint() {

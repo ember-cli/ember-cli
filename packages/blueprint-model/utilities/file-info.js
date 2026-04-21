@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const util = require('util');
-const chalk = require('chalk');
+const { default: chalk } = require('chalk');
 const EditFileDiff = require('./edit-file-diff');
 const EOL = require('os').EOL;
 const rxEOL = new RegExp(EOL, 'g');
@@ -73,12 +73,12 @@ class FileInfo {
 
   displayDiff() {
     let info = this,
-      jsdiff = require('diff');
+      { createPatch } = require('diff');
     return hash({
       input: this.render(),
       output: readFile(info.outputPath),
     }).then((result) => {
-      let diff = jsdiff.createPatch(
+      let diff = createPatch(
         info.outputPath,
         result.output.toString().replace(rxEOL, '\n'),
         result.input.replace(rxEOL, '\n')

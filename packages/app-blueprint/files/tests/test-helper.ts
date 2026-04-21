@@ -1,4 +1,5 @@
-import Application from '<%= modulePrefix %>/app';
+<% if (warpDrive) { %>import '@warp-drive/ember/install';
+<% } %>import Application from '<%= modulePrefix %>/app';
 import config from '<%= modulePrefix %>/config/environment';
 import * as QUnit from 'qunit';
 import { setApplication } from '@ember/test-helpers';
