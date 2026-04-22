@@ -84,16 +84,19 @@ describe('new command', function () {
     expect(command.availableOptions.map(({ name }) => name)).to.contain('custom-blueprint-option');
   });
 
-  it('rejects when --lang is provided without a value', async function () {
-    let error;
-    try {
-      await command.run({ lang: '' }, ['my-test-app']);
-    } catch (e) {
-      error = e;
-    }
-
-    expect(error).to.exist;
-    expect(error.message).to.equal('The "--lang" option requires a value.');
+  ['', true].forEach((langValue) => {
+    it(`rejects when --lang is provided without a value (${String(langValue)})`, async function () {
+      let error;
+      try {
+        await command.run({ lang: langValue }, ['my-test-app']);
+      } catch (e) {
+        error = e;
+      }
+      expect(error).to.exist;
+      expect(error.message).to.contain('The "--lang" option requires a value.');
+      expect(error.message).to.contain('Information about using the `--lang` flag:');
+      expect(error.message).to.contain('`app/index.html`');
+    });
   });
 
   it('passes command options through to init command', async function () {
