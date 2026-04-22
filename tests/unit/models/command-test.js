@@ -278,6 +278,47 @@ describe('models/command.js', function () {
         expect(reason.message).to.match(/You cannot use.*inside an ember-cli project/);
       });
     });
+
+    it('registers blueprint options in beforeRun to prevent "is not registered" warnings', async function() {
+      let warnings = [];
+      let mockUi = {
+        writeLine: () => {},
+        writeWarnLine(message) {
+          warnings.push(message);
+        },
+      };
+      let mockProject = {
+        isEmberCLIProject: () => true,
+        root: process.cwd(),
+        hasDependencies: () => true,
+        isEmberCLIAddon: () => false,
+        blueprintLookupPaths: () => [],
+      };
+      let command = new Command({
+        ui: mockUi,
+        project: mockProject,
+        name: 'new',
+        settings: {},
+        availableOptions: [
+          { name: 'base-option', type: String },
+        ],
+        beforeRun() {
+          this.registerOptions({
+            availableOptions: [
+              { name: 'blueprint-flag', type: String },
+            ],
+          });
+        },
+        run(commandOptions) {
+          return commandOptions;
+        },
+      });
+    
+      let parsedOptions = await command.validateAndRun(['--blueprint-flag=verified']);
+      expect(parsedOptions.blueprintFlag).to.equal('verified');
+      let unregisteredWarning = warnings.find((w) => w && w.includes('is not registered'));
+      expect(unregisteredWarning, 'The "is not registered" warning should not have been emitted').to.be.undefined;
+    });
   });
 
   it('should be able to set availableOptions within init', function () {
