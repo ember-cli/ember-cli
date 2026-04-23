@@ -93,7 +93,7 @@ describe('new command', function () {
         error = e;
       }
       expect(error).to.exist;
-      expect(error.message).to.contain('The "--lang" option requires a valid language code value.');
+      expect(error.message).to.contain('The "--lang" option requires a value.');
       expect(error.message).to.contain('Information about using the `--lang` flag:');
       expect(error.message).to.contain('`app/index.html`');
     });
