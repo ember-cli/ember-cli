@@ -1,9 +1,0 @@
-# unconventional js
-/blueprints/*/files/
-
-# compiled output
-/dist/
-/declarations/
-
-# misc
-/coverage/
