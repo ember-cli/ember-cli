@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "packages": [
+    {
+      "name": "@ember-tooling/classic-build-app-blueprint",
+      "version": "6.12.0",
+      "blueprints": [
+        {
+          "name": "@ember-tooling/classic-build-app-blueprint",
+          "isBaseBlueprint": true,
+          "options": [
+            "--no-welcome",
+            "--ci-provider=github",
+            "--no-ember-data"
+          ]
+        }
+      ]
+    }
+  ]
+}
