@@ -425,14 +425,8 @@ describe('Default Packager: Tests', function () {
         'ember-cli': {
           'app-boot.js': 'app-boot.js',
           'app-config.js': 'app-config.js',
-          'app-prefix.js': 'app-prefix.js',
-          'app-suffix.js': 'app-suffix.js',
           'test-support-prefix.js': 'test-support-prefix.js',
           'test-support-suffix.js': 'test-support-suffix.js',
-          'tests-prefix.js': 'tests-prefix.js',
-          'tests-suffix.js': 'tests-suffix.js',
-          'vendor-prefix.js': 'vendor-prefix.js',
-          'vendor-suffix.js': 'vendor-suffix.js',
         },
       },
       tests: {

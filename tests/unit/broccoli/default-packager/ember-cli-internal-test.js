@@ -84,14 +84,8 @@ describe('Default Packager: Ember CLI Internal', function () {
     expect(Object.keys(emberCliFiles)).to.deep.equal([
       'app-boot.js',
       'app-config.js',
-      'app-prefix.js',
-      'app-suffix.js',
       'test-support-prefix.js',
       'test-support-suffix.js',
-      'tests-prefix.js',
-      'tests-suffix.js',
-      'vendor-prefix.js',
-      'vendor-suffix.js',
     ]);
   });
 
