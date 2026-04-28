@@ -99,9 +99,20 @@ describe('addon command', function () {
   it('registers argv passthrough options when blueprint is explicit and lookup fails', function () {
     td.replace(Blueprint, 'lookup', td.function());
     td.when(Blueprint.lookup(td.matchers.isA(String)), { ignoreExtraArgs: true }).thenThrow(
-      new SilentError('Unknown blueprint: @fake/blueprint-pkg')
+      new SilentError('Unknown blueprint: @embroider/addon-blueprint')
     );
-    command.beforeRun(['my-addon', '--blueprint', '@fake/blueprint-pkg', '--addon-only']);
+    command.beforeRun(['my-addon', '--blueprint', '@embroider/addon-blueprint', '--addon-only']);
     expect(command.hasOption('addon-only')).to.be.true;
+  });
+
+  it('does not register made-up options for explicit blueprint', function () {
+    td.replace(Blueprint, 'lookup', td.function());
+    td.when(Blueprint.lookup(td.matchers.isA(String)), { ignoreExtraArgs: true }).thenThrow(
+      new SilentError('Unknown blueprint: @embroider/addon-blueprint')
+    );
+
+    command.beforeRun(['my-addon', '--blueprint', '@embroider/addon-blueprint', '--i-made-this-up']);
+
+    expect(command.hasOption('i-made-this-up')).to.be.false;
   });
 });
