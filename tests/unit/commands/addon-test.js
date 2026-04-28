@@ -1,6 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
+const SilentError = require('silent-error');
 const commandOptions = require('../../factories/command-options');
 const AddonCommand = require('../../../lib/commands/addon');
 const Blueprint = require('../../../lib/models/blueprint');
@@ -93,5 +94,14 @@ describe('addon command', function () {
 
     command.beforeRun(['addon']);
     expect(command.availableOptions.map(({ name }) => name)).to.contain('custom-blueprint-option');
+  });
+
+  it('registers argv passthrough options when blueprint is explicit and lookup fails', function () {
+    td.replace(Blueprint, 'lookup', td.function());
+    td.when(Blueprint.lookup(td.matchers.isA(String)), { ignoreExtraArgs: true }).thenThrow(
+      new SilentError('Unknown blueprint: @fake/blueprint-pkg')
+    );
+    command.beforeRun(['my-addon', '--blueprint', '@fake/blueprint-pkg', '--addon-only']);
+    expect(command.hasOption('addon-only')).to.be.true;
   });
 });

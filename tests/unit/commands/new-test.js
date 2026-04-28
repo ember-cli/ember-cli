@@ -1,6 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
+const SilentError = require('silent-error');
 const commandOptions = require('../../factories/command-options');
 const NewCommand = require('../../../lib/commands/new');
 const Blueprint = require('../../../lib/models/blueprint');
@@ -84,6 +85,13 @@ describe('new command', function () {
     expect(command.availableOptions.map(({ name }) => name)).to.contain('custom-blueprint-option');
   });
 
+  it('registers argv passthrough options when blueprint is explicit and lookup fails', function () {
+    td.when(Blueprint.lookup(td.matchers.isA(String)), { ignoreExtraArgs: true }).thenThrow(
+      new SilentError('Unknown blueprint: @fake/blueprint-pkg')
+    );
+    command.beforeRun(['my-app', '--blueprint', '@fake/blueprint-pkg', '--addon-only']);
+    expect(command.hasOption('addon-only')).to.be.true;
+  });
   it('passes command options through to init command', async function () {
     command.tasks.CreateAndStepIntoDirectory = class extends Task {
       run() {
