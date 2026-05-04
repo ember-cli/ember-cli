@@ -304,14 +304,11 @@ describe('Acceptance: ember new', function () {
       expect(file('app/index.html')).to.contain('<html>');
 
       // no TypeScript files
-      [
-        'tsconfig.json',
-        'tsconfig.declarations.json',
-        'app/config/environment.d.ts',
-        'types/foo/index.d.ts',
-      ].forEach((filePath) => {
-        expect(file(filePath)).to.not.exist;
-      });
+      ['tsconfig.json', 'tsconfig.declarations.json', 'app/config/environment.d.ts', 'types/foo/index.d.ts'].forEach(
+        (filePath) => {
+          expect(file(filePath)).to.not.exist;
+        }
+      );
     });
 
     it('app + npm + !welcome', async function () {
@@ -430,12 +427,7 @@ describe('Acceptance: ember new', function () {
       }
 
       // check fixtures
-      [
-        '.ember-cli',
-        'tests/helpers/index.ts',
-        'tsconfig.json',
-        'app/config/environment.d.ts',
-      ].forEach((filePath) => {
+      ['.ember-cli', 'tests/helpers/index.ts', 'tsconfig.json', 'app/config/environment.d.ts'].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });
       checkFileWithJSONReplacement(
