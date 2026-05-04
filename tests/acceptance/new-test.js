@@ -308,7 +308,6 @@ describe('Acceptance: ember new', function () {
         'tsconfig.json',
         'tsconfig.declarations.json',
         'app/config/environment.d.ts',
-        'types/global.d.ts',
         'types/foo/index.d.ts',
       ].forEach((filePath) => {
         expect(file(filePath)).to.not.exist;
@@ -436,7 +435,6 @@ describe('Acceptance: ember new', function () {
         'tests/helpers/index.ts',
         'tsconfig.json',
         'app/config/environment.d.ts',
-        'types/global.d.ts',
       ].forEach((filePath) => {
         checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
       });

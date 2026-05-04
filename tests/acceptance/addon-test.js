@@ -127,7 +127,6 @@ describe('Acceptance: ember addon', function () {
       'tsconfig.json',
       'tsconfig.declarations.json',
       'tests/dummy/app/config/environment.d.ts',
-      'types/global.d.ts',
     ].forEach((filePath) => {
       expect(file(filePath)).to.not.exist;
     });
@@ -202,7 +201,6 @@ describe('Acceptance: ember addon', function () {
       'tsconfig.json',
       'tsconfig.declarations.json',
       'tests/dummy/app/config/environment.d.ts',
-      'types/global.d.ts',
     ].forEach((filePath) => {
       checkFile(filePath, path.join(__dirname, '../fixtures', fixturePath, filePath));
     });
