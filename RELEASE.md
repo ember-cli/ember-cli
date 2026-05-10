@@ -65,6 +65,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - check that the `Prepare Release` PR has been correctly opened by `release-plan`
 - Merge the `Prepare Release` branch when you are ready to release
 - Check the `Release Stable` GitHub action to make sure the release succeeded
+- Check the [Sync Output Repos](https://github.com/ember-cli/ember-cli/actions/workflows/sync-output-repos.yml) Github action to ensure the output repos have generated from the tag.
 
 ### Finish the `@ember/app-blueprint` release
 
@@ -116,6 +117,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - note: the release-plan config will automatically make this version a pre-release
 - Merge the `Prepare Beta Release` when you are ready to release the next beta version
 - Check the `Release Beta` GitHub action to make sure the release succeeded
+- Check the [Sync Output Repos](https://github.com/ember-cli/ember-cli/actions/workflows/sync-output-repos.yml) Github action to ensure the output repos have generated from the tag.
 
 ### Alpha release from the `master` branch
 
@@ -157,6 +159,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - check that the `Prepare Alpha Release` PR has been correctly opened by `release-plan`
 - Merge the `Prepare Alpha Release` when you are ready to release the next alpha version
 - Check the `Release Alpha` GitHub action to make sure the release succeeded
+- Check the [Sync Output Repos](https://github.com/ember-cli/ember-cli/actions/workflows/sync-output-repos.yml) Github action to ensure the output repos have generated from the tag.
 
 ### Update all packages
 
