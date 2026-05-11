@@ -231,8 +231,8 @@ importers:
         specifier: ^7.7.3
         version: 7.7.3
       semver-deprecate:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0
+        version: 1.1.0
       silent-error:
         specifier: ^1.1.1
         version: 1.1.1
@@ -4660,8 +4660,8 @@ packages:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
 
-  semver-deprecate@1.0.0:
-    resolution: {integrity: sha512-ZhOCbrUbXrkW7+L9Ik7CTgF5Rtd8ozITYcfFV/WFQNYq0kgmwiccfJ3b14184fADA8HozV1ezHJegeUc+YVByA==}
+  semver-deprecate@1.1.0:
+    resolution: {integrity: sha512-5AcYPbRIw9vs80YkyRxmm3Lbe88STkwNIpTKKX0Kxyy/T0yR05BTZ6JhV9B5pjTyc81SjztcFPY93kDPRFwlyA==}
 
   semver@5.7.2:
     resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
@@ -5342,6 +5342,7 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   validate-npm-package-license@3.0.4:
@@ -10458,7 +10459,7 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  semver-deprecate@1.0.0:
+  semver-deprecate@1.1.0:
     dependencies:
       chalk: 5.6.2
       semver: 7.7.3
