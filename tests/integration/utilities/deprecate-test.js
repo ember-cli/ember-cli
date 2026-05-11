@@ -1,14 +1,17 @@
 'use strict';
 
 const { resolve } = require('node:path');
-const { execa } = require('execa');
+const { execaNode } = require('execa');
 const { expect } = require('chai');
 
 const scriptPath = resolve(__dirname, '../../fixtures/deprecate-override/index.mjs');
 
 describe('deprecate-override-remove', function () {
   it('does not error by default', async function () {
-    const result = await execa('node', [scriptPath]);
+    // make sure we override env here so the CI job that runs the whole test suite with
+    // OVERRIDE_DEPRECATION_VERSION doesn't mess with the test. We need to provide some sort of
+    // env object plus the `extendEnv: false` for this to have the desired effect
+    const result = await execaNode(scriptPath, { env: { something: 'anything' }, extendEnv: false });
     expect(result.stdout).to.contain('success');
   });
 
@@ -16,10 +19,11 @@ describe('deprecate-override-remove', function () {
     let errorResult;
 
     try {
-      await execa('node', [scriptPath], {
+      await execaNode(scriptPath, {
         env: {
           OVERRIDE_DEPRECATION_VERSION: '55.0.0',
         },
+        extendEnv: false,
       });
     } catch (err) {
       errorResult = err;
