@@ -99,8 +99,8 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       diff:
-        specifier: ^8.0.2
-        version: 8.0.2
+        specifier: ^8.0.4
+        version: 8.0.4
       ember-cli-is-package-missing:
         specifier: ^1.0.0
         version: 1.0.0
@@ -411,8 +411,8 @@ importers:
         specifier: ^5.6.2
         version: 5.6.2
       diff:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.4
+        version: 8.0.4
       isbinaryfile:
         specifier: ^5.0.7
         version: 5.0.7
@@ -2144,8 +2144,8 @@ packages:
     resolution: {integrity: sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw==}
     engines: {node: '>=0.3.1'}
 
-  diff@8.0.2:
-    resolution: {integrity: sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==}
+  diff@8.0.4:
+    resolution: {integrity: sha512-DPi0FmjiSU5EvQV0++GFDOJ9ASQUVFh5kD+OzOnYdi7n3Wpm9hWWGfB/O2blfHcMVTL5WkQXSnRiK9makhrcnw==}
     engines: {node: '>=0.3.1'}
 
   doctrine@3.0.0:
@@ -7479,7 +7479,7 @@ snapshots:
 
   diff@7.0.0: {}
 
-  diff@8.0.2: {}
+  diff@8.0.4: {}
 
   doctrine@3.0.0:
     dependencies:
