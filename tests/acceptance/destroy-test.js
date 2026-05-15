@@ -188,4 +188,15 @@ describe('Acceptance: ember destroy', function () {
 
     expect(file('server/index.js')).to.exist;
   });
+
+  it('warns when no matching files exist to remove', async function () {
+    await initApp();
+
+    let result = await destroy(['blueprint', 'does-not-exist']);
+    let output = result.outputStream.join('\n');
+
+    expect(output).to.include('No files found to remove');
+    expect(output).to.include('blueprint');
+    expect(output).to.include('does-not-exist');
+  });
 });
