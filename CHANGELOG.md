@@ -1,5 +1,34 @@
 # ember-cli Changelog
 
+## Release (2026-05-13)
+
+* ember-cli 7.1.0-alpha.3 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.1.0-alpha.2 (patch)
+* @ember-tooling/classic-build-app-blueprint 7.1.0-alpha.3 (patch)
+* @ember-tooling/blueprint-model 0.6.3 (patch)
+
+#### :rocket: Enhancement
+* `ember-cli`
+  * [#10610](https://github.com/ember-cli/ember-cli/pull/10610) use semver-deprecate instead of internal code ([@mansona](https://github.com/mansona))
+  * [#11008](https://github.com/ember-cli/ember-cli/pull/11008) update babel-remove-types to v2 ([@mansona](https://github.com/mansona))
+  * [#11009](https://github.com/ember-cli/ember-cli/pull/11009) update configstore to v8 ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `ember-cli`, `@ember-tooling/blueprint-model`
+  * [#11020](https://github.com/ember-cli/ember-cli/pull/11020) Update diff to latest v8.x ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* `ember-cli`
+  * [#11017](https://github.com/ember-cli/ember-cli/pull/11017) Add Sync Output Repos check to release instructions ([@kategengler](https://github.com/kategengler))
+  * [#11016](https://github.com/ember-cli/ember-cli/pull/11016) fix: sync-output-repos workflow failing on tag pushes ([@Copilot](https://github.com/apps/copilot-swe-agent))
+  * [#10999](https://github.com/ember-cli/ember-cli/pull/10999) update RELEASE with update-blueprint-deps commands ([@mansona](https://github.com/mansona))
+
+#### Committers: 4
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## Release (2026-04-26)
 
 * ember-cli 7.1.0-alpha.2 (minor)

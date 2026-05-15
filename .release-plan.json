@@ -2,33 +2,59 @@
   "solution": {
     "ember-cli": {
       "impact": "minor",
+      "oldVersion": "7.1.0-alpha.2",
+      "newVersion": "7.1.0-alpha.3",
+      "tagName": "alpha",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./package.json"
+    },
+    "@ember-tooling/classic-build-addon-blueprint": {
+      "impact": "patch",
       "oldVersion": "7.1.0-alpha.1",
       "newVersion": "7.1.0-alpha.2",
       "tagName": "alpha",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
-        },
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
         }
       ],
-      "pkgJSONPath": "./package.json"
-    },
-    "@ember-tooling/classic-build-addon-blueprint": {
-      "oldVersion": "7.1.0-alpha.1"
+      "pkgJSONPath": "./packages/addon-blueprint/package.json"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "impact": "minor",
-      "oldVersion": "7.1.0-alpha.1",
-      "newVersion": "7.1.0-alpha.2",
+      "impact": "patch",
+      "oldVersion": "7.1.0-alpha.2",
+      "newVersion": "7.1.0-alpha.3",
       "tagName": "alpha",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on @ember-tooling/blueprint-model"
         }
       ],
       "pkgJSONPath": "./packages/app-blueprint/package.json"
@@ -37,8 +63,18 @@
       "oldVersion": "0.3.0"
     },
     "@ember-tooling/blueprint-model": {
-      "oldVersion": "0.6.2"
+      "impact": "patch",
+      "oldVersion": "0.6.2",
+      "newVersion": "0.6.3",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./packages/blueprint-model/package.json"
     }
   },
-  "description": "## Release (2026-04-26)\n\n* ember-cli 7.1.0-alpha.2 (minor)\n* @ember-tooling/classic-build-app-blueprint 7.1.0-alpha.2 (minor)\n\n#### :rocket: Enhancement\n* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`\n  * [#11006](https://github.com/ember-cli/ember-cli/pull/11006) update ember-welcome-page to v8 in app blueprint ([@mansona](https://github.com/mansona))\n  * [#11005](https://github.com/ember-cli/ember-cli/pull/11005) update ember-cli-deprecation-workflow to v4 ([@mansona](https://github.com/mansona))\n  * [#11003](https://github.com/ember-cli/ember-cli/pull/11003) update @ember/optional-features to v3 ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-05-13)\n\n* ember-cli 7.1.0-alpha.3 (minor)\n* @ember-tooling/classic-build-addon-blueprint 7.1.0-alpha.2 (patch)\n* @ember-tooling/classic-build-app-blueprint 7.1.0-alpha.3 (patch)\n* @ember-tooling/blueprint-model 0.6.3 (patch)\n\n#### :rocket: Enhancement\n* `ember-cli`\n  * [#10610](https://github.com/ember-cli/ember-cli/pull/10610) use semver-deprecate instead of internal code ([@mansona](https://github.com/mansona))\n  * [#11008](https://github.com/ember-cli/ember-cli/pull/11008) update babel-remove-types to v2 ([@mansona](https://github.com/mansona))\n  * [#11009](https://github.com/ember-cli/ember-cli/pull/11009) update configstore to v8 ([@mansona](https://github.com/mansona))\n\n#### :bug: Bug Fix\n* `ember-cli`, `@ember-tooling/blueprint-model`\n  * [#11020](https://github.com/ember-cli/ember-cli/pull/11020) Update diff to latest v8.x ([@mkszepp](https://github.com/mkszepp))\n\n#### :house: Internal\n* `ember-cli`\n  * [#11017](https://github.com/ember-cli/ember-cli/pull/11017) Add Sync Output Repos check to release instructions ([@kategengler](https://github.com/kategengler))\n  * [#11016](https://github.com/ember-cli/ember-cli/pull/11016) fix: sync-output-repos workflow failing on tag pushes ([@Copilot](https://github.com/apps/copilot-swe-agent))\n  * [#10999](https://github.com/ember-cli/ember-cli/pull/10999) update RELEASE with update-blueprint-deps commands ([@mansona](https://github.com/mansona))\n\n#### Committers: 4\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))\n- Katie Gengler ([@kategengler](https://github.com/kategengler))\n- Markus Sanin ([@mkszepp](https://github.com/mkszepp))\n"
 }
