@@ -1,14 +1,14 @@
 {
   "solution": {
     "ember-cli": {
-      "impact": "minor",
-      "oldVersion": "6.11.2",
-      "newVersion": "6.12.0",
+      "impact": "major",
+      "oldVersion": "6.12.0",
+      "newVersion": "7.0.0",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
         },
         {
           "impact": "patch",
@@ -17,60 +17,36 @@
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.11.2",
-      "newVersion": "6.12.0",
+      "impact": "major",
+      "oldVersion": "6.12.0",
+      "newVersion": "7.0.0",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
         }
       ],
       "pkgJSONPath": "./packages/addon-blueprint/package.json"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "impact": "minor",
-      "oldVersion": "6.11.2",
-      "newVersion": "6.12.0",
+      "impact": "major",
+      "oldVersion": "6.12.0",
+      "newVersion": "7.0.0",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
         }
       ],
       "pkgJSONPath": "./packages/app-blueprint/package.json"
     }
   },
-  "description": "## Release (2026-04-09)\n\n* ember-cli 6.12.0 (minor)\n* @ember-tooling/classic-build-addon-blueprint 6.12.0 (minor)\n* @ember-tooling/classic-build-app-blueprint 6.12.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10993](https://github.com/ember-cli/ember-cli/pull/10993) Promote Beta and update all dependencies for 6.12 release ([@mansona](https://github.com/mansona))\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10939](https://github.com/ember-cli/ember-cli/pull/10939) Add warpDrive support to app-blueprint ([@Copilot](https://github.com/apps/copilot-swe-agent))\n* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`\n  * [#10969](https://github.com/ember-cli/ember-cli/pull/10969) Update ember-cli-htmlbars to ^7.0.0 in app-blueprint ([@Copilot](https://github.com/apps/copilot-swe-agent))\n\n#### :bug: Bug Fix\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#10976](https://github.com/ember-cli/ember-cli/pull/10976) Enable `use-ember-modules` in blueprint optional-features.json ([@Copilot](https://github.com/apps/copilot-swe-agent))\n* `ember-cli`\n  * [#10941](https://github.com/ember-cli/ember-cli/pull/10941) Downgrade isbinaryfile ([@mansona](https://github.com/mansona))\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`\n  * [#10932](https://github.com/ember-cli/ember-cli/pull/10932) Remove tracked-built-ins (it comes built in with ember-source 6.8+) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* `ember-cli`\n  * [#10990](https://github.com/ember-cli/ember-cli/pull/10990) bump node on publish.yml and stop updating npm ([@mansona](https://github.com/mansona))\n  * [#10982](https://github.com/ember-cli/ember-cli/pull/10982) Update publish.yml to use PAT so that output repos workflow will run ([@kategengler](https://github.com/kategengler))\n  * [#10967](https://github.com/ember-cli/ember-cli/pull/10967) Replace `temp` package with Node.js built-in `fs.mkdtemp` ([@Copilot](https://github.com/apps/copilot-swe-agent))\n  * [#10931](https://github.com/ember-cli/ember-cli/pull/10931) update Release.md ([@mansona](https://github.com/mansona))\n  * [#10945](https://github.com/ember-cli/ember-cli/pull/10945) update release-plan for OIDC ([@mansona](https://github.com/mansona))\n* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`\n  * [#10947](https://github.com/ember-cli/ember-cli/pull/10947) bump in-range versions ([@mansona](https://github.com/mansona))\n\n#### Committers: 4\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))\n- Katie Gengler ([@kategengler](https://github.com/kategengler))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2026-05-15)\n\n* ember-cli 7.0.0 (major)\n* @ember-tooling/classic-build-addon-blueprint 7.0.0 (major)\n* @ember-tooling/classic-build-app-blueprint 7.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#11022](https://github.com/ember-cli/ember-cli/pull/11022) Promote Beta and update all dependencies for 7.0 release ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
