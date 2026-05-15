@@ -21,8 +21,8 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: ~6.12.0
-        version: 6.12.0
+        specifier: ~7.0.0-beta.1
+        version: 7.0.0-beta.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.3
         version: 1000.1.3
@@ -361,8 +361,8 @@ importers:
   packages/addon-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.2
+        version: 0.6.2
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -373,11 +373,11 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       fs-extra:
-        specifier: ^11.3.3
-        version: 11.3.3
+        specifier: ^11.3.4
+        version: 11.3.4
       lodash:
-        specifier: ^4.17.23
-        version: 4.17.23
+        specifier: ^4.18.1
+        version: 4.18.1
       silent-error:
         specifier: ^1.1.1
         version: 1.1.1
@@ -391,8 +391,8 @@ importers:
   packages/app-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.2
+        version: 0.6.2
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -530,8 +530,11 @@ packages:
   '@ember-tooling/blueprint-model@0.5.0':
     resolution: {integrity: sha512-2zAebSmmzpUO2wt6EyfX5TlcmvB9cTkteuZ3QhPmXLMthUpU5nUifcz3hlYcXPK7WM0HdO9qL4GdGQCoxhzaGg==}
 
-  '@ember/app-blueprint@6.12.0':
-    resolution: {integrity: sha512-9+c5r+0kI90lWDmTB6//Gzz/BArEba5v/msBFgF8+HW2b6vwUeaQgbFauo+vNa+rPHARy1cxzImKqruZ63LQ4w==}
+  '@ember-tooling/blueprint-model@0.6.2':
+    resolution: {integrity: sha512-63CctAbpa/xS094Qo+23xcsxVkbs9djJnifEcUPizHuOCiDx222jSe7fCimgfhNa+txaA7KH8QfMX70gtg1J1A==}
+
+  '@ember/app-blueprint@7.0.0-beta.1':
+    resolution: {integrity: sha512-yEDqcRLCOhLgl3OqeLhP6Q6xbILqZ9m1NNjMKc20FRfeAYbSgMLjDzayDDquVIgdHZqdi/l0qd81LYga0yLl6Q==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -2613,6 +2616,10 @@ packages:
     resolution: {integrity: sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==}
     engines: {node: '>=14.14'}
 
+  fs-extra@11.3.4:
+    resolution: {integrity: sha512-CTXd6rk/M3/ULNQj8FBqBWHYBVYybQ3VPBw0xGKFe3tuH7ytT6ACnvzpIQ3UZtB8yvUKC2cXn1a+x+5EVQLovA==}
+    engines: {node: '>=14.14'}
+
   fs-extra@4.0.3:
     resolution: {integrity: sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==}
 
@@ -3541,8 +3548,8 @@ packages:
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
-  lodash@4.17.23:
-    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   log-symbols@2.2.0:
     resolution: {integrity: sha512-VeIAFslyIerEJLXHziedo2basKbMKtTw3vfn5IzG0XTjhAVEJyNHnL2p7vc+wBDSdQuUpNw3M2u6xb9QsAY5Eg==}
@@ -5682,19 +5689,31 @@ snapshots:
       chalk: 4.1.2
       diff: 7.0.0
       isbinaryfile: 5.0.7
-      lodash: 4.17.23
+      lodash: 4.18.1
       promise.hash.helper: 1.0.8
       quick-temp: 0.1.9
       silent-error: 1.1.1
     transitivePeerDependencies:
       - supports-color
 
-  '@ember/app-blueprint@6.12.0':
+  '@ember-tooling/blueprint-model@0.6.2':
+    dependencies:
+      chalk: 5.6.2
+      diff: 7.0.0
+      isbinaryfile: 5.0.7
+      lodash: 4.18.1
+      promise.hash.helper: 1.0.8
+      quick-temp: 0.1.9
+      silent-error: 1.1.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@ember/app-blueprint@7.0.0-beta.1':
     dependencies:
       chalk: 4.1.2
       ejs: 3.1.10
       ember-cli-string-utils: 1.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       sort-package-json: 3.6.0
       walk-sync: 3.0.0
 
@@ -6319,7 +6338,7 @@ snapshots:
 
   async@2.6.4:
     dependencies:
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   async@3.2.6: {}
 
@@ -8115,6 +8134,12 @@ snapshots:
       jsonfile: 6.1.0
       universalify: 2.0.1
 
+  fs-extra@11.3.4:
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 6.1.0
+      universalify: 2.0.1
+
   fs-extra@4.0.3:
     dependencies:
       graceful-fs: 4.2.11
@@ -8157,7 +8182,7 @@ snapshots:
     dependencies:
       glob: 7.2.3
       iconv-lite: 0.4.24
-      lodash: 4.17.23
+      lodash: 4.18.1
       mkdirp: 0.5.6
       rimraf: 2.7.1
 
@@ -8649,7 +8674,7 @@ snapshots:
       cli-width: 2.2.1
       external-editor: 3.1.0
       figures: 2.0.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       mute-stream: 0.0.7
       run-async: 2.4.1
       rxjs: 6.6.7
@@ -9149,7 +9174,7 @@ snapshots:
 
   lodash@4.17.21: {}
 
-  lodash@4.17.23: {}
+  lodash@4.18.1: {}
 
   log-symbols@2.2.0:
     dependencies:
@@ -9933,7 +9958,7 @@ snapshots:
 
   quibble@0.9.2:
     dependencies:
-      lodash: 4.17.23
+      lodash: 4.18.1
       resolve: 1.22.11
 
   quick-temp@0.1.9:
