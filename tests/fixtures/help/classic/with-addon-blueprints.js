@@ -319,6 +319,22 @@ module.exports = {
               overridden: false
             },
             {
+              name: 'basic-cjs',
+              description: 'A basic blueprint',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+
+            },
+            {
+              name: 'basic-mjs',
+              description: 'A basic blueprint',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+
+            },
+            {
               name: 'basic_2',
               description: 'Another basic blueprint',
               availableOptions: [],
