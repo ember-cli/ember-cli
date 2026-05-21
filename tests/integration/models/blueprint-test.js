@@ -82,6 +82,8 @@ let instrumented = {
 let fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
 let basicBlueprint = path.join(fixtureBlueprints, 'basic');
 let basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
+let basicCjsBlueprint = path.join(fixtureBlueprints, 'basic-cjs');
+let basicMjsBlueprint = path.join(fixtureBlueprints, 'basic-mjs');
 
 let basicBlueprintFiles = [
   '.ember-cli',
@@ -1257,6 +1259,18 @@ describe('Blueprint', function () {
       let blueprint = Blueprint.load(basicBlueprint);
       expect(blueprint).to.be.an('object');
       expect(blueprint.name).to.equal('basic');
+    });
+
+    it('loads and returns a blueprint object (from cjs)', function () {
+      let blueprint = Blueprint.load(basicCjsBlueprint);
+      expect(blueprint).to.be.an('object');
+      expect(blueprint.name).to.equal('basic-cjs');
+    });
+
+    it('loads and returns a blueprint object (from mjs)', function () {
+      let blueprint = Blueprint.load(basicMjsBlueprint);
+      expect(blueprint).to.be.an('object');
+      expect(blueprint.name).to.equal('basic-mjs');
     });
 
     it('loads only blueprints with an index.js', function () {

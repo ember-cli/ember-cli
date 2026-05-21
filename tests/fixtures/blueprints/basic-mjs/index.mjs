@@ -1,8 +1,6 @@
-'use strict';
+import Blueprint from '../../../../lib/models/blueprint.js';
 
-const Blueprint = require('../../../../lib/models/blueprint.js');
-
-module.exports = Blueprint.extend({
+export default Blueprint.extend({
   description: 'A basic blueprint',
   beforeInstall(options, locals){
       return Promise.resolve().then(function(){

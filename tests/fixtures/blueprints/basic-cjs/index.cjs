@@ -1,6 +1,6 @@
 'use strict';
 
-const Blueprint = require('../../../../lib/models/blueprint.js');
+const Blueprint = require('../../../../lib/models/blueprint');
 
 module.exports = Blueprint.extend({
   description: 'A basic blueprint',
