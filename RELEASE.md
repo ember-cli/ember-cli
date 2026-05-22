@@ -48,7 +48,9 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Update blueprint dependencies to latest. Note: ember-data needs to be updated only in the alpha version from now on, make sure to only update to the release version of what was in the beta.
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=latest --ember-data=<whatever version was in the beta>
+  pnpm dlx update-blueprint-deps --filter 'ember-source$' --tag latest ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/**/package.json
+  pnpm dlx update-blueprint-deps --filter '@ember-tooling/.*' --tag latest ./package.json ./packages/*-blueprint/**/*ackage.json
+  pnpm dlx update-blueprint-deps --filter '.*' ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
   ```
 
 - run `pnpm lint:fix`
@@ -63,6 +65,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - check that the `Prepare Release` PR has been correctly opened by `release-plan`
 - Merge the `Prepare Release` branch when you are ready to release
 - Check the `Release Stable` GitHub action to make sure the release succeeded
+- Check the [Sync Output Repos](https://github.com/ember-cli/ember-cli/actions/workflows/sync-output-repos.yml) Github action to ensure the output repos have generated from the tag.
 
 ### Finish the `@ember/app-blueprint` release
 
@@ -96,7 +99,9 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Update blueprint dependencies to beta
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=<whatever version was in the alpha>
+  pnpm dlx update-blueprint-deps --filter 'ember-source$' --tag beta ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/**/package.json
+  pnpm dlx update-blueprint-deps --filter '@ember-tooling/.*' --tag latest ./package.json ./packages/*-blueprint/**/*ackage.json
+  pnpm dlx update-blueprint-deps --filter '.*' ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
   ```
 
 - run `pnpm lint:fix`
@@ -112,6 +117,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - note: the release-plan config will automatically make this version a pre-release
 - Merge the `Prepare Beta Release` when you are ready to release the next beta version
 - Check the `Release Beta` GitHub action to make sure the release succeeded
+- Check the [Sync Output Repos](https://github.com/ember-cli/ember-cli/actions/workflows/sync-output-repos.yml) Github action to ensure the output repos have generated from the tag.
 
 ### Alpha release from the `master` branch
 
@@ -136,7 +142,8 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - Update blueprint dependencies to alpha
 
   ```
-  node ./dev/update-blueprint-dependencies.js --ember-source=alpha --ember-data=<whatever version is in the package.json>
+  pnpm dlx update-blueprint-deps --filter 'ember-source$' --tag alpha ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/**/package.json
+  pnpm dlx update-blueprint-deps --filter '.*' ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
   ```
 
 - note: ember-data (aka warp-drive) should only ever be updated on master as a separate PR. It is no longer part of the release process
@@ -152,6 +159,23 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
 - check that the `Prepare Alpha Release` PR has been correctly opened by `release-plan`
 - Merge the `Prepare Alpha Release` when you are ready to release the next alpha version
 - Check the `Release Alpha` GitHub action to make sure the release succeeded
+- Check the [Sync Output Repos](https://github.com/ember-cli/ember-cli/actions/workflows/sync-output-repos.yml) Github action to ensure the output repos have generated from the tag.
+
+### Update all packages
+
+In the `update-blueprint-deps` steps described above we updated all packages that had in-range updates available. We also need to apply any out-of-range updates as part of the release process.
+
+Once the Alpha release has been completed we should run the following command to see if there are any releases that have out-of-range updates available:
+
+```
+pnpm dlx update-blueprint-deps --filter '.*' --tag latest ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
+```
+
+This is not intended to be committed and opened as a single PR, it is for illustrative purposes only. If your git diff shows that there are any packages that need to have the range updated (i.e. we have a `^` dependency defined but there is a new major release available) then you should run the same command to update that package with a filter on the package name e.g.
+
+```
+pnpm dlx update-blueprint-deps --filter 'babel-remove-types' --tag latest ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
+```
 
 ## Changelog updates
 
