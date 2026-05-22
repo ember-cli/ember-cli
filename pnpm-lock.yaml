@@ -12,8 +12,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@ember-tooling/blueprint-model':
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.6.3
+        version: 0.6.3
       '@ember-tooling/classic-build-addon-blueprint':
         specifier: workspace:*
         version: link:packages/addon-blueprint
@@ -21,7 +21,7 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: ~7.1.0-alpha.1
+        specifier: ~7.1.0-beta.1
         version: 7.1.0-beta.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.5
@@ -54,8 +54,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       broccoli-middleware:
-        specifier: ^2.1.1
-        version: 2.1.1
+        specifier: ^2.1.2
+        version: 2.1.2
       broccoli-slow-trees:
         specifier: ^3.1.0
         version: 3.1.0
@@ -168,7 +168,7 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
       inquirer:
-        specifier: ^13.4.2
+        specifier: ^13.4.3
         version: 13.4.3(@types/node@22.10.2)
       is-git-url:
         specifier: ^1.0.0
@@ -228,7 +228,7 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1
       semver:
-        specifier: ^7.7.4
+        specifier: ^7.8.0
         version: 7.8.0
       semver-deprecate:
         specifier: ^1.1.0
@@ -364,8 +364,8 @@ importers:
   packages/addon-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.6.3
+        version: 0.6.3
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -394,40 +394,14 @@ importers:
   packages/app-blueprint:
     dependencies:
       '@ember-tooling/blueprint-model':
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.6.3
+        version: 0.6.3
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
       ember-cli-string-utils:
         specifier: ^1.1.0
         version: 1.1.0
-
-  packages/blueprint-blueprint: {}
-
-  packages/blueprint-model:
-    dependencies:
-      chalk:
-        specifier: ^5.6.2
-        version: 5.6.2
-      diff:
-        specifier: ^8.0.4
-        version: 8.0.4
-      isbinaryfile:
-        specifier: ^5.0.7
-        version: 5.0.7
-      lodash:
-        specifier: ^4.17.23
-        version: 4.18.1
-      promise.hash.helper:
-        specifier: ^1.0.8
-        version: 1.0.8
-      quick-temp:
-        specifier: ^0.1.9
-        version: 0.1.9
-      silent-error:
-        specifier: ^1.1.1
-        version: 1.1.1
 
 packages:
 
@@ -623,8 +597,8 @@ packages:
   '@ember-tooling/blueprint-blueprint@0.3.0':
     resolution: {integrity: sha512-9mwMGda8OC9oEJbvxnXX1DT5ZFR6YQumfmPwV+uUJCbGsaUkgr1UeTkcpgdL+Izvb4kjF/+BWcOtnaSvmR7Yig==}
 
-  '@ember-tooling/blueprint-model@0.6.2':
-    resolution: {integrity: sha512-63CctAbpa/xS094Qo+23xcsxVkbs9djJnifEcUPizHuOCiDx222jSe7fCimgfhNa+txaA7KH8QfMX70gtg1J1A==}
+  '@ember-tooling/blueprint-model@0.6.3':
+    resolution: {integrity: sha512-Cn38jhmsyOTT/3ecJcyKRQqTbGYA4TFx/mbi8DY0a/vP29A7tnycpvPQ3uwqWT3y/Pj3LOrs5QvRPLeZMZfeFg==}
 
   '@ember/app-blueprint@7.1.0-beta.1':
     resolution: {integrity: sha512-u6LhWjyN8kC/pW06zXCFEQqGBfMl8zkan+2kfsEQsitUxVTu1Tpo9t0PpbHE3r6xj1TfknNfWPzPnFZa3s+wDQ==}
@@ -1103,11 +1077,6 @@ packages:
     resolution: {integrity: sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==}
     engines: {node: '>=4'}
 
-  ansi-html@0.0.7:
-    resolution: {integrity: sha512-JoAxEa1DfP9m2xfB/y2r/aKcwXNlltr4+0QSBC4TrLfcxyvepX2Pv0t/xpgGV5bGsDzCYV8SzjWgyCW0T9yYbA==}
-    engines: {'0': node >= 0.8.0}
-    hasBin: true
-
   ansi-html@0.0.9:
     resolution: {integrity: sha512-ozbS3LuenHVxNRh/wdnN16QapUHzauqSomAl1jwwJRRsGwFwtj644lIhxfWu0Fy0acCij2+AEgHvjscq3dlVXg==}
     engines: {'0': node >= 0.8.0}
@@ -1366,8 +1335,8 @@ packages:
     resolution: {integrity: sha512-nTrQe5AQtCrW4enLRvbD/vTLHqyW2tz+vsLXQe4IEaUhepuMGVKJJr+I8n34Vu6fPjmPLwTjzNC8izMIDMtHPw==}
     engines: {node: 10.* || >= 12.*}
 
-  broccoli-middleware@2.1.1:
-    resolution: {integrity: sha512-BK8aPhQpOLsHWiftrqXQr84XsvzUqeaN4PlCQOYg5yM0M+WKAHtX2WFXmicSQZOVgKDyh5aeoNTFkHjBAEBzwQ==}
+  broccoli-middleware@2.1.2:
+    resolution: {integrity: sha512-hdJ5mPwvsQI/eDZbpztfaA0DNINqp/aHzEz4lPG8WCVOXUfbFdbiWO7nMu3v+mmwTcgRD2e8I4DVQ9J2AoYnPQ==}
     engines: {node: 6.* || 8.* || >= 10.*}
 
   broccoli-node-api@1.7.0:
@@ -5828,10 +5797,10 @@ snapshots:
 
   '@ember-tooling/blueprint-blueprint@0.3.0': {}
 
-  '@ember-tooling/blueprint-model@0.6.2':
+  '@ember-tooling/blueprint-model@0.6.3':
     dependencies:
       chalk: 5.6.2
-      diff: 7.0.0
+      diff: 8.0.4
       isbinaryfile: 5.0.7
       lodash: 4.18.1
       promise.hash.helper: 1.0.8
@@ -6345,8 +6314,6 @@ snapshots:
 
   ansi-escapes@3.2.0: {}
 
-  ansi-html@0.0.7: {}
-
   ansi-html@0.0.9: {}
 
   ansi-regex@2.1.1: {}
@@ -6698,9 +6665,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  broccoli-middleware@2.1.1:
+  broccoli-middleware@2.1.2:
     dependencies:
-      ansi-html: 0.0.7
+      ansi-html: 0.0.9
       handlebars: 4.7.8
       has-ansi: 3.0.0
       mime-types: 2.1.35
