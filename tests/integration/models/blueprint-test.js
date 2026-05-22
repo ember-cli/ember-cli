@@ -84,6 +84,7 @@ let basicBlueprint = path.join(fixtureBlueprints, 'basic');
 let basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
 let basicCjsBlueprint = path.join(fixtureBlueprints, 'basic-cjs');
 let basicMjsBlueprint = path.join(fixtureBlueprints, 'basic-mjs');
+let basicEsmBlueprint = path.join(fixtureBlueprints, 'basic-esm');
 
 let basicBlueprintFiles = [
   '.ember-cli',
@@ -1265,6 +1266,12 @@ describe('Blueprint', function () {
       let blueprint = Blueprint.load(basicCjsBlueprint);
       expect(blueprint).to.be.an('object');
       expect(blueprint.name).to.equal('basic-cjs');
+    });
+
+    it('loads and returns a blueprint object (from esm)', function () {
+      let blueprint = Blueprint.load(basicEsmBlueprint);
+      expect(blueprint).to.be.an('object');
+      expect(blueprint.name).to.equal('basic-esm');
     });
 
     it('loads and returns a blueprint object (from mjs)', function () {
