@@ -1,52 +1,24 @@
 {
   "solution": {
     "ember-cli": {
-      "impact": "major",
-      "oldVersion": "6.12.0",
-      "newVersion": "7.0.0",
+      "impact": "patch",
+      "oldVersion": "7.0.0",
+      "newVersion": "7.0.1",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-addon-blueprint"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @ember-tooling/classic-build-app-blueprint"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     },
     "@ember-tooling/classic-build-addon-blueprint": {
-      "impact": "major",
-      "oldVersion": "6.12.0",
-      "newVersion": "7.0.0",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        }
-      ],
-      "pkgJSONPath": "./packages/addon-blueprint/package.json"
+      "oldVersion": "7.0.0"
     },
     "@ember-tooling/classic-build-app-blueprint": {
-      "impact": "major",
-      "oldVersion": "6.12.0",
-      "newVersion": "7.0.0",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        }
-      ],
-      "pkgJSONPath": "./packages/app-blueprint/package.json"
+      "oldVersion": "7.0.0"
     }
   },
-  "description": "## Release (2026-05-15)\n\n* ember-cli 7.0.0 (major)\n* @ember-tooling/classic-build-addon-blueprint 7.0.0 (major)\n* @ember-tooling/classic-build-app-blueprint 7.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#11022](https://github.com/ember-cli/ember-cli/pull/11022) Promote Beta and update all dependencies for 7.0 release ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-05-22)\n\n* ember-cli 7.0.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli`\n  * [#11028](https://github.com/ember-cli/ember-cli/pull/11028) [BUGFIX release] fix require(esm) of blueprint indexes ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
