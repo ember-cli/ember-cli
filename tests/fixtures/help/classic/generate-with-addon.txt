@@ -25,6 +25,8 @@ ember generate [33m<blueprint>[39m [36m<options...>[39m
     fixtures:
       basic [33m<name>[39m
         [90mA basic blueprint[39m
+      basic-esm [33m<name>[39m
+        [90mA basic blueprint[39m
       basic_2 [33m<name>[39m
         [90mAnother basic blueprint[39m
       exporting-object [33m<name>[39m
