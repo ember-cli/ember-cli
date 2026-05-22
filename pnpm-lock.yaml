@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  ember-cli-blueprint-test-helpers:
+    hash: 67b4e6082643614a12fdca71c9ed35d2df9b46dfb0d24cb3ba3665b2048bac9a
+    path: patches/ember-cli-blueprint-test-helpers.patch
+
 importers:
 
   .:
@@ -287,7 +292,7 @@ importers:
         version: 9.2.1
       ember-cli-blueprint-test-helpers:
         specifier: ^0.19.2
-        version: 0.19.2
+        version: 0.19.2(patch_hash=67b4e6082643614a12fdca71c9ed35d2df9b46dfb0d24cb3ba3665b2048bac9a)
       ember-cli-internal-test-helpers:
         specifier: ^0.9.1
         version: 0.9.1
@@ -407,18 +412,51 @@ importers:
 
   packages/blueprint-model:
     dependencies:
+      babel-remove-types:
+        specifier: ^2.0.0
+        version: 2.0.0
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
+      content-tag:
+        specifier: ^4.0.0
+        version: 4.1.0
+      core-object:
+        specifier: ^3.1.5
+        version: 3.1.5
       diff:
         specifier: ^8.0.4
         version: 8.0.4
+      ember-cli-normalize-entity-name:
+        specifier: ^1.0.0
+        version: 1.0.0
+      ember-cli-string-utils:
+        specifier: ^1.1.0
+        version: 1.1.0
+      fs-extra:
+        specifier: ^11.3.4
+        version: 11.3.4
+      heimdalljs-logger:
+        specifier: ^0.1.10
+        version: 0.1.10
+      inflection:
+        specifier: ^3.0.2
+        version: 3.0.2
       isbinaryfile:
         specifier: ^5.0.7
         version: 5.0.7
       lodash:
         specifier: ^4.17.23
         version: 4.18.1
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
+      markdown-it-terminal:
+        specifier: ^0.4.0
+        version: 0.4.0(markdown-it@14.1.0)
+      minimatch:
+        specifier: ^10.1.1
+        version: 10.1.1
       promise.hash.helper:
         specifier: ^1.0.8
         version: 1.0.8
@@ -428,6 +466,9 @@ importers:
       silent-error:
         specifier: ^1.1.1
         version: 1.1.1
+      walk-sync:
+        specifier: ^4.0.0
+        version: 4.0.1
 
 packages:
 
@@ -7511,7 +7552,7 @@ snapshots:
 
   electron-to-chromium@1.5.74: {}
 
-  ember-cli-blueprint-test-helpers@0.19.2:
+  ember-cli-blueprint-test-helpers@0.19.2(patch_hash=67b4e6082643614a12fdca71c9ed35d2df9b46dfb0d24cb3ba3665b2048bac9a):
     dependencies:
       chai: 4.5.0
       chai-as-promised: 7.1.2(chai@4.5.0)
