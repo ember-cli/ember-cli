@@ -41,25 +41,25 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   - **make sure to not update the .github/workflows/plan-stable-release.yml file** this should still plan a stable release
   - **make sure to not update the .github/workflows/publish-stable.yml file** this should still publish a stable release
   - **make sure to not update the CHANGELOG.md file** so as not to include the beta or alpha changelogs in the next release
-  - make sure to not update the version in the package.json during this step, this will be release-plan's job
-  - make sure to not update the version in the `packages/app-blueprint/package.json`, or `packages/addon-blueprint/package.json` files during this step, this will be release-plan's job
-  - make sure to not add the `release-plan` config section to the package.json during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
+  - make sure to not update the version in the `package.json`, `packages/app-blueprint/package.json`, or `packages/addon-blueprint/package.json` files during this step, this will be release-plan's job
+  - make sure to not update update the `ember-cli` reference in `packages/app-blueprint/files/package.json`, this has been automated in the release-plan process
+  - make sure to not add the `release-plan` config section to the `package.json`, `packages/app-blueprint/package.json`, or `packages/addon-blueprint/package.json` files during this step. We are releasing a real release so we don't want to configure release-plan to do a pre-release.
   - commit the merge `git commit -am "promote beta to release"`
-- Update blueprint dependencies to latest. Note: ember-data needs to be updated only in the alpha version from now on, make sure to only update to the release version of what was in the beta.
+- Update blueprint dependencies to latest.
 
   ```
   pnpm dlx update-blueprint-deps --filter 'ember-source$' --tag latest ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/**/package.json
   pnpm dlx update-blueprint-deps --filter '@ember-tooling/.*' --tag latest ./package.json ./packages/*-blueprint/**/*ackage.json
   pnpm dlx update-blueprint-deps --filter '.*' ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
   ```
-
+- run `pnpm install` to update your pacakge.lock and download any new dependencies
 - run `pnpm lint:fix`
 - update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@latest`
 - manually add a `~` back into the `@ember/app-blueprint` dependency in the root package.json
 - run `pnpm install` to make sure the lock file is up to date
 - commit this update `git commit -am "update blueprint dependencies to latest"`
 - push and open a PR targeting `release` with a PR title like `Promote Beta and update all dependencies for 6.4 release`
-- mark this PR as an `enhancement` if it is a minor release
+- mark this PR as an `enhancement` if it is a minor release, or `breaking` if it is a major
 - check that everything is ok (i.e. that CI has run correctly and that you have the changes you expect)
 - merge branch
 - check that the `Prepare Release` PR has been correctly opened by `release-plan`
