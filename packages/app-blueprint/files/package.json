@@ -79,7 +79,7 @@
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.0.4",
     "ember-resolver": "^13.2.0",
-    "ember-source": "~7.1.0-beta.1",
+    "ember-source": "~7.2.0-alpha.3",
     "ember-template-imports": "^4.4.0",
     "ember-template-lint": "^6.1.0<% if (welcome) { %>",
     "ember-welcome-page": "^8.0.5<% } %>",
@@ -98,8 +98,8 @@
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^36.0.1<% if (typescript) { %>",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.3<% } %>",
-    "webpack": "^5.106.2"
+    "typescript-eslint": "^8.59.4<% } %>",
+    "webpack": "^5.107.1"
   },
   "engines": {
     "node": ">= 20.19"
