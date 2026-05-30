@@ -319,6 +319,13 @@ module.exports = {
               overridden: false
             },
             {
+              name: 'basic-esm',
+              description: 'A basic blueprint',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+            },
+            {
               name: 'basic_2',
               description: 'Another basic blueprint',
               availableOptions: [],
