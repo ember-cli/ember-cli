@@ -1,5 +1,21 @@
 # ember-cli Changelog
 
+## Release (2026-05-30)
+
+* ember-cli 7.1.0-beta.2 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#11028](https://github.com/ember-cli/ember-cli/pull/11028) [BUGFIX release] fix require(esm) of blueprint indexes ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `ember-cli`
+  * [#11033](https://github.com/ember-cli/ember-cli/pull/11033) Merge release into beta ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-05-22)
 
 * ember-cli 7.1.0-beta.1 (minor)
