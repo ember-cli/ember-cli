@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+## Release (2026-06-09)
+
+* ember-cli 7.1.0-alpha.4 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.1.0-alpha.3 (patch)
+* @ember-tooling/classic-build-app-blueprint 7.1.0-alpha.4 (patch)
+* @ember-tooling/blueprint-model 0.7.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/blueprint-model`
+  * [#10672](https://github.com/ember-cli/ember-cli/pull/10672) Separate blueprint model so it can be used outside of ember-cli ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#11027](https://github.com/ember-cli/ember-cli/pull/11027) Fix error when blueprint is missing keyword ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `ember-cli`
+  * [#10880](https://github.com/ember-cli/ember-cli/pull/10880) stop using internal package cache in the addon smoke test and rely on pnpm caching ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-05-13)
 
 * ember-cli 7.1.0-alpha.3 (minor)
