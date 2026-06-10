@@ -450,8 +450,9 @@ describe('test command in classic', function () {
         });
     });
 
-    it('DOES NOT throw an error if using a build path', function () {
-      expect(command.validateAndRun(['--server', '--path=tests'])).to.be.ok;
+    it('DOES NOT throw an error if using a build path', async function () {
+      // if this throws then the test will fail
+      await command.validateAndRun(['--server', '--path=tests']);
     });
   });
 });
