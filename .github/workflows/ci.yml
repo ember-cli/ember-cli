@@ -14,6 +14,8 @@ on:
   pull_request:
     paths-ignore:
       - "**.md"
+      - "!packages/**.md"
+      - "!tests/**.md"
   workflow_dispatch:
   merge_group:
   schedule:
