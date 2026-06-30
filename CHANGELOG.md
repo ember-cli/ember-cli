@@ -1,5 +1,40 @@
 # ember-cli Changelog
 
+## Release (2026-06-30)
+
+* ember-cli 7.2.0-alpha.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.2.0-alpha.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.2.0-alpha.1 (minor)
+* @ember-tooling/blueprint-model 0.7.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-model`
+  * [#11032](https://github.com/ember-cli/ember-cli/pull/11032) Prepare 7.2 alpha ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-addon-blueprint`
+  * [#11035](https://github.com/ember-cli/ember-cli/pull/11035) Add placeholder for documenting exports from an addon ([@kategengler](https://github.com/kategengler))
+* `ember-cli`, `@ember-tooling/blueprint-model`
+  * [#10672](https://github.com/ember-cli/ember-cli/pull/10672) Separate blueprint model so it can be used outside of ember-cli ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#11027](https://github.com/ember-cli/ember-cli/pull/11027) Fix error when blueprint is missing keyword ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#11028](https://github.com/ember-cli/ember-cli/pull/11028) [BUGFIX release] fix require(esm) of blueprint indexes ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `ember-cli`
+  * [#11037](https://github.com/ember-cli/ember-cli/pull/11037) bring test fixtures in line with updates from addon readme ([@void-mAlex](https://github.com/void-mAlex))
+  * [#11038](https://github.com/ember-cli/ember-cli/pull/11038) fix running tests on blueprint markdown changes ([@mansona](https://github.com/mansona))
+  * [#10880](https://github.com/ember-cli/ember-cli/pull/10880) stop using internal package cache in the addon smoke test and rely on pnpm caching ([@mansona](https://github.com/mansona))
+  * [#11033](https://github.com/ember-cli/ember-cli/pull/11033) Merge release into beta ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11029](https://github.com/ember-cli/ember-cli/pull/11029) Prepare Beta Release ([@mansona](https://github.com/mansona))
+
+#### Committers: 4
+- Alex ([@void-mAlex](https://github.com/void-mAlex))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-05-13)
 
 * ember-cli 7.1.0-alpha.3 (minor)
