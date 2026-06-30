@@ -22,9 +22,10 @@ on:
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-only-when-a-push-of-specific-tags-occurs
   # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushbranchestagsbranches-ignoretags-ignore
   push:
-    # for addon and new output
+    # Only trigger for ember-cli package tags (format: v{version}-ember-cli)
+    # Avoids spurious runs from other package tags in this repo (e.g. v*-@ember-tooling/*)
     tags:
-      - "v*"
+      - "v*-ember-cli"
 
 # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
 # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
@@ -48,13 +49,19 @@ jobs:
       - id: determine
         run: |
           if [[ "${{ github.event.inputs.version }}" != "" ]]; then
+            # Manual workflow_dispatch with an explicit version string (no leading 'v').
+            # Construct the full tag name expected by the scripts.
             TAG="v${{ github.event.inputs.version }}-ember-cli"
-          elif [[ "${{ github.ref_name }}" != "" ]]; then
-            TAG="${{github.ref_name}}-ember-cli"
+          elif [[ "${{ github.ref_type }}" == "tag" ]]; then
+            # Tag-push trigger: github.ref_name is already the full tag name
+            # (e.g. v7.1.0-alpha.2-ember-cli).  Use it directly — do NOT append
+            # "-ember-cli" again, or the version parsing in the scripts will be wrong.
+            TAG="${{ github.ref_name }}"
           else
             echo "Could not determine tag / version"
             echo ""
             echo "github.ref_name = ${{ github.ref_name }}"
+            echo "github.ref_type = ${{ github.ref_type }}"
             echo "event.inputs.version = ${{ github.event.inputs.version }}"
             exit 1;
           fi
