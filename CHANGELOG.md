@@ -2,6 +2,17 @@
 
 ## Release (2026-06-30)
 
+* ember-cli 7.2.0-alpha.2 (patch)
+
+#### :house: Internal
+* `ember-cli`
+  * [#11023](https://github.com/ember-cli/ember-cli/pull/11023) Update RELEASE.md ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2026-06-30)
+
 * ember-cli 7.2.0-alpha.1 (minor)
 * @ember-tooling/classic-build-addon-blueprint 7.2.0-alpha.1 (minor)
 * @ember-tooling/classic-build-app-blueprint 7.2.0-alpha.1 (minor)
