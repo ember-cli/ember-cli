@@ -1474,7 +1474,11 @@ Blueprint.load = function (blueprintPath, blueprintOptions) {
 
     let constructorPath = path.resolve(blueprintPath, 'index.js');
     if (Blueprint._existsSync(constructorPath)) {
-      const blueprintModule = require(constructorPath);
+      let blueprintModule = require(constructorPath);
+
+      if (blueprintModule.__esModule) {
+        blueprintModule = blueprintModule.default;
+      }
 
       if (typeof blueprintModule === 'function') {
         Constructor = blueprintModule;
