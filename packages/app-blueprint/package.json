@@ -1,6 +1,6 @@
 {
   "name": "@ember-tooling/classic-build-app-blueprint",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/ember-cli/ember-cli.git",
