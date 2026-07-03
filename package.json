@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "7.1.0-beta.2",
+  "version": "7.2.0-alpha.1",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -172,6 +172,11 @@
     "yuidocjs": "0.10.2"
   },
   "packageManager": "pnpm@10.12.1",
+  "pnpm": {
+    "patchedDependencies": {
+      "ember-cli-blueprint-test-helpers": "patches/ember-cli-blueprint-test-helpers.patch"
+    }
+  },
   "engines": {
     "node": ">= 20.19.0"
   },

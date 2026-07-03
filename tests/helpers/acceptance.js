@@ -139,11 +139,7 @@ async function createAndInstallTestTargets(projectName, options) {
 
   let result = await applyCommand(command, projectName, '--skip-npm', `--directory=${outputDir.path}`);
 
-  await execa('pnpm', ['install', '--prefer-offline'], {
-    preferLocal: true,
-    cwd: outputDir.path,
-  });
-
+  // we need to link these packages before we try to run pnpm install so it always uses the current version of ember-cli and the sub-packages
   for (let pkg of [
     '.',
     'packages/blueprint-model',
@@ -156,6 +152,11 @@ async function createAndInstallTestTargets(projectName, options) {
       cwd: outputDir.path,
     });
   }
+
+  await execa('pnpm', ['install', '--prefer-offline'], {
+    preferLocal: true,
+    cwd: outputDir.path,
+  });
 
   return {
     result,

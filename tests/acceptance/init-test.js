@@ -3,7 +3,7 @@
 const ember = require('../helpers/ember');
 const walkSync = require('walk-sync');
 const { globSync } = require('glob');
-const Blueprint = require('../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
