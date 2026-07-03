@@ -26,8 +26,8 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: ~7.1.0
-        version: 7.1.0
+        specifier: ~7.2.0-beta.1
+        version: 7.2.0-beta.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.5
         version: 1000.1.5
@@ -131,8 +131,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1
       filesize:
-        specifier: ^11.0.17
-        version: 11.0.17
+        specifier: ^11.0.18
+        version: 11.0.19
       find-up:
         specifier: ^8.0.0
         version: 8.0.0
@@ -327,8 +327,8 @@ importers:
         specifier: ^11.7.6
         version: 11.7.6
       nock:
-        specifier: ^14.0.15
-        version: 14.0.15
+        specifier: ^14.0.16
+        version: 14.0.16
       nyc:
         specifier: ^17.1.0
         version: 17.1.0
@@ -605,8 +605,8 @@ packages:
   '@ember-tooling/blueprint-model@0.7.0':
     resolution: {integrity: sha512-udE6eCPtWegaMJref9JAe6a6YLnblObD/WIx1wugwHOidpAgooZTaItgaRrJGgIV71D6FwHyFD85/SQg108zaw==}
 
-  '@ember/app-blueprint@7.1.0':
-    resolution: {integrity: sha512-OnrHQRq7zIfcBJTvnhMSJjlLHHmZcjML8/soxRys/WwyGKrvDqG/pcyRTZ27CysWRLbew4zp5M+ip/NQCtqO5Q==}
+  '@ember/app-blueprint@7.2.0-beta.1':
+    resolution: {integrity: sha512-jZc2B9o4fiXvEowWezf9EiHC0byRKvmtlj/m5Hhd61gcZt2x3AICj62hp9IPetOkwWpJIgCxy+6HhM3m2a/zfA==}
 
   '@eslint-community/eslint-utils@4.9.1':
     resolution: {integrity: sha512-phrYmNiYppR7znFEdqgfWHXR6NCkZEK7hwWDHZUjit/2/U0r6XvkDl0SYnoM51Hq7FhCGdLDT6zxCCOY1hexsQ==}
@@ -2502,8 +2502,8 @@ packages:
   filelist@1.0.4:
     resolution: {integrity: sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==}
 
-  filesize@11.0.17:
-    resolution: {integrity: sha512-oHLTvMLw6imZUl1se/RBQrFlyy50nXce4sU7yGR6Qc0JgCwqnfiFsAnEwotdGmfKLD7SArGUk2/5STU0k8LOBQ==}
+  filesize@11.0.19:
+    resolution: {integrity: sha512-9Q2itINBvCHwFw9v5X7czZm855yAiFIYlnugrh7+8tYO4ITHZMzV91m35q2FngL9hoZwwjSTQACFF/W52OzJZQ==}
     engines: {node: '>= 10.8.0'}
 
   fill-range@4.0.0:
@@ -3858,8 +3858,8 @@ packages:
   nice-try@1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
 
-  nock@14.0.15:
-    resolution: {integrity: sha512-S0a47C9pLvcYx/Ugf0H30BVBEcUgMMBDk9VJIDlJ8XGrfH2QDUD4Tgdp45qDIiHttokBG+IbsOtsvIjGR/j3bg==}
+  nock@14.0.16:
+    resolution: {integrity: sha512-8r4KEc6nT1D/fdLD/R1BO1CPaVEL8o40u/guFRJlXabN7vr3RmMqyjsY5Krt0nMwhsOAwXQ/mtN5vy5Jh3aErg==}
     engines: {node: '>=18.20.0 <20 || >=20.12.1'}
 
   node-gyp-build@4.8.4:
@@ -5826,7 +5826,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ember/app-blueprint@7.1.0':
+  '@ember/app-blueprint@7.2.0-beta.1':
     dependencies:
       ejs: 3.1.10
       ember-cli-string-utils: 1.1.0
@@ -8028,7 +8028,7 @@ snapshots:
     dependencies:
       minimatch: 5.1.6
 
-  filesize@11.0.17: {}
+  filesize@11.0.19: {}
 
   fill-range@4.0.0:
     dependencies:
@@ -9581,7 +9581,7 @@ snapshots:
 
   nice-try@1.0.5: {}
 
-  nock@14.0.15:
+  nock@14.0.16:
     dependencies:
       '@mswjs/interceptors': 0.41.9
       json-stringify-safe: 5.0.1
