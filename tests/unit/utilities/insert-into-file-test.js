@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
 const EOL = os.EOL;
-const insertIntoFile = require('../../../lib/utilities/insert-into-file');
+const insertIntoFile = require('@ember-tooling/blueprint-model/utilities/insert-into-file');
 
 const { expect } = require('chai');
 

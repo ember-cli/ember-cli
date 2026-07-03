@@ -6,7 +6,7 @@ const tmp = require('tmp-promise');
 const initApp = require('../helpers/init-app');
 const generateUtils = require('../helpers/generate-utils');
 
-const Blueprint = require('../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
 const { expect } = require('chai');
