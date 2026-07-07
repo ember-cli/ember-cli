@@ -1,10 +1,11 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs-extra');
 const merge = require('lodash/merge');
 // this is a test-only dependency
 // eslint-disable-next-line n/no-unpublished-require
-const FixturifyProject = require('fixturify-project');
+const { Project: FixturifyProject } = require('fixturify-project');
 const Project = require('../../lib/models/project');
 const MockCLI = require('./mock-cli');
 
@@ -45,22 +46,18 @@ function getOptionsObjectWithCallbackFunction(defaultOptions, optionsOrCallback)
   );
 }
 
-// Essentially a copy of the function in node-fixturify-project, converted from TS to JS.
-// We need this for use during toJSON().
-function parseScoped(name) {
-  let matched = name.match(/(@[^@/]+)\/(.*)/);
-  if (matched) {
-    return {
-      scope: matched[1],
-      name: matched[2],
-    };
-  }
-  return null;
-}
-
 module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
-  writeSync() {
-    super.writeSync(...arguments);
+  async write() {
+    await super.write(...arguments);
+
+    // in-repo addons are not real dependencies (they live in `lib/`, not
+    // `node_modules/`), so they are not written by the upstream `write`;
+    // write each one into `lib/<name>` ourselves
+    for (let inRepoAddon of this._inRepoAddons || []) {
+      inRepoAddon.baseDir = path.join(this.baseDir, 'lib', inRepoAddon.name);
+      await inRepoAddon.write();
+    }
+
     this._hasWritten = true;
   }
 
@@ -68,26 +65,25 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     merge(this.files, filesObj);
   }
 
-  buildProjectModel(ProjectClass = ProjectWithoutInternalAddons) {
+  async buildProjectModel(ProjectClass = ProjectWithoutInternalAddons) {
     if (!this._hasWritten) {
-      this.writeSync();
+      await this.write();
     }
 
-    let pkg = JSON.parse(this.toJSON('package.json'));
+    let pkg = fs.readJsonSync(path.join(this.baseDir, 'package.json'));
     let cli = new MockCLI();
-    let root = path.join(this.root, this.name);
 
-    return new ProjectClass(root, pkg, cli.ui, cli);
+    return new ProjectClass(this.baseDir, pkg, cli.ui, cli);
   }
 
-  buildProjectModelForInRepoAddon(addonName, ProjectClass = ProjectWithoutInternalAddons) {
+  async buildProjectModelForInRepoAddon(addonName, ProjectClass = ProjectWithoutInternalAddons) {
     if (!this._hasWritten) {
-      this.writeSync();
+      await this.write();
     }
 
-    let pkg = JSON.parse(this.files.lib[addonName]['package.json']);
+    let root = path.join(this.baseDir, 'lib', addonName);
+    let pkg = fs.readJsonSync(path.join(root, 'package.json'));
     let cli = new MockCLI();
-    let root = path.join(this.root, this.name, 'lib', addonName);
 
     return new ProjectClass(root, pkg, cli.ui, cli);
   }
@@ -95,6 +91,10 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   /**
    * Add an entry for this object's `dependencies` list. When this object is written out, the
    * dependency will also then write out appropriate files in this object's `node_modules' subdirectory.
+   *
+   * The new dependency is created as an instance of this class (upstream would create a plain
+   * fixturify-project `Project`), so that ember-cli-specific helpers (`addAddon`,
+   * `addReferenceDependency`, etc.) are available on nested dependencies.
    *
    * @param {String} name name of the dependency to add
    * @param {String} version version of the dependency to add
@@ -105,7 +105,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    */
   addDependency(name, version, optionsOrCallback) {
     const options = getOptionsObjectWithCallbackFunction(optionsOrCallback);
-    return super.addDependency(name, version, options.callback);
+    return super.addDependency(new this.constructor(name, version), options.callback);
   }
 
   /**
@@ -113,7 +113,8 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    * an entry in `dependencies` where the caller knows the dependency's source files are being
    * created elsewhere in the project tree, so no source files should be created locally in
    * `node_modules`, which is the standard FixturifyProject (and node-fixturify-project) behavior.
-   * We do this by adding the necessary reference to `dependencies` during `toJSON`.
+   * We do this by adding the necessary reference to `dependencies` when `package.json` is
+   * generated during `write`.
    *
    * This is used when two addons wish to share a single definition on disk for a dependency (various parts of
    * ember-cli optimize processing based on paths on disk.)
@@ -136,6 +137,8 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    * Add an entry to this object's `devDependencies` list. When this object is written out, the
    * dependency will also then write out appropriate files in this object's `node_modules' subdirectory.
    *
+   * As with `addDependency`, the new dependency is created as an instance of this class.
+   *
    * @param {String} name name of the dev dependency to add
    * @param {String} version version of the dev dependency to add
    * @param {Object|Function} optionsOrCallback options to configure the new FixturifyProject, or a callback function to call after creating
@@ -145,7 +148,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    */
   addDevDependency(name, version, optionsOrCallback) {
     const options = getOptionsObjectWithCallbackFunction(optionsOrCallback);
-    return super.addDevDependency(name, version, options.callback);
+    return super.addDevDependency(new this.constructor(name, version), options.callback);
   }
 
   /**
@@ -153,7 +156,8 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    * an entry in `devDependencies` where the caller knows the dependency's source files are being
    * created elsewhere in the project tree, so no source files should be created locally in
    * `node_modules`, which is the standard FixturifyProject (and node-fixturify-project) behavior.
-   * We do this by adding the necessary reference to `devDependencies` during `toJSON`.
+   * We do this by adding the necessary reference to `devDependencies` when `package.json` is
+   * generated during `write`.
    *
    * This is used when two addons wish to share a single definition on disk for a devDependency
    * (various parts of ember-cli optimize processing based on paths on disk.)
@@ -287,13 +291,11 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
 
     // configure the current project to have an ember-addon configured at the
     // appropriate path, i.e. under a common root directory (lib).
-    const addonRootDir = 'lib';
+    const addonPath = `lib/${name}`;
 
     // Add to ember-addon.paths list
     let addon = (this.pkg['ember-addon'] = this.pkg['ember-addon'] || {});
     addon.paths = addon.paths || [];
-
-    const addonPath = `${addonRootDir}/${name}`;
 
     if (addon.paths.find((path) => path.toLowerCase() === addonPath.toLowerCase())) {
       throw new Error(`project: ${this.name} already contains the in-repo-addon: ${name}`);
@@ -301,10 +303,9 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
 
     addon.paths.push(addonPath);
 
-    this.files[addonRootDir] = this.files[addonRootDir] || {};
+    this._inRepoAddons = this._inRepoAddons || [];
+    this._inRepoAddons.push(inRepoAddon);
 
-    let addonJSON = inRepoAddon.toJSON();
-    Object.assign(this.files[addonRootDir], addonJSON);
     return inRepoAddon;
   }
 
@@ -343,54 +344,24 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   }
 
   /**
-   * Convert the object into a data structure suitable for passing to `fixturify`.
+   * Applies the 'reference' dependencies (see `addReferenceDependency` and
+   * `addReferenceDevDependency`) to the generated `package.json` contents when this
+   * project is written to disk.
    *
-   * @param {String} key optional key. If specified, the object will be run through toJSON, then the given
-   * property extracted and returned.
-   * @returns {Object} the `toJSON` value of the object (wrapped) or the toJSON value of the specified field
-   * (not wrapped.)
+   * This overrides a private fixturify-project method, as there is no public hook for
+   * customizing the generated `package.json`.
    */
-  toJSON(key) {
-    if (key) {
-      return super.toJSON(key);
+  pkgJSONWithDeps(resolvedLinks) {
+    const pkg = super.pkgJSONWithDeps(resolvedLinks);
+
+    if (this._referenceDependencies) {
+      pkg.dependencies = Object.assign({}, pkg.dependencies, this._referenceDependencies);
     }
 
-    let jsonData = super.toJSON();
-
-    let scoped = parseScoped(this.name);
-
-    // Allowing for scoped names, get the object in the JSON structure that corresponds
-    // to this FixturifyProject.
-    let container = scoped ? jsonData[scoped.scope][scoped.name] : jsonData[this.name];
-
-    if (this._referenceDependencies || this._referenceDevDependencies) {
-      let pkg = JSON.parse(container['package.json']);
-
-      if (this._referenceDependencies) {
-        if (!pkg.dependencies) {
-          pkg.dependencies = {};
-        }
-
-        Object.assign(pkg.dependencies, this._referenceDependencies);
-      }
-
-      if (this._referenceDevDependencies) {
-        if (!pkg.devDependencies) {
-          pkg.devDependencies = {};
-        }
-
-        Object.assign(pkg.devDependencies, this._referenceDevDependencies);
-      }
-
-      container['package.json'] = JSON.stringify(pkg, undefined, 2);
+    if (this._referenceDevDependencies) {
+      pkg.devDependencies = Object.assign({}, pkg.devDependencies, this._referenceDevDependencies);
     }
 
-    // an optimization to remove any node_modules declaration that has nothing in it,
-    // to avoid creating extra directories for no reason.
-    if (container['node_modules'] && Object.keys(container['node_modules']).length === 0) {
-      delete container['node_modules'];
-    }
-
-    return jsonData;
+    return pkg;
   }
 };
