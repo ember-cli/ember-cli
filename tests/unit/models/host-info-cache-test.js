@@ -19,7 +19,7 @@ describe('Unit | host-addons-utils', function () {
     fixturifyProject.dispose();
   });
 
-  it('multiple lazy engines in project, including nested lazy engines', function () {
+  it('multiple lazy engines in project, including nested lazy engines', async function () {
     fixturifyProject.addEngine('lazy-engine-a', '1.0.0', { enableLazyLoading: true });
 
     fixturifyProject.addAddon('addon-a', '1.0.0', {
@@ -35,8 +35,8 @@ describe('Unit | host-addons-utils', function () {
       },
     });
 
-    fixturifyProject.writeSync();
-    let project = fixturifyProject.buildProjectModel();
+    await fixturifyProject.write();
+    let project = await fixturifyProject.buildProjectModel();
 
     project.initializeAddons();
 
@@ -100,7 +100,7 @@ describe('Unit | host-addons-utils', function () {
     );
   });
 
-  it('multiple lazy engines in project, including nested lazy engines; some nested lazy engines have non-lazy deps', function () {
+  it('multiple lazy engines in project, including nested lazy engines; some nested lazy engines have non-lazy deps', async function () {
     fixturifyProject.addEngine('lazy-engine-a', '1.0.0', { enableLazyLoading: true });
 
     fixturifyProject.addAddon('addon-a', '1.0.0', {
@@ -117,8 +117,8 @@ describe('Unit | host-addons-utils', function () {
       },
     });
 
-    fixturifyProject.writeSync();
-    let project = fixturifyProject.buildProjectModel();
+    await fixturifyProject.write();
+    let project = await fixturifyProject.buildProjectModel();
 
     project.initializeAddons();
 
@@ -148,7 +148,7 @@ describe('Unit | host-addons-utils', function () {
     );
   });
 
-  it('multiple lazy engines at same level with a common ancestor host', function () {
+  it('multiple lazy engines at same level with a common ancestor host', async function () {
     fixturifyProject.addInRepoEngine('lazy-engine-a', '1.0.0', { enableLazyLoading: true });
     fixturifyProject.pkg['ember-addon'].paths = [];
 
@@ -166,8 +166,8 @@ describe('Unit | host-addons-utils', function () {
       },
     });
 
-    fixturifyProject.writeSync();
-    let project = fixturifyProject.buildProjectModel();
+    await fixturifyProject.write();
+    let project = await fixturifyProject.buildProjectModel();
 
     project.initializeAddons();
 

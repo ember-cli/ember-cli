@@ -12,9 +12,9 @@ const { createStandardCacheFixture } = require('../../../../tests/helpers/per-bu
 describe('Unit | per-bundle-addon-cache bundle host', function () {
   let project;
 
-  before('setup fixture', function setup() {
+  before('setup fixture', async function setup() {
     let fixture = createStandardCacheFixture();
-    project = fixture.buildProjectModel(Project);
+    project = await fixture.buildProjectModel(Project);
     project.initializeAddons();
   });
 

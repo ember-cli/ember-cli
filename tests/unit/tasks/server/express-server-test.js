@@ -24,15 +24,15 @@ function sleep(timeout) {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 }
 
-describe('express-server: processAppMiddlewares', function () {
+describe('express-server: processAppMiddlewares', async function () {
   let subject, fixturifyProject;
 
   nock.enableNetConnect();
 
-  function makeSubject() {
+  async function makeSubject() {
     subject = new ExpressServer({
       ui: new MockUI(),
-      project: fixturifyProject.buildProjectModel(),
+      project: await fixturifyProject.buildProjectModel(),
       watcher: new MockWatcher(),
       serverWatcher: new MockServerWatcher(),
       serverRestartDelayTime: 100,
@@ -53,60 +53,60 @@ describe('express-server: processAppMiddlewares', function () {
     await subject.stopHttpServer().catch(() => {});
   });
 
-  it('has a good error message if a file "server.js" exists, but does not export a function', function () {
+  it('has a good error message if a file "server.js" exists, but does not export a function', async function () {
     fixturifyProject.addFiles({
       'server.js': 'module.exports = { name: "foo" }',
     });
-    let subject = makeSubject();
+    let subject = await makeSubject();
 
     expect(() => {
       subject.processAppMiddlewares();
     }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
   });
 
-  it('has a good error message if a file "server/index.js" exists, but does not export a function', function () {
+  it('has a good error message if a file "server/index.js" exists, but does not export a function', async function () {
     fixturifyProject.addFiles({
       server: {
         'index.js': 'module.exports = { name: "foo" }',
       },
     });
 
-    let subject = makeSubject();
+    let subject = await makeSubject();
     expect(() => {
       subject.processAppMiddlewares();
     }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
   });
 
-  it('returns values returned by server/index.js', function () {
+  it('returns values returned by server/index.js', async function () {
     fixturifyProject.addFiles({
       server: {
         'index.js': 'module.exports = function() {return "foo"}',
       },
     });
-    let subject = makeSubject();
+    let subject = await makeSubject();
     expect(subject.processAppMiddlewares()).to.equal('foo');
   });
 
-  it('returns values returned by server.js', function () {
+  it('returns values returned by server.js', async function () {
     fixturifyProject.addFiles({
       'server.js': 'module.exports = function() {return "foo"}',
     });
-    let subject = makeSubject();
+    let subject = await makeSubject();
     expect(subject.processAppMiddlewares()).to.equal('foo');
   });
 
-  it('returns undefined if middleware files does not exists', function () {
-    let subject = makeSubject();
+  it('returns undefined if middleware files does not exists', async function () {
+    let subject = await makeSubject();
     expect(subject.processAppMiddlewares()).to.equal(undefined);
   });
 
-  it('allow non MODULE_NOT_FOUND errors bubbling if issue happens during module initialization', function () {
+  it('allow non MODULE_NOT_FOUND errors bubbling if issue happens during module initialization', async function () {
     fixturifyProject.addFiles({
       server: {
         'index.js': 'throw new Error("OOPS")',
       },
     });
-    let subject = makeSubject();
+    let subject = await makeSubject();
     expect(() => subject.processAppMiddlewares()).to.throw(Error, 'OOPS');
   });
 });

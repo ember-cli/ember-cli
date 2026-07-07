@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs-extra');
 const { expect } = require('chai');
 const PackageInfo = require('../../../../lib/models/package-info-cache/package-info');
 const Project = require('../../../../lib/models/project');
@@ -237,7 +238,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
   describe('packageInfo', function () {
     describe('project with invalid paths', function () {
       let project, fixturifyProject;
-      beforeEach(function () {
+      beforeEach(async function () {
         // create a new ember-app
         fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
           project.addAddon('ember-resolver', '^5.0.1');
@@ -252,9 +253,9 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
           project.pkg['ember-addon'].paths.push('lib/no-such-path');
         });
 
-        fixturifyProject.writeSync();
+        await fixturifyProject.write();
 
-        project = fixturifyProject.buildProjectModel(Project);
+        project = await fixturifyProject.buildProjectModel(Project);
       });
 
       afterEach(function () {
@@ -269,19 +270,13 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
     });
     describe('valid project', function () {
       let project, fixturifyProject;
-      before(function () {
+      before(async function () {
         // create a new ember-app
         fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
           project.addAddon('ember-resolver', '^5.0.1');
           project.addAddon('ember-random-addon', 'latest', (addon) => {
             addon.addAddon('other-nested-addon', 'latest', (addon) => {
               addon.addAddon('ember-resolver', '*');
-              addon.toJSON = function () {
-                const json = Object.getPrototypeOf(this).toJSON.call(this);
-                // here we introduce an empty folder in our node_modules.
-                json[this.name].node_modules['ember-resolver'] = {};
-                return json;
-              };
             });
           });
 
@@ -293,12 +288,26 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
           project.addDevDependency('non-ember-thingy', 'latest');
         });
 
-        fixturifyProject.writeSync();
+        await fixturifyProject.write();
 
-        project = fixturifyProject.buildProjectModel(Project);
+        // here we introduce an empty folder in our node_modules, by emptying out
+        // the nested ember-resolver that was written above.
+        fs.emptyDirSync(
+          path.join(
+            fixturifyProject.baseDir,
+            'node_modules',
+            'ember-random-addon',
+            'node_modules',
+            'other-nested-addon',
+            'node_modules',
+            'ember-resolver'
+          )
+        );
+
+        project = await fixturifyProject.buildProjectModel(Project);
         project.discoverAddons();
         pic = project.packageInfoCache;
-        projectPackageInfo = pic.getEntry(path.join(fixturifyProject.root, 'simple-ember-app'));
+        projectPackageInfo = pic.getEntry(fixturifyProject.baseDir);
       });
 
       after(function () {
@@ -353,7 +362,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
 
         expect(inRepoAddons).to.exist;
         expect(inRepoAddons.length).to.equal(1);
-        expect(inRepoAddons[0].realPath).to.contain(path.join('simple-ember-app', 'lib', 'ember-super-button'));
+        expect(inRepoAddons[0].realPath).to.equal(path.join(fixturifyProject.baseDir, 'lib', 'ember-super-button'));
         expect(inRepoAddons[0].pkg.name).to.equal('ember-super-button');
       });
 
@@ -522,8 +531,8 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
         });
       });
 
-      it('lock down dependency orderings', function () {
-        let project = fixturifyProject.buildProjectModel();
+      it('lock down dependency orderings', async function () {
+        let project = await fixturifyProject.buildProjectModel();
 
         project.discoverAddons();
 
