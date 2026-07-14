@@ -142,9 +142,6 @@ const bar = 'bar';
         return path.indexOf('package.json') === -1;
       });
 
-      td.replace(Blueprint, 'defaultLookupPaths');
-      td.when(Blueprint.defaultLookupPaths()).thenReturn([]);
-
       td.replace(Blueprint, 'load', function (blueprintPath) {
         return {
           name: path.basename(blueprintPath),

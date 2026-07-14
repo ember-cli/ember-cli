@@ -20,7 +20,6 @@ const zipObject = require('lodash/zipObject');
 const intersection = require('lodash/intersection');
 const cloneDeep = require('lodash/cloneDeep');
 const compact = require('lodash/compact');
-const uniq = require('lodash/uniq');
 const sortBy = require('lodash/sortBy');
 const walkSync = require('walk-sync');
 const SilentError = require('silent-error');
@@ -1425,10 +1424,13 @@ const builtInBlueprints = new Map([
 Blueprint.lookup = function (name, options) {
   options = options || {};
 
-  let lookupPaths = generateLookupPaths(options.paths);
+  let lookupPaths = new Set(options.paths);
 
-  let lookupPath;
-  for (let i = 0; (lookupPath = lookupPaths[i]); i++) {
+  for (let path of options?.project?.blueprintLookupPaths() ?? []) {
+    lookupPaths.add(path);
+  }
+
+  for (let lookupPath of lookupPaths) {
     let blueprintPath = path.resolve(lookupPath, name);
 
     if (Blueprint._existsSync(blueprintPath)) {
@@ -1502,10 +1504,15 @@ Blueprint.load = function (blueprintPath, blueprintOptions) {
 Blueprint.list = function (options) {
   options = options || {};
 
-  let lookupPaths = generateLookupPaths(options.paths);
+  let lookupPaths = new Set(options.paths);
+
+  for (let path of options?.project?.blueprintLookupPaths() ?? []) {
+    lookupPaths.add(path);
+  }
+
   let seen = [];
 
-  return lookupPaths.map((lookupPath) => {
+  return Array.from(lookupPaths).map((lookupPath) => {
     let source;
     let packagePath = path.join(lookupPath, '../package.json');
     if (Blueprint._existsSync(packagePath)) {
@@ -1583,14 +1590,6 @@ Blueprint.ignoredFiles = initialIgnoredFiles;
 Blueprint.ignoredUpdateFiles = ['.gitkeep', 'app.css', 'LICENSE.md'];
 
 /**
-  @static
-  @property defaultLookupPaths
-*/
-Blueprint.defaultLookupPaths = function () {
-  return [path.resolve(__dirname, '..', '..', 'blueprints')];
-};
-
-/**
   @private
   @method prepareConfirm
   @param {FileInfo} info
@@ -1647,21 +1646,6 @@ function isIgnored(info) {
   let fn = info.inputPath;
 
   return Blueprint.ignoredFiles.some((ignoredFile) => minimatch(fn, ignoredFile, { matchBase: true }));
-}
-
-/**
-  Combines provided lookup paths with defaults and removes
-  duplicates.
-
-  @private
-  @method generateLookupPaths
-  @param {Array} lookupPaths
-  @return {Array}
-*/
-function generateLookupPaths(lookupPaths) {
-  lookupPaths = lookupPaths || [];
-  lookupPaths = lookupPaths.concat(Blueprint.defaultLookupPaths());
-  return uniq(lookupPaths);
 }
 
 /**
