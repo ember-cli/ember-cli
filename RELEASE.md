@@ -52,6 +52,7 @@ You can use [this saved search](https://github.com/ember-cli/ember-cli/pulls?q=i
   pnpm dlx update-blueprint-deps --filter '@ember-tooling/.*' --tag latest ./package.json ./packages/*-blueprint/**/*ackage.json
   pnpm dlx update-blueprint-deps --filter '.*' ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
   ```
+
 - run `pnpm install` to update your pacakge.lock and download any new dependencies
 - run `pnpm lint:fix`
 - update the @ember/app-blueprint dependency `pnpm i -w @ember/app-blueprint@latest`
