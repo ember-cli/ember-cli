@@ -555,6 +555,38 @@ describe('models/addon.js', function () {
     });
   });
 
+  describe('compileAddon', function () {
+    beforeEach(function () {
+      projectPath = path.resolve(fixturePath, 'simple');
+      const packageContents = require(path.join(projectPath, 'package.json'));
+      let cli = new MockCLI();
+
+      project = new Project(projectPath, packageContents, cli.ui, cli);
+
+      project.initializeAddons();
+
+      addon = project.addons.find((addon) => addon.name === 'ember-generated-with-export-addon');
+    });
+
+    it('does not require a JavaScript preprocessor for an addon tree containing only .gitkeep files', async function () {
+      const { path: addonRoot } = await tmp.dir({ unsafeCleanup: true });
+      let addonPath = path.join(addonRoot, 'addon');
+
+      fs.outputFileSync(path.join(addonPath, '.gitkeep'), '');
+      fs.outputFileSync(path.join(addonPath, 'templates', '.gitkeep'), '');
+
+      addon.root = addonRoot;
+      let addonTree = addon.treeGenerator(addonPath);
+
+      expect(() => addon.treeForAddon(addonTree)).not.to.throw();
+
+      fs.outputFileSync(path.join(addonPath, 'index.js'), '');
+      delete addon._cachedFileSystemInfo;
+
+      expect(() => addon.treeForAddon(addonTree)).to.throw(/no JavaScript preprocessor/);
+    });
+  });
+
   describe('_fileSystemInfo', function () {
     beforeEach(function () {
       projectPath = path.resolve(fixturePath, 'simple');
