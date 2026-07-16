@@ -1,0 +1,7 @@
+# Unlabeled Changes
+
+* `ember-cli`
+  * [#11044](https://github.com/ember-cli/ember-cli/pull/11044) add a notify discord webhook action for CI ([@mansona](https://github.com/mansona))
+
+
+*Cannot plan release until the above changes are labeled*.
