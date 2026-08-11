@@ -6,7 +6,6 @@
  */
 const { expect } = require('chai');
 const path = require('path');
-const { join } = require('path/posix');
 const FixturifyProject = require('../../../helpers/fixturify-project');
 
 const {
@@ -24,19 +23,17 @@ const { readFile, writeFile } = require('fs/promises');
 const { glob } = require('glob');
 
 async function correctAllAddonsPackages(project, packageGlob, callback) {
-  // this specifically uses posix join because glob does not want you to
-  // use \ even on windows if you still want to use glob patterns
-  const globResults = await glob(join(project.baseDir, packageGlob));
+  const globResults = await glob(packageGlob, { cwd: project.baseDir });
 
   // you can't set this up with fixturify project because it's a pretty whacky thing to ask for!!!
   // i.e. you want a quazi-workspace that has dependencies listed but not linked in your node modules
   // and automatically discovered by ember-cli.... yea, that's not great
   for (let pkgPath of globResults) {
-    const json = JSON.parse(await readFile(pkgPath, 'utf8'));
+    const json = JSON.parse(await readFile(path.join(project.baseDir, pkgPath), 'utf8'));
 
     callback(json);
 
-    await writeFile(pkgPath, JSON.stringify(json, null, 2));
+    await writeFile(path.join(project.baseDir, pkgPath), JSON.stringify(json, null, 2));
   }
 }
 
