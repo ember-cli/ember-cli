@@ -1001,17 +1001,17 @@ describe('EmberApp', function () {
         fixturifyProject.dispose();
       });
 
-      it('throws an error if an addon `include` is specified', function () {
-        fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
-        fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
+      it('throws an error if an addon `include` is specified', async function () {
+        await fixturifyProject.write();
+
+        await fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
+        await fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
           callback: (inRepoAddon) => {
             inRepoAddon.pkg['ember-addon'].paths = ['../foo'];
           },
         });
 
-        fixturifyProject.writeSync();
-
-        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
+        let projectWithBundleCaching = await fixturifyProject.buildProjectModel();
         projectWithBundleCaching.initializeAddons();
         projectWithBundleCaching.addons.push(EMBER_SOURCE_ADDON);
 
@@ -1032,7 +1032,7 @@ describe('EmberApp', function () {
         );
       });
 
-      it('throws an error if an addon `exclude` is specified', function () {
+      it('throws an error if an addon `exclude` is specified', async function () {
         fixturifyProject.addInRepoAddon('foo', '1.0.0', { allowCachingPerBundle: true });
         fixturifyProject.addInRepoAddon('foo-bar', '1.0.0', {
           callback: (inRepoAddon) => {
@@ -1040,9 +1040,9 @@ describe('EmberApp', function () {
           },
         });
 
-        fixturifyProject.writeSync();
+        await fixturifyProject.write();
 
-        let projectWithBundleCaching = fixturifyProject.buildProjectModel();
+        let projectWithBundleCaching = await fixturifyProject.buildProjectModel();
         projectWithBundleCaching.initializeAddons();
         projectWithBundleCaching.addons.push(EMBER_SOURCE_ADDON);
 

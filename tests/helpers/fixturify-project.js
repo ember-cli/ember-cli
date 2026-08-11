@@ -4,9 +4,10 @@ const path = require('path');
 const merge = require('lodash/merge');
 // this is a test-only dependency
 // eslint-disable-next-line n/no-unpublished-require
-const FixturifyProject = require('fixturify-project');
+const { Project: FixturifyProject } = require('fixturify-project');
 const Project = require('../../lib/models/project');
 const MockCLI = require('./mock-cli');
+const { readFile } = require('fs/promises');
 
 // used in these tests to ensure we are only
 // operating on the addons added here
@@ -45,22 +46,9 @@ function getOptionsObjectWithCallbackFunction(defaultOptions, optionsOrCallback)
   );
 }
 
-// Essentially a copy of the function in node-fixturify-project, converted from TS to JS.
-// We need this for use during toJSON().
-function parseScoped(name) {
-  let matched = name.match(/(@[^@/]+)\/(.*)/);
-  if (matched) {
-    return {
-      scope: matched[1],
-      name: matched[2],
-    };
-  }
-  return null;
-}
-
 module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
-  writeSync() {
-    super.writeSync(...arguments);
+  async write() {
+    await super.write(...arguments);
     this._hasWritten = true;
   }
 
@@ -68,26 +56,24 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     merge(this.files, filesObj);
   }
 
-  buildProjectModel(ProjectClass = ProjectWithoutInternalAddons) {
+  async buildProjectModel(ProjectClass = ProjectWithoutInternalAddons) {
     if (!this._hasWritten) {
-      this.writeSync();
+      await this.write();
     }
 
-    let pkg = JSON.parse(this.toJSON('package.json'));
     let cli = new MockCLI();
-    let root = path.join(this.root, this.name);
 
-    return new ProjectClass(root, pkg, cli.ui, cli);
+    return new ProjectClass(this.baseDir, this.pkg, cli.ui, cli);
   }
 
-  buildProjectModelForInRepoAddon(addonName, ProjectClass = ProjectWithoutInternalAddons) {
+  async buildProjectModelForInRepoAddon(addonName, ProjectClass = ProjectWithoutInternalAddons) {
     if (!this._hasWritten) {
-      this.writeSync();
+      await this.write();
     }
 
-    let pkg = JSON.parse(this.files.lib[addonName]['package.json']);
+    let root = path.join(this.baseDir, 'lib', addonName);
+    let pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
     let cli = new MockCLI();
-    let root = path.join(this.root, this.name, 'lib', addonName);
 
     return new ProjectClass(root, pkg, cli.ui, cli);
   }
@@ -105,31 +91,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    */
   addDependency(name, version, optionsOrCallback) {
     const options = getOptionsObjectWithCallbackFunction(optionsOrCallback);
-    return super.addDependency(name, version, options.callback);
-  }
-
-  /**
-   * Add a 'reference' entry to this object's `dependencies` list. A 'reference' dependency is
-   * an entry in `dependencies` where the caller knows the dependency's source files are being
-   * created elsewhere in the project tree, so no source files should be created locally in
-   * `node_modules`, which is the standard FixturifyProject (and node-fixturify-project) behavior.
-   * We do this by adding the necessary reference to `dependencies` during `toJSON`.
-   *
-   * This is used when two addons wish to share a single definition on disk for a dependency (various parts of
-   * ember-cli optimize processing based on paths on disk.)
-   *
-   * Because there is no FixturifyProject being created, no callback is given as in other methods.
-   *
-   * @param {String} name name of the dependency
-   * @param {String} version version of the dependency, defaults to '*'. For our purposes, '*' means
-   * "whatever version was specified elsewhere."
-   */
-  addReferenceDependency(name, version = '*') {
-    if (!this._referenceDependencies) {
-      this._referenceDependencies = {};
-    }
-
-    this._referenceDependencies[name] = version;
+    return super.addDependency(new this.constructor(name, version), options.callback);
   }
 
   /**
@@ -146,30 +108,6 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   addDevDependency(name, version, optionsOrCallback) {
     const options = getOptionsObjectWithCallbackFunction(optionsOrCallback);
     return super.addDevDependency(name, version, options.callback);
-  }
-
-  /**
-   * Add a 'reference' entry to this object's `devDependencies` list. A 'reference' devDependency is
-   * an entry in `devDependencies` where the caller knows the dependency's source files are being
-   * created elsewhere in the project tree, so no source files should be created locally in
-   * `node_modules`, which is the standard FixturifyProject (and node-fixturify-project) behavior.
-   * We do this by adding the necessary reference to `devDependencies` during `toJSON`.
-   *
-   * This is used when two addons wish to share a single definition on disk for a devDependency
-   * (various parts of ember-cli optimize processing based on paths on disk.)
-   *
-   * Because there is no FixturifyProject being created, no callback is given as in other methods.
-   *
-   * @param {String} name name of the devDependency
-   * @param {String} version version of the devDependency, defaults to '*'. For our purposes, '*' means
-   * "whatever version was specified elsewhere."
-   */
-  addReferenceDevDependency(name, version = '*') {
-    if (!this._referenceDevDependencies) {
-      this._referenceDevDependencies = {};
-    }
-
-    this._referenceDevDependencies[name] = version;
   }
 
   /**
@@ -274,15 +212,22 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    * a callback function while also specifying other properties.)
    * @returns {FixturifyProject} the newly-created addon
    */
-  addInRepoAddon(name, version = '0.0.0', optionsOrCallback) {
+  async addInRepoAddon(name, version = '0.0.0', optionsOrCallback) {
     const options = getOptionsObjectWithCallbackFunction({ allowCachingPerBundle: false }, optionsOrCallback);
 
-    const inRepoAddon = new EmberCLIFixturifyProject(name, version, (addon) => {
-      prepareAddon(addon, options);
+    let inRepoAddon;
 
-      if (typeof options.callback === 'function') {
-        options.callback(addon);
-      }
+    await new Promise((resolve) => {
+      inRepoAddon = new EmberCLIFixturifyProject(name, version, async (addon) => {
+        prepareAddon(addon, options);
+
+        if (typeof options.callback === 'function') {
+          await options.callback(addon);
+          resolve();
+        } else {
+          resolve();
+        }
+      });
     });
 
     // configure the current project to have an ember-addon configured at the
@@ -301,10 +246,9 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
 
     addon.paths.push(addonPath);
 
-    this.files[addonRootDir] = this.files[addonRootDir] || {};
+    inRepoAddon.baseDir = path.join(this.baseDir, addonRootDir, inRepoAddon.pkg.name);
 
-    let addonJSON = inRepoAddon.toJSON();
-    Object.assign(this.files[addonRootDir], addonJSON);
+    await inRepoAddon.write();
     return inRepoAddon;
   }
 
@@ -322,12 +266,12 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
    * @returns {FixturifyProject} the newly-created addon
    */
   addInRepoEngine(name, version = '0.0.0', options = { allowCachingPerBundle: false, enableLazyLoading: false }) {
-    const callback = (engine) => {
+    const callback = async (engine) => {
       engine.pkg.keywords.push('ember-engine');
 
       // call original callback if it exists
       if (typeof options.callback === 'function') {
-        options.callback(engine);
+        await options.callback(engine);
       }
     };
 
@@ -340,57 +284,5 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     }
 
     return this.addInRepoAddon(name, version, { ...options, callback });
-  }
-
-  /**
-   * Convert the object into a data structure suitable for passing to `fixturify`.
-   *
-   * @param {String} key optional key. If specified, the object will be run through toJSON, then the given
-   * property extracted and returned.
-   * @returns {Object} the `toJSON` value of the object (wrapped) or the toJSON value of the specified field
-   * (not wrapped.)
-   */
-  toJSON(key) {
-    if (key) {
-      return super.toJSON(key);
-    }
-
-    let jsonData = super.toJSON();
-
-    let scoped = parseScoped(this.name);
-
-    // Allowing for scoped names, get the object in the JSON structure that corresponds
-    // to this FixturifyProject.
-    let container = scoped ? jsonData[scoped.scope][scoped.name] : jsonData[this.name];
-
-    if (this._referenceDependencies || this._referenceDevDependencies) {
-      let pkg = JSON.parse(container['package.json']);
-
-      if (this._referenceDependencies) {
-        if (!pkg.dependencies) {
-          pkg.dependencies = {};
-        }
-
-        Object.assign(pkg.dependencies, this._referenceDependencies);
-      }
-
-      if (this._referenceDevDependencies) {
-        if (!pkg.devDependencies) {
-          pkg.devDependencies = {};
-        }
-
-        Object.assign(pkg.devDependencies, this._referenceDevDependencies);
-      }
-
-      container['package.json'] = JSON.stringify(pkg, undefined, 2);
-    }
-
-    // an optimization to remove any node_modules declaration that has nothing in it,
-    // to avoid creating extra directories for no reason.
-    if (container['node_modules'] && Object.keys(container['node_modules']).length === 0) {
-      delete container['node_modules'];
-    }
-
-    return jsonData;
   }
 };
