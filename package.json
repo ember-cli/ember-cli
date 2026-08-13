@@ -145,6 +145,7 @@
     "chai-files": "^1.4.0",
     "chai-jest-snapshot": "^2.0.0",
     "concurrently": "^9.2.1",
+    "ember-cli": "link:.",
     "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-internal-test-helpers": "^0.9.1",
     "eslint": "^8.57.1",
