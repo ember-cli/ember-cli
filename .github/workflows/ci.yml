@@ -68,6 +68,8 @@ jobs:
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
+      - if: runner.os == 'Windows'
+        run: new-item D:\temp -ItemType Directory; echo "TEMP=D:\temp" >> $env:GITHUB_ENV
       - run: pnpm test
 
   slow-tests:
