@@ -290,6 +290,9 @@ importers:
       concurrently:
         specifier: ^9.2.1
         version: 9.2.1
+      ember-cli:
+        specifier: link:.
+        version: 'link:'
       ember-cli-blueprint-test-helpers:
         specifier: ^0.19.2
         version: 0.19.2(patch_hash=67b4e6082643614a12fdca71c9ed35d2df9b46dfb0d24cb3ba3665b2048bac9a)
