@@ -1,30 +1,14 @@
 # ember-cli Changelog
 
-## Release (2026-05-30)
+## Release (2026-07-01)
 
-* ember-cli 7.1.0-beta.2 (patch)
-
-#### :bug: Bug Fix
-* `ember-cli`
-  * [#11028](https://github.com/ember-cli/ember-cli/pull/11028) [BUGFIX release] fix require(esm) of blueprint indexes ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
-
-#### :house: Internal
-* `ember-cli`
-  * [#11033](https://github.com/ember-cli/ember-cli/pull/11033) Merge release into beta ([@mansona](https://github.com/mansona))
-
-#### Committers: 2
-- Chris Manson ([@mansona](https://github.com/mansona))
-- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
-
-## Release (2026-05-22)
-
-* ember-cli 7.1.0-beta.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.1.0-beta.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.1.0-beta.1 (minor)
+* ember-cli 7.1.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.1.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.1.0 (minor)
 
 #### :rocket: Enhancement
 * `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#11026](https://github.com/ember-cli/ember-cli/pull/11026) Prepare 7.1 beta ([@mansona](https://github.com/mansona))
+  * [#11040](https://github.com/ember-cli/ember-cli/pull/11040) Promote Beta and update all dependencies for 7.1 release ([@mansona](https://github.com/mansona))
 * `ember-cli`
   * [#10610](https://github.com/ember-cli/ember-cli/pull/10610) use semver-deprecate instead of internal code ([@mansona](https://github.com/mansona))
   * [#11008](https://github.com/ember-cli/ember-cli/pull/11008) update babel-remove-types to v2 ([@mansona](https://github.com/mansona))
@@ -40,15 +24,29 @@
 
 #### :house: Internal
 * `ember-cli`
+  * [#11033](https://github.com/ember-cli/ember-cli/pull/11033) Merge release into beta ([@mansona](https://github.com/mansona))
   * [#11017](https://github.com/ember-cli/ember-cli/pull/11017) Add Sync Output Repos check to release instructions ([@kategengler](https://github.com/kategengler))
   * [#11016](https://github.com/ember-cli/ember-cli/pull/11016) fix: sync-output-repos workflow failing on tag pushes ([@Copilot](https://github.com/apps/copilot-swe-agent))
   * [#10999](https://github.com/ember-cli/ember-cli/pull/10999) update RELEASE with update-blueprint-deps commands ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11029](https://github.com/ember-cli/ember-cli/pull/11029) Prepare Beta Release ([@mansona](https://github.com/mansona))
 
 #### Committers: 4
 - Chris Manson ([@mansona](https://github.com/mansona))
 - Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))
 - Katie Gengler ([@kategengler](https://github.com/kategengler))
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
+## Release (2026-05-22)
+
+* ember-cli 7.0.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#11028](https://github.com/ember-cli/ember-cli/pull/11028) [BUGFIX release] fix require(esm) of blueprint indexes ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 
 ## Release (2026-05-15)
 
