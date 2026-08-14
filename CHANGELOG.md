@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+## Release (2026-08-14)
+
+* ember-cli 7.2.0-alpha.2 (patch)
+* @ember-tooling/classic-build-addon-blueprint 7.2.0-alpha.2 (patch)
+* @ember-tooling/classic-build-app-blueprint 7.2.0-alpha.2 (patch)
+* @ember-tooling/blueprint-model 0.7.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli`, `@ember-tooling/blueprint-model`
+  * [#11050](https://github.com/ember-cli/ember-cli/pull/11050) fix default blueprint lookup ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-cli`
+  * [#11051](https://github.com/ember-cli/ember-cli/pull/11051) fix release-plan ([@mansona](https://github.com/mansona))
+  * [#11052](https://github.com/ember-cli/ember-cli/pull/11052) speed up windows CI ([@mansona](https://github.com/mansona))
+  * [#11049](https://github.com/ember-cli/ember-cli/pull/11049) fix help tests to stop relying on private APIs ([@mansona](https://github.com/mansona))
+  * [#11048](https://github.com/ember-cli/ember-cli/pull/11048) update fixturify-project from v2 to v7 ([@mansona](https://github.com/mansona))
+  * [#11044](https://github.com/ember-cli/ember-cli/pull/11044) add a notify discord webhook action for CI ([@mansona](https://github.com/mansona))
+  * [#11023](https://github.com/ember-cli/ember-cli/pull/11023) Update RELEASE.md ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-06-30)
 
 * ember-cli 7.2.0-alpha.1 (minor)
