@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "7.1.0-beta.2",
+  "version": "7.2.0-alpha.2",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -145,6 +145,7 @@
     "chai-files": "^1.4.0",
     "chai-jest-snapshot": "^2.0.0",
     "concurrently": "^9.2.3",
+    "ember-cli": "link:.",
     "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-internal-test-helpers": "^0.9.1",
     "eslint": "^8.57.1",
@@ -153,7 +154,7 @@
     "eslint-plugin-mocha": "^10.5.0",
     "eslint-plugin-n": "^17.24.0",
     "fixturify": "^3.0.0",
-    "fixturify-project": "^2.1.1",
+    "fixturify-project": "^7.1.3",
     "jsdom": "^21.1.2",
     "latest-version": "^9.0.0",
     "mocha": "^11.7.6",
@@ -172,6 +173,11 @@
     "yuidocjs": "0.10.2"
   },
   "packageManager": "pnpm@10.12.1",
+  "pnpm": {
+    "patchedDependencies": {
+      "ember-cli-blueprint-test-helpers": "patches/ember-cli-blueprint-test-helpers.patch"
+    }
+  },
   "engines": {
     "node": ">= 20.19.0"
   },

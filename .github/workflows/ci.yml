@@ -14,6 +14,8 @@ on:
   pull_request:
     paths-ignore:
       - "**.md"
+      - "!packages/**.md"
+      - "!tests/**.md"
   workflow_dispatch:
   merge_group:
   schedule:
@@ -66,6 +68,8 @@ jobs:
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
+      - if: runner.os == 'Windows'
+        run: new-item D:\temp -ItemType Directory; echo "TEMP=D:\temp" >> $env:GITHUB_ENV
       - run: pnpm test
 
   slow-tests:
@@ -137,3 +141,24 @@ jobs:
         env:
           OVERRIDE_DEPRECATION_VERSION: "22.0.0"
         run: pnpm test:all
+
+  notify:
+    name: Notify Discord
+    runs-on: ubuntu-latest
+    needs:
+      - linting
+      - basic-tests
+      - basic-tests-matrix
+      - slow-tests
+      - feature-flags
+      - deprecations-broken-test
+    if: ${{ !cancelled() && contains(github.ref, 'cron') == true }}
+    steps:
+      - uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.CORE_TOOLING_WEBHOOK }}
+          status: "Failure"
+          title: "ember-cli Nightly CI"
+          color: 0xcc0000
+          url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          username: GitHub Actions
