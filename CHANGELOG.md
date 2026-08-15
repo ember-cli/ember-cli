@@ -1,5 +1,42 @@
 # ember-cli Changelog
 
+## Release (2026-08-15)
+
+* ember-cli 7.2.0-beta.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.2.0-beta.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.2.0-beta.1 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11042](https://github.com/ember-cli/ember-cli/pull/11042) Prepare 7.2 Beta ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-addon-blueprint`
+  * [#11035](https://github.com/ember-cli/ember-cli/pull/11035) Add placeholder for documenting exports from an addon ([@kategengler](https://github.com/kategengler))
+* `ember-cli`
+  * [#10672](https://github.com/ember-cli/ember-cli/pull/10672) Separate blueprint model so it can be used outside of ember-cli ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#11050](https://github.com/ember-cli/ember-cli/pull/11050) fix default blueprint lookup ([@mansona](https://github.com/mansona))
+  * [#11027](https://github.com/ember-cli/ember-cli/pull/11027) Fix error when blueprint is missing keyword ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `ember-cli`
+  * [#11051](https://github.com/ember-cli/ember-cli/pull/11051) fix release-plan ([@mansona](https://github.com/mansona))
+  * [#11052](https://github.com/ember-cli/ember-cli/pull/11052) speed up windows CI ([@mansona](https://github.com/mansona))
+  * [#11049](https://github.com/ember-cli/ember-cli/pull/11049) fix help tests to stop relying on private APIs ([@mansona](https://github.com/mansona))
+  * [#11048](https://github.com/ember-cli/ember-cli/pull/11048) update fixturify-project from v2 to v7 ([@mansona](https://github.com/mansona))
+  * [#11044](https://github.com/ember-cli/ember-cli/pull/11044) add a notify discord webhook action for CI ([@mansona](https://github.com/mansona))
+  * [#11023](https://github.com/ember-cli/ember-cli/pull/11023) Update RELEASE.md ([@mansona](https://github.com/mansona))
+  * [#11037](https://github.com/ember-cli/ember-cli/pull/11037) bring test fixtures in line with updates from addon readme ([@void-mAlex](https://github.com/void-mAlex))
+  * [#11038](https://github.com/ember-cli/ember-cli/pull/11038) fix running tests on blueprint markdown changes ([@mansona](https://github.com/mansona))
+  * [#10880](https://github.com/ember-cli/ember-cli/pull/10880) stop using internal package cache in the addon smoke test and rely on pnpm caching ([@mansona](https://github.com/mansona))
+
+#### Committers: 4
+- Alex ([@void-mAlex](https://github.com/void-mAlex))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-07-01)
 
 * ember-cli 7.1.0 (minor)
