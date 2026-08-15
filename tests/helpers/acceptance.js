@@ -140,13 +140,7 @@ async function createAndInstallTestTargets(projectName, options) {
   let result = await applyCommand(command, projectName, '--skip-npm', `--directory=${outputDir.path}`);
 
   // we need to link these packages before we try to run pnpm install so it always uses the current version of ember-cli and the sub-packages
-  for (let pkg of [
-    '.',
-    'packages/blueprint-model',
-    'packages/blueprint-blueprint',
-    'packages/app-blueprint',
-    'packages/addon-blueprint',
-  ]) {
+  for (let pkg of ['.', 'packages/app-blueprint', 'packages/addon-blueprint']) {
     await execa('pnpm', ['link', path.join(__dirname, `../../${pkg}`)], {
       preferLocal: true,
       cwd: outputDir.path,
