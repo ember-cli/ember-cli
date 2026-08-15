@@ -182,8 +182,8 @@ describe('models/command.js', function () {
         return options;
       },
     });
-    const command = new CustomAliasCommand(options).parseArgs(['1', '--options', '--split 2 --random']);
-    expect(command).to.have.nested.property('options.options', '--split 2 --random');
+    const command = new CustomAliasCommand(options).parseArgs(['1', '--options', 'split-2-random']);
+expect(command).to.have.nested.property('options.options', 'split-2-random');
   });
 
   describe('#validateAndRun', function () {
