@@ -20,10 +20,9 @@ function disablePerBundleAddonCache() {
   process.env.EMBER_CLI_ADDON_INSTANCE_CACHING = false;
 }
 
-function createProject() {
-  let fixture = createStandardCacheFixture();
-  let project = fixture.buildProjectModel(Project);
-  return project;
+async function createProject() {
+  let fixture = await createStandardCacheFixture();
+  return fixture.buildProjectModel(Project);
 }
 
 describe('Unit | per-bundle-addon-cache enable caching', function () {
@@ -31,19 +30,19 @@ describe('Unit | per-bundle-addon-cache enable caching', function () {
     enablePerBundleAddonCache();
   });
 
-  it('perBundleAddonCache should be set in Project if EMBER_CLI_ADDON_INSTANCE_CACHING is not false', function () {
+  it('perBundleAddonCache should be set in Project if EMBER_CLI_ADDON_INSTANCE_CACHING is not false', async function () {
     enablePerBundleAddonCache('foo');
-    let project = createProject();
+    let project = await createProject();
     expect(project.perBundleAddonCache).to.exist;
 
     enablePerBundleAddonCache();
-    project = createProject();
+    project = await createProject();
     expect(project.perBundleAddonCache).to.exist;
   });
 
-  it('perBundleAddonCache should not be set in Project if EMBER_CLI_ADDON_INSTANCE_CACHING is false', function () {
+  it('perBundleAddonCache should not be set in Project if EMBER_CLI_ADDON_INSTANCE_CACHING is false', async function () {
     disablePerBundleAddonCache();
-    let project = createProject();
+    let project = await createProject();
     expect(project.perBundleAddonCache).not.to.exist;
   });
 });

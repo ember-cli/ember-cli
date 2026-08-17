@@ -1,6 +1,5 @@
 const processHelpString = require('../../helpers/process-help-string');
-const versionUtils      = require('../../../lib/utilities/version-utils');
-var emberCLIVersion   = versionUtils.emberCLIVersion;
+const { emberCLIBareVersion } = require('../../../lib/utilities/version-utils');
 
 module.exports = {
   name: 'ember',
@@ -9,7 +8,7 @@ module.exports = {
   works: 'insideProject',
   availableOptions: [],
   anonymousOptions: ['<command (Default: help)>'],
-  version: emberCLIVersion(),
+  version: emberCLIBareVersion(),
   commands: [
     {
       name: 'addon',
@@ -261,6 +260,9 @@ module.exports = {
       anonymousOptions: ['<blueprint>'],
       availableBlueprints: [
         {
+          'awesome-proj': []
+        },
+        {
           'ember-cli': [
             {
               name: 'addon',
@@ -498,7 +500,7 @@ module.exports = {
     },
     {
       name: 'new',
-      description: processHelpString('Creates a new directory and runs \u001b[32member init\u001b[39m in it.'),
+      description: processHelpString('Creates a new directory and runs ember init in it.'),
       aliases: [],
       works: 'everywhere',
       availableOptions: [

@@ -110,52 +110,46 @@ function countAddons(projectOrAddon, config = { byName: {}, proxyCount: 0, realA
  *
  * @name createStandardCacheFixture
  */
-function createStandardCacheFixture() {
+async function createStandardCacheFixture() {
   let project = new FixturifyProject('test-ember-project', '1.0.0');
 
-  project.addInRepoAddon('test-addon-a', '1.0.0', {
+  await project.addInRepoAddon('test-addon-a', '1.0.0', {
     callback: (addonA) => {
-      addonA.addInRepoAddon('test-addon-dep', '1.0.0');
-
-      // At this point, TAD has been run through toJSON inside of TAA.
-      // TAD itself has no issues.
-      // in TAA, we want to store all the inrepo addons, at any level, in
-      // PROJ/lib, so move TAD from TAA and change its path in TAA.
       addonA.pkg['ember-addon'].paths = ['../test-addon-dep'];
-      project.files.lib = project.files.lib || {};
-      project.files.lib['test-addon-dep'] = addonA.files.lib['test-addon-dep'];
-      delete addonA.files.lib;
     },
   });
 
-  project.addInRepoEngine('lazy-engine-a', '1.0.0', {
+  await project.addInRepoAddon('test-addon-dep', '1.0.0');
+
+  await project.addInRepoAddon('test-engine-dep', '1.0.0');
+  await project.addInRepoEngine('lazy-engine-a', '1.0.0', {
     enableLazyLoading: true,
     callback: (lazyEngineA) => {
-      lazyEngineA.addInRepoAddon('test-engine-dep', '1.0.0');
-
-      // Similar to above
       lazyEngineA.pkg['ember-addon'].paths = ['../test-engine-dep'];
-      project.files.lib['test-engine-dep'] = lazyEngineA.files.lib['test-engine-dep'];
-      delete lazyEngineA.files.lib;
     },
   });
 
-  project.addInRepoEngine('lazy-engine-b', '1.0.0', {
+  await project.addInRepoEngine('lazy-engine-b', '1.0.0', {
     enableLazyLoading: true,
     callback: (lazyEngineB) => {
-      // These two addon definitions have already been moved to project, so just
-      // fix the ember-addon.paths and remove the files.lib entry.
       lazyEngineB.pkg['ember-addon'].paths = ['../test-engine-dep', '../test-addon-dep'];
-      delete lazyEngineB.files.lib;
     },
   });
 
-  project.addInRepoEngine('regular-engine-c', '1.0.0', {
+  await project.addInRepoEngine('regular-engine-c', '1.0.0', {
     callback: (regularEngineC) => {
       regularEngineC.pkg['ember-addon'].paths = ['../test-engine-dep'];
-      delete regularEngineC.files.lib;
     },
   });
+
+  // this test is actively trying to test a very strange setup of dependencies so we need to correct
+  // the config vs what the above fixturify-project setup would have added
+  project.pkg['ember-addon'].paths = [
+    'lib/test-addon-a',
+    'lib/lazy-engine-a',
+    'lib/lazy-engine-b',
+    'lib/regular-engine-c',
+  ];
 
   return project;
 }
