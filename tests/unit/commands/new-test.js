@@ -3,7 +3,7 @@
 const { expect } = require('chai');
 const commandOptions = require('../../factories/command-options');
 const NewCommand = require('../../../lib/commands/new');
-const Blueprint = require('../../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 const Command = require('../../../lib/models/command');
 const Task = require('../../../lib/models/task');
 const InteractiveNewTask = require('../../../lib/tasks/interactive-new');

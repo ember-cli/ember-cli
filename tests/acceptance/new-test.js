@@ -9,7 +9,7 @@ const util = require('util');
 
 const EOL = require('os').EOL;
 
-const Blueprint = require('../../lib/models/blueprint');
+const Blueprint = require('@ember-tooling/blueprint-model');
 const ember = require('../helpers/ember');
 const hasGlobalYarn = require('../helpers/has-global-yarn');
 const { DEPRECATIONS } = require('../../lib/debug');

@@ -414,6 +414,7 @@ describe('models/project.js', function () {
         project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
+        path.normalize(path.resolve(__dirname, '..', '..', '..', 'blueprints')),
       ];
 
       expect(project.blueprintLookupPaths()).to.deep.equal(expected);
@@ -424,7 +425,10 @@ describe('models/project.js', function () {
         return false;
       };
 
-      expect(project.blueprintLookupPaths()).to.deep.equal(project.addonBlueprintLookupPaths());
+      expect(project.blueprintLookupPaths()).to.deep.equal([
+        ...project.addonBlueprintLookupPaths(),
+        project.builtInLookupPath(),
+      ]);
     });
 
     it('returns an instance of an addon with an object export', function () {

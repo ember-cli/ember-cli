@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const sequence = require('../../../lib/utilities/sequence');
+const sequence = require('@ember-tooling/blueprint-model/utilities/sequence');
 
 describe('sequence', function () {
   it('it works', async function () {
