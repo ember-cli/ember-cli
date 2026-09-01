@@ -1,14 +1,14 @@
 # ember-cli Changelog
 
-## Release (2026-08-15)
+## Release (2026-08-17)
 
-* ember-cli 7.2.0-beta.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.2.0-beta.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.2.0-beta.1 (minor)
+* ember-cli 7.2.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.2.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.2.0 (minor)
 
 #### :rocket: Enhancement
 * `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#11042](https://github.com/ember-cli/ember-cli/pull/11042) Prepare 7.2 Beta ([@mansona](https://github.com/mansona))
+  * [#11058](https://github.com/ember-cli/ember-cli/pull/11058) Promote Beta and update all dependencies for 7.2 release ([@mansona](https://github.com/mansona))
 * `@ember-tooling/classic-build-addon-blueprint`
   * [#11035](https://github.com/ember-cli/ember-cli/pull/11035) Add placeholder for documenting exports from an addon ([@kategengler](https://github.com/kategengler))
 * `ember-cli`

@@ -26,8 +26,8 @@ importers:
         specifier: workspace:*
         version: link:packages/app-blueprint
       '@ember/app-blueprint':
-        specifier: ~7.2.0-beta.1
-        version: 7.2.0-beta.1
+        specifier: ~7.3.0-beta.1
+        version: 7.3.0-beta.1
       '@pnpm/find-workspace-dir':
         specifier: ^1000.1.5
         version: 1000.1.5
@@ -608,8 +608,8 @@ packages:
   '@ember-tooling/blueprint-model@0.7.1':
     resolution: {integrity: sha512-UqibAm7MWkSNdAnBfq2i36jaQpUjCvhdcRFiT+oWWXer5WgaoYFVJ+kHs5Ux2i42kCWjsztercepOEm+BhOyQw==}
 
-  '@ember/app-blueprint@7.2.0-beta.1':
-    resolution: {integrity: sha512-jZc2B9o4fiXvEowWezf9EiHC0byRKvmtlj/m5Hhd61gcZt2x3AICj62hp9IPetOkwWpJIgCxy+6HhM3m2a/zfA==}
+  '@ember/app-blueprint@7.3.0-beta.1':
+    resolution: {integrity: sha512-+oQWTfM/Z7NtvZpgQj0j3qq4dOyR32rxI1H3Ljk7NSPm5Kc637wBYuzdfvpu2mWovxELIFpKtTSC/ZqUB6tObA==}
 
   '@embroider/shared-internals@2.9.2':
     resolution: {integrity: sha512-d96ub/WkS1Gx6dRDxZ0mCRPwFAHIMlMr2iti6uTYxTFzC85Wgt6j7bYr6ppkEuwEwKQVyzKRT0kTsJz6P74caQ==}
@@ -6319,12 +6319,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ember/app-blueprint@7.2.0-beta.1':
+  '@ember/app-blueprint@7.3.0-beta.1':
     dependencies:
       ejs: 3.1.10
       ember-cli-string-utils: 1.1.0
       lodash: 4.18.1
-      sort-package-json: 3.7.1
       walk-sync: 4.0.2
 
   '@embroider/shared-internals@2.9.2':
