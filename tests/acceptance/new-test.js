@@ -267,6 +267,50 @@ describe('Acceptance: ember new', function () {
     });
   });
 
+  describe('--lang Vite Bluerint', function () {
+    before(function () {
+      if (!isExperimentEnabled('VITE')) {
+        this.skip();
+      }
+    });
+
+    // Good: Correct Usage
+    it('ember new foo --lang=(valid code): no message + set `lang` in index.html', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=en-US']);
+      expect(file('index.html')).to.contain('<html lang="en-US">');
+    });
+
+    // Edge Case: both valid code AND programming language abbreviation, possible misuse
+    it('ember new foo --lang=(valid code + programming language abbreviation): emit warning + set `lang` in index.html', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=css']);
+      expect(file('index.html')).to.contain('<html lang="css">');
+    });
+
+    // Misuse: possibly an attempt to set app programming language
+    it('ember new foo --lang=(programming language): emit warning + do not set `lang` in index.html', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=JavaScript']);
+      expect(file('index.html')).to.contain('<html>');
+    });
+
+    // Misuse: possibly an attempt to set app programming language
+    it('ember new foo --lang=(programming language abbreviation): emit warning + do not set `lang` in index.html', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=JS']);
+      expect(file('index.html')).to.contain('<html>');
+    });
+
+    // Misuse: possibly an attempt to set app programming language
+    it('ember new foo --lang=(programming language file extension): emit warning + do not set `lang` in index.html', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=.js']);
+      expect(file('index.html')).to.contain('<html>');
+    });
+
+    // Misuse: Invalid Country Code
+    it('ember new foo --lang=(invalid code): emit warning + do not set `lang` in index.html', async function () {
+      await ember(['new', 'foo', '--skip-npm', '--skip-git', '--lang=en-UK']);
+      expect(file('index.html')).to.contain('<html>');
+    });
+  });
+
   describe('verify fixtures', function () {
     before(function () {
       if (isExperimentEnabled('VITE')) {
