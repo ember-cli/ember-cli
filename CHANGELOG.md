@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## Release (2026-09-21)
+
+* ember-cli 7.3.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.3.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.3.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11064](https://github.com/ember-cli/ember-cli/pull/11064) Promote Beta and update all dependencies for 7.3 Release ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11060](https://github.com/ember-cli/ember-cli/pull/11060) Prepare 7.3 Beta ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-08-17)
 
 * ember-cli 7.2.0 (minor)
