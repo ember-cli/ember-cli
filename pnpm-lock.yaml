@@ -70,6 +70,9 @@ importers:
       broccoli-stew:
         specifier: ^3.0.0
         version: 3.0.0
+      browserslist:
+        specifier: ^4.24.3
+        version: 4.24.3
       calculate-cache-key-for-tree:
         specifier: ^2.0.0
         version: 2.0.0

@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fs = require('fs-extra');
+const browserslist = require('browserslist');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
 const tmp = require('../../helpers/tmp');
@@ -243,6 +244,8 @@ describe('models/project.js', function () {
   describe('Project.prototype.targets', function () {
     beforeEach(function () {
       projectPath = 'tmp/test-app';
+      // browserslist caches config lookups per directory, and every test reuses projectPath
+      browserslist.clearCaches();
     });
 
     afterEach(function () {
@@ -271,6 +274,14 @@ describe('models/project.js', function () {
           browsers: ['last 2 versions', 'safari >= 7'],
         });
       });
+
+      it('prefers `/config/targets` over a browserslist config', function () {
+        fs.writeJsonSync(path.join(projectPath, 'package.json'), { browserslist: ['firefox 110'] });
+
+        expect(project.targets).to.deep.equal({
+          browsers: ['last 2 versions', 'safari >= 7'],
+        });
+      });
     });
 
     describe("when there isn't a `/config/targets.js` file", function () {
@@ -283,6 +294,22 @@ describe('models/project.js', function () {
       it('returns the default targets', function () {
         expect(project.targets).to.deep.equal({
           browsers: ['last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'],
+        });
+      });
+
+      it('returns the browserslist from `package.json` if present', function () {
+        fs.writeJsonSync(path.join(projectPath, 'package.json'), { browserslist: ['firefox 110'] });
+
+        expect(project.targets).to.deep.equal({
+          browsers: ['firefox 110'],
+        });
+      });
+
+      it('returns the browserslist from `.browserslistrc` if present', function () {
+        fs.writeFileSync(path.join(projectPath, '.browserslistrc'), 'safari 17\n');
+
+        expect(project.targets).to.deep.equal({
+          browsers: ['safari 17'],
         });
       });
     });
