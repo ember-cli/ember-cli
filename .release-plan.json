@@ -2,8 +2,8 @@
   "solution": {
     "ember-cli": {
       "impact": "minor",
-      "oldVersion": "7.3.0-beta.0",
-      "newVersion": "7.3.0-beta.1",
+      "oldVersion": "7.4.0-beta.0",
+      "newVersion": "7.4.0-beta.1",
       "tagName": "beta",
       "constraints": [
         {
@@ -23,8 +23,8 @@
     },
     "@ember-tooling/classic-build-addon-blueprint": {
       "impact": "minor",
-      "oldVersion": "7.3.0-beta.0",
-      "newVersion": "7.3.0-beta.1",
+      "oldVersion": "7.4.0-beta.0",
+      "newVersion": "7.4.0-beta.1",
       "tagName": "beta",
       "constraints": [
         {
@@ -36,8 +36,8 @@
     },
     "@ember-tooling/classic-build-app-blueprint": {
       "impact": "minor",
-      "oldVersion": "7.3.0-beta.0",
-      "newVersion": "7.3.0-beta.1",
+      "oldVersion": "7.4.0-beta.0",
+      "newVersion": "7.4.0-beta.1",
       "tagName": "beta",
       "constraints": [
         {
@@ -48,5 +48,5 @@
       "pkgJSONPath": "./packages/app-blueprint/package.json"
     }
   },
-  "description": "## Release (2026-09-01)\n\n* ember-cli 7.3.0-beta.1 (minor)\n* @ember-tooling/classic-build-addon-blueprint 7.3.0-beta.1 (minor)\n* @ember-tooling/classic-build-app-blueprint 7.3.0-beta.1 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#11060](https://github.com/ember-cli/ember-cli/pull/11060) Prepare 7.3 Beta ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-09-26)\n\n* ember-cli 7.4.0-beta.1 (minor)\n* @ember-tooling/classic-build-addon-blueprint 7.4.0-beta.1 (minor)\n* @ember-tooling/classic-build-app-blueprint 7.4.0-beta.1 (minor)\n\n#### :rocket: Enhancement\n* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`\n  * [#11067](https://github.com/ember-cli/ember-cli/pull/11067) Prepare 7.4 Beta ([@mansona](https://github.com/mansona))\n  * [#11062](https://github.com/ember-cli/ember-cli/pull/11062) Prepare 7.4 Alpha ([@mansona](https://github.com/mansona))\n* `ember-cli`, `@ember-tooling/classic-build-app-blueprint`\n  * [#11064](https://github.com/ember-cli/ember-cli/pull/11064) Promote Beta and update all dependencies for 7.3 Release ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
