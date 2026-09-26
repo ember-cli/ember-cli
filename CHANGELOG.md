@@ -1,42 +1,54 @@
 # ember-cli Changelog
 
-## Release (2026-09-11)
+## Release (2026-09-26)
 
-* ember-cli 7.4.0-alpha.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.4.0-alpha.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.4.0-alpha.1 (minor)
+* ember-cli 7.4.0-beta.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.4.0-beta.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.4.0-beta.1 (minor)
 
 #### :rocket: Enhancement
 * `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11067](https://github.com/ember-cli/ember-cli/pull/11067) Prepare 7.4 Beta ([@mansona](https://github.com/mansona))
   * [#11062](https://github.com/ember-cli/ember-cli/pull/11062) Prepare 7.4 Alpha ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11064](https://github.com/ember-cli/ember-cli/pull/11064) Promote Beta and update all dependencies for 7.3 Release ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2026-09-21)
+
+* ember-cli 7.3.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.3.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.3.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11064](https://github.com/ember-cli/ember-cli/pull/11064) Promote Beta and update all dependencies for 7.3 Release ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
   * [#11060](https://github.com/ember-cli/ember-cli/pull/11060) Prepare 7.3 Beta ([@mansona](https://github.com/mansona))
 
 #### Committers: 1
 - Chris Manson ([@mansona](https://github.com/mansona))
 
-## Release (2026-08-16)
+## Release (2026-08-17)
 
-* ember-cli 7.3.0-alpha.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.3.0-alpha.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.3.0-alpha.1 (minor)
+* ember-cli 7.2.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.2.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.2.0 (minor)
 
 #### :rocket: Enhancement
 * `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#11056](https://github.com/ember-cli/ember-cli/pull/11056) Prepare 7.3 alpha ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## Release (2026-08-14)
-
-* ember-cli 7.2.0-alpha.2 (patch)
-* @ember-tooling/classic-build-addon-blueprint 7.2.0-alpha.2 (patch)
-* @ember-tooling/classic-build-app-blueprint 7.2.0-alpha.2 (patch)
-* @ember-tooling/blueprint-model 0.7.1 (patch)
+  * [#11058](https://github.com/ember-cli/ember-cli/pull/11058) Promote Beta and update all dependencies for 7.2 release ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-addon-blueprint`
+  * [#11035](https://github.com/ember-cli/ember-cli/pull/11035) Add placeholder for documenting exports from an addon ([@kategengler](https://github.com/kategengler))
+* `ember-cli`
+  * [#10672](https://github.com/ember-cli/ember-cli/pull/10672) Separate blueprint model so it can be used outside of ember-cli ([@mansona](https://github.com/mansona))
 
 #### :bug: Bug Fix
-* `ember-cli`, `@ember-tooling/blueprint-model`
+* `ember-cli`
   * [#11050](https://github.com/ember-cli/ember-cli/pull/11050) fix default blueprint lookup ([@mansona](https://github.com/mansona))
+  * [#11027](https://github.com/ember-cli/ember-cli/pull/11027) Fix error when blueprint is missing keyword ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
 
 #### :house: Internal
 * `ember-cli`
@@ -46,38 +58,9 @@
   * [#11048](https://github.com/ember-cli/ember-cli/pull/11048) update fixturify-project from v2 to v7 ([@mansona](https://github.com/mansona))
   * [#11044](https://github.com/ember-cli/ember-cli/pull/11044) add a notify discord webhook action for CI ([@mansona](https://github.com/mansona))
   * [#11023](https://github.com/ember-cli/ember-cli/pull/11023) Update RELEASE.md ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## Release (2026-06-30)
-
-* ember-cli 7.2.0-alpha.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.2.0-alpha.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.2.0-alpha.1 (minor)
-* @ember-tooling/blueprint-model 0.7.0 (minor)
-
-#### :rocket: Enhancement
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `@ember-tooling/blueprint-model`
-  * [#11032](https://github.com/ember-cli/ember-cli/pull/11032) Prepare 7.2 alpha ([@mansona](https://github.com/mansona))
-* `@ember-tooling/classic-build-addon-blueprint`
-  * [#11035](https://github.com/ember-cli/ember-cli/pull/11035) Add placeholder for documenting exports from an addon ([@kategengler](https://github.com/kategengler))
-* `ember-cli`, `@ember-tooling/blueprint-model`
-  * [#10672](https://github.com/ember-cli/ember-cli/pull/10672) Separate blueprint model so it can be used outside of ember-cli ([@mansona](https://github.com/mansona))
-
-#### :bug: Bug Fix
-* `ember-cli`
-  * [#11027](https://github.com/ember-cli/ember-cli/pull/11027) Fix error when blueprint is missing keyword ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
-  * [#11028](https://github.com/ember-cli/ember-cli/pull/11028) [BUGFIX release] fix require(esm) of blueprint indexes ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
-
-#### :house: Internal
-* `ember-cli`
   * [#11037](https://github.com/ember-cli/ember-cli/pull/11037) bring test fixtures in line with updates from addon readme ([@void-mAlex](https://github.com/void-mAlex))
   * [#11038](https://github.com/ember-cli/ember-cli/pull/11038) fix running tests on blueprint markdown changes ([@mansona](https://github.com/mansona))
   * [#10880](https://github.com/ember-cli/ember-cli/pull/10880) stop using internal package cache in the addon smoke test and rely on pnpm caching ([@mansona](https://github.com/mansona))
-  * [#11033](https://github.com/ember-cli/ember-cli/pull/11033) Merge release into beta ([@mansona](https://github.com/mansona))
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#11029](https://github.com/ember-cli/ember-cli/pull/11029) Prepare Beta Release ([@mansona](https://github.com/mansona))
 
 #### Committers: 4
 - Alex ([@void-mAlex](https://github.com/void-mAlex))
@@ -85,28 +68,36 @@
 - Katie Gengler ([@kategengler](https://github.com/kategengler))
 - [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 
-## Release (2026-05-13)
+## Release (2026-07-01)
 
-* ember-cli 7.1.0-alpha.3 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.1.0-alpha.2 (patch)
-* @ember-tooling/classic-build-app-blueprint 7.1.0-alpha.3 (patch)
-* @ember-tooling/blueprint-model 0.6.3 (patch)
+* ember-cli 7.1.0 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.1.0 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.1.0 (minor)
 
 #### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11040](https://github.com/ember-cli/ember-cli/pull/11040) Promote Beta and update all dependencies for 7.1 release ([@mansona](https://github.com/mansona))
 * `ember-cli`
   * [#10610](https://github.com/ember-cli/ember-cli/pull/10610) use semver-deprecate instead of internal code ([@mansona](https://github.com/mansona))
   * [#11008](https://github.com/ember-cli/ember-cli/pull/11008) update babel-remove-types to v2 ([@mansona](https://github.com/mansona))
   * [#11009](https://github.com/ember-cli/ember-cli/pull/11009) update configstore to v8 ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#11006](https://github.com/ember-cli/ember-cli/pull/11006) update ember-welcome-page to v8 in app blueprint ([@mansona](https://github.com/mansona))
+  * [#11005](https://github.com/ember-cli/ember-cli/pull/11005) update ember-cli-deprecation-workflow to v4 ([@mansona](https://github.com/mansona))
+  * [#11003](https://github.com/ember-cli/ember-cli/pull/11003) update @ember/optional-features to v3 ([@mansona](https://github.com/mansona))
 
 #### :bug: Bug Fix
-* `ember-cli`, `@ember-tooling/blueprint-model`
+* `ember-cli`
   * [#11020](https://github.com/ember-cli/ember-cli/pull/11020) Update diff to latest v8.x ([@mkszepp](https://github.com/mkszepp))
 
 #### :house: Internal
 * `ember-cli`
+  * [#11033](https://github.com/ember-cli/ember-cli/pull/11033) Merge release into beta ([@mansona](https://github.com/mansona))
   * [#11017](https://github.com/ember-cli/ember-cli/pull/11017) Add Sync Output Repos check to release instructions ([@kategengler](https://github.com/kategengler))
   * [#11016](https://github.com/ember-cli/ember-cli/pull/11016) fix: sync-output-repos workflow failing on tag pushes ([@Copilot](https://github.com/apps/copilot-swe-agent))
   * [#10999](https://github.com/ember-cli/ember-cli/pull/10999) update RELEASE with update-blueprint-deps commands ([@mansona](https://github.com/mansona))
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11029](https://github.com/ember-cli/ember-cli/pull/11029) Prepare Beta Release ([@mansona](https://github.com/mansona))
 
 #### Committers: 4
 - Chris Manson ([@mansona](https://github.com/mansona))
@@ -114,42 +105,26 @@
 - Katie Gengler ([@kategengler](https://github.com/kategengler))
 - Markus Sanin ([@mkszepp](https://github.com/mkszepp))
 
-## Release (2026-04-26)
+## Release (2026-05-22)
 
-* ember-cli 7.1.0-alpha.2 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.1.0-alpha.2 (minor)
+* ember-cli 7.0.1 (patch)
 
-#### :rocket: Enhancement
-* `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
-  * [#11006](https://github.com/ember-cli/ember-cli/pull/11006) update ember-welcome-page to v8 in app blueprint ([@mansona](https://github.com/mansona))
-  * [#11005](https://github.com/ember-cli/ember-cli/pull/11005) update ember-cli-deprecation-workflow to v4 ([@mansona](https://github.com/mansona))
-  * [#11003](https://github.com/ember-cli/ember-cli/pull/11003) update @ember/optional-features to v3 ([@mansona](https://github.com/mansona))
+#### :bug: Bug Fix
+* `ember-cli`
+  * [#11028](https://github.com/ember-cli/ember-cli/pull/11028) [BUGFIX release] fix require(esm) of blueprint indexes ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
 
 #### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 
-## Release (2026-04-24)
+## Release (2026-05-15)
 
-* ember-cli 7.1.0-alpha.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.1.0-alpha.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.1.0-alpha.1 (minor)
+* ember-cli 7.0.0 (major)
+* @ember-tooling/classic-build-addon-blueprint 7.0.0 (major)
+* @ember-tooling/classic-build-app-blueprint 7.0.0 (major)
 
-#### :rocket: Enhancement
+#### :boom: Breaking Change
 * `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#11001](https://github.com/ember-cli/ember-cli/pull/11001) Prepare 7.1 Alpha ([@mansona](https://github.com/mansona))
-
-#### Committers: 1
-- Chris Manson ([@mansona](https://github.com/mansona))
-
-## Release (2026-04-21)
-
-* ember-cli 7.0.0-beta.1 (minor)
-* @ember-tooling/classic-build-addon-blueprint 7.0.0-beta.1 (minor)
-* @ember-tooling/classic-build-app-blueprint 7.0.0-beta.1 (minor)
-
-#### :rocket: Enhancement
-* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
-  * [#10997](https://github.com/ember-cli/ember-cli/pull/10997) Prepare 7.0 Beta ([@mansona](https://github.com/mansona))
+  * [#11022](https://github.com/ember-cli/ember-cli/pull/11022) Promote Beta and update all dependencies for 7.0 release ([@mansona](https://github.com/mansona))
 
 #### Committers: 1
 - Chris Manson ([@mansona](https://github.com/mansona))
