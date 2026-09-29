@@ -32,7 +32,7 @@
     "@babel/eslint-parser": "^7.29.9",
     "@babel/plugin-proposal-decorators": "^7.29.7",
     "@ember/optional-features": "^3.0.0",
-    "@ember/test-helpers": "^5.4.3",
+    "@ember/test-helpers": "^5.5.2",
     "@embroider/compat": "^3.9.4",
     "@embroider/core": "^3.5.10",
     "@embroider/macros": "^1.21.1",

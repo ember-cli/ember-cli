@@ -42,7 +42,7 @@
     "@ember-data/store": "~5.8.2",
     "@warp-drive/ember": "~5.8.2",
     "@ember/optional-features": "^3.0.0",
-    "@ember/test-helpers": "^5.4.3",
+    "@ember/test-helpers": "^5.5.2",
     "@embroider/macros": "^1.21.1",
     "@eslint/js": "^9.39.5",
     "@glimmer/component": "^2.1.1",
