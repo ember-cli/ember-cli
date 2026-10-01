@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## Release (2026-10-01)
+
+* ember-cli 7.5.0-alpha.2 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.5.0-alpha.2 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.5.0-alpha.2 (minor)
+
+#### :rocket: Enhancement
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#11071](https://github.com/ember-cli/ember-cli/pull/11071) Upgrade blueprint CI actions and @ember/test-helpers ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+
+#### Committers: 1
+- @NullVoxPopuli's reduced-access machine account for AI usage ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+
 ## Release (2026-09-27)
 
 * ember-cli 7.5.0-alpha.1 (minor)
