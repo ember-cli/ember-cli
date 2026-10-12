@@ -371,7 +371,7 @@ describe('livereload-server', function () {
       });
 
       it('triggers livereload with modified files', function () {
-        let changedFiles = ['assets/my-project.css', 'assets/my-project.js'];
+        let changedFiles = ['assets/logo.png', 'assets/my-project.css'];
 
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
         subject.didChange({
@@ -381,6 +381,33 @@ describe('livereload-server', function () {
         expect(reloadedFiles).to.deep.equal(changedFiles);
       });
 
+      it('triggers a single livereload when a modified file requires a full page reload', function () {
+        let changedFiles = ['assets/my-project.css', 'assets/my-project.js'];
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
+        subject.didChange({
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
+        });
+
+        expect(reloadedFiles).to.deep.equal(['assets/my-project.js']);
+      });
+
+      it('triggers a single livereload when fingerprinted assets change', function () {
+        let changedFiles = [
+          'assets/my-project-0123456789abcdef.css',
+          'assets/my-project-0123456789abcdef.js',
+          'assets/vendor-0123456789abcdef.js',
+          'index.html',
+        ];
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
+        subject.didChange({
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
+        });
+
+        expect(reloadedFiles).to.deep.equal(['assets/my-project-0123456789abcdef.js']);
+      });
+
       it('triggers livereload with deleted directories', function () {
         let changedFiles = ['assets/my-project.css', 'assets/my-project.js'];
 
@@ -388,7 +415,7 @@ describe('livereload-server', function () {
         subject.didChange({
           directory: '/home/user/projects/my-project/tmp/something.tmp',
         });
-        expect(reloadedFiles).to.deep.equal(changedFiles);
+        expect(reloadedFiles).to.deep.equal(['assets/my-project.js']);
 
         // Pretend every files were removed from the tree.
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
@@ -600,7 +627,7 @@ describe('livereload-server', function () {
       });
 
       it('triggers livereload with modified files', function () {
-        let changedFiles = ['assets/my-project.css', 'assets/my-project.js'];
+        let changedFiles = ['assets/logo.png', 'assets/my-project.css'];
 
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
         subject.didChange({
@@ -610,6 +637,33 @@ describe('livereload-server', function () {
         expect(reloadedFiles).to.deep.equal(changedFiles);
       });
 
+      it('triggers a single livereload when a modified file requires a full page reload', function () {
+        let changedFiles = ['assets/my-project.css', 'assets/my-project.js'];
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
+        subject.didChange({
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
+        });
+
+        expect(reloadedFiles).to.deep.equal(['assets/my-project.js']);
+      });
+
+      it('triggers a single livereload when fingerprinted assets change', function () {
+        let changedFiles = [
+          'assets/my-project-0123456789abcdef.css',
+          'assets/my-project-0123456789abcdef.js',
+          'assets/vendor-0123456789abcdef.js',
+          'index.html',
+        ];
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
+        subject.didChange({
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
+        });
+
+        expect(reloadedFiles).to.deep.equal(['assets/my-project-0123456789abcdef.js']);
+      });
+
       it('triggers livereload with deleted directories', function () {
         let changedFiles = ['assets/my-project.css', 'assets/my-project.js'];
 
@@ -617,7 +671,7 @@ describe('livereload-server', function () {
         subject.didChange({
           directory: '/home/user/projects/my-project/tmp/something.tmp',
         });
-        expect(reloadedFiles).to.deep.equal(changedFiles);
+        expect(reloadedFiles).to.deep.equal(['assets/my-project.js']);
 
         // Pretend every files were removed from the tree.
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
