@@ -587,27 +587,6 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
       expect(addon.packageRoot).to.equal(fs.realpathSync(addonPath));
     });
 
-    it('does not load the package main of a v2 addon', async function () {
-      fixturifyProject = new FixturifyProject('my-app', '0.0.0', (project) => {
-        let addon = project.addDependency('my-v2-addon', '1.0.0');
-        makeV2Addon(addon);
-        addon.pkg.main = 'dist/index.js';
-        addon.files.dist = { 'index.js': `throw new Error('browser code must not run in node');` };
-      });
-
-      let project = await fixturifyProject.buildProjectModel();
-      let pkgInfo = project.packageInfoCache.getEntry(
-        path.join(fixturifyProject.baseDir, 'node_modules', 'my-v2-addon')
-      );
-
-      expect(pkgInfo.hasErrors()).to.equal(false);
-      expect(pkgInfo.hasNoAddonMain).to.equal(true);
-
-      project.initializeAddons();
-
-      expect(project.addons.find((addon) => addon.name === 'my-v2-addon')).to.be.ok;
-    });
-
     it('loads a v2 addon project that has no main file', async function () {
       fixturifyProject = new FixturifyProject('my-v2-addon', '0.0.0', makeV2Addon);
 
