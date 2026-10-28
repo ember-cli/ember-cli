@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
 const { expect } = require('chai');
 const PackageInfo = require('../../../../lib/models/package-info-cache/package-info');
@@ -547,6 +548,74 @@ describe('models/package-info-cache/package-info-cache-test.js', function () {
           't',
         ]);
       });
+    });
+  });
+
+  describe('v2 addons without a main file', function () {
+    let fixturifyProject;
+
+    afterEach(function () {
+      if (fixturifyProject) {
+        fixturifyProject.dispose();
+      }
+    });
+
+    function makeV2Addon(addon) {
+      addon.pkg.keywords = ['ember-addon'];
+      addon.pkg['ember-addon'] = { version: 2, type: 'addon' };
+      delete addon.files['index.js'];
+    }
+
+    it('loads a v2 addon dependency that has no main file', async function () {
+      fixturifyProject = new FixturifyProject('my-app', '0.0.0', (project) => {
+        makeV2Addon(project.addDependency('my-v2-addon', '1.0.0'));
+      });
+
+      let project = await fixturifyProject.buildProjectModel();
+      let addonPath = path.join(fixturifyProject.baseDir, 'node_modules', 'my-v2-addon');
+      let pkgInfo = project.packageInfoCache.getEntry(addonPath);
+
+      expect(pkgInfo.isV2Addon()).to.equal(true);
+      expect(pkgInfo.hasErrors()).to.equal(false);
+      expect(pkgInfo.hasNoAddonMain).to.equal(true);
+
+      project.initializeAddons();
+
+      let addon = project.addons.find((addon) => addon.name === 'my-v2-addon');
+      expect(addon).to.be.ok;
+      expect(addon.root).to.equal(fs.realpathSync(addonPath));
+      expect(addon.packageRoot).to.equal(fs.realpathSync(addonPath));
+    });
+
+    it('loads a v2 addon project that has no main file', async function () {
+      fixturifyProject = new FixturifyProject('my-v2-addon', '0.0.0', makeV2Addon);
+
+      let project = await fixturifyProject.buildProjectModel();
+
+      expect(project.isEmberCLIAddon()).to.equal(true);
+
+      project.initializeAddons();
+
+      let addon = project.addons.find((addon) => addon.name === 'my-v2-addon');
+      expect(addon).to.be.ok;
+      expect(addon.root).to.equal(fs.realpathSync(fixturifyProject.baseDir));
+    });
+
+    it('still reports a missing main file for v1 addons', async function () {
+      fixturifyProject = new FixturifyProject('my-app', '0.0.0', (project) => {
+        let addon = project.addDependency('my-v1-addon', '1.0.0');
+        addon.pkg.keywords = ['ember-addon'];
+        delete addon.files['index.js'];
+      });
+
+      let project = await fixturifyProject.buildProjectModel();
+      let pkgInfo = project.packageInfoCache.getEntry(
+        path.join(fixturifyProject.baseDir, 'node_modules', 'my-v1-addon')
+      );
+
+      expect(pkgInfo.isV2Addon()).to.equal(false);
+      expect(pkgInfo.hasErrors()).to.equal(true);
+      expect(pkgInfo.errors.getErrors()[0].type).to.equal('emberAddonMainMissing');
     });
   });
 
