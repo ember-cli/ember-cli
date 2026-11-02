@@ -58,7 +58,6 @@
     "@types/rsvp": "^4.0.9<% } %><% if (warpDrive) { %>",
     "@warp-drive/core": "~5.8.2",
     "@warp-drive/json-api": "~5.8.2",
-    "@warp-drive/legacy": "~5.8.2",
     "@warp-drive/utilities": "~5.8.2<% } %>",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^9.2.4",
