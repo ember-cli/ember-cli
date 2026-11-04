@@ -68,8 +68,10 @@ jobs:
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: samypr100/setup-dev-drive@v4
+        if: runner.os == 'Windows'
       - if: runner.os == 'Windows'
-        run: new-item D:\temp -ItemType Directory; echo "TEMP=D:\temp" >> $env:GITHUB_ENV
+        run: new-item ${{ env.DEV_DRIVE }}\temp -ItemType Directory; echo "TEMP=${{ env.DEV_DRIVE }}\temp" >> $env:GITHUB_ENV
       - run: pnpm test
 
   slow-tests:
@@ -103,9 +105,10 @@ jobs:
       - uses: ./.github/actions/setup-environment
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Work around windows short path alias # https://github.com/actions/runner-images/issues/712
+      - uses: samypr100/setup-dev-drive@v4
         if: runner.os == 'Windows'
-        run: new-item D:\temp -ItemType Directory; echo "TEMP=D:\temp" >> $env:GITHUB_ENV
+      - if: runner.os == 'Windows'
+        run: new-item ${{ env.DEV_DRIVE }}\temp -ItemType Directory; echo "TEMP=${{ env.DEV_DRIVE }}\temp" >> $env:GITHUB_ENV
       - run: pnpm test tests/acceptance/${{ matrix.test-file }}-test-slow.js
 
   feature-flags:
