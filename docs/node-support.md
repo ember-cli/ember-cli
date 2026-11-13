@@ -22,6 +22,7 @@
 | 20.x             | 5.4.0 - 7.3.x                |
 | 22.x             | 6.2.0 - Current              |
 | 24.x             | 6.7.0 - Current              |
+| 26.x             | 7.4.0 - Current              |
 
 ## Design
 
