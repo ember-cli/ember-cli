@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+## Release (2026-11-14)
+
+* ember-cli 7.5.0-beta.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.5.0-beta.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.5.0-beta.1 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11083](https://github.com/ember-cli/ember-cli/pull/11083) Prepare 7.5-beta ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#11079](https://github.com/ember-cli/ember-cli/pull/11079) Promote Beta and update all dependencies for 7.4 release ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#11080](https://github.com/ember-cli/ember-cli/pull/11080) Drop Node 20, add Node 26 ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+  * [#11069](https://github.com/ember-cli/ember-cli/pull/11069) Prepare 7.5 Alpha ([@mansona](https://github.com/mansona))
+* `@ember-tooling/classic-build-app-blueprint`
+  * [#11075](https://github.com/ember-cli/ember-cli/pull/11075) Use useRecommendedStore in the classic app blueprint ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+* `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`, `ember-cli`
+  * [#11071](https://github.com/ember-cli/ember-cli/pull/11071) Upgrade blueprint CI actions and @ember/test-helpers ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+
+#### Committers: 3
+- @NullVoxPopuli's reduced-access machine account for AI usage ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-11-13)
 
 * ember-cli 7.4.0 (minor)
