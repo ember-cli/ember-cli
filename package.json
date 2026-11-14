@@ -42,12 +42,20 @@
     "test:debug": "node --unhandled-rejections=strict debug tests/runner",
     "test:slow": "node --unhandled-rejections=strict tests/runner slow"
   },
+  "release-plan": {
+    "semverIncrementAs": {
+      "minor": "prerelease",
+      "patch": "prerelease"
+    },
+    "semverIncrementTag": "beta",
+    "publishTag": "beta"
+  },
   "dependencies": {
     "@ember-tooling/blueprint-blueprint": "^0.3.0",
     "@ember-tooling/blueprint-model": "^0.7.1",
     "@ember-tooling/classic-build-addon-blueprint": "workspace:*",
     "@ember-tooling/classic-build-app-blueprint": "workspace:*",
-    "@ember/app-blueprint": "~7.4.0",
+    "@ember/app-blueprint": "~7.5.0-alpha.1",
     "@pnpm/find-workspace-dir": "^1000.1.5",
     "babel-remove-types": "^2.0.0",
     "broccoli": "^4.0.0",
@@ -179,13 +187,5 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
-  "release-plan": {
-    "semverIncrementAs": {
-      "minor": "prerelease",
-      "patch": "prerelease"
-    },
-    "semverIncrementTag": "beta",
-    "publishTag": "beta"
   }
 }

@@ -1,8 +1,7 @@
-import { useLegacyStore } from '@warp-drive/legacy';
+import { useRecommendedStore } from '@warp-drive/core';
 import { JSONAPICache } from '@warp-drive/json-api';
 
-const Store = useLegacyStore({
-  linksMode: false,
+const Store = useRecommendedStore({
   cache: JSONAPICache,
   handlers: [
     // -- your handlers here
