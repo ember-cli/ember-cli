@@ -18,12 +18,12 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3<% if (pnpm) { %>
+      - uses: actions/checkout@v7<% if (pnpm) { %>
       - uses: pnpm/action-setup@v4
         with:
           version: 9<% } %>
       - name: Install Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 18
           cache: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm' %>
@@ -40,11 +40,11 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3<% if (pnpm) { %>
+      - uses: actions/checkout@v7<% if (pnpm) { %>
       - uses: pnpm/action-setup@v4
         with:
           version: 9<% } %>
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v7
         with:
           node-version: 18
           cache: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm' %>
@@ -72,12 +72,12 @@ jobs:
           - embroider-optimized
 
     steps:
-      - uses: actions/checkout@v3<% if (pnpm) { %>
+      - uses: actions/checkout@v7<% if (pnpm) { %>
       - uses: pnpm/action-setup@v4
         with:
           version: 9<% } %>
       - name: Install Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 18
           cache: <%= pnpm ? 'pnpm' : yarn ? 'yarn' : 'npm' %>
