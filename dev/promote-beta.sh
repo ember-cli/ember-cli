@@ -99,7 +99,9 @@ pnpm dlx update-blueprint-deps --filter '@ember-tooling/.*' --tag latest ./packa
 pnpm dlx update-blueprint-deps --filter '.*' ./package.json ./packages/*-blueprint/**/*ackage.json ./tests/fixtures/*/package.json ./tests/fixtures/*/*/package.json
 pnpm install
 pnpm lint:fix
-pnpm add --workspace-root "@ember/app-blueprint@~$app_blueprint"
+# pnpm 10 saves an exact version even when asked for a ~ range.
+jq --arg v "~$app_blueprint" '.dependencies."@ember/app-blueprint" = $v' package.json > package.json.tmp
+mv package.json.tmp package.json
 pnpm install
 
 if git diff --quiet; then
