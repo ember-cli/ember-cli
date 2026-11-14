@@ -1,5 +1,22 @@
 # ember-cli Changelog
 
+## Release (2026-11-14)
+
+* ember-cli 7.6.0-alpha.1 (minor)
+* @ember-tooling/classic-build-addon-blueprint 7.6.0-alpha.1 (minor)
+* @ember-tooling/classic-build-app-blueprint 7.6.0-alpha.1 (minor)
+
+#### :rocket: Enhancement
+* `ember-cli`, `@ember-tooling/classic-build-addon-blueprint`, `@ember-tooling/classic-build-app-blueprint`
+  * [#11085](https://github.com/ember-cli/ember-cli/pull/11085) Prepare 7.6-alpha ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#11083](https://github.com/ember-cli/ember-cli/pull/11083) Prepare 7.5-beta ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#11079](https://github.com/ember-cli/ember-cli/pull/11079) Promote Beta and update all dependencies for 7.4 release ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#11080](https://github.com/ember-cli/ember-cli/pull/11080) Drop Node 20, add Node 26 ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+
+#### Committers: 2
+- @NullVoxPopuli's reduced-access machine account for AI usage ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-11-02)
 
 * ember-cli 7.5.0-alpha.2 (minor)
